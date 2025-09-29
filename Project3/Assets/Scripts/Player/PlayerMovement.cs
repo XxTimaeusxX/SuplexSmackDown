@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController controller;
     public Transform thirdPersonCamera;
     public Transform groundCheck;
-    PlayerInput playerInput;
+    public PlayerInput playerInput;
     InputAction moveAction;
     InputAction jumpAction;
     Vector3 velocity;
