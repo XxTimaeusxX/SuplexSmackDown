@@ -3,9 +3,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerDash : MonoBehaviour
 {
+    [Header("References")]
     public CharacterController controller;
     InputAction dashAction;
     public PlayerInput PlayerInput;
+    public GameObject suplexhitbox;
+    public Transform suplexHoldPoint;
 
     [Header("Dash Settings")]
     public float dashSpeed = 5f;
@@ -17,7 +20,9 @@ public class PlayerDash : MonoBehaviour
     void Start()
     {
         dashAction = PlayerInput.actions.FindAction("Dash");
-        
+        suplexhitbox.SetActive(false);
+
+
     }
 
     // Update is called once per frame
@@ -32,6 +37,7 @@ public class PlayerDash : MonoBehaviour
             dashDirection = transform.forward;
             isDashing = true;
             dashTime = dashDuration;
+            suplexhitbox.SetActive(true);
             Debug.Log("Dash initiated!");
         }
         if (isDashing)
@@ -44,6 +50,7 @@ public class PlayerDash : MonoBehaviour
             else
             {
                 isDashing = false;
+                suplexhitbox.SetActive(false);
                 Debug.Log("Dash ended!");
             }
         }
