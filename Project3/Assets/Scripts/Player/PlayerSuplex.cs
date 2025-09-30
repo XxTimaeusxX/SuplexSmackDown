@@ -16,7 +16,7 @@ public class PlayerSuplex : MonoBehaviour
             Debug.Log("Suplexed an enemy!");
             // Add suplex logic here (e.g., apply force, play animation, etc.)
             HoldEnemy(other);
-            StartCoroutine(SuplexThrowCoroutine(other));
+            StartCoroutine(SuplexJumpAndSlam(other));
         }
     }
     void HoldEnemy(Collider enemy)
@@ -32,28 +32,43 @@ public class PlayerSuplex : MonoBehaviour
         }
     }
 
-    IEnumerator SuplexThrowCoroutine(Collider enemy)
+    IEnumerator SuplexJumpAndSlam(Collider enemy)
     {
-        yield return new WaitForSeconds(0.3f); // Hold for a moment
+        // Move up
+        float upTime = 0.2f;
+        float upHeight = 50f;
+        Vector3 startPos = playerDash.transform.position;
+        Vector3 apex = startPos + Vector3.up * upHeight;
+        float t = 0;
+        while (t < upTime)
+        {
+            t += Time.deltaTime;
+            playerDash.transform.position = Vector3.Lerp(startPos, apex, t / upTime);
+            yield return null;
+        }
 
-        // Launch up
+        // Pause at apex
+        yield return new WaitForSeconds(0.1f);
+
+        // Unparent and slam enemy
         var rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.isKinematic = false;
             enemy.transform.SetParent(null);
-            rb.linearVelocity = Vector3.up * 10f; // Adjust force as needed
+            rb.isKinematic = false;
+            rb.linearVelocity = Vector3.down * 20f; // Slam force
         }
-
-        yield return new WaitForSeconds(0.4f); // Time in air
-
-        // Slam down
-        if (rb != null)
+        // Move down
+        float downTime = 0.2f;
+        t = 0;
+        Vector3 endPos = startPos; // or slightly below for effect
+        while (t < downTime)
         {
-            rb.linearVelocity = Vector3.down * 20f; // Adjust slam force as needed
+            t += Time.deltaTime;
+            playerDash.transform.position = Vector3.Lerp(apex, endPos, t / downTime);
+            yield return null;
         }
 
-        // Optionally re-enable AI here after a short delay
-        heldEnemy = null;
+      //  heldEnemy = null;
     }
 }
