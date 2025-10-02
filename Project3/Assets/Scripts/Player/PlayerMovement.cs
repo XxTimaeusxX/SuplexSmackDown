@@ -67,4 +67,11 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
     }
+
+    public void ForceJump()
+    {
+        velocity.y = Mathf.Sqrt(jumpHeight*15f * -2f * gravity);
+        isGrounded = false;
+        Debug.Log("jumping off enemy");
+    }
 }

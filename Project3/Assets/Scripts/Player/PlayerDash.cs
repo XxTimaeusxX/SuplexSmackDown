@@ -8,7 +8,7 @@ public class PlayerDash : MonoBehaviour
     InputAction dashAction;
     public PlayerInput PlayerInput;
     public GameObject suplexhitbox;
-    public Transform suplexHoldPoint;
+    
 
     [Header("Dash Settings")]
     public float dashSpeed = 5f;
