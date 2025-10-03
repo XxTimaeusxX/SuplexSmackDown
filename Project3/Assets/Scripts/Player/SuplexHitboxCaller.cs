@@ -1,29 +1,31 @@
 using UnityEngine;
+/// <summary>
+/// Detects when an enemy enters the suplex hitbox and triggers the suplex sequence.
+/// This script should be attached to the hitbox GameObject (usually a child of the player).
+/// </summary>
 public class SuplexHitboxCaller : MonoBehaviour
 {
+    // Reference to the PlayerSuplex component in the parent hierarchy
     private PlayerSuplex playerSuplex;
 
-    private bool hasTriggered = false;
+   
     private void Awake()
     {
         playerSuplex = GetComponentInParent<PlayerSuplex>();
     }
 
+    /// <summary>
+    /// When hitbox is active from the dash ability it detects enemy tag and starts the suplex sequence.
+    /// </summary>
+
     private void OnTriggerEnter(Collider other)
     {
-        if(hasTriggered) return; // Prevent multiple triggers
+        // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
         if (other.CompareTag("Enemy") && playerSuplex != null)
         {
-            hasTriggered = true;
             Debug.Log("hitboxcollider called");
-            playerSuplex.StartSuplex(other);
-            gameObject.SetActive(false); // Disable hitbox after calling
+            gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
+            playerSuplex.StartSuplex(other); // Begin the suplex sequence on the enemy
         }
-    }
-    // Optional: Reset if you want to allow retriggering after leaving
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
-            hasTriggered = false;
     }
 }

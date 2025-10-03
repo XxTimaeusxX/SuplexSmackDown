@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerInput playerInput;
     InputAction moveAction;
     InputAction jumpAction;
-    Vector3 velocity;
+   public Vector3 velocity;
     bool isGrounded;
     public LayerMask groundMask;
     public float moveSpeed;
@@ -68,6 +68,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Forces the player to jump, used when jumping off an enemy during a suplex.
+    /// </summary>
     public void ForceJump()
     {
         velocity.y = Mathf.Sqrt(jumpHeight*15f * -2f * gravity);

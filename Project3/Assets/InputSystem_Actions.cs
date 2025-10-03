@@ -174,18 +174,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""RocketSuplex"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
-                    ""id"": ""894aaaf7-8a80-4b5f-867c-187c9ad23de4"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RainbowSuplex"",
-                    ""type"": ""Button"",
-                    ""id"": ""9bf16e6b-62cf-4b56-84ea-00c73d4202e3"",
+                    ""id"": ""a1028d44-27f6-408e-8bd1-8dc53f88d2b5"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -201,9 +192,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dash"",
+                    ""name"": ""RainbowSuplex"",
                     ""type"": ""Button"",
-                    ""id"": ""a1028d44-27f6-408e-8bd1-8dc53f88d2b5"",
+                    ""id"": ""9bf16e6b-62cf-4b56-84ea-00c73d4202e3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SuperSuplex"",
+                    ""type"": ""Button"",
+                    ""id"": ""894aaaf7-8a80-4b5f-867c-187c9ad23de4"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -599,18 +599,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""99490d61-b26e-4771-84f9-7801f0035f7b"",
-                    ""path"": ""<Keyboard>/z"",
+                    ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""RocketSuplex"",
+                    ""action"": ""SuperSuplex"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
                     ""id"": ""cb1c9250-5342-4b12-8df0-e2d1dd2520b6"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -621,7 +621,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6ec8311b-d55f-469c-8504-f523931acc28"",
-                    ""path"": ""<Keyboard>/g"",
+                    ""path"": ""<Keyboard>/ctrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -632,7 +632,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""df783ae8-7b65-46f6-bf71-0ac262d02c7f"",
-                    ""path"": ""<Keyboard>/h"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -1233,10 +1233,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Previous = m_Player.FindAction("Previous", throwIfNotFound: true);
         m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
-        m_Player_RocketSuplex = m_Player.FindAction("RocketSuplex", throwIfNotFound: true);
-        m_Player_RainbowSuplex = m_Player.FindAction("RainbowSuplex", throwIfNotFound: true);
-        m_Player_LongjumpSuplex = m_Player.FindAction("LongjumpSuplex", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_LongjumpSuplex = m_Player.FindAction("LongjumpSuplex", throwIfNotFound: true);
+        m_Player_RainbowSuplex = m_Player.FindAction("RainbowSuplex", throwIfNotFound: true);
+        m_Player_SuperSuplex = m_Player.FindAction("SuperSuplex", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1339,10 +1339,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Previous;
     private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
-    private readonly InputAction m_Player_RocketSuplex;
-    private readonly InputAction m_Player_RainbowSuplex;
-    private readonly InputAction m_Player_LongjumpSuplex;
     private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_LongjumpSuplex;
+    private readonly InputAction m_Player_RainbowSuplex;
+    private readonly InputAction m_Player_SuperSuplex;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1391,21 +1391,21 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         /// <summary>
-        /// Provides access to the underlying input action "Player/RocketSuplex".
+        /// Provides access to the underlying input action "Player/Dash".
         /// </summary>
-        public InputAction @RocketSuplex => m_Wrapper.m_Player_RocketSuplex;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/RainbowSuplex".
-        /// </summary>
-        public InputAction @RainbowSuplex => m_Wrapper.m_Player_RainbowSuplex;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         /// <summary>
         /// Provides access to the underlying input action "Player/LongjumpSuplex".
         /// </summary>
         public InputAction @LongjumpSuplex => m_Wrapper.m_Player_LongjumpSuplex;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Dash".
+        /// Provides access to the underlying input action "Player/RainbowSuplex".
         /// </summary>
-        public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @RainbowSuplex => m_Wrapper.m_Player_RainbowSuplex;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/SuperSuplex".
+        /// </summary>
+        public InputAction @SuperSuplex => m_Wrapper.m_Player_SuperSuplex;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1459,18 +1459,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
-            @RocketSuplex.started += instance.OnRocketSuplex;
-            @RocketSuplex.performed += instance.OnRocketSuplex;
-            @RocketSuplex.canceled += instance.OnRocketSuplex;
-            @RainbowSuplex.started += instance.OnRainbowSuplex;
-            @RainbowSuplex.performed += instance.OnRainbowSuplex;
-            @RainbowSuplex.canceled += instance.OnRainbowSuplex;
-            @LongjumpSuplex.started += instance.OnLongjumpSuplex;
-            @LongjumpSuplex.performed += instance.OnLongjumpSuplex;
-            @LongjumpSuplex.canceled += instance.OnLongjumpSuplex;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @LongjumpSuplex.started += instance.OnLongjumpSuplex;
+            @LongjumpSuplex.performed += instance.OnLongjumpSuplex;
+            @LongjumpSuplex.canceled += instance.OnLongjumpSuplex;
+            @RainbowSuplex.started += instance.OnRainbowSuplex;
+            @RainbowSuplex.performed += instance.OnRainbowSuplex;
+            @RainbowSuplex.canceled += instance.OnRainbowSuplex;
+            @SuperSuplex.started += instance.OnSuperSuplex;
+            @SuperSuplex.performed += instance.OnSuperSuplex;
+            @SuperSuplex.canceled += instance.OnSuperSuplex;
         }
 
         /// <summary>
@@ -1509,18 +1509,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
-            @RocketSuplex.started -= instance.OnRocketSuplex;
-            @RocketSuplex.performed -= instance.OnRocketSuplex;
-            @RocketSuplex.canceled -= instance.OnRocketSuplex;
-            @RainbowSuplex.started -= instance.OnRainbowSuplex;
-            @RainbowSuplex.performed -= instance.OnRainbowSuplex;
-            @RainbowSuplex.canceled -= instance.OnRainbowSuplex;
-            @LongjumpSuplex.started -= instance.OnLongjumpSuplex;
-            @LongjumpSuplex.performed -= instance.OnLongjumpSuplex;
-            @LongjumpSuplex.canceled -= instance.OnLongjumpSuplex;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @LongjumpSuplex.started -= instance.OnLongjumpSuplex;
+            @LongjumpSuplex.performed -= instance.OnLongjumpSuplex;
+            @LongjumpSuplex.canceled -= instance.OnLongjumpSuplex;
+            @RainbowSuplex.started -= instance.OnRainbowSuplex;
+            @RainbowSuplex.performed -= instance.OnRainbowSuplex;
+            @RainbowSuplex.canceled -= instance.OnRainbowSuplex;
+            @SuperSuplex.started -= instance.OnSuperSuplex;
+            @SuperSuplex.performed -= instance.OnSuperSuplex;
+            @SuperSuplex.canceled -= instance.OnSuperSuplex;
         }
 
         /// <summary>
@@ -1885,19 +1885,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "RocketSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Dash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRocketSuplex(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "RainbowSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRainbowSuplex(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "LongjumpSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -1906,12 +1899,19 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLongjumpSuplex(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Dash" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "RainbowSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnDash(InputAction.CallbackContext context);
+        void OnRainbowSuplex(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "SuperSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSuperSuplex(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
