@@ -21,11 +21,15 @@ public class PlayerPause : MonoBehaviour
         {
             Debug.Log("Pause button pressed!");
 			if (isPaused){
+		        Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
 				Time.timeScale = 1.0f;
 				_PauseMenuContainer.SetActive(false);
 				isPaused = false;
 			}
 			else{
+				Cursor.lockState = CursorLockMode.Confined;
+				Cursor.visible = true;
 				Time.timeScale = 0.0f;
 				_PauseMenuContainer.SetActive(true);
 				isPaused = true;

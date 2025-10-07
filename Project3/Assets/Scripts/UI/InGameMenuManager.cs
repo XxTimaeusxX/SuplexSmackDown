@@ -7,6 +7,8 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _PauseMenuContainer;
 	
 	public void ResumeButtonClicked(){
+		Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 		Time.timeScale = 1.0f;
 		_PauseMenuContainer.SetActive(false);
 	}
