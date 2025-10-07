@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerPause : MonoBehaviour
@@ -6,7 +7,10 @@ public class PlayerPause : MonoBehaviour
     public PlayerInput playerInput;
 	InputAction pauseAction;
 	[SerializeField] GameObject _PauseMenuContainer;
-	bool isPaused;
+
+	[SerializeField] GameObject _DefaultPauseButton;
+	
+    bool isPaused;
 	
     void Start()
     {
@@ -33,7 +37,11 @@ public class PlayerPause : MonoBehaviour
 				Time.timeScale = 0.0f;
 				_PauseMenuContainer.SetActive(true);
 				isPaused = true;
-			}
+
+                // Set default selected button for navigation
+                EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
+				
+            }
         }
     }
 }

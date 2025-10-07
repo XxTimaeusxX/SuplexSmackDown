@@ -1,14 +1,17 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
 	[SerializeField] string _GameplayScene;
-	
-	public void Start(){
+    [SerializeField] GameObject _DefaultPlayButton;
+   
+    public void Start(){
 		Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
-	}
+		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
+    }
 	
 	public void StartButtonClicked(){
 		Debug.Log("start!");
