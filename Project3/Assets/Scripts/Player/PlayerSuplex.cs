@@ -202,6 +202,10 @@ public class PlayerSuplex : MonoBehaviour
                 playerMovement.ForceJump();
                 jumpedOff = true;
                 ReleaseEnemy(false, config);
+                // Stop all horizontal movement and snap to ground or else player bounces like a ball and slide forever
+                playerMovement.velocity.x = 0f;
+                playerMovement.velocity.z = 0f;
+               
                 break;
             }
 
