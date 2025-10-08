@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 7788487935504319080}
   - component: {fileID: 7549164000204838993}
   - component: {fileID: 7569478272242731753}
-  - component: {fileID: 628655729941552280}
+  - component: {fileID: 27261784811504700}
   m_Layer: 0
   m_Name: Third Person Camera
   m_TagString: Untagged
@@ -63,8 +63,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3804572147149893273}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.098537594, y: 0.000000015776127, z: 0.0000000012845014, w: 0.99513334}
-  m_LocalPosition: {x: -0.95055, y: 2, z: -6.7859}
+  m_LocalRotation: {x: 0.09853761, y: -1.6500366e-16, z: 1.616248e-17, w: 0.99513334}
+  m_LocalPosition: {x: -0.95055, y: 7.6, z: -6.7859}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -274,7 +274,7 @@ MonoBehaviour:
         DecelTime: 0
   PlayerIndex: -1
   AutoEnableInputs: 1
---- !u!114 &628655729941552280
+--- !u!114 &27261784811504700
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,27 +283,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 3804572147149893273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca7de3aefa901374ba29464584a3109a, type: 3}
+  m_Script: {fileID: 11500000, guid: dbe43d662878a7c43bcd44d43c9e2094, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDecollider
-  CameraRadius: 0.4
-  Decollision:
-    Enabled: 0
-    ObstacleLayers:
-      serializedVersion: 2
-      m_Bits: 1
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineDeoccluder
+  CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 503
+  IgnoreTag: 
+  TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  MinimumDistanceFromTarget: 0.3
+  AvoidObstacles:
+    Enabled: 1
+    DistanceLimit: 0
+    MinimumOcclusionTime: 0
+    CameraRadius: 0.4
     UseFollowTarget:
       Enabled: 0
       YOffset: 0
-    Damping: 0.5
+    Strategy: 0
+    MaximumEffort: 4
     SmoothingTime: 0
-  TerrainResolution:
-    Enabled: 1
-    TerrainLayers:
-      serializedVersion: 2
-      m_Bits: 119
-    MaximumRaycast: 10
-    Damping: 0.5
+    Damping: 0.4
+    DampingWhenOccluded: 0.2
+  ShotQualityEvaluation:
+    Enabled: 0
+    OptimalDistance: 10
+    NearLimit: 5
+    FarLimit: 30
+    MaxQualityBoost: 0.2
 --- !u!1 &8783937196673940900
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,8 +341,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8783937196673940900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.098537594, y: 0.00000001606079, z: -0.0000000015903314, w: 0.99513334}
-  m_LocalPosition: {x: -0.95055, y: 2, z: -6.7859}
+  m_LocalRotation: {x: 0.09853761, y: -1.6502126e-16, z: 1.6340324e-17, w: 0.99513334}
+  m_LocalPosition: {x: -0.95055, y: 7.6, z: -6.7859}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
