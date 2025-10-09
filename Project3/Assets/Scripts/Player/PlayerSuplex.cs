@@ -88,10 +88,22 @@ public class PlayerSuplex : MonoBehaviour
         grabbedEnemy.localPosition = Vector3.zero;
 
         // Optionally disable enemy AI here
+        var agent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.enabled = false; // Disable AI while held
+            Debug.Log("NavMeshAgent disabled.");
+        }
         var rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.isKinematic = true; // Prevent physics while held
+        }
+        var enemyScript = enemy.GetComponent<Enemy>();
+        if (enemyScript != null)
+        {
+            enemyScript.SetGrabbed(true); // Disable ground detection
+            Debug.Log("set grab = true.");
         }
         // Wait for player to choose which suplex to perform
         StartCoroutine(WaitForSuplexInput());
@@ -105,18 +117,25 @@ public class PlayerSuplex : MonoBehaviour
         if (grabbedEnemy != null)
         {
             var rb = grabbedEnemy.GetComponent<Rigidbody>();
+            var enemyScript = grabbedEnemy.GetComponent<Enemy>();
+            if (enemyScript != null)
+            { // Enable ground detection
+                enemyScript.SetGrabbed(false);
+                Debug.Log("set grab = false.");
+            }
+
             if (rb != null)
             {
                 grabbedEnemy.SetParent(null);
-                rb.isKinematic = false;
+                Debug.Log("Kinematic set to false.");
+                rb.isKinematic = false; // Re-enable physics
                 if (slam && config != null)
                 {
                     // Launch the enemy downward if slamming
                     rb.linearVelocity = Vector3.down * (config.LaunchSpeed * 0.5f);
-                }
-                // else: let gravity handle the fall naturally
+                } 
             }
-            grabbedEnemy = null;
+                grabbedEnemy = null;
         }
     }
 
@@ -201,7 +220,8 @@ public class PlayerSuplex : MonoBehaviour
             {
                 playerMovement.ForceJump();
                 jumpedOff = true;
-                ReleaseEnemy(false, config);
+                ReleaseEnemy(true, config); // apply downward force and enable enemy ground detection
+                Debug.Log("Player jumped off enemy!");
                 // Stop all horizontal movement and snap to ground or else player bounces like a ball and slide forever
                 playerMovement.velocity.x = 0f;
                 playerMovement.velocity.z = 0f;
@@ -219,7 +239,7 @@ public class PlayerSuplex : MonoBehaviour
         // If the player didn't jump off, finish the suplex and stop movement
         if (!jumpedOff)
         {
-            ReleaseEnemy(true, config);
+            ReleaseEnemy(false, config); // dont apply downward force but still release enemy and enable enemy ground detection
             Debug.Log("Suplex landed!");
 
             // Stop all horizontal movement and snap to ground or else player bounces like a ball and slide forever
