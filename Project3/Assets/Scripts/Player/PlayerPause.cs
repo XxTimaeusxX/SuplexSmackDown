@@ -16,14 +16,15 @@ public class PlayerPause : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         pauseAction = playerInput.actions.FindAction("Pause");
-		isPaused = false;
+		isPaused = false;	//game is unpaused at start
     }
 
     void Update()
     {
-        if (pauseAction.WasPressedThisFrame())
+        if (pauseAction != null && pauseAction.WasPressedThisFrame())
         {
             Debug.Log("Pause button pressed!");
+			//unpausing: lock and hide cursor, set timeScale to 1, hide pause menu
 			if (isPaused){
 		        Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
@@ -31,6 +32,7 @@ public class PlayerPause : MonoBehaviour
 				_PauseMenuContainer.SetActive(false);
 				isPaused = false;
 			}
+			//pausing: show cursor, set timeScale to 0, show pause menu
 			else{
 				Cursor.lockState = CursorLockMode.Confined;
 				Cursor.visible = true;
