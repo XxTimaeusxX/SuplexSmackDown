@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 // A HoldPosition gameobject must be added and identified in order to work
 
 // TODO: Figure out controls for the game to enable a drop mechanic
+
+// TODO: When dashing stop and rest downward velocity
 public class PlayerGrabber : MonoBehaviour
 {
     // Reference to PlayerInput (assigned automatically in Awake)
