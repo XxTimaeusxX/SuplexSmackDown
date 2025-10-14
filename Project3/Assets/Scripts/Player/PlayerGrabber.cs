@@ -110,6 +110,7 @@ public class PlayerGrabber : MonoBehaviour
         {
             grabbedObject.useGravity = true;
             grabbedObject.freezeRotation = false;
+
             // Debug.Log("Dropped object: " + grabbedObject.name);
             grabbedObject = null;
         }

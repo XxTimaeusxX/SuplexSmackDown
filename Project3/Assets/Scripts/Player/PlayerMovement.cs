@@ -11,11 +11,12 @@ public class PlayerMovement : MonoBehaviour
     public PlayerInput playerInput;
     InputAction moveAction;
     InputAction jumpAction;
-   public Vector3 velocity;
+    public Vector3 velocity;
+    public float velocityCap = -20f;
     bool isGrounded;
     public LayerMask groundMask;
     public float moveSpeed;
-    public float gravity;
+    public float gravity = -9.81f; // Set to Unity's default gravity and change Unity's gravity to -50f
     public float groundDistance;
     public float jumpHeight;
     public float turnSmoothTime;
@@ -39,6 +40,9 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f;
         }
+        if (velocity.y < velocityCap)
+            velocity.y = Mathf.Clamp(velocity.y, velocityCap, 100);   
+
 
         MovePlayer();
         Jump();

@@ -52,6 +52,7 @@ public class PlayerSuplex : MonoBehaviour
 
     private SuplexAbilities currentSuplex = SuplexAbilities.None; // Which suplex is being performed
 
+
     /// <summary>
     /// Called when the script instance is being loaded.
     /// Sets up references to other components and input actions.
@@ -97,7 +98,7 @@ public class PlayerSuplex : MonoBehaviour
         var rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.isKinematic = true; // Prevent physics while held
+             rb.isKinematic = true; // Prevent physics while held
         }
         var enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
@@ -183,7 +184,7 @@ public class PlayerSuplex : MonoBehaviour
         // --- Calculate launch velocity for the suplex arc ---
 
         // Get the absolute value of gravity (usually 9.81)
-        float gravity = Mathf.Abs(Physics.gravity.y);
+         float gravity = Mathf.Abs(Physics.gravity.y);
 
         // How high the player/enemy will be lifted
         float height = config.LiftHeight;
@@ -218,6 +219,22 @@ public class PlayerSuplex : MonoBehaviour
             // Allow player to jump off during the arc
             if (!jumpedOff && jumpAction != null && jumpAction.WasPressedThisFrame())
             {
+                if (grabbedEnemy != null)
+                {
+                    // Get the bounds of the enemy to determine its height
+                    Renderer enemyRenderer = grabbedEnemy.GetComponentInChildren<Renderer>();
+                    float enemyHeight = enemyRenderer != null ? enemyRenderer.bounds.size.y : 1f;
+
+                    // Calculate a position directly below the player, offset by half the enemy's height
+                    Vector3 belowPlayer = transform.position - new Vector3(0f, enemyHeight * 0.5f, 0f);
+
+                    // Detach the enemy and move it below the player
+                    grabbedEnemy.SetParent(null);
+                    grabbedEnemy.position = belowPlayer;
+
+                    Debug.Log("Moved enemy below player.");
+                }
+
                 playerMovement.ForceJump();
                 jumpedOff = true;
                 ReleaseEnemy(true, config); // apply downward force and enable enemy ground detection
