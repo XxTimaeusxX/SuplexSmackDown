@@ -39,7 +39,7 @@ public class PlayerSuplex : MonoBehaviour
     // Internal references to other player scripts/components
     private PlayerMovement playerMovement;
     private PlayerDash playerDash;
-    private Transform grabbedEnemy;          // The enemy currently grabbed
+    public Transform grabbedEnemy;          // The enemy currently grabbed
     private CharacterController controller;  // For ground checks
 
     // Input actions for different suplexes and jumping
@@ -143,7 +143,7 @@ public class PlayerSuplex : MonoBehaviour
     /// <summary>
     /// Waits for the player to press a suplex input, then starts the chosen suplex.
     /// </summary>
-    IEnumerator WaitForSuplexInput()
+    public IEnumerator WaitForSuplexInput()
     {
         currentSuplex = SuplexAbilities.None;
         while (currentSuplex == SuplexAbilities.None)
@@ -151,12 +151,14 @@ public class PlayerSuplex : MonoBehaviour
             // Check which suplex button was pressed
             if (SuperSuplexAction != null && SuperSuplexAction.WasPressedThisFrame())
                 currentSuplex = SuplexAbilities.Super;
-            else if (RainbowSuplexAction != null && RainbowSuplexAction.WasPressedThisFrame())
+            //else if (RainbowSuplexAction != null && RainbowSuplexAction.WasPressedThisFrame())
+            else if (RainbowSuplexAction != null && playerMovement.jumpAction.WasPressedThisFrame())
                 currentSuplex = SuplexAbilities.Rainbow;
             else if (LongJumpSuplexAction != null && LongJumpSuplexAction.WasPressedThisFrame())
                 currentSuplex = SuplexAbilities.Long;
             yield return null;
         }
+
         PerformSuplex(currentSuplex);
     }
 
@@ -181,54 +183,34 @@ public class PlayerSuplex : MonoBehaviour
     /// </summary>
     IEnumerator SuplexRoutine(SuplexConfig config)
     {
-        // --- Calculate launch velocity for the suplex arc ---
-
-        // Get the absolute value of gravity (usually 9.81)
-         float gravity = Mathf.Abs(Physics.gravity.y);
-
-        // How high the player/enemy will be lifted
+        float gravity = Mathf.Abs(Physics.gravity.y);
         float height = config.LiftHeight;
-
-        // How far forward the suplex will travel
         float distance = config.FowardDistance;
 
-        // Calculate the vertical velocity needed to reach the desired height
         float vy = Mathf.Sqrt(2 * gravity * height);
-
-        // Calculate the time to travel the forward distance at the given speed
         float totalTime = distance / Mathf.Max(config.LaunchSpeed, 0.01f);
-
-        // Calculate the horizontal velocity needed to cover the distance in the given time
         float vx = distance / totalTime;
 
-        // Combine forward and upward velocities for the launch
-        Vector3 Launchvelocity = transform.forward * vx + Vector3.up * vy;
+        Vector3 launchVelocity = transform.forward * vx + Vector3.up * vy;
+        playerMovement.velocity = launchVelocity;
 
-        // Set the player's velocity to launch them
-        playerMovement.velocity = Launchvelocity;
-
-        float t = 0;
+        float t = 0f;
         bool jumpedOff = false;
-        float minAirTime = 0.2f; // Prevents instant landing
+        float minAirTime = 0.2f;
+        float jumpOffDelay = 0.2f; // Time before jump-off is allowed
 
-        // Wait for the player to land or jump off
         while (true)
         {
             t += Time.deltaTime;
 
-            // Allow player to jump off during the arc
-            if (!jumpedOff && jumpAction != null && jumpAction.WasPressedThisFrame())
+            if (!jumpedOff && t > jumpOffDelay && jumpAction != null && jumpAction.WasPressedThisFrame())
             {
                 if (grabbedEnemy != null)
                 {
-                    // Get the bounds of the enemy to determine its height
                     Renderer enemyRenderer = grabbedEnemy.GetComponentInChildren<Renderer>();
                     float enemyHeight = enemyRenderer != null ? enemyRenderer.bounds.size.y : 1f;
 
-                    // Calculate a position directly below the player, offset by half the enemy's height
                     Vector3 belowPlayer = transform.position - new Vector3(0f, enemyHeight * 0.5f, 0f);
-
-                    // Detach the enemy and move it below the player
                     grabbedEnemy.SetParent(null);
                     grabbedEnemy.position = belowPlayer;
 
@@ -237,29 +219,26 @@ public class PlayerSuplex : MonoBehaviour
 
                 playerMovement.ForceJump();
                 jumpedOff = true;
-                ReleaseEnemy(true, config); // apply downward force and enable enemy ground detection
-                Debug.Log("Player jumped off enemy!");
-                // Stop all horizontal movement and snap to ground or else player bounces like a ball and slide forever
+                ReleaseEnemy(true, config);
+                Debug.Log("Player jumped off enemy.");
+
                 playerMovement.velocity.x = 0f;
                 playerMovement.velocity.z = 0f;
-               
+
                 break;
             }
 
-            // End the suplex when the player lands (after a minimum airtime)
             if (t > minAirTime && IsGrounded())
                 break;
 
             yield return null;
         }
 
-        // If the player didn't jump off, finish the suplex and stop movement
         if (!jumpedOff)
         {
-            ReleaseEnemy(false, config); // dont apply downward force but still release enemy and enable enemy ground detection
-            Debug.Log("Suplex landed!");
+            ReleaseEnemy(false, config);
+            Debug.Log("Suplex landed.");
 
-            // Stop all horizontal movement and snap to ground or else player bounces like a ball and slide forever
             playerMovement.velocity.x = 0f;
             playerMovement.velocity.z = 0f;
             playerMovement.velocity.y = -2f;
@@ -267,6 +246,8 @@ public class PlayerSuplex : MonoBehaviour
 
         isSuplexing = false;
     }
+
+
 
     /// <summary>
     /// Checks if the player is currently on the ground.

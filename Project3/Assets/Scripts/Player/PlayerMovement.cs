@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public PlayerInput playerInput;
     InputAction moveAction;
-    InputAction jumpAction;
+    public InputAction jumpAction;
     public Vector3 velocity;
     public float velocityCap = -20f;
     bool isGrounded;
@@ -22,12 +22,15 @@ public class PlayerMovement : MonoBehaviour
     public float turnSmoothTime;
     float turnSmoothVelocity;
 
+    PlayerSuplex playerSuplex;
 
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
+
+        playerSuplex = GetComponent<PlayerSuplex>();
     }
 
     private void Update()
@@ -45,7 +48,12 @@ public class PlayerMovement : MonoBehaviour
 
 
         MovePlayer();
-        Jump();
+
+        if (jumpAction.WasPressedThisFrame())
+        {
+            Jump();
+        }
+        
     }
 
     void MovePlayer()
@@ -65,10 +73,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (jumpAction.WasPressedThisFrame() && isGrounded)
+        if (isGrounded && playerSuplex.grabbedEnemy == null)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
+            Debug.Log("Jumped!");
+        }
+        else
+        {
+            StartCoroutine(playerSuplex.WaitForSuplexInput());
+            Debug.Log("Waiting for suplex input!");
         }
     }
 
