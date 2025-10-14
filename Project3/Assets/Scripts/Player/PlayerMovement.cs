@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
             Debug.Log("Jumped!");
         }
-        else
+        else if (playerSuplex.grabbedEnemy != null && !playerSuplex.isSuplexing)
         {
             StartCoroutine(playerSuplex.WaitForSuplexInput());
             Debug.Log("Waiting for suplex input!");

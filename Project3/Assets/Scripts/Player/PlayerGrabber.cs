@@ -23,6 +23,7 @@ public class PlayerGrabber : MonoBehaviour
     InputAction attackAction;
     // InputAction dropAction;
 
+
     private void Awake()
     {
         //   playerMovement = GetComponent<PlayerMovement>();
@@ -50,6 +51,7 @@ public class PlayerGrabber : MonoBehaviour
 
         if (!isGrabbed && attackAction != null && attackAction.WasPressedThisFrame())
         {
+            
             TryGrab();
             Debug.Log("Attempting grab!");
         }
