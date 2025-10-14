@@ -22,12 +22,19 @@ public class PlayerMovement : MonoBehaviour
     public float turnSmoothTime;
     float turnSmoothVelocity;
 
+    //
+    InputAction jump;
+    //
 
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
+
+        //
+        jump = playerInput.actions.FindAction("Jump2"); 
+        //
     }
 
     private void Update()
@@ -70,8 +77,9 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
         }
-    }
 
+
+    }
     /// <summary>
     /// Forces the player to jump, used when jumping off an enemy during a suplex.
     /// </summary>
