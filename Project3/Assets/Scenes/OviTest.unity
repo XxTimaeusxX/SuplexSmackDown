@@ -1049,6 +1049,10 @@ MonoBehaviour:
   suplexhitbox: {fileID: 805076447}
   dashSpeed: 10
   dashDuration: 0.5
+  isDashing: 0
+  targetDashCoolDown: 5
+  dashCoolDown: 0
+  airDashCount: 0
 --- !u!114 &446941345 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5903303400853118903, guid: 6707ec71c18f8e745a55837add214815, type: 3}
@@ -1097,6 +1101,7 @@ MonoBehaviour:
     LiftHeight: 200
     FowardDistance: 0.5
     LaunchSpeed: 20
+  grabbedEnemy: {fileID: 0}
   isSuplexing: 0
 --- !u!195 &446941353
 NavMeshAgent:
@@ -1789,6 +1794,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 745198957}
   m_CullTransparentMesh: 1
+--- !u!1 &803012328
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 803012330}
+  - component: {fileID: 803012329}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &803012329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803012328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9093c1161eec5746a8bbd0eded41add, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+--- !u!4 &803012330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 803012328}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.05665, y: 4.23095, z: 25.88376}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &805076447
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,6 +2119,10 @@ PrefabInstance:
     - target: {fileID: 6812858460447362487, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: velocityCap
       value: -100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6812858460447362487, guid: 6707ec71c18f8e745a55837add214815, type: 3}
+      propertyPath: jumpAction.m_Name
+      value: Jump
       objectReference: {fileID: 0}
     - target: {fileID: 6812858460447362487, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: thirdPersonCamera
@@ -4331,3 +4384,4 @@ SceneRoots:
   - {fileID: 1743861536}
   - {fileID: 399390273}
   - {fileID: 1514041467}
+  - {fileID: 803012330}

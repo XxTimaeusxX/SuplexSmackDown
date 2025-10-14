@@ -53,9 +53,8 @@ public class PlayerGrabber : MonoBehaviour
 
         if (!isGrabbed && attackAction != null && attackAction.WasPressedThisFrame())
         {
-            
             TryGrab();
-            Debug.Log("Attempting grab!");
+            // Debug.Log("Attempting grab!");
         }
         /*
         else if (isGrabbed && Input.GetKeyDown(dropKey))

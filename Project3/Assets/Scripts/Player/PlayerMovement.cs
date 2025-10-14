@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     float turnSmoothVelocity;
 
     PlayerSuplex playerSuplex;
+    PlayerDash playerDash;
 
     private void Start()
     {
@@ -31,17 +32,29 @@ public class PlayerMovement : MonoBehaviour
         jumpAction = playerInput.actions.FindAction("Jump");
 
         playerSuplex = GetComponent<PlayerSuplex>();
+        playerDash = GetComponent<PlayerDash>();
+
+
     }
 
     private void Update()
     {
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        if (!playerDash.isDashing)
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+        else
+        {
+            velocity.y = 0; 
+        }
+ 
+            controller.Move(velocity * Time.deltaTime);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+            playerDash.airDashCount = 2;
         }
         if (velocity.y < velocityCap)
             velocity.y = Mathf.Clamp(velocity.y, velocityCap, 100);   
@@ -77,12 +90,12 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
-            Debug.Log("Jumped!");
+            // Debug.Log("Jumped!");
         }
         else if (playerSuplex.grabbedEnemy != null && !playerSuplex.isSuplexing)
         {
             StartCoroutine(playerSuplex.WaitForSuplexInput());
-            Debug.Log("Waiting for suplex input!");
+            // Debug.Log("Waiting for suplex input!");
         }
     }
 
@@ -93,6 +106,6 @@ public class PlayerMovement : MonoBehaviour
     {
         velocity.y = Mathf.Sqrt(jumpHeight*15f * -2f * gravity);
         isGrounded = false;
-        Debug.Log("jumping off enemy");
+        // Debug.Log("jumping off enemy");
     }
 }
