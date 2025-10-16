@@ -7,7 +7,8 @@ public class PlayerCheckpoint : MonoBehaviour
 	private PlayerMovement playerMovement;
 	
     
-	void Start(){
+	void Start()
+	{
 		playerMovement = GetComponentInParent<PlayerMovement>();
 	}
 	
@@ -16,15 +17,13 @@ public class PlayerCheckpoint : MonoBehaviour
         CheckKillY();
     }
 	
-	void CheckKillY(){
+	void CheckKillY()
+	{
 		var py = transform.position.y;
 		
-		//if player drops to killY, stop player velocity and set to last checkpoint
+		//if player drops to killY, respawn the player at the last checkpoint
 		if (py <= killY){
-			playerMovement.velocity.x = 0f;
-            playerMovement.velocity.z = 0f;
-            playerMovement.velocity.y = -2f;
-			transform.position = currentCheckpoint.position;
+			RespawnPlayer();
 		}
 	}
 	
@@ -37,4 +36,13 @@ public class PlayerCheckpoint : MonoBehaviour
 			currentCheckpoint = other.transform;
         }
     }
+	
+	//stop player velocity and set player transform to last checkpoint
+	public void RespawnPlayer()
+	{
+		playerMovement.velocity.x = 0f;
+        playerMovement.velocity.z = 0f;
+        playerMovement.velocity.y = -2f;
+		transform.position = currentCheckpoint.position;
+	}
 }
