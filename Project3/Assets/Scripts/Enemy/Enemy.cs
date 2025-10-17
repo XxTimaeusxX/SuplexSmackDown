@@ -70,7 +70,6 @@ public class Enemy : MonoBehaviour
     {
         // Use a raycast or other method to check if the enemy is on the ground
         Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
-        
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight;
     public float turnSmoothTime;
     float turnSmoothVelocity;
-
+    public CinemachineCamera CinemachineCamera;
 
     private void Start()
     {
@@ -34,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
+        
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
@@ -73,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void ForceJump()
     {
-        velocity.y = Mathf.Sqrt(jumpHeight*15f * -2f * gravity);
+        velocity.y = Mathf.Sqrt(jumpHeight*2 * -2f * gravity);
         isGrounded = false;
         Debug.Log("jumping off enemy");
     }
