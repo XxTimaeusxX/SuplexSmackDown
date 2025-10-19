@@ -93,7 +93,7 @@ public class PlayerSuplex : MonoBehaviour
         if (agent != null)
         {
             agent.enabled = false; // Disable AI while held
-            Debug.Log("NavMeshAgent disabled.");
+            // Debug.Log("NavMeshAgent disabled.");
         }
         var rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)
@@ -104,7 +104,7 @@ public class PlayerSuplex : MonoBehaviour
         if (enemyScript != null)
         {
             enemyScript.SetGrabbed(true); // Disable ground detection
-            Debug.Log("set grab = true.");
+            // Debug.Log("set grab = true.");
         }
         // Wait for player to choose which suplex to perform
         StartCoroutine(WaitForSuplexInput());
@@ -122,13 +122,13 @@ public class PlayerSuplex : MonoBehaviour
             if (enemyScript != null)
             { // Enable ground detection
                 enemyScript.SetGrabbed(false);
-                Debug.Log("set grab = false.");
+                // Debug.Log("set grab = false.");
             }
 
             if (rb != null)
             {
                 grabbedEnemy.SetParent(null);
-                Debug.Log("Kinematic set to false.");
+                // Debug.Log("Kinematic set to false.");
                 rb.isKinematic = false; // Re-enable physics
                 if (slam && config != null)
                 {
@@ -151,14 +151,18 @@ public class PlayerSuplex : MonoBehaviour
             // Check which suplex button was pressed
             if (SuperSuplexAction != null && SuperSuplexAction.WasPressedThisFrame())
                 currentSuplex = SuplexAbilities.Super;
+
+            else if (LongJumpSuplexAction != null && jumpAction.WasPressedThisFrame() && playerDash.isDashing)
+                currentSuplex = SuplexAbilities.Long;            
+            
             //else if (RainbowSuplexAction != null && RainbowSuplexAction.WasPressedThisFrame())
             else if (RainbowSuplexAction != null && playerMovement.jumpAction.WasPressedThisFrame())
                 currentSuplex = SuplexAbilities.Rainbow;
-            else if (LongJumpSuplexAction != null && LongJumpSuplexAction.WasPressedThisFrame())
-                currentSuplex = SuplexAbilities.Long;
             yield return null;
         }
 
+        playerDash.isDashing = false; // Suplexing cancels the dash movement
+        // Debug.Log($"Current supplex: {currentSuplex}");
         PerformSuplex(currentSuplex);
     }
 
@@ -207,6 +211,9 @@ public class PlayerSuplex : MonoBehaviour
             {
                 if (grabbedEnemy != null)
                 {
+
+                    playerDash.isDashing = false; // Jumping off cancels dash movement
+
                     Renderer enemyRenderer = grabbedEnemy.GetComponentInChildren<Renderer>();
                     float enemyHeight = enemyRenderer != null ? enemyRenderer.bounds.size.y : 1f;
 
@@ -214,16 +221,17 @@ public class PlayerSuplex : MonoBehaviour
                     grabbedEnemy.SetParent(null);
                     grabbedEnemy.position = belowPlayer;
 
-                    Debug.Log("Moved enemy below player.");
+                    // Debug.Log("Moved enemy below player.");
                 }
 
+                
                 playerMovement.ForceJump();
                 jumpedOff = true;
                 ReleaseEnemy(true, config);
-                Debug.Log("Player jumped off enemy.");
+                // Debug.Log("Player jumped off enemy.");
 
-                playerMovement.velocity.x = 0f;
-                playerMovement.velocity.z = 0f;
+                // playerMovement.velocity.x = 0f;
+                // playerMovement.velocity.z = 0f;
 
                 break;
             }
@@ -237,7 +245,7 @@ public class PlayerSuplex : MonoBehaviour
         if (!jumpedOff)
         {
             ReleaseEnemy(false, config);
-            Debug.Log("Suplex landed.");
+            // Debug.Log("Suplex landed.");
 
             playerMovement.velocity.x = 0f;
             playerMovement.velocity.z = 0f;

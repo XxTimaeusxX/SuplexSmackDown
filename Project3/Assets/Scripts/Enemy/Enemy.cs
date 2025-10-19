@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
         var rb = GetComponent<Rigidbody>();
         if (grounded && wasGrounded && !isGrabbed)
         {
-            Debug.Log("Enemy just landed!");
+            // Debug.Log("Enemy just landed!");
            rb.isKinematic = true;
             m_EnemyAgent.enabled = true;
         }
