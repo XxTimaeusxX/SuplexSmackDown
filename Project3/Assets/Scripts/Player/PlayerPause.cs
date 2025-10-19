@@ -21,6 +21,11 @@ public class PlayerPause : MonoBehaviour
 
     void Update()
     {
+        Pause();
+    }
+	
+	void Pause()
+    {
         if (pauseAction != null && pauseAction.WasPressedThisFrame())
         {
             Debug.Log("Pause button pressed!");
