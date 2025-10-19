@@ -16,8 +16,15 @@ public class PlayerDash : MonoBehaviour
     public float dashSpeed = 5f;           // How fast the player dashes
     public float dashDuration = 0.2f;      // How long the dash lasts (in seconds)
     private Vector3 dashDirection;         // Direction the player will dash in
-    private bool isDashing = false;        // True if the player is currently dashing
+    public bool isDashing = false;         // True if the player is currently dashing
     private float dashTime;                // Time left in the current dash
+
+    [SerializeField]
+    private float targetDashCoolDown = 5f;
+    [SerializeField]
+    private float dashCoolDown;
+
+    public int airDashCount = 0;           // Number of dashes a player can perform in air
 
     /// <summary>
     /// Called when the script starts. Sets up input and disables the hitbox.
@@ -35,7 +42,19 @@ public class PlayerDash : MonoBehaviour
     /// </summary>
     void Update()
     {
-        Dash();
+            Dash();
+
+        if (dashCoolDown > 0f) 
+        {
+            dashCoolDown -= 0.1f;
+        }
+
+        if (dashCoolDown < 0f)
+        {
+            Debug.Log("Dash is ready!");
+            dashCoolDown = 0f;
+        }
+        
     }
 
     /// <summary>
@@ -44,13 +63,16 @@ public class PlayerDash : MonoBehaviour
     void Dash()
     {
         // Start dash if the dash button was just pressed and not already dashing
-        if (dashAction.WasPressedThisFrame() && !isDashing)
-        {
+        if (dashAction.WasPressedThisFrame() && !isDashing && dashCoolDown == 0f && airDashCount > 0)
+        { 
+            dashCoolDown = targetDashCoolDown; // Reset cooldown
+            airDashCount--;                    // Iterate the amount of air dashes by 1
+
             dashDirection = transform.forward; // Dash in the direction the player is facing
             isDashing = true;
             dashTime = dashDuration;
             suplexhitbox.SetActive(true);      // Enable hitbox for the dash
-            Debug.Log("Dash initiated!");
+            // Debug.Log("Dash initiated!");
         }
 
         // If currently dashing, move the player and count down the dash timer
@@ -67,7 +89,7 @@ public class PlayerDash : MonoBehaviour
                 // Dash finished: reset state and disable hitbox
                 isDashing = false;
                 suplexhitbox.SetActive(false);
-                Debug.Log("Dash ended!");
+                // Debug.Log("Dash ended!");
             }
         }
     }

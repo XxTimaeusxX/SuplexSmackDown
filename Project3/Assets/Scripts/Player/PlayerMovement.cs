@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,38 +10,63 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public PlayerInput playerInput;
     InputAction moveAction;
-    InputAction jumpAction;
-   public Vector3 velocity;
+    public InputAction jumpAction;
+    public Vector3 velocity;
+    public float velocityCap = -20f;
     bool isGrounded;
     public LayerMask groundMask;
     public float moveSpeed;
-    public float gravity;
+    public float gravity = -9.81f; // Set to Unity's default gravity and change Unity's gravity to -50f
     public float groundDistance;
     public float jumpHeight;
     public float turnSmoothTime;
     float turnSmoothVelocity;
-    public CinemachineCamera CinemachineCamera;
+
+    PlayerSuplex playerSuplex;
+    PlayerDash playerDash;
 
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
+
+        playerSuplex = GetComponent<PlayerSuplex>();
+        playerDash = GetComponent<PlayerDash>();
+
+
     }
 
     private void Update()
     {
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        if (!playerDash.isDashing)
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+        else
+        {
+            velocity.y = 0; 
+        }
+ 
+            controller.Move(velocity * Time.deltaTime);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        
+
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+            playerDash.airDashCount = 2;
         }
+        if (velocity.y < velocityCap)
+            velocity.y = Mathf.Clamp(velocity.y, velocityCap, 100);   
+
 
         MovePlayer();
-        Jump();
+
+        if (jumpAction.WasPressedThisFrame())
+        {
+            Jump();
+        }
+        
     }
 
     void MovePlayer()
@@ -62,10 +86,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (jumpAction.WasPressedThisFrame() && isGrounded)
+        if (isGrounded && playerSuplex.grabbedEnemy == null)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
+            // Debug.Log("Jumped!");
+        }
+        else if (playerSuplex.grabbedEnemy != null && !playerSuplex.isSuplexing)
+        {
+            StartCoroutine(playerSuplex.WaitForSuplexInput());
+            // Debug.Log("Waiting for suplex input!");
         }
     }
 
@@ -74,8 +104,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void ForceJump()
     {
-        velocity.y = Mathf.Sqrt(jumpHeight*2 * -2f * gravity);
+        velocity.y = Mathf.Sqrt(jumpHeight*15f * -2f * gravity);
         isGrounded = false;
-        Debug.Log("jumping off enemy");
+        // Debug.Log("jumping off enemy");
     }
 }
