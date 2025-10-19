@@ -10991,7 +10991,7 @@ GameObject:
   - component: {fileID: 158926019}
   - component: {fileID: 158926018}
   m_Layer: 0
-  m_Name: PauseMenuHandler
+  m_Name: MenuManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11011,6 +11011,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGameMenuManager
   _MainMenuScene: MainMenuTest
   _PauseMenuContainer: {fileID: 1896553927}
+  _WinMenuContainer: {fileID: 0}
+  _GameOverMenuContainer: {fileID: 0}
+  _DefaultPauseButton: {fileID: 1177759534}
+  _DefaultWinButton: {fileID: 0}
+  _DefaultGameOverButton: {fileID: 0}
+  canPause: 1
 --- !u!4 &158926019
 Transform:
   m_ObjectHideFlags: 0
@@ -63740,6 +63746,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPause
   playerInput: {fileID: 0}
+  menuManager: {fileID: 158926018}
   _PauseMenuContainer: {fileID: 1896553927}
   _DefaultPauseButton: {fileID: 1177759534}
 --- !u!1001 &1354419485
