@@ -44,14 +44,14 @@ public class PlayerDash : MonoBehaviour
     {
             Dash();
 
-        if (dashCoolDown > 0f) 
+        if (dashCoolDown > 0f && !isDashing) 
         {
             dashCoolDown -= 0.1f;
         }
 
         if (dashCoolDown < 0f)
         {
-            Debug.Log("Dash is ready!");
+            // Debug.Log("Dash is ready!");
             dashCoolDown = 0f;
         }
         

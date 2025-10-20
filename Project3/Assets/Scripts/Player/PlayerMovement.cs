@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y += gravity * Time.deltaTime;
         }
-        else
+        else if (playerDash.isDashing)
         {
             velocity.y = 0; 
         }
@@ -54,8 +54,12 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = -2f;
+        //  Reset horizontal momentum
+            velocity.x = 0f; 
+            velocity.z = 0f;
             playerDash.airDashCount = 2;
         }
+
         if (velocity.y < velocityCap)
             velocity.y = Mathf.Clamp(velocity.y, velocityCap, 100);   
 
