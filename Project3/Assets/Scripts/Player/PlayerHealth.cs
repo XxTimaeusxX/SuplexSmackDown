@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
 	int currentHealth;
 	public Texture2D[] healthSprites;
 	public RawImage healthImg;
+	[SerializeField] InGameMenuManager menuManager;
 	
     void Start()
     {
@@ -24,6 +25,14 @@ public class PlayerHealth : MonoBehaviour
 			currentHealth = newHP;
 			healthImg.texture = healthSprites[currentHealth];
 		}
+		if(newHP == 0){
+			GameOver();
+		}
 			Debug.Log("Current Health: " + currentHealth);
+	}
+	
+	public void GameOver()
+	{
+		menuManager.GameOver();
 	}
 }
