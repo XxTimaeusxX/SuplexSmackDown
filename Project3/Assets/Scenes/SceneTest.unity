@@ -39251,7 +39251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.alignment
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Positions.Array.size
@@ -39267,7 +39267,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.textureMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -39279,11 +39279,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.textureScale.x
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.textureScale.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.widthMultiplier
@@ -39351,7 +39351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
@@ -39359,7 +39359,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
-      value: 0.45212448
+      value: 0.8320149
       objectReference: {fileID: 0}
     - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
@@ -39434,6 +39434,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[0].LiftHeight
       value: 10
       objectReference: {fileID: 0}
@@ -39443,7 +39451,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[2].LiftHeight
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[0].LaunchSpeed
@@ -39452,6 +39460,30 @@ PrefabInstance:
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[1].LaunchSpeed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[1].time
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[1].value
+      value: 0.96417576
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[2].value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[0].FowardDistance
@@ -39464,6 +39496,102 @@ PrefabInstance:
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[2].FowardDistance
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[1].time
+      value: 0.78659827
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[0].inSlope
+      value: 1.377394
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[1].inSlope
+      value: 0.14751148
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[2].inSlope
+      value: 0.11941413
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[1].value
+      value: 0.9219869
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[0].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[0].outSlope
+      value: 1.377394
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[1].outSlope
+      value: 0.14751148
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[2].outSlope
+      value: 0.11941413
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[1].outWeight
+      value: 0.25102225
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[0].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[1].inSlope
+      value: 2.318147
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[0].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[1].outSlope
+      value: 2.318147
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[1].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: GravityControl.m_Curve.Array.data[2].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: CameraOffsetCurve.m_Curve.Array.data[1].outWeight
+      value: 0.21076977
       objectReference: {fileID: 0}
     - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: CinemachineCamera

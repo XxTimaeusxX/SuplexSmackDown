@@ -2,9 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Unity.Cinemachine;
-using static UnityEditor.PlayerSettings;
 using UnityEngine.UI;
 
 /// <summary>
@@ -41,6 +39,8 @@ public class PlayerSuplex : MonoBehaviour
 
     [Header("Suplex Configurations")]
     public List<SuplexConfig> suplexConfigs; // List of all possible suplex types
+    public AnimationCurve GravityControl; // line graph to control gravity during suplex
+    public AnimationCurve CameraOffsetCurve; // line graph to control camera offset during suplex
 
     // Internal references to other player scripts/components
     private PlayerMovement playerMovement;
@@ -97,8 +97,7 @@ public class PlayerSuplex : MonoBehaviour
         var agent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
         if (agent != null)
         {
-            agent.enabled = false; // Disable AI while held
-            Debug.Log("NavMeshAgent disabled.");
+            agent.enabled = false; // Disable AI while held  
         }
         var rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)
@@ -109,7 +108,6 @@ public class PlayerSuplex : MonoBehaviour
         if (enemyScript != null)
         {
             enemyScript.SetGrabbed(true); // Disable ground detection
-            Debug.Log("set grab = true.");
         }
         // Wait for player to choose which suplex to perform
         StartCoroutine(WaitForSuplexInput());
@@ -127,13 +125,11 @@ public class PlayerSuplex : MonoBehaviour
             if (enemyScript != null)
             { // Enable ground detection
                 enemyScript.SetGrabbed(false);
-                Debug.Log("set grab = false.");
             }
 
             if (rb != null)
             {
                 grabbedEnemy.SetParent(null);
-                Debug.Log("Kinematic set to false.");
                 rb.isKinematic = false; // Re-enable physics
                 if (slam && config != null)
                 {
@@ -164,10 +160,7 @@ public class PlayerSuplex : MonoBehaviour
     // Get reference to camera orbital follow and store default offset
     var orbital = playerMovement.CinemachineCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineOrbitalFollow;
     Vector3 DefaultCameraOffset = orbital.TargetOffset;
-   
-
     bool offsetApplied = false;
-
 
     while (currentSuplex == SuplexAbilities.None)
     {
@@ -193,12 +186,10 @@ public class PlayerSuplex : MonoBehaviour
         if (anyHeld)
         {
             if (!offsetApplied)
-            {
-              //  orbital.TargetOffset = new Vector3(0f, 0f, -11f); // adjust camera offset when previewing suplex
+            {  
                 offsetApplied = true;
             }
         }
-
         if (!anyHeld)
         {
             trajectoryRenderer.positionCount = 0;
@@ -287,17 +278,26 @@ public class PlayerSuplex : MonoBehaviour
         Vector3 launchVelocity = transform.forward * vx + Vector3.up * vy;
         playerMovement.velocity = launchVelocity;
 
-
+        // gravity settings for suplex arc control during descent
         float t = 0;
         bool jumpedOff = false;
         float minAirTime = 0.2f; // Prevents instant landing
         float originalGravity = playerMovement.gravity;
+        float minGravity = originalGravity * 0.2f; // Start with low gravity
+        float maxGravity = originalGravity;         // End with normal gravity
+        float gravityIncreaseDuration = 3f;       // Time to reach max gravity (tweak as needed)
+        float gravityLerpTime = 0f;
+
+        // camera settings
+        Vector3 targetOffset = new Vector3(0f, 13f, 0f); // target offset for cinematic effect during suplex
+        float cameraLerpDuration = 0.5f;
+        float cameraLerpTime = 0f;
 
         // reference to the cinemachine orbital follow component to adjust camera during suplex
         var orbital = playerMovement.CinemachineCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineOrbitalFollow; 
-       Vector3 DefaultCameraOffset =  orbital.TargetOffset;
-        
+        Vector3 DefaultCameraOffset =  orbital.TargetOffset;
         bool cameratilted = false;
+
         // Wait for the player to land or jump off
         while (true)
         {
@@ -308,15 +308,19 @@ public class PlayerSuplex : MonoBehaviour
                 if(currentSuplex == SuplexAbilities.Super)
                 {
                     // add moon gravity effect during descent
-                    playerMovement.gravity = originalGravity * 0.2f; // Half gravity for floaty fall
-                    if(!cameratilted)
+                    gravityLerpTime += Time.deltaTime;
+                    float lerpFactor = Mathf.Clamp01(gravityLerpTime / gravityIncreaseDuration);
+                    playerMovement.gravity = Mathf.Lerp(minGravity, maxGravity, GravityControl.Evaluate(lerpFactor));
+                    if (!cameratilted)
                     {
-                        // tilt camera downwards during descent and have more control on flowing down
-                        orbital.TargetOffset = new Vector3(0f, 11f, 0f);
+                        // tilt camera downwards during descent and have more control on flowing down 
                         cameratilted = true;
                         playerMovement.velocity.x = 0f;
                         playerMovement.velocity.z = 0f;
                     }
+                    cameraLerpTime += Time.deltaTime;
+                    float cameraLerpFactor = Mathf.Clamp01(cameraLerpTime / cameraLerpDuration);
+                    orbital.TargetOffset = Vector3.Lerp(DefaultCameraOffset, targetOffset,CameraOffsetCurve.Evaluate(cameraLerpFactor));
                 }     
             }
             else
@@ -348,8 +352,6 @@ public class PlayerSuplex : MonoBehaviour
         if (!jumpedOff)
         {
             ReleaseEnemy(false, config); // dont apply downward force but still release enemy and enable enemy ground detection
-            Debug.Log("Suplex landed!");
-
             // Stop all horizontal movement and snap to ground or else player bounces like a ball and slide forever
             playerMovement.velocity.x = 0f;
             playerMovement.velocity.z = 0f;
@@ -379,7 +381,7 @@ public class PlayerSuplex : MonoBehaviour
     {
         int steps = 60;
         Vector3[] points = new Vector3[steps + 1];
-        Vector3 startPos = transform.position;
+        Vector3 startPos = heldEnemy.position;
         float gravity = Mathf.Abs(playerMovement.gravity); // Use the same gravity as the player
 
         float height = config.LiftHeight;
@@ -391,7 +393,7 @@ public class PlayerSuplex : MonoBehaviour
         float vy = (2f * height) / timeToPeak;
         float vx = distance / totalTime;
 
-        Vector3 forward = transform.forward.normalized;
+        Vector3 forward = heldEnemy.forward.normalized;
         Vector3 launchVelocity = forward * vx + Vector3.up * vy;
 
         Vector3 pos = startPos;
@@ -431,9 +433,7 @@ public class PlayerSuplex : MonoBehaviour
         }
 
         foreach (var col in enemyColliders)
-            col.enabled = true;
-
-
+        col.enabled = true;
         trajectoryRenderer.positionCount = lastPoint+ 1;
         trajectoryRenderer.SetPositions(points);
     }
