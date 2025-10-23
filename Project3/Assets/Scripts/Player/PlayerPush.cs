@@ -9,13 +9,10 @@ public class PlayerPush : MonoBehaviour
     public PlayerInput playerInput;
     public InputAction pushAction;
     public GameObject push;
-    public float pushForce;
-    public float pushDuration;
-    public float pushCoolDown;
-    public float targetPushCoolDown;
-    public float pushTime;
-    public float dashDuration;
-    public bool isPushing = false;
+    public Transform player;
+    public float pushCooldown;
+    bool pushing = false;
+    
 
     void Start()
     {
@@ -24,37 +21,19 @@ public class PlayerPush : MonoBehaviour
 
     void Update()
     {
-        Shockwave();
-        if (pushCoolDown > 0f && !isPushing)
+        if (pushAction.WasPressedThisFrame() && pushing == false)
         {
-            pushCoolDown -= 0.1f;
+            Instantiate(push, player.position, player.rotation, player);
+            pushing = true;
         }
-        if (pushCoolDown < 0f)
+        if (pushing)
         {
-            pushCoolDown = 0f;
+            pushCooldown -= Time.deltaTime;
         }
-    }
-
-    public void Shockwave()
-    {
-        if (pushAction.WasPressedThisFrame())
+        if (pushCooldown <= 0)
         {
-            pushCoolDown = targetPushCoolDown;
-            isPushing = true;
-            pushTime = pushDuration;
-            push.SetActive(true);
-        }
-        if (isPushing)
-        {
-            if (pushTime > 0)
-            {
-                pushTime -= Time.deltaTime;
-            }
-            else
-            {
-                isPushing = false;
-                push.SetActive(false);
-            }
+            pushing = false;
+            pushCooldown = 2;
         }
     }
 }

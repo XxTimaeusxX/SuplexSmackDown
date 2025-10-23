@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class Enemy : MonoBehaviour
+
+public class EnrmyTestScript : MonoBehaviour
 {
     public GameObject Target;
     private NavMeshAgent m_EnemyAgent;
@@ -12,45 +15,33 @@ public class Enemy : MonoBehaviour
 
     public float chaseRange;
     private float m_Distance;
-    private bool wasGrounded = false;
+    bool isGrounded;
+    bool isPushed;
     public bool isGrabbed;
-    bool isPushed = false;
-    public float pushCooldown;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         m_EnemyAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
+        isPushed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool grounded = IsEnemyGrounded();
-        if (isPushed)
-        {
-            pushCooldown -= Time.deltaTime;
-        }
-        if (pushCooldown < 0)
-        {
-            pushCooldown = 0;
-            isPushed = false;
-            m_EnemyAgent.enabled = true;
-            rb.isKinematic = true;
-        }
-       
-        if (grounded && wasGrounded && !isGrabbed && !isPushed)
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (isGrounded && !isGrabbed && !isPushed)
         {
             // Debug.Log("Enemy just landed!");
-           rb.isKinematic = true;
+            rb.isKinematic = true;
             m_EnemyAgent.enabled = true;
         }
-        
-    
-        wasGrounded = grounded;
+
         if (m_EnemyAgent.enabled && m_EnemyAgent.isOnNavMesh)
-        {       
-            ChasePlayer();         
+        {
+            ChasePlayer();
         }
     }
 
@@ -70,6 +61,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
     public void SetGrabbed(bool grabbed)
     {
         isGrabbed = grabbed;
@@ -78,13 +70,6 @@ public class Enemy : MonoBehaviour
             // Optionally disable agent here if needed
             m_EnemyAgent.enabled = false;
         }
-        
-    }
-    bool IsEnemyGrounded()
-    {
-        // Use a raycast or other method to check if the enemy is on the ground
-        Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
-        return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
     }
 
@@ -92,7 +77,6 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-            pushCooldown = 3;
             isPushed = true;
             m_EnemyAgent.enabled = false;
             rb.isKinematic = false;
