@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpHeight;
     public float turnSmoothTime;
     float turnSmoothVelocity;
+    public CinemachineCamera CinemachineCamera;
 
     PlayerSuplex playerSuplex;
     PlayerDash playerDash;

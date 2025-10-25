@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shockwave : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Shockwave : MonoBehaviour
     public Vector3 targetScale;
     private Vector3 initialScale;
     public float growSize;
+    
 
     private void Start()
     {
@@ -31,16 +33,12 @@ public class Shockwave : MonoBehaviour
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
-        if (body == null || body.isKinematic)
+        if (hit.gameObject.CompareTag("Enemy"))
         {
-            return;
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+            body.AddForce(pushDir * pushForce, ForceMode.Impulse);
         }
-        if (hit.moveDirection.y < -0.3f)
-        {
-            return;
-        }
-        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-        body.AddForce(pushDir * pushForce, ForceMode.Impulse);
+        
     }
 
     IEnumerator ScaleOverTime(float duration, Vector3 endScale)
