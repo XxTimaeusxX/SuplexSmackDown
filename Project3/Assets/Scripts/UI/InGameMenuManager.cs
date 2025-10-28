@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
+	[SerializeField] GameObject _LoadingScreenContainer;
 	
 	[SerializeField] GameObject _DefaultPauseButton;
 	[SerializeField] GameObject _DefaultWinButton;
@@ -16,6 +18,12 @@ public class InGameMenuManager : MonoBehaviour
 	
     bool isPaused = false;
 	public bool canPause = true;
+	int sceneId = 0;
+	
+	void Start()
+	{
+		//LoadingScreen(1); //testing loading screen
+	}
 	
 	//lock/hide cursor, unpause, and hide pause menu
 	public void ResumeButtonClicked()
@@ -24,9 +32,10 @@ public class InGameMenuManager : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 		Time.timeScale = 1.0f;
-		_PauseMenuContainer.SetActive(false);
-		_WinMenuContainer.SetActive(false);
-		_GameOverMenuContainer.SetActive(false);
+		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
+		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
+		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
+		if(_LoadingScreenContainer) _LoadingScreenContainer.SetActive(false);
 	}
 	
 	//lock/hide cursor, unpause, and restart level
@@ -104,5 +113,19 @@ public class InGameMenuManager : MonoBehaviour
 		
 		// Set default selected button for navigation
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
+	}
+	
+	
+	public void LoadingScreen(int newSceneId)
+	{
+		sceneId = newSceneId;
+		_LoadingScreenContainer.SetActive(true);
+		StartCoroutine("Load");
+	}
+	
+	IEnumerator Load()
+	{
+		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
+		yield return null;
 	}
 }
