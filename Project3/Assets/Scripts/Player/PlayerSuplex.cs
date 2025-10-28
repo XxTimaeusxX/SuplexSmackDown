@@ -45,7 +45,7 @@ public class PlayerSuplex : MonoBehaviour
     // Internal references to other player scripts/components
     private PlayerMovement playerMovement;
     private PlayerDash playerDash;
-    private Transform grabbedEnemy;          // The enemy currently grabbed
+    public Transform grabbedEnemy;          // The enemy currently grabbed
     private CharacterController controller;  // For ground checks
 
     // Input actions for different suplexes and jumping
@@ -144,7 +144,7 @@ public class PlayerSuplex : MonoBehaviour
     /// <summary>
     /// Waits for the player to press a suplex input, then starts the chosen suplex.
     /// </summary>
-    IEnumerator WaitForSuplexInput()
+    public IEnumerator WaitForSuplexInput()
     {
        currentSuplex = SuplexAbilities.None;
 

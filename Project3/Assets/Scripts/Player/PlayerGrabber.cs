@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 // A HoldPosition gameobject must be added and identified in order to work
 
 // TODO: Figure out controls for the game to enable a drop mechanic
+
+// TODO: When dashing stop and rest downward velocity
 public class PlayerGrabber : MonoBehaviour
 {
     // Reference to PlayerInput (assigned automatically in Awake)
@@ -22,6 +24,7 @@ public class PlayerGrabber : MonoBehaviour
 
     InputAction attackAction;
     // InputAction dropAction;
+
 
     private void Awake()
     {
@@ -51,7 +54,7 @@ public class PlayerGrabber : MonoBehaviour
         if (!isGrabbed && attackAction != null && attackAction.WasPressedThisFrame())
         {
             TryGrab();
-            Debug.Log("Attempting grab!");
+            // Debug.Log("Attempting grab!");
         }
         /*
         else if (isGrabbed && Input.GetKeyDown(dropKey))
@@ -110,6 +113,7 @@ public class PlayerGrabber : MonoBehaviour
         {
             grabbedObject.useGravity = true;
             grabbedObject.freezeRotation = false;
+
             // Debug.Log("Dropped object: " + grabbedObject.name);
             grabbedObject = null;
         }

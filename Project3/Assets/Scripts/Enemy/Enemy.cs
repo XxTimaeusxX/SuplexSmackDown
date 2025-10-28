@@ -4,6 +4,7 @@ public class Enemy : MonoBehaviour
 {
     public GameObject Target;
     private NavMeshAgent m_EnemyAgent;
+    Rigidbody rb;
 
     public Transform groundCheck;
     public LayerMask groundMask;
@@ -13,21 +14,37 @@ public class Enemy : MonoBehaviour
     private float m_Distance;
     private bool wasGrounded = false;
     public bool isGrabbed;
+    bool isPushed = false;
+    public float pushCooldown;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    GameManager gameManager;
     void Start()
     {
+        gameManager = FindAnyObjectByType<GameManager>();
         m_EnemyAgent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
         bool grounded = IsEnemyGrounded();
-       
-        var rb = GetComponent<Rigidbody>();
-        if (grounded && wasGrounded && !isGrabbed)
+        if (isPushed)
         {
-            Debug.Log("Enemy just landed!");
+            pushCooldown -= Time.deltaTime;
+        }
+        if (pushCooldown < 0)
+        {
+            pushCooldown = 0;
+            isPushed = false;
+            m_EnemyAgent.enabled = true;
+            rb.isKinematic = true;
+        }
+       
+        if (grounded && wasGrounded && !isGrabbed && !isPushed)
+        {
+            // Debug.Log("Enemy just landed!");
            rb.isKinematic = true;
             m_EnemyAgent.enabled = true;
         }
@@ -72,5 +89,19 @@ public class Enemy : MonoBehaviour
         Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+
+            gameManager.enemySharedHealth -= gameManager.enemyHealthdamage;
+            gameManager.enemyHealthSlider.value -= gameManager.enemyHealthdamage;
+            pushCooldown = 3;
+            isPushed = true;
+            m_EnemyAgent.enabled = false;
+            rb.isKinematic = false;
+        }
     }
 }
