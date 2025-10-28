@@ -11011,6 +11011,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InGameMenuManager
   _MainMenuScene: MainMenuTest
   _PauseMenuContainer: {fileID: 1896553927}
+  _WinMenuContainer: {fileID: 0}
+  _GameOverMenuContainer: {fileID: 0}
+  _LoadingScreenContainer: {fileID: 0}
+  _DefaultPauseButton: {fileID: 0}
+  _DefaultWinButton: {fileID: 0}
+  _DefaultGameOverButton: {fileID: 0}
+  canPause: 1
 --- !u!4 &158926019
 Transform:
   m_ObjectHideFlags: 0
@@ -32939,6 +32946,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3175017656930477539, guid: 803fc76a94a511f418c5b1cc250b4817, type: 3}
   m_PrefabInstance: {fileID: 1299309859}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &703984803 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3126293734828034420, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+  m_PrefabInstance: {fileID: 901535145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &709822155
 Mesh:
   m_ObjectHideFlags: 0
@@ -39443,7 +39455,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[0].LiftHeight
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: suplexConfigs.Array.data[1].LiftHeight
@@ -39594,9 +39606,17 @@ PrefabInstance:
       value: 0.21076977
       objectReference: {fileID: 0}
     - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: shockwaveCheck
+      value: 
+      objectReference: {fileID: 703984803}
+    - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: CinemachineCamera
       value: 
       objectReference: {fileID: 434773731}
+    - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: jumpAction.m_Name
+      value: Jump
+      objectReference: {fileID: 0}
     - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: thirdPersonCamera
       value: 
@@ -39605,6 +39625,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9196390524362103385, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: menuManager
+      value: 
+      objectReference: {fileID: 158926018}
+    - target: {fileID: 9196390524362103385, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: playerInput
+      value: 
+      objectReference: {fileID: 1354364149}
     - target: {fileID: 9196390524362103385, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: _DefaultPauseButton
       value: 
@@ -64191,6 +64219,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1426030033493243040, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
   m_PrefabInstance: {fileID: 901535145}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1354364149 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7924019524143126933, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+  m_PrefabInstance: {fileID: 901535145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767294862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
 --- !u!1001 &1354419485
 PrefabInstance:
   m_ObjectHideFlags: 0
