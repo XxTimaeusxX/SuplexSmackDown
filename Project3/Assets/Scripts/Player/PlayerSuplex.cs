@@ -36,6 +36,8 @@ public class PlayerSuplex : MonoBehaviour
     public Transform heldEnemy;      // Where the grabbed enemy is held
     public PlayerInput playerInput;  // Reference to the player's input system
     public LineRenderer trajectoryRenderer; // Visualize the suplex arc
+    public GameObject shockwave;
+    public Transform player;
 
     [Header("Suplex Configurations")]
     public List<SuplexConfig> suplexConfigs; // List of all possible suplex types
@@ -343,7 +345,11 @@ public class PlayerSuplex : MonoBehaviour
             
             // End the suplex when the player lands (after a minimum airtime)
             if (t > minAirTime && IsGrounded())
+            {
+                Instantiate(shockwave, player.position, player.rotation, player);
                 break;
+            }
+                
 
             yield return null;
         }
