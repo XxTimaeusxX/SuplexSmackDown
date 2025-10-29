@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
@@ -10,11 +11,16 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
+	
 	[SerializeField] GameObject _LoadingScreenContainer;
+	[SerializeField] Image _LoadingBar;
+	
 	
 	[SerializeField] GameObject _DefaultPauseButton;
 	[SerializeField] GameObject _DefaultWinButton;
 	[SerializeField] GameObject _DefaultGameOverButton;
+	
+	
 	
     bool isPaused = false;
 	public bool canPause = true;
@@ -22,7 +28,7 @@ public class InGameMenuManager : MonoBehaviour
 	
 	void Start()
 	{
-		//LoadingScreen(1); //testing loading screen
+		//LoadingScreen(1); //TESTING ONLY - this loads scene index 1
 	}
 	
 	//lock/hide cursor, unpause, and hide pause menu
@@ -119,6 +125,7 @@ public class InGameMenuManager : MonoBehaviour
 	public void LoadingScreen(int newSceneId)
 	{
 		sceneId = newSceneId;
+		_LoadingBar.fillAmount = 0;
 		_LoadingScreenContainer.SetActive(true);
 		StartCoroutine("Load");
 	}
@@ -126,6 +133,12 @@ public class InGameMenuManager : MonoBehaviour
 	IEnumerator Load()
 	{
 		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
-		yield return null;
+		
+		while (!operation.isDone)
+		{
+			float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
+			_LoadingBar.fillAmount = progressValue;
+			yield return null;
+		}
 	}
 }
