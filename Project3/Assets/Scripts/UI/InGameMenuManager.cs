@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
@@ -12,24 +10,14 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
 	
-	[SerializeField] GameObject _LoadingScreenContainer;
-	[SerializeField] Image _LoadingBar;
-	
-	
 	[SerializeField] GameObject _DefaultPauseButton;
 	[SerializeField] GameObject _DefaultWinButton;
 	[SerializeField] GameObject _DefaultGameOverButton;
 	
-	
-	
+	[SerializeField] GameObject _HealthUI;
+
     bool isPaused = false;
 	public bool canPause = true;
-	int sceneId = 0;
-	
-	void Start()
-	{
-		//LoadingScreen(1); //TESTING ONLY - this loads scene index 1
-	}
 	
 	//lock/hide cursor, unpause, and hide pause menu
 	public void ResumeButtonClicked()
@@ -41,7 +29,6 @@ public class InGameMenuManager : MonoBehaviour
 		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
-		if(_LoadingScreenContainer) _LoadingScreenContainer.SetActive(false);
 	}
 	
 	//lock/hide cursor, unpause, and restart level
@@ -121,24 +108,13 @@ public class InGameMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
 	}
 	
-	
-	public void LoadingScreen(int newSceneId)
+	//hides all UI - used in loading screen
+	public void HideAllUI()
 	{
-		sceneId = newSceneId;
-		_LoadingBar.fillAmount = 0;
-		_LoadingScreenContainer.SetActive(true);
-		StartCoroutine("Load");
+		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
+		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
+		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
+		if(_HealthUI) _HealthUI.SetActive(false);
 	}
 	
-	IEnumerator Load()
-	{
-		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
-		
-		while (!operation.isDone)
-		{
-			float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
-			_LoadingBar.fillAmount = progressValue;
-			yield return null;
-		}
-	}
 }

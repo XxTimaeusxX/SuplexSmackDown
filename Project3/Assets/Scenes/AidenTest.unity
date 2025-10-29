@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 108950284}
   - component: {fileID: 108950283}
+  - component: {fileID: 108950285}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -152,11 +153,10 @@ MonoBehaviour:
   _PauseMenuContainer: {fileID: 656107612}
   _WinMenuContainer: {fileID: 5233255996218562666}
   _GameOverMenuContainer: {fileID: 349194457}
-  _LoadingScreenContainer: {fileID: 3056899691941864448}
-  _LoadingBar: {fileID: 2354589478094440872}
   _DefaultPauseButton: {fileID: 1004840296}
   _DefaultWinButton: {fileID: 1604902371538205688}
   _DefaultGameOverButton: {fileID: 1906838464}
+  _HealthUI: {fileID: 937431907}
   canPause: 1
 --- !u!4 &108950284
 Transform:
@@ -173,6 +173,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &108950285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108950282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7643b6cecd4a1f84ca38be3a7b9e1418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  _LoadingScreenContainer: {fileID: 3056899691941864448}
+  _LoadingBar: {fileID: 2354589478094440872}
+  _inGameMenuManager: {fileID: 108950283}
 --- !u!1 &136904228
 GameObject:
   m_ObjectHideFlags: 0
