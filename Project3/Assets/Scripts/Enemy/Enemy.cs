@@ -21,7 +21,6 @@ public class Enemy : MonoBehaviour
     GameManager gameManager;
     void Start()
     {
-        gameManager = FindAnyObjectByType<GameManager>();
         m_EnemyAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
     }
@@ -105,9 +104,6 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-
-            gameManager.enemySharedHealth -= gameManager.enemyHealthdamage;
-            gameManager.enemyHealthSlider.value -= gameManager.enemyHealthdamage;
             pushCooldown = 3;
             isPushed = true;
             m_EnemyAgent.enabled = false;

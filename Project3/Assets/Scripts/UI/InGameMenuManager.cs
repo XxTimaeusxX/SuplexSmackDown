@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
@@ -10,20 +9,15 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
-	[SerializeField] GameObject _LoadingScreenContainer;
 	
 	[SerializeField] GameObject _DefaultPauseButton;
 	[SerializeField] GameObject _DefaultWinButton;
 	[SerializeField] GameObject _DefaultGameOverButton;
 	
+	[SerializeField] GameObject _HealthUI;
+
     bool isPaused = false;
 	public bool canPause = true;
-	int sceneId = 0;
-	
-	void Start()
-	{
-		//LoadingScreen(1); //testing loading screen
-	}
 	
 	//lock/hide cursor, unpause, and hide pause menu
 	public void ResumeButtonClicked()
@@ -35,7 +29,6 @@ public class InGameMenuManager : MonoBehaviour
 		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
-		if(_LoadingScreenContainer) _LoadingScreenContainer.SetActive(false);
 	}
 	
 	//lock/hide cursor, unpause, and restart level
@@ -115,17 +108,13 @@ public class InGameMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
 	}
 	
-	
-	public void LoadingScreen(int newSceneId)
+	//hides all UI - used in loading screen
+	public void HideAllUI()
 	{
-		sceneId = newSceneId;
-		_LoadingScreenContainer.SetActive(true);
-		StartCoroutine("Load");
+		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
+		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
+		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
+		if(_HealthUI) _HealthUI.SetActive(false);
 	}
 	
-	IEnumerator Load()
-	{
-		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneId);
-		yield return null;
-	}
 }
