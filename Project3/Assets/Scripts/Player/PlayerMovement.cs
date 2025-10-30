@@ -111,7 +111,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void ForceJump()
     {
-        velocity.y = Mathf.Sqrt(jumpHeight*15f * -2f * gravity);
+        velocity.y = Mathf.Sqrt(jumpHeight*5f * -2f * gravity);
         isGrounded = false;
         // Debug.Log("jumping off enemy");
     }

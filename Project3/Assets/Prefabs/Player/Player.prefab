@@ -176,8 +176,19 @@ MonoBehaviour:
   controller: {fileID: 4508759081919750511}
   thirdPersonCamera: {fileID: 0}
   groundCheck: {fileID: 1691569477160750934}
+  shockwaveCheck: {fileID: 0}
   playerInput: {fileID: 0}
+  jumpAction:
+    m_Name: Jump
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ab4efb73-5382-4688-9002-560a0b485b72
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   velocity: {x: 0, y: 0, z: 0}
+  velocityCap: -20
   groundMask:
     serializedVersion: 2
     m_Bits: 64
@@ -271,6 +282,10 @@ MonoBehaviour:
   suplexhitbox: {fileID: 6858947594094190366}
   dashSpeed: 10
   dashDuration: 0.5
+  isDashing: 0
+  targetDashCoolDown: 5
+  dashCoolDown: 0
+  airDashCount: 0
 --- !u!114 &9156343662285388065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +314,19 @@ MonoBehaviour:
     LiftHeight: 200
     FowardDistance: 0.5
     LaunchSpeed: 20
+  GravityControl:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  CameraOffsetCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  grabbedEnemy: {fileID: 0}
   isSuplexing: 0
 --- !u!1 &6858947594094190366
 GameObject:

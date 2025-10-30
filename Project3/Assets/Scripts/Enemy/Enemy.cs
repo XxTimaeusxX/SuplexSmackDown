@@ -90,7 +90,17 @@ public class Enemy : MonoBehaviour
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
     }
+    /// <summary>
+    /// Gizmo to visualize the ground check sphere in the editor
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 center = groundCheck != null ? groundCheck.position : transform.position;
+        float radius = Mathf.Max(groundDistance, 0f);
 
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(center, radius);
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Shockwave"))

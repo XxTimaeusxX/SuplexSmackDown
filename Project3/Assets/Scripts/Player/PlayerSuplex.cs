@@ -42,6 +42,13 @@ public class PlayerSuplex : MonoBehaviour
     public AnimationCurve GravityControl; // line graph to control gravity during suplex
     public AnimationCurve CameraOffsetCurve; // line graph to control camera offset during suplex
 
+    // homing setting
+    [Header("Homing Attack")]
+    [SerializeField] private float homingSearchRadius = 12f;
+    private bool canHomeChain = false;
+    private Transform lastReleasedEnemy = null;
+    private InputAction homingAction;
+
     // Internal references to other player scripts/components
     private PlayerMovement playerMovement;
     private PlayerDash playerDash;
@@ -72,14 +79,46 @@ public class PlayerSuplex : MonoBehaviour
         SuperSuplexAction = playerInput.actions.FindAction("SuperSuplex");
         RainbowSuplexAction = playerInput.actions.FindAction("RainbowSuplex");
         LongJumpSuplexAction = playerInput.actions.FindAction("LongjumpSuplex");
+        homingAction = playerInput.actions.FindAction("Homing");
     }
-    
+
+    private void Update()
+    {
+        // Disarm when grounded
+        if (IsGrounded())
+        {
+            canHomeChain = false;
+            lastReleasedEnemy = null;
+            return;
+        }
+
+        // Only Homing action triggers lock-on; no reuse of Dash here
+        if (canHomeChain && !isSuplexing && playerDash != null && !playerDash.isDashing)
+        {
+            bool homingPressed = (homingAction != null && homingAction.WasPressedThisFrame());
+
+            if (homingPressed)
+            {
+                Transform target = FindNearestEnemy(transform.position, homingSearchRadius, lastReleasedEnemy);
+                if (target != null)
+                {
+                    if (playerDash.TryDashTowards(target)) // steer to live enemy position (vertical included)
+                    {
+                        canHomeChain = false; // consume the window
+                    }
+                }
+            }
+        }
+    }
     /// <summary>
     /// Starts the suplex process by grabbing the enemy.
     /// </summary>
     public void StartSuplex(Collider enemy)
     {
         if (isSuplexing) return; // Prevent double suplexing
+                                 
+        if (playerDash != null && playerDash.isDashing) // Ensure dash movement stops before we grab and start the next suplex
+        playerDash.CancelDash();
         isSuplexing = true;
         HoldEnemy(enemy);
     }
@@ -109,6 +148,10 @@ public class PlayerSuplex : MonoBehaviour
         {
             enemyScript.SetGrabbed(true); // Disable ground detection
         }
+        // starting a new suplex breaks any homing window
+        canHomeChain = false;
+        lastReleasedEnemy = null;
+
         // Wait for player to choose which suplex to perform
         StartCoroutine(WaitForSuplexInput());
     }
@@ -134,7 +177,8 @@ public class PlayerSuplex : MonoBehaviour
                 if (slam && config != null)
                 {
                     // Launch the enemy downward if slamming
-                    rb.linearVelocity = Vector3.down * (config.LaunchSpeed * 0.5f);
+                   // rb.linearVelocity = Vector3.down * (rb.mass * 0.5f );
+                   rb.AddForce(Vector3.down * 5f, ForceMode.VelocityChange);            
                 } 
             }
                 grabbedEnemy = null;
@@ -146,66 +190,60 @@ public class PlayerSuplex : MonoBehaviour
     /// </summary>
     public IEnumerator WaitForSuplexInput()
     {
-       currentSuplex = SuplexAbilities.None;
+        currentSuplex = SuplexAbilities.None;
 
-    // Map each suplex type to its input action
-    var suplexInputs = new (SuplexAbilities ability, InputAction action)[]
-    {
-        (SuplexAbilities.Super, SuperSuplexAction),
-        (SuplexAbilities.Rainbow, RainbowSuplexAction),
-        (SuplexAbilities.Long, LongJumpSuplexAction)
-    };
-
-    SuplexAbilities previewing = SuplexAbilities.None;
-    // Get reference to camera orbital follow and store default offset
-    var orbital = playerMovement.CinemachineCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineOrbitalFollow;
-    Vector3 DefaultCameraOffset = orbital.TargetOffset;
-    bool offsetApplied = false;
-
-    while (currentSuplex == SuplexAbilities.None)
-    {
-        bool anyHeld = false;
-        foreach (var (ability, action) in suplexInputs)
-    {
-        if (action != null)
+        var suplexInputs = new (SuplexAbilities ability, InputAction action)[]
         {
-            if (action.IsPressed())
+            (SuplexAbilities.Super, SuperSuplexAction),
+            (SuplexAbilities.Rainbow, RainbowSuplexAction),
+            (SuplexAbilities.Long, LongJumpSuplexAction)
+        };
+        // camera features for the future use
+        //var orbital = playerMovement.CinemachineCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineOrbitalFollow;
+        // Vector3 DefaultCameraOffset = orbital.TargetOffset;
+
+        // Track which ability is currently being previewed/held
+        SuplexAbilities previewing = SuplexAbilities.None;
+
+        while (currentSuplex == SuplexAbilities.None)
+        {
+            bool anyHeldThisFrame = false;
+
+            foreach (var (ability, action) in suplexInputs)
             {
-                ShowTrajectory(suplexConfigs.Find(cfg => cfg.ability == ability));
-                previewing = ability;
-                anyHeld = true;
-            }
-            // Check for release regardless of IsPressed
-            if (previewing == ability && action.WasReleasedThisFrame())
-            {
-                currentSuplex = ability;
-                break;
-            }
-        }
-    }
-        if (anyHeld)
-        {
-            if (!offsetApplied)
-            {  
-                offsetApplied = true;
-            }
-        }
-        if (!anyHeld)
-        {
-            trajectoryRenderer.positionCount = 0;
-            previewing = SuplexAbilities.None;
-                if (offsetApplied)
+                if (action == null) continue;
+
+                // While held: show that ability's trajectory and mark it as previewing
+                if (action.IsPressed())
                 {
-                    orbital.TargetOffset = DefaultCameraOffset;
-                    offsetApplied = false;
+                    var cfg = suplexConfigs.Find(cfg => cfg.ability == ability);
+                    if (cfg != null)
+                        ShowTrajectory(cfg);
+
+                    previewing = ability;
+                    anyHeldThisFrame = true;
+                }
+
+                // On release of the currently previewed ability: commit selection
+                if (previewing == ability && action.WasReleasedThisFrame())
+                {
+                    currentSuplex = ability;
+                    break;
                 }
             }
 
-        yield return null;
-    }
+            // If nothing is held this frame, clear preview visuals
+            if (!anyHeldThisFrame)
+            {
+                previewing = SuplexAbilities.None;
+                trajectoryRenderer.positionCount = 0;
+            }
 
+            yield return null;
+        }
+
+        // Clear preview and perform the chosen suplex
         trajectoryRenderer.positionCount = 0;
-        orbital.TargetOffset = DefaultCameraOffset; // reset camera offset after suplex selection
         PerformSuplex(currentSuplex);
     }
 
@@ -231,31 +269,6 @@ public class PlayerSuplex : MonoBehaviour
     IEnumerator SuplexRoutine(SuplexConfig config)
     {
         // --- Calculate launch velocity for the suplex arc ---
-
-        /*  // Get the absolute value of gravity (usually 9.81)
-          float gravity = Mathf.Abs(Physics.gravity.y);
-
-          // How high the player/enemy will be lifted
-          float height = config.LiftHeight;
-
-          // How far forward the suplex will travel
-          float distance = config.FowardDistance;
-
-          // Calculate the vertical velocity needed to reach the desired height
-          float vy = Mathf.Sqrt(2 * gravity * height);
-
-          // Calculate the time to travel the forward distance at the given speed
-          float totalTime = distance / Mathf.Max(config.LaunchSpeed, 0.2f);
-
-          // Calculate the horizontal velocity needed to cover the distance in the given time
-          float vx = distance / totalTime;
-
-          // Combine forward and upward velocities for the launch
-          Vector3 Launchvelocity = transform.forward * vx + Vector3.up * vy;
-
-          // Set the player's velocity to launch them
-          playerMovement.velocity = Launchvelocity;*/
-
         float gravity = Mathf.Abs(playerMovement.gravity);
         float height = config.LiftHeight;
         float distance = config.FowardDistance;
@@ -285,8 +298,8 @@ public class PlayerSuplex : MonoBehaviour
         float originalGravity = playerMovement.gravity;
         float minGravity = originalGravity * 0.2f; // Start with low gravity
         float maxGravity = originalGravity;         // End with normal gravity
-        float gravityIncreaseDuration = 3f;       // Time to reach max gravity (tweak as needed)
-        float gravityLerpTime = 0f;
+        float gravityIncreaseDuration = 2f;       // Time to reach max gravity (tweak as needed)
+        float gravityLerpTime = 1f;
 
         // camera settings
         Vector3 targetOffset = new Vector3(0f, 13f, 0f); // target offset for cinematic effect during suplex
@@ -302,7 +315,16 @@ public class PlayerSuplex : MonoBehaviour
         while (true)
         {
             t += Time.deltaTime;
-            // if player is falling down
+            // Cancel suplex if we hit the ceiling or any object above, this frame
+            if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0)
+            {
+                // Stop upward motion and gently start descending
+                playerMovement.velocity.x = 0f;
+                playerMovement.velocity.z = 0f;
+                playerMovement.velocity.y = -1f;
+                break;
+            }
+            // if player is falling down with the super suplex performed
             if (playerMovement.velocity.y < 0)
             {
                 if(currentSuplex == SuplexAbilities.Super)
@@ -331,13 +353,19 @@ public class PlayerSuplex : MonoBehaviour
             // Allow player to jump off during the arc
             if (!jumpedOff && jumpAction != null && jumpAction.WasPressedThisFrame())
             {
+                Transform justReleased = grabbedEnemy;
                 playerMovement.ForceJump();
                 jumpedOff = true;
-                ReleaseEnemy(true, config); // apply downward force and enable enemy ground detection
-                Debug.Log("Player jumped off enemy!");
-                // Stop all horizontal movement and snap to ground or else player bounces like a ball and slide forever
+                ReleaseEnemy(true, config); // apply downward force and enable enemy ground detection 
+
+                // Arm homing window until grounded or next suplex
+                canHomeChain = true;
+                lastReleasedEnemy = justReleased;
+
+               
+                // if dash didn't start, zero horizontal so we don't slide forever
                 playerMovement.velocity.x = 0f;
-                playerMovement.velocity.z = 0f;
+                playerMovement.velocity.z = 0f;   
                 break;
             }
             
@@ -372,6 +400,35 @@ public class PlayerSuplex : MonoBehaviour
         return controller != null && controller.isGrounded;
     }
 
+    //find nearest enemy within radius, ignoring a specific enemy (e.g., the just released one)
+    private Transform FindNearestEnemy(Vector3 origin, float radius, Transform ignore = null)
+    {
+        Collider[] hits = Physics.OverlapSphere(origin, radius, ~0, QueryTriggerInteraction.Collide);
+
+        Transform best = null;
+        float bestSqr = float.MaxValue;
+
+        for (int i = 0; i < hits.Length; i++)
+        {
+            var col = hits[i];
+
+            if (ignore != null && (col.transform == ignore || col.transform.IsChildOf(ignore)))
+                continue;
+
+            var enemy = col.GetComponentInParent<Enemy>();
+            if (enemy == null || !enemy.gameObject.activeInHierarchy)
+                continue;
+
+            float sqr = (enemy.transform.position - origin).sqrMagnitude;
+            if (sqr < bestSqr)
+            {
+                bestSqr = sqr;
+                best = enemy.transform;
+            }
+        }
+
+        return best;
+    }
     /// <summary>
     /// Displays the predicted trajectory of the suplex using a LineRenderer.
     /// just copy and pasted logic from suplex routine into here for visualization
@@ -379,62 +436,70 @@ public class PlayerSuplex : MonoBehaviour
     /// <param name="config"></param>
     void ShowTrajectory(SuplexConfig config)
     {
-        int steps = 60;
-        Vector3[] points = new Vector3[steps + 1];
-        Vector3 startPos = heldEnemy.position;
-        float gravity = Mathf.Abs(playerMovement.gravity); // Use the same gravity as the player
+         int steps = 60;
+         Vector3[] points = new Vector3[steps + 1];
+         Vector3 startPos = heldEnemy.position;
+         float gravity = Mathf.Abs(playerMovement.gravity); // Use the same gravity as the player
 
-        float height = config.LiftHeight;
-        float distance = config.FowardDistance;
-        float minTimeToPeak = Mathf.Sqrt(2f * height / gravity);
-        float minTotalTime = minTimeToPeak * 2f;
-        float totalTime = Mathf.Max(config.LaunchSpeed, minTotalTime);
-        float timeToPeak = totalTime / 2f;
-        float vy = (2f * height) / timeToPeak;
-        float vx = distance / totalTime;
+         float height = config.LiftHeight;
+         float distance = config.FowardDistance;
+         float minTimeToPeak = Mathf.Sqrt(2f * height / gravity);
+         float minTotalTime = minTimeToPeak * 2f;
+         float totalTime = Mathf.Max(config.LaunchSpeed, minTotalTime);
+         float timeToPeak = totalTime / 2f;
+         float vy = (2f * height) / timeToPeak;
+         float vx = distance / totalTime;
 
-        Vector3 forward = heldEnemy.forward.normalized;
-        Vector3 launchVelocity = forward * vx + Vector3.up * vy;
+         Vector3 forward = heldEnemy.forward.normalized;
+         Vector3 launchVelocity = forward * vx + Vector3.up * vy;
 
-        Vector3 pos = startPos;
-        Vector3 velocity = launchVelocity;
-        float dt = totalTime / steps;
-        int lastPoint = 0;
+         Vector3 pos = startPos;
+         Vector3 velocity = launchVelocity;
+         float dt = totalTime / steps;
+         int lastPoint = 0;
+        trajectoryRenderer.alignment = LineAlignment.View;
+        
+        // Disable enemy colliders to prevent interference with trajectory calculation
 
         Collider[] enemyColliders = heldEnemy.GetComponentsInChildren<Collider>();
-        foreach (var col in enemyColliders)
-            col.enabled = false;
+         foreach (var col in enemyColliders)
+             col.enabled = false;
 
-        points[0] = pos;
-        for (int i = 1; i <= steps; i++)
-        {
-            // Apply gravity using the same value as the player
-            velocity += Vector3.down * gravity * dt;
-            Vector3 nextPos = pos + velocity * dt;
+         points[0] = pos;
+         for (int i = 1; i <= steps; i++)
+         {
+             // Apply gravity using the same value as the player
+             velocity += Vector3.down * gravity * dt;
+             Vector3 nextPos = pos + velocity * dt;
 
-            if (Physics.Linecast(pos, nextPos, out RaycastHit hit))
-            {
-                points[i] = hit.point;
-                lastPoint = i;
-                break;
-            }
+             // Ignore triggers to reduce false hits
+             if (Physics.Linecast(pos, nextPos, out RaycastHit hit, ~0, QueryTriggerInteraction.Ignore))
+             {
+                 points[i] = hit.point;
+                 lastPoint = i;
+                 break;
+             }
 
-            if (nextPos.y <= startPos.y)
-            {
-                nextPos.y = startPos.y;
-                points[i] = nextPos;
-                lastPoint = i;
-                break;
-            }
+             if (nextPos.y <= startPos.y)
+             {
+                 nextPos.y = startPos.y;
+                 points[i] = nextPos;
+                 lastPoint = i;
+                 break;
+             }
 
-            points[i] = nextPos;
-            pos = nextPos;
-            lastPoint = i;
-        }
+             points[i] = nextPos;
+             pos = nextPos;
+             lastPoint = i;
+         }
 
-        foreach (var col in enemyColliders)
-        col.enabled = true;
-        trajectoryRenderer.positionCount = lastPoint+ 1;
-        trajectoryRenderer.SetPositions(points);
+         foreach (var col in enemyColliders)
+         col.enabled = true;
+
+          trajectoryRenderer.positionCount = lastPoint+ 1;
+          for (int i = 0; i <= lastPoint; i++)
+              trajectoryRenderer.SetPosition(i, points[i]);
+
+      
     }
 }

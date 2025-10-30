@@ -26,6 +26,12 @@ public class PlayerDash : MonoBehaviour
 
     public int airDashCount = 0;           // Number of dashes a player can perform in air
 
+    [Header("Homing Dash Settings")]
+    public bool homingDashActive = false; //  identify dashes started by homing attack (to only auto-grab then)
+    public float homingSpeedMultiplier = 10f;
+    public bool enableHitboxOnNormalDash = false;
+    private Transform _homingTarget;
+
     /// <summary>
     /// Called when the script starts. Sets up input and disables the hitbox.
     /// </summary>
@@ -70,27 +76,79 @@ public class PlayerDash : MonoBehaviour
 
             dashDirection = transform.forward; // Dash in the direction the player is facing
             isDashing = true;
+            homingDashActive = false; // input dash by default is not a homing dash
             dashTime = dashDuration;
-            suplexhitbox.SetActive(true);      // Enable hitbox for the dash
+            if (suplexhitbox != null)
+                suplexhitbox.SetActive(true);    // Enable hitbox for the dash
             // Debug.Log("Dash initiated!");
         }
-
+       
         // If currently dashing, move the player and count down the dash timer
-        if (isDashing)
-        {
-            if (dashTime > 0)
+         if (isDashing)
+         {
+            // Re-aim while homing
+            if (homingDashActive && _homingTarget != null)
             {
-                // Move the player in the dash direction at dashSpeed
-                controller.Move(dashDirection * dashSpeed * Time.deltaTime);
-                dashTime -= Time.deltaTime;
+                Vector3 toTarget = _homingTarget.position - transform.position; // include vertical
+                if (toTarget.sqrMagnitude > 0.0001f)
+                {
+                    dashDirection = toTarget.normalized;
+
+                    Vector3 face = new Vector3(dashDirection.x, dashDirection.y, dashDirection.z);
+                    if (face.sqrMagnitude > 0.000001f)
+                        transform.forward = face.normalized;
+                }
             }
-            else
+
+            float speed = homingDashActive ? dashSpeed * homingSpeedMultiplier : dashSpeed;
+
+            // single Move per frame
+            controller.Move(dashDirection * speed * Time.deltaTime);
+
+            dashTime -= Time.deltaTime;
+            if (dashTime <= 0f)
             {
-                // Dash finished: reset state and disable hitbox
                 isDashing = false;
-                suplexhitbox.SetActive(false);
-                // Debug.Log("Dash ended!");
+                homingDashActive = false;
+                if (suplexhitbox != null) suplexhitbox.SetActive(false);
             }
         }
+    }
+
+
+    // Simple homing entry: steer toward the current enemy position each frame
+    public bool TryDashTowards(Transform target)
+    {
+        if (isDashing || target == null) return false;
+
+        _homingTarget = target;                 // steer to live position
+        Vector3 toTarget = target.position - transform.position;
+        if (toTarget.sqrMagnitude < 0.0001f) return false;
+
+        dashDirection = toTarget.normalized;    // initial heading
+        // face target (optional)
+        Vector3 face = new Vector3(dashDirection.x, dashDirection.y, dashDirection.z);
+        if (face.sqrMagnitude > 0.0001f) transform.forward = face;
+
+        isDashing = true;
+        homingDashActive = true;
+        // Ensure enough time to reach target at homing speed
+        float speed = Mathf.Max(dashSpeed * homingSpeedMultiplier, 0.05f);
+        float dist = toTarget.magnitude;
+        dashTime = Mathf.Max(dashDuration, (dist / speed) + 0.1f); // small buffer
+
+        if (suplexhitbox != null) suplexhitbox.SetActive(true);
+        return true;
+    }
+
+    // NEW: cancel the current dash (used when auto-grabbing on hit)
+    public void CancelDash()
+    {
+        Debug.Log("Dash cancelled.");
+        if (!isDashing) return;
+        isDashing = false;
+        homingDashActive = false;
+        dashTime = 0f;
+        suplexhitbox.SetActive(false);
     }
 }
