@@ -776,11 +776,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &818227353 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
-  m_PrefabInstance: {fileID: 1667815902}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &937431907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,6 +1080,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1692780881473242377, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: menuManager
+      value: 
+      objectReference: {fileID: 108950283}
+    - target: {fileID: 1692780881473242377, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: _DefaultPauseButton
+      value: 
+      objectReference: {fileID: 1004840296}
+    - target: {fileID: 1692780881473242377, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: _PauseMenuContainer
+      value: 
+      objectReference: {fileID: 656107612}
+    - target: {fileID: 6715931116779892774, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: healthImg
+      value: 
+      objectReference: {fileID: 937431909}
+    - target: {fileID: 6715931116779892774, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: menuManager
+      value: 
+      objectReference: {fileID: 108950283}
+    - target: {fileID: 6979809386949443676, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: currentCheckpoint
+      value: 
+      objectReference: {fileID: 963099198}
     - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: thirdPersonCamera
       value: 
@@ -1096,16 +1115,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1835773060}
-    - targetCorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1835773066}
-    - targetCorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1835773072}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
 --- !u!1 &1753358089
 GameObject:
@@ -1191,56 +1201,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1426030033493243040, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
   m_PrefabInstance: {fileID: 1667815902}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1835773060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818227353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4a7fe68e505c3c45a0c75e7c4ab3487, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerPause
-  playerInput: {fileID: 0}
-  menuManager: {fileID: 108950283}
-  _PauseMenuContainer: {fileID: 656107612}
-  _DefaultPauseButton: {fileID: 1004840296}
---- !u!114 &1835773066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818227353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f52984a88144854491c5e3f06cc76e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  killY: -15
-  currentCheckpoint: {fileID: 963099198}
---- !u!114 &1835773072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 818227353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7497962857289ad42a1a86ea51eae329, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  maxHealth: 3
-  healthSprites:
-  - {fileID: 2800000, guid: 0998c10ed2a54ca4b90c4022abf04e53, type: 3}
-  - {fileID: 2800000, guid: 1c21ae9118bbbf448803d86ffc7cbbdb, type: 3}
-  - {fileID: 2800000, guid: 00c8e1d304a42d44aa8310c73b6139f4, type: 3}
-  - {fileID: 2800000, guid: f8e1008792c4c774b9c2710e87a23db3, type: 3}
-  healthImg: {fileID: 937431909}
-  menuManager: {fileID: 108950283}
 --- !u!1 &1906838464 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1258106093262377304, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
