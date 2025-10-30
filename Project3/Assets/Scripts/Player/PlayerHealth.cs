@@ -4,14 +4,17 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
 	public int maxHealth;
-	int currentHealth;
+	public int currentHealth;
 	public Texture2D[] healthSprites;
 	public RawImage healthImg;
 	[SerializeField] InGameMenuManager menuManager;
 	
     void Start()
     {
-		UpdateHealth(maxHealth);
+        // Start the player with 1 HP (but never exceed maxHealth)
+        int startHP = Mathf.Clamp(1, 0, maxHealth);
+        UpdateHealth(startHP);
+       // UpdateHealth(maxHealth);
     }
 
     public void TakeDamage()
