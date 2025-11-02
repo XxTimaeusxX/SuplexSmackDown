@@ -25,6 +25,7 @@ public class InGameMenuManager : MonoBehaviour
     bool isPaused = false;
 	public bool canPause = true;
 	
+	[SerializeField] Animator pause_anim;
 	
 	//lock/hide cursor, unpause, and hide pause menu
 	public void ResumeButtonClicked()
@@ -55,7 +56,6 @@ public class InGameMenuManager : MonoBehaviour
 	public void QuitButtonClicked()
 	{
 		isPaused = false;
-		Debug.Log("quit!");
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(_MainMenuScene);
 	}
@@ -64,8 +64,6 @@ public class InGameMenuManager : MonoBehaviour
 	public void Pause()
 	{
 		if(canPause){
-			Debug.Log("canPause: " + canPause);
-			Debug.Log("isPaused: " + isPaused);
 			//unpausing: lock and hide cursor, set timeScale to 1, hide pause menu
 			if (isPaused){
 				Cursor.lockState = CursorLockMode.Locked;
@@ -73,6 +71,7 @@ public class InGameMenuManager : MonoBehaviour
 				Time.timeScale = 1.0f;
 				_PauseMenuContainer.SetActive(false);
 				isPaused = false;
+				pause_anim.SetBool("isPaused", false);
 			}
 			//pausing: show cursor, set timeScale to 0, show pause menu
 			else{
@@ -81,31 +80,22 @@ public class InGameMenuManager : MonoBehaviour
 				Time.timeScale = 0.0f;
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
-				_PauseMenuContainer.transform.localScale = pauseMaxScale;
-				pause_t = 0f;
-				StartCoroutine("PauseAnimation");
+				if (pause_anim != null){
+					pause_anim.SetTrigger("justPaused");
+					//pause_anim.Play("PauseMenuAnim");
+					Debug.Log("-- play anim --");
+				}
+				else 
+					Debug.Log("no anim!");
+				//_PauseMenuContainer.transform.localScale = pauseMaxScale;
+				//pause_t = 0f;
+				//StartCoroutine("PauseAnimation");
 
 				// Set default selected button for navigation
 				EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
 				
 			}
 		}
-	}
-	
-	IEnumerator PauseAnimation()
-	{
-		while (_PauseMenuContainer.transform.localScale.x > 1.0f){
-			//Debug.Log("do something?");
-			_PauseMenuContainer.transform.localScale = Vector3.Lerp(pauseMaxScale, Vector3.one, pause_t);
-			pause_t += 0.1f;
-			Debug.Log(pause_t);
-			yield return null;
-		}
-		if(_PauseMenuContainer.transform.localScale.x <= 1.0f){
-			_PauseMenuContainer.transform.localScale = Vector3.one;
-			StopCoroutine("PauseAnimation");
-		}
-		
 	}
 	
 	//show cursor, pause, and show game over menu

@@ -28,7 +28,6 @@ public class PlayerPause : MonoBehaviour
     {
         if (pauseAction != null && pauseAction.WasPressedThisFrame() && menuManager.canPause)
         {
-            Debug.Log("Pause button pressed!");
 			menuManager.Pause();
         }
     }
