@@ -9,14 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController controller;
     public Transform thirdPersonCamera;
     public Transform groundCheck;
-    public Transform shockwaveCheck;
     public PlayerInput playerInput;
     InputAction moveAction;
     public InputAction jumpAction;
     public Vector3 velocity;
     public float velocityCap = -20f;
     bool isGrounded;
-    bool shockwaveReady;
     public LayerMask groundMask;
     public float moveSpeed;
     public float gravity = -9.81f; // Set to Unity's default gravity and change Unity's gravity to -50f
@@ -53,7 +51,6 @@ public class PlayerMovement : MonoBehaviour
  
         controller.Move(velocity * Time.deltaTime);
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        shockwaveReady = Physics.CheckSphere(shockwaveCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
         {

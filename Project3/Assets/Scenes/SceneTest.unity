@@ -10903,6 +10903,7 @@ MonoBehaviour:
   _DefaultGameOverButton: {fileID: 1453589889}
   _HealthUI: {fileID: 904839012}
   canPause: 1
+  pause_anim: {fileID: 0}
 --- !u!4 &158926019
 Transform:
   m_ObjectHideFlags: 0
@@ -50852,6 +50853,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 294485087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1033919890 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2193065331547331450, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+  m_PrefabInstance: {fileID: 1549849383}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1036960949
 Mesh:
   m_ObjectHideFlags: 0
@@ -71376,11 +71382,11 @@ PrefabInstance:
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1033919890}
     - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: shockwave
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6776234784039089348, guid: 65cf949027a14fc43b56861f137c26e7, type: 3}
     - target: {fileID: 6715931116779892774, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: healthImg
       value: 
@@ -71389,10 +71395,6 @@ PrefabInstance:
       propertyPath: menuManager
       value: 
       objectReference: {fileID: 158926018}
-    - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
-      propertyPath: gravity
-      value: -40
-      objectReference: {fileID: 0}
     - target: {fileID: 7104243972708617109, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: CinemachineCamera
       value: 
@@ -71404,10 +71406,6 @@ PrefabInstance:
     - target: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_Name
       value: Player Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

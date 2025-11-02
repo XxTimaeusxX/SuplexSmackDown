@@ -107,15 +107,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.71451
+      value: 14.494
       objectReference: {fileID: 0}
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.041
+      value: 0.947
       objectReference: {fileID: 0}
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 18.37543
+      value: -36.19
       objectReference: {fileID: 0}
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalRotation.w
@@ -204,6 +204,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
   m_PrefabInstance: {fileID: 4331190623378540066}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &2193065331547331450 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2482661659246681432, guid: 6707ec71c18f8e745a55837add214815, type: 3}
+  m_PrefabInstance: {fileID: 4331190623378540066}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3126293734828034420 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1691569477160750934, guid: 6707ec71c18f8e745a55837add214815, type: 3}
@@ -264,8 +269,8 @@ MonoBehaviour:
   heldEnemy: {fileID: 8215942331683528483}
   playerInput: {fileID: 7924019524143126933}
   trajectoryRenderer: {fileID: 663187633352759490}
-  shockwave: {fileID: 0}
-  player: {fileID: 0}
+  shockwave: {fileID: 6776234784039089348, guid: 65cf949027a14fc43b56861f137c26e7, type: 3}
+  player: {fileID: 2193065331547331450}
   suplexConfigs:
   - ability: 1
     LiftHeight: 5
@@ -346,6 +351,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   homingSearchRadius: 10
+  bigEnemyLayerName: BigEnemy
+  bigEnemyGravityScale: 2
+  bigEnemyMoveSpeedScale: 1
   grabbedEnemy: {fileID: 0}
   isSuplexing: 0
 --- !u!120 &663187633352759490
@@ -499,6 +507,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   maxHealth: 3
+  currentHealth: 0
   healthSprites:
   - {fileID: 2800000, guid: 0998c10ed2a54ca4b90c4022abf04e53, type: 3}
   - {fileID: 2800000, guid: 1c21ae9118bbbf448803d86ffc7cbbdb, type: 3}
