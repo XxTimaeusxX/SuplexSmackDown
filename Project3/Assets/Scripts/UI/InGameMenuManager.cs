@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
@@ -16,8 +18,13 @@ public class InGameMenuManager : MonoBehaviour
 	
 	[SerializeField] GameObject _HealthUI;
 
+	//[SerializeField] GameObject _PausePoster;
+	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
+	float pause_t = 0;
+
     bool isPaused = false;
 	public bool canPause = true;
+	
 	
 	//lock/hide cursor, unpause, and hide pause menu
 	public void ResumeButtonClicked()
@@ -72,14 +79,33 @@ public class InGameMenuManager : MonoBehaviour
 				Cursor.lockState = CursorLockMode.Confined;
 				Cursor.visible = true;
 				Time.timeScale = 0.0f;
-				_PauseMenuContainer.SetActive(true);
 				isPaused = true;
+				_PauseMenuContainer.SetActive(true);
+				_PauseMenuContainer.transform.localScale = pauseMaxScale;
+				pause_t = 0f;
+				StartCoroutine("PauseAnimation");
 
 				// Set default selected button for navigation
 				EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
 				
 			}
 		}
+	}
+	
+	IEnumerator PauseAnimation()
+	{
+		while (_PauseMenuContainer.transform.localScale.x > 1.0f){
+			//Debug.Log("do something?");
+			_PauseMenuContainer.transform.localScale = Vector3.Lerp(pauseMaxScale, Vector3.one, pause_t);
+			pause_t += 0.1f;
+			Debug.Log(pause_t);
+			yield return null;
+		}
+		if(_PauseMenuContainer.transform.localScale.x <= 1.0f){
+			_PauseMenuContainer.transform.localScale = Vector3.one;
+			StopCoroutine("PauseAnimation");
+		}
+		
 	}
 	
 	//show cursor, pause, and show game over menu
