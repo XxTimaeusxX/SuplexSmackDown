@@ -38,7 +38,6 @@ public class Enemy : MonoBehaviour
     [Header("Hitbox")]
     [SerializeField] private Collider slapbox;          // child trigger collider with AttackHitBox
     [SerializeField] private float slapActiveTime = 0.1f;
-    [SerializeField] private float postReleaseAttackLockout = 0.6f;
 
     [Header("Animation")]
      private Animator animator;
