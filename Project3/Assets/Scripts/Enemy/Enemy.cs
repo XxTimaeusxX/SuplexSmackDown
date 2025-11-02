@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public GameObject Target;
@@ -17,6 +18,8 @@ public class Enemy : MonoBehaviour
     public bool isGrabbed;
     bool isPushed = false;
     public float pushCooldown;
+    [Header("UI")]
+    [SerializeField] private Slider chargeSlider;
 
     [Header("Patrol Settings")]
     public float chaseRange;
@@ -24,6 +27,23 @@ public class Enemy : MonoBehaviour
     public float patrolWaitTime;
     public float patrolRunSpeed;
     private float patrolWaitDefault;
+
+    [Header("Combat")]
+    [Tooltip("Distance at which this enemy will attempt a melee attack.")]
+    public float meleeRange = 1.75f;
+    [Tooltip("Seconds between melee attack attempts (prevents spam).")]
+    public float attackCooldown = 0.8f;
+    private float _nextAttackTime = 0f;
+
+    [Header("Hitbox")]
+    [SerializeField] private Collider slapbox;          // child trigger collider with AttackHitBox
+    [SerializeField] private float slapActiveTime = 0.1f;
+    [SerializeField] private float postReleaseAttackLockout = 0.6f;
+
+    [Header("Animation")]
+     private Animator animator;
+  
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -33,7 +53,16 @@ public class Enemy : MonoBehaviour
        
         m_EnemyAgent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
-       
+        if (chargeSlider != null)
+        {
+            chargeSlider.minValue = 0f;
+            chargeSlider.maxValue = attackCooldown;
+            chargeSlider.value = 0f;
+            chargeSlider.gameObject.SetActive(false);
+        }
+        if (animator == null) animator = GetComponent<Animator>();
+        slapbox.enabled = false;
+        
     }
 
     // Update is called once per frame
@@ -51,7 +80,10 @@ public class Enemy : MonoBehaviour
             m_EnemyAgent.enabled = true;
             rb.isKinematic = true;
         }
-       
+        if(!grounded)
+        {
+            ResetSlapState();
+        }
         if (grounded && wasGrounded && !isGrabbed && !isPushed)
         {
             // Debug.Log("Enemy just landed!");
@@ -64,6 +96,13 @@ public class Enemy : MonoBehaviour
             ChasePlayer();
 
         }
+    }
+    private void ResetSlapState()
+    {
+        _nextAttackTime = 0f;
+        slapbox.enabled = false;
+         StopCoroutine(SlapattackDuration());
+        ResetChargeUI();
     }
     public void  RandomPatrolDestination()
     {
@@ -95,6 +134,7 @@ public class Enemy : MonoBehaviour
     }
     public void ChasePlayer()
     {
+        if (Target == null) return;
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, m_EnemyAgent.stoppingDistance);
         if (m_EnemyAgent.isOnNavMesh)
@@ -102,24 +142,89 @@ public class Enemy : MonoBehaviour
             if (m_Distance <= chaseRange)
             {
                 patrolWaitDefault = 0f;
-                m_EnemyAgent.isStopped = false;
                 m_EnemyAgent.speed = patrolRunSpeed; // set chase speed
                 m_EnemyAgent.destination = Target.transform.position;
+
+                if (m_Distance < meleeRange)
+                {
+                    m_EnemyAgent.isStopped = true;
+                    SlapAttack();
+                }
+                else
+                {
+                    // Out of melee: resume chase and clear timer so next entry arms again
+                    if (m_EnemyAgent.isStopped) m_EnemyAgent.isStopped = false;
+                    m_EnemyAgent.destination = Target.transform.position;
+                    _nextAttackTime = 0f;
+                    ResetChargeUI();
+                }
             }
+            
+
             // Out of chase range -> patrol
             if (patrolWaitDefault > 0f)
             {
                 // Idle thinking
-                m_EnemyAgent.isStopped = true;
+               // m_EnemyAgent.isStopped = true;
                 patrolWaitDefault -= Time.deltaTime;
                 if (patrolWaitDefault <= 0f)
                 {
                     m_EnemyAgent.isStopped = false;
-                    RandomPatrolDestination();
+                  //  RandomPatrolDestination();
+
                 }
             }
             else  if(!m_EnemyAgent.hasPath || m_EnemyAgent.remainingDistance <= arrivalThreshold) RandomPatrolDestination();   
         }
+    }
+
+    public void SlapAttack()
+    {
+        // Charge up while in melee
+        if (_nextAttackTime < attackCooldown)
+        {
+            _nextAttackTime += Time.deltaTime;
+            UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
+            // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
+            return;
+        }
+
+        // Fully charged -> attack, then reset charge for the next swing
+        Debug.Log($"[{name}] Melee attack!");
+        animator.SetTrigger("EnemySlap");
+        _nextAttackTime = 0f; // restart charge
+        UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
+        StartCoroutine(SlapattackDuration());
+    }
+    private IEnumerator SlapattackDuration()
+    {
+        if (slapbox == null) yield break;
+        yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
+        slapbox.enabled = true;
+        yield return new WaitForSeconds(slapActiveTime);
+        slapbox.enabled = false;
+    }
+    // Add these helpers inside Enemy class
+    private void UpdateChargeUI(float current, float max, bool show)
+    {
+        if (chargeSlider == null) return;
+
+        if (!chargeSlider.gameObject.activeSelf && show)
+            chargeSlider.gameObject.SetActive(true);
+        else if (chargeSlider.gameObject.activeSelf && !show)
+            chargeSlider.gameObject.SetActive(false);
+
+        if (!Mathf.Approximately(chargeSlider.maxValue, max))
+            chargeSlider.maxValue = max;
+
+        chargeSlider.value = Mathf.Clamp(current, 0f, max);
+    }
+    private void ResetChargeUI()
+    {
+        if (chargeSlider == null) return;
+        chargeSlider.value = 0f;
+        if (chargeSlider.gameObject.activeSelf)
+            chargeSlider.gameObject.SetActive(false);
     }
     public void SetGrabbed(bool grabbed)
     {

@@ -6,8 +6,7 @@ public class PlayerCheckpoint : MonoBehaviour
 	public Transform currentCheckpoint; //init with starting position
 	private PlayerMovement playerMovement;
 	private PlayerHealth playerHealth;
-    
-	void Start()
+    void Start()
 	{
 		playerMovement = GetComponentInParent<PlayerMovement>();
 		playerHealth = GetComponentInParent<PlayerHealth>();

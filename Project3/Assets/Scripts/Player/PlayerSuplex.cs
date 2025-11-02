@@ -51,6 +51,15 @@ public class PlayerSuplex : MonoBehaviour
     private Transform lastReleasedEnemy = null;
     private InputAction homingAction;
 
+    [Header("Enemy heavyness")]
+    [SerializeField] private string bigEnemyLayerName = "BigEnemy";
+    [SerializeField] private float bigEnemyGravityScale = 2.0f; // -40 -> -80
+    [SerializeField] private float bigEnemyMoveSpeedScale = 1;
+    private float _savedMoveSpeed;
+    private float _defaultGravity;
+    private float currentGravityScale = 1f;
+    private float currentMoveSpeedScale = 1f;
+
     // Internal references to other player scripts/components
     private PlayerMovement playerMovement;
     private PlayerDash playerDash;
@@ -73,10 +82,13 @@ public class PlayerSuplex : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+       
         if (playerDash == null)
             playerDash = GetComponentInParent<PlayerDash>();
         playerMovement = GetComponentInParent<PlayerMovement>();
+        controller = GetComponentInParent<CharacterController>();
+        if (playerMovement != null) { _savedMoveSpeed = playerMovement.moveSpeed;
+                                      _defaultGravity = playerMovement.gravity;}// cache the default move speed and gravity
         jumpAction = playerInput.actions.FindAction("Jump");
         SuperSuplexAction = playerInput.actions.FindAction("SuperSuplex");
         RainbowSuplexAction = playerInput.actions.FindAction("RainbowSuplex");
@@ -134,22 +146,26 @@ public class PlayerSuplex : MonoBehaviour
         grabbedEnemy.SetParent(heldEnemy);
         grabbedEnemy.localPosition = Vector3.zero;
 
-        // Optionally disable enemy AI here
+        var root = enemy.GetComponentInParent<Enemy>()?.transform ?? enemy.transform;
+        int bigLayer = LayerMask.NameToLayer(bigEnemyLayerName);
+        currentGravityScale = (root.gameObject.layer == bigLayer) ? bigEnemyGravityScale : 1f;
+        currentMoveSpeedScale = (root.gameObject.layer == bigLayer) ? bigEnemyMoveSpeedScale : 1f;
+
+        if (root.gameObject.layer == bigLayer)
+        {
+            _savedMoveSpeed = playerMovement.moveSpeed;
+            playerMovement.moveSpeed = playerMovement.moveSpeed * currentMoveSpeedScale;// slow down player move speed for big enemy suplex
+           
+        }
         var agent = enemy.GetComponent<UnityEngine.AI.NavMeshAgent>();
-        if (agent != null)
-        {
-            agent.enabled = false; // Disable AI while held  
-        }
+        if (agent != null) agent.enabled = false; // disable navmesh agent while held
+
         var rb = enemy.GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = true; // Prevent physics while held
-        }
+        if (rb != null)rb.isKinematic = true;// Prevent physics while held
+
         var enemyScript = enemy.GetComponent<Enemy>();
-        if (enemyScript != null)
-        {
-            enemyScript.SetGrabbed(true); // Disable ground detection
-        }
+        if (enemyScript != null) enemyScript.SetGrabbed(true); // Disable ground detection
+
         // starting a new suplex breaks any homing window
         canHomeChain = false;
         lastReleasedEnemy = null;
@@ -179,11 +195,12 @@ public class PlayerSuplex : MonoBehaviour
                 if (slam && config != null)
                 {
                     // Launch the enemy downward if slamming
-                   // rb.linearVelocity = Vector3.down * (rb.mass * 0.5f );
                    rb.AddForce(Vector3.down * 5f, ForceMode.VelocityChange);            
                 } 
             }
                 grabbedEnemy = null;
+                playerMovement.moveSpeed = _savedMoveSpeed;
+                playerMovement.gravity = _defaultGravity;
         }
     }
 
@@ -271,46 +288,43 @@ public class PlayerSuplex : MonoBehaviour
     IEnumerator SuplexRoutine(SuplexConfig config)
     {
         // --- Calculate launch velocity for the suplex arc ---
+        // Apply per-target scaling first
+        float originalGravity = playerMovement.gravity;
+        playerMovement.gravity = originalGravity * currentGravityScale;     
+        float originalMoveSpeed = playerMovement.moveSpeed;
+        // Use the scaled gravity for the throw math
         float gravity = Mathf.Abs(playerMovement.gravity);
         float height = config.LiftHeight;
         float distance = config.FowardDistance;
 
-        // Minimum time to reach the desired height
         float minTimeToPeak = Mathf.Sqrt(2f * height / gravity);
         float minTotalTime = minTimeToPeak * 2f;
-
-        // Use the greater of LaunchSpeed or minTotalTime
         float totalTime = Mathf.Max(config.LaunchSpeed, minTotalTime);
         float timeToPeak = totalTime / 2f;
 
-        // Calculate vertical velocity to reach desired height in timeToPeak
         float vy = (2f * height) / timeToPeak;
-
-        // Calculate horizontal velocity to cover the distance in totalTime
         float vx = distance / totalTime;
 
-        // Combine velocities
         Vector3 launchVelocity = transform.forward * vx + Vector3.up * vy;
         playerMovement.velocity = launchVelocity;
 
-        // gravity settings for suplex arc control during descent
-        float t = 0;
+        float t = 0f;
         bool jumpedOff = false;
-        float minAirTime = 0.2f; // Prevents instant landing
-        float originalGravity = playerMovement.gravity;
-        float minGravity = originalGravity * 0.2f; // Start with low gravity
-        float maxGravity = originalGravity;         // End with normal gravity
-        float gravityIncreaseDuration = 2f;       // Time to reach max gravity (tweak as needed)
+        float minAirTime = 0.2f;
+
+        // Super-suplex descent control based on scaled gravity
+        float minGravity = playerMovement.gravity * 0.2f;
+        float maxGravity = playerMovement.gravity;
+        float gravityIncreaseDuration = 2f;
         float gravityLerpTime = 1f;
 
-        // camera settings
-        Vector3 targetOffset = new Vector3(0f, 13f, 0f); // target offset for cinematic effect during suplex
+        // Camera settings
+        Vector3 targetOffset = new Vector3(0f, 13f, 0f);
         float cameraLerpDuration = 0.5f;
         float cameraLerpTime = 0f;
 
-        // reference to the cinemachine orbital follow component to adjust camera during suplex
-        var orbital = playerMovement.CinemachineCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineOrbitalFollow; 
-        Vector3 DefaultCameraOffset =  orbital.TargetOffset;
+        var orbital = playerMovement.CinemachineCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineOrbitalFollow;
+        Vector3 DefaultCameraOffset = orbital.TargetOffset;
         bool cameratilted = false;
 
         // Wait for the player to land or jump off
@@ -374,7 +388,8 @@ public class PlayerSuplex : MonoBehaviour
             // End the suplex when the player lands (after a minimum airtime)
             if (t > minAirTime && IsGrounded())
             {
-                Instantiate(shockwave, player.position, player.rotation, player);
+                if(shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
+                    Instantiate(shockwave, player.position, player.rotation, player);
                 break;
             }
                 
@@ -393,8 +408,6 @@ public class PlayerSuplex : MonoBehaviour
         }
 
         isSuplexing = false;
-        //reset gravity to normal and reset camera offset position
-        playerMovement.gravity = originalGravity;
         orbital.TargetOffset = DefaultCameraOffset;
     }
 
@@ -445,7 +458,7 @@ public class PlayerSuplex : MonoBehaviour
          int steps = 60;
          Vector3[] points = new Vector3[steps + 1];
          Vector3 startPos = heldEnemy.position;
-         float gravity = Mathf.Abs(playerMovement.gravity); // Use the same gravity as the player
+         float gravity = Mathf.Abs(playerMovement.gravity)* currentGravityScale; // Use the same gravity as the player
 
          float height = config.LiftHeight;
          float distance = config.FowardDistance;
