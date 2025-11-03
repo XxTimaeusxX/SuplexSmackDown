@@ -12,6 +12,7 @@ public class Shockwave : MonoBehaviour
     public Vector3 targetScale;
     private Vector3 initialScale;
     public float growSize;
+
     
 
     private void Start()

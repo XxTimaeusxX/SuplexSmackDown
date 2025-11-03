@@ -21,6 +21,9 @@ public class Enemy : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Slider chargeSlider;
 
+    public Slider enemyHealth;
+    public GameObject enemyHealthScreen;
+
     [Header("Patrol Settings")]
     public float chaseRange;
     public float patrolWalkSpeed;
@@ -78,6 +81,15 @@ public class Enemy : MonoBehaviour
             isPushed = false;
             m_EnemyAgent.enabled = true;
             rb.isKinematic = true;
+            if (gameObject.tag == "DontRespawn")
+            {
+                enemyHealth.value -= 1;
+                if (enemyHealth.value <= 0)
+                {
+                    enemyHealthScreen.SetActive(false);
+                }
+                Destroy(gameObject);
+            }
         }
         if(!grounded)
         {
