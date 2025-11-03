@@ -71,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Jump();
         }
+        HandleCeilingHit();
     }
 
     void MovePlayer()
@@ -110,8 +111,16 @@ public class PlayerMovement : MonoBehaviour
     {
         velocity.y = Mathf.Sqrt(jumpHeight*5f * -2f * gravity);
         isGrounded = false;
+        
         // Debug.Log("jumping off enemy");
     }
 
-    
+    public void HandleCeilingHit()
+    {
+        if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0 && velocity.y > 0f)
+        {
+            velocity.y = -2f; // cancel upward momentum if we hit ceiling
+            Debug.Log("Hit ceiling while jumping off enemy, cancelling upward momentum.");
+        }
+    }
 }

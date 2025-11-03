@@ -202,6 +202,7 @@ public class PlayerSuplex : MonoBehaviour
                    rb.AddForce(Vector3.down * 5f, ForceMode.VelocityChange);            
                 } 
             }
+           
                 grabbedEnemy = null;
                 playerMovement.moveSpeed = _savedMoveSpeed;
                 playerMovement.gravity = _defaultGravity;
@@ -387,7 +388,7 @@ public class PlayerSuplex : MonoBehaviour
                 playerMovement.ForceJump();
                 jumpedOff = true;
                 ReleaseEnemy(true, config); // apply downward force and enable enemy ground detection 
-
+                
                 // Arm homing window until grounded or next suplex
                 canHomeChain = true;
                 lastReleasedEnemy = justReleased;
