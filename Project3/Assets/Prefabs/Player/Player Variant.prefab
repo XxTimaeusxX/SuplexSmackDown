@@ -111,15 +111,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.494
+      value: 13.5
       objectReference: {fileID: 0}
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.947
+      value: 1.81
       objectReference: {fileID: 0}
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -36.19
+      value: -33.16
       objectReference: {fileID: 0}
     - target: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       propertyPath: m_LocalRotation.w
@@ -201,6 +201,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5275062563758158705, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6715931116779892774}
+    - targetCorrespondingSourceObject: {fileID: 5275062563758158705, guid: 6707ec71c18f8e745a55837add214815, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8119741338074381355}
   m_SourcePrefab: {fileID: 100100000, guid: 6707ec71c18f8e745a55837add214815, type: 3}
 --- !u!143 &182728471991002957 stripped
 CharacterController:
@@ -523,3 +526,18 @@ MonoBehaviour:
   - {fileID: 2800000, guid: f8e1008792c4c774b9c2710e87a23db3, type: 3}
   healthImg: {fileID: 0}
   menuManager: {fileID: 0}
+--- !u!114 &8119741338074381355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8444165294582084947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63523155a74a7de41b07240786e2c8ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ActivateEnemies
+  hoardEnemies: {fileID: 0}
+  enemyHealth: {fileID: 0}
+  targetGameObject: {fileID: 0}
