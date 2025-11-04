@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     public GameObject Target;
     private NavMeshAgent agent;
     Rigidbody rb;
-
+    [SerializeField] InGameMenuManager menuManager;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
@@ -87,6 +87,7 @@ public class Enemy : MonoBehaviour
                 if (enemyHealth.value <= 0)
                 {
                     enemyHealthScreen.SetActive(false);
+                    menuManager.WinScreen();
                 }
                 Destroy(gameObject);
             }
