@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PowerGauge : MonoBehaviour
 {
     public float currentMeter = 0f;
     public float maxMeter = 100f;
+    public Slider powerSlider;
+
 
     public void AddMeter(float amount)
     {
@@ -20,5 +24,14 @@ public class PowerGauge : MonoBehaviour
         return false;
     }
 
+    private void Update()
+    {
+        MeterGaugeUI();
+    }
 
+    private void MeterGaugeUI()
+    {
+        Mathf.Clamp(currentMeter, 0, maxMeter);
+        powerSlider.value = currentMeter / 100;
+    }
 }
