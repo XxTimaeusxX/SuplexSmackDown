@@ -12,11 +12,25 @@ public sealed class AudioManager : MonoBehaviour
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
-    [Header("Assigned SFX (drag in Inspector)")]
+    [Header("Player SFX")]
     public AudioClip footstepClip;
-    public AudioClip suplexStartClip;
+    public AudioClip jumpingClip;
+    public AudioClip health3Clip;
+    public AudioClip health2Clip;
+    public AudioClip health1Clip;
+    public AudioClip GameOverClip;
+    public AudioClip GrabClip;
+    [Header("Suplex SFX")]
+    public AudioClip LaunchSoundClip;
     public AudioClip suplexSlamClip;
+    public AudioClip SuperSuplexSlam;
+
+    [Header("Health Packs SFX")]
+    public AudioClip smallHealthPackClip;
+    [Header("Enemy SFX")]
+    
     public AudioClip enemySlapClip;
+    public AudioClip enemyDieclip;
 
     void Awake()
     {
@@ -90,17 +104,22 @@ public sealed class AudioManager : MonoBehaviour
         Instance.sfxSource.PlayOneShot(clip, Mathf.Clamp01(volume) * Instance.sfxVolume);
     }
 
-    // Named SFX helpers (no clip passing from callers)
+    // player SFX
     public static void PlayFootstep()
     {
         if (!Instance || !Instance.footstepClip) return;
         Instance.sfxSource.PlayOneShot(Instance.footstepClip, Instance.sfxVolume);
     }
-
+    public static void PlayJumping()
+    {
+        if (!Instance || !Instance.jumpingClip) return;
+        Instance.sfxSource.PlayOneShot(Instance.jumpingClip, Instance.sfxVolume);
+    }
+    // player suplex SFX
     public static void PlaySuplexStart()
     {
-        if (!Instance || !Instance.suplexStartClip) return;
-        Instance.sfxSource.PlayOneShot(Instance.suplexStartClip, Instance.sfxVolume);
+        if (!Instance || !Instance.LaunchSoundClip) return;
+        Instance.sfxSource.PlayOneShot(Instance.LaunchSoundClip, Instance.sfxVolume);
     }
 
     public static void PlaySuplexSlam()
@@ -109,6 +128,29 @@ public sealed class AudioManager : MonoBehaviour
         Instance.sfxSource.PlayOneShot(Instance.suplexSlamClip, Instance.sfxVolume);
     }
 
+    // PLayer health SFX
+    public static void PlayHealth3()
+    {
+        if (!Instance || !Instance.health3Clip) return;
+        Instance.sfxSource.PlayOneShot(Instance.health3Clip, Instance.sfxVolume);
+    }
+    public static void PlayHealth2()
+    {
+        if (!Instance || !Instance.health2Clip) return;
+        Instance.sfxSource.PlayOneShot(Instance.health2Clip, Instance.sfxVolume);
+    }
+    public static void PlayHealth1()
+    {
+        if (!Instance || !Instance.health1Clip) return;
+        Instance.sfxSource.PlayOneShot(Instance.health1Clip, Instance.sfxVolume);
+    }
+    public static void PlayGameOver()
+    {
+        if (!Instance || !Instance.GameOverClip) return;
+        Instance.sfxSource.PlayOneShot(Instance.GameOverClip, Instance.sfxVolume);
+    }
+
+    // Enemy SFX
     public static void PlayEnemySlap()
     {
         if (!Instance || !Instance.enemySlapClip) return;

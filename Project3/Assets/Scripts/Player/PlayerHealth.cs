@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         // Start the player with 1 HP (but never exceed maxHealth)
-        int startHP = Mathf.Clamp(1, 0, maxHealth);
+        int startHP = Mathf.Clamp(3, 0, maxHealth);
         UpdateHealth(startHP);
        // UpdateHealth(maxHealth);
     }
@@ -30,7 +30,15 @@ public class PlayerHealth : MonoBehaviour
 		}
 		if(newHP == 0){
 			GameOver();
+			AudioManager.PlayGameOver();
 		}
+	   	switch(newHP)
+		{
+			case 3: AudioManager.PlayHealth3(); break;
+			case 2: AudioManager.PlayHealth2(); break;
+			case 1: AudioManager.PlayHealth1(); break;
+			//case 0: GameOver(); AudioManager.PlayGameOver(); break;
+        }
 			Debug.Log("Current Health: " + currentHealth);
 	}
 	

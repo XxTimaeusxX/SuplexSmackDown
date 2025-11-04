@@ -288,7 +288,7 @@ public class PlayerSuplex : MonoBehaviour
 
             if (type == SuplexAbilities.Super && powerGauge != null)
                 powerGauge.SpendMeter();
-
+            AudioManager.PlaySuplexStart();
             StartCoroutine(SuplexRoutine(config));
         }
         else
@@ -405,6 +405,7 @@ public class PlayerSuplex : MonoBehaviour
             {
                 if(shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
                     Instantiate(shockwave, player.position, player.rotation, player);
+                AudioManager.PlaySuplexSlam();
                 break;
             }
                 

@@ -95,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
+            AudioManager.PlayJumping();
             // Debug.Log("Jumped!");
         }
         else if (playerSuplex.grabbedEnemy != null && !playerSuplex.isSuplexing)
@@ -111,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
     {
         velocity.y = Mathf.Sqrt(jumpHeight*5f * -2f * gravity);
         isGrounded = false;
-        
+        AudioManager.PlayJumping();
         // Debug.Log("jumping off enemy");
     }
 

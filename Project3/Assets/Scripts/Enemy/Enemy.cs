@@ -206,6 +206,7 @@ public class Enemy : MonoBehaviour
         // Fully charged -> attack, then reset charge for the next swing
         Debug.Log($"[{name}] Melee attack!");
         animator.SetTrigger("EnemySlap");
+       AudioManager.PlayEnemySlap();
         _nextAttackTime = 0f; // restart charge
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
         StartCoroutine(SlapattackDuration());
@@ -215,7 +216,7 @@ public class Enemy : MonoBehaviour
         if (slapbox == null) yield break;
         yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
         slapbox.enabled = true;
-        yield return new WaitForSeconds(slapActiveTime);
+        yield return new WaitForSeconds(.09f);
         slapbox.enabled = false;
     }
     // Add these helpers inside Enemy class

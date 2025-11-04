@@ -528,7 +528,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -774,6 +774,107 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 609973371}
   m_CullTransparentMesh: 1
+--- !u!1001 &848156009
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.30736
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 102.52438
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 10.77924
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 418178002065202291, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: health1Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0b54168a0e4be884a94da5cc15c3fca5, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: health2Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 500b7ee3b53f3394299f7713c4547f5c, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: health3Clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 239c904c93eb1d8468c70a6aecf51c4f, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: jumpingClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e834564441248e46abe897dde234473, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: GameOverClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 90b1086c8a8409542b68390f86982048, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: footstepClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 17cd9b45fad62a347901b152060e8260, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: enemySlapClip
+      value: 
+      objectReference: {fileID: 8300000, guid: e6acb1e3f53e33043938c805cf3db8bf, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: suplexSlamClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 755b2c781fcce96498e98a11147cf4b1, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: LaunchSoundClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9790b4ca0afa1d34496566d0490da94d, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: SuperSuplexSlam
+      value: 
+      objectReference: {fileID: 8300000, guid: 9790b4ca0afa1d34496566d0490da94d, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: suplexStartClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9790b4ca0afa1d34496566d0490da94d, type: 3}
+    - target: {fileID: 7968779603832368370, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
 --- !u!1 &914068907
 GameObject:
   m_ObjectHideFlags: 0
@@ -1403,3 +1504,4 @@ SceneRoots:
   - {fileID: 375165695}
   - {fileID: 1326239203}
   - {fileID: 914068909}
+  - {fileID: 848156009}
