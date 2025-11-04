@@ -378,7 +378,7 @@ public class PlayerSuplex : MonoBehaviour
             }
             else
             {
-                Debug.Log("not super suplex no moon gravity effect");
+              //  Debug.Log("not super suplex no moon gravity effect");
             }
 
             // Allow player to jump off during the arc
