@@ -61,6 +61,7 @@ public class PlayerSuplex : MonoBehaviour
     private float currentMoveSpeedScale = 1f;
 
     // Internal references to other player scripts/components
+    private PowerGauge powerGauge;
     private PlayerMovement playerMovement;
     private PlayerDash playerDash;
     public Transform grabbedEnemy;          // The enemy currently grabbed
@@ -87,6 +88,7 @@ public class PlayerSuplex : MonoBehaviour
             playerDash = GetComponentInParent<PlayerDash>();
         playerMovement = GetComponentInParent<PlayerMovement>();
         controller = GetComponentInParent<CharacterController>();
+        powerGauge = GetComponentInParent<PowerGauge>();
         if (playerMovement != null) { _savedMoveSpeed = playerMovement.moveSpeed;
                                       _defaultGravity = playerMovement.gravity;}// cache the default move speed and gravity
         jumpAction = playerInput.actions.FindAction("Jump");
@@ -94,6 +96,8 @@ public class PlayerSuplex : MonoBehaviour
         RainbowSuplexAction = playerInput.actions.FindAction("RainbowSuplex");
         LongJumpSuplexAction = playerInput.actions.FindAction("LongjumpSuplex");
         homingAction = playerInput.actions.FindAction("Homing");
+
+
     }
 
     private void Update()
@@ -247,6 +251,11 @@ public class PlayerSuplex : MonoBehaviour
                 // On release of the currently previewed ability: commit selection
                 if (previewing == ability && action.WasReleasedThisFrame())
                 {
+                    if (ability == SuplexAbilities.Super && !CanPerformSuperSuplex())
+                    {
+                        Debug.Log("Not enough power for Super Suplex!");
+                        continue; // Ignore the attempt
+                    }
                     currentSuplex = ability;
                     break;
                 }
@@ -275,6 +284,11 @@ public class PlayerSuplex : MonoBehaviour
         var config = suplexConfigs.Find(cfg => cfg.ability == type);
         if (config != null)
         {
+            powerGauge.AddMeter(10f);
+
+            if (type == SuplexAbilities.Super && powerGauge != null)
+                powerGauge.SpendMeter();
+
             StartCoroutine(SuplexRoutine(config));
         }
         else
@@ -522,4 +536,9 @@ public class PlayerSuplex : MonoBehaviour
 
       
     }
+    private bool CanPerformSuperSuplex()
+    {
+        return powerGauge != null && powerGauge.currentMeter >= powerGauge.maxMeter;
+    }
+
 }

@@ -5,14 +5,14 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     public GameObject Target;
-    private NavMeshAgent m_EnemyAgent;
+    private NavMeshAgent agent;
     Rigidbody rb;
 
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
 
-    
+
     private float m_Distance;
     private bool wasGrounded = false;
     public bool isGrabbed;
@@ -43,8 +43,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float slapActiveTime = 0.1f;
 
     [Header("Animation")]
-     private Animator animator;
-  
+    private Animator animator;
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -52,8 +52,8 @@ public class Enemy : MonoBehaviour
     GameManager gameManager;
     void Start()
     {
-       
-        m_EnemyAgent = GetComponent<NavMeshAgent>();
+
+        agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         if (chargeSlider != null)
         {
@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
         }
         if (animator == null) animator = GetComponent<Animator>();
         slapbox.enabled = false;
-        
+
     }
 
     // Update is called once per frame
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
         {
             pushCooldown = 0;
             isPushed = false;
-            m_EnemyAgent.enabled = true;
+            agent.enabled = true;
             rb.isKinematic = true;
             if (gameObject.tag == "DontRespawn")
             {
@@ -91,33 +91,32 @@ public class Enemy : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        if(!grounded)
+        if (!grounded)
         {
             ResetSlapState();
         }
         if (grounded && wasGrounded && !isGrabbed && !isPushed)
         {
             // Debug.Log("Enemy just landed!");
-           rb.isKinematic = true;
-            m_EnemyAgent.enabled = true;
-        } 
+            rb.isKinematic = true;
+            agent.enabled = true;
+        }
         wasGrounded = grounded;
-        if (m_EnemyAgent.enabled && m_EnemyAgent.isOnNavMesh)
+        if (agent.enabled && agent.isOnNavMesh)
         {
             ChasePlayer();
-
         }
     }
     private void ResetSlapState()
     {
         _nextAttackTime = 0f;
         slapbox.enabled = false;
-         StopCoroutine(SlapattackDuration());
+        StopCoroutine(SlapattackDuration());
         ResetChargeUI();
     }
-    public void  RandomPatrolDestination()
+    public void RandomPatrolDestination()
     {
-        if (!m_EnemyAgent.enabled || !m_EnemyAgent.isOnNavMesh) return;
+        if (!agent.enabled || !agent.isOnNavMesh) return;
 
         // Pick points around current floor height (not y=0) to stay on the same NavMesh island
         const float patrolRadius = 20f;
@@ -129,14 +128,14 @@ public class Enemy : MonoBehaviour
             Vector2 r = Random.insideUnitCircle * patrolRadius;
             Vector3 candidate = new Vector3(origin.x + r.x, origin.y, origin.z + r.y);
 
-            if (NavMesh.SamplePosition(candidate, out var hit, 2f, m_EnemyAgent.areaMask))
+            if (NavMesh.SamplePosition(candidate, out var hit, 2f, agent.areaMask))
             {
                 var path = new NavMeshPath();
-                if (m_EnemyAgent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
+                if (agent.CalculatePath(hit.position, path) && path.status == NavMeshPathStatus.PathComplete)
                 {
-                    m_EnemyAgent.isStopped = false;
-                    m_EnemyAgent.speed = patrolWalkSpeed;
-                    m_EnemyAgent.destination = hit.position;
+                    agent.isStopped = false;
+                    agent.speed = patrolWalkSpeed;
+                    agent.destination = hit.position;
                     return;
                 }
             }
@@ -145,47 +144,51 @@ public class Enemy : MonoBehaviour
     }
     public void ChasePlayer()
     {
-        if (Target == null) return;
+        if (Target == null)
+        {
+            RandomPatrolDestination();
+            return;
+        }
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
-        float arrivalThreshold = Mathf.Max(0.5f, m_EnemyAgent.stoppingDistance);
-        if (m_EnemyAgent.isOnNavMesh)
+        float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+        if (agent.isOnNavMesh)
         {
             if (m_Distance <= chaseRange)
             {
                 patrolWaitDefault = 0f;
-                m_EnemyAgent.speed = patrolRunSpeed; // set chase speed
-                m_EnemyAgent.destination = Target.transform.position;
+                agent.speed = patrolRunSpeed; // set chase speed
+                agent.destination = Target.transform.position;
 
                 if (m_Distance < meleeRange)
                 {
-                    m_EnemyAgent.isStopped = true;
+                    agent.isStopped = true;
                     SlapAttack();
                 }
                 else
                 {
                     // Out of melee: resume chase and clear timer so next entry arms again
-                    if (m_EnemyAgent.isStopped) m_EnemyAgent.isStopped = false;
-                    m_EnemyAgent.destination = Target.transform.position;
+                    if (agent.isStopped) agent.isStopped = false;
+                    agent.destination = Target.transform.position;
                     _nextAttackTime = 0f;
                     ResetChargeUI();
                 }
             }
-            
+
 
             // Out of chase range -> patrol
             if (patrolWaitDefault > 0f)
             {
                 // Idle thinking
-               // m_EnemyAgent.isStopped = true;
+                // m_EnemyAgent.isStopped = true;
                 patrolWaitDefault -= Time.deltaTime;
                 if (patrolWaitDefault <= 0f)
                 {
-                    m_EnemyAgent.isStopped = false;
-                  //  RandomPatrolDestination();
+                    agent.isStopped = false;
+                    //  RandomPatrolDestination();
 
                 }
             }
-            else  if(!m_EnemyAgent.hasPath || m_EnemyAgent.remainingDistance <= arrivalThreshold) RandomPatrolDestination();   
+            else if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold) RandomPatrolDestination();
         }
     }
 
@@ -243,9 +246,9 @@ public class Enemy : MonoBehaviour
         if (grabbed)
         {
             // Optionally disable agent here if needed
-            m_EnemyAgent.enabled = false;
+            agent.enabled = false;
         }
-        
+
     }
     bool IsEnemyGrounded()
     {
@@ -271,7 +274,7 @@ public class Enemy : MonoBehaviour
         {
             pushCooldown = 3;
             isPushed = true;
-            m_EnemyAgent.enabled = false;
+            agent.enabled = false;
             rb.isKinematic = false;
         }
     }

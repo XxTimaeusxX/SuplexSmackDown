@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 4508759081919750511}
   - component: {fileID: 212984703027256251}
   - component: {fileID: 9156343662285388065}
+  - component: {fileID: 5531703628524220327}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -176,7 +177,6 @@ MonoBehaviour:
   controller: {fileID: 4508759081919750511}
   thirdPersonCamera: {fileID: 0}
   groundCheck: {fileID: 1691569477160750934}
-  shockwaveCheck: {fileID: 0}
   playerInput: {fileID: 0}
   jumpAction:
     m_Name: Jump
@@ -286,6 +286,9 @@ MonoBehaviour:
   targetDashCoolDown: 5
   dashCoolDown: 0
   airDashCount: 0
+  homingDashActive: 0
+  homingSpeedMultiplier: 10
+  enableHitboxOnNormalDash: 0
 --- !u!114 &9156343662285388065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +304,8 @@ MonoBehaviour:
   heldEnemy: {fileID: 3228971371728267157}
   playerInput: {fileID: 5903303400853118903}
   trajectoryRenderer: {fileID: 0}
+  shockwave: {fileID: 0}
+  player: {fileID: 0}
   suplexConfigs:
   - ability: 1
     LiftHeight: 10
@@ -326,8 +331,26 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  homingSearchRadius: 12
+  bigEnemyLayerName: BigEnemy
+  bigEnemyGravityScale: 2
+  bigEnemyMoveSpeedScale: 1
   grabbedEnemy: {fileID: 0}
   isSuplexing: 0
+--- !u!114 &5531703628524220327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5275062563758158705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b78a0d8a8f38fe40916b665331b8afc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PowerGauge
+  currentMeter: 0
+  maxMeter: 100
 --- !u!1 &6858947594094190366
 GameObject:
   m_ObjectHideFlags: 0
