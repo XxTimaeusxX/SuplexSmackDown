@@ -77,17 +77,19 @@ public class Enemy : MonoBehaviour
         }
         if (pushCooldown < 0)
         {
-            pushCooldown = 0;
-            isPushed = false;
-            agent.enabled = true;
-            rb.isKinematic = true;
+            if (!isGrabbed)
+            {
+                pushCooldown = 0;
+                isPushed = false;
+                agent.enabled = true;
+                rb.isKinematic = true;
+            }
             if (gameObject.tag == "DontRespawn")
             {
                 enemyHealth.value -= 1;
                 if (enemyHealth.value <= 0)
                 {
                     enemyHealthScreen.SetActive(false);
-                    menuManager.WinScreen();
                 }
                 Destroy(gameObject);
             }

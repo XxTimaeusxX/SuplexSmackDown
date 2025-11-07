@@ -1998,6 +1998,7 @@ GameObject:
   - component: {fileID: 3904729399684723981}
   - component: {fileID: 6844266013555611000}
   - component: {fileID: 8309707534218199683}
+  - component: {fileID: 8847915130969235865}
   - component: {fileID: 5166477041906415588}
   - component: {fileID: 8407228978967780538}
   - component: {fileID: 6523892785764805586}
@@ -2091,6 +2092,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8847915130969235865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321424840813435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b004953d76a564da71f90395b76795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyRespawn
+  enemyRespawn: {fileID: 0}
+  respawnPoint: {fileID: 0}
 --- !u!136 &5166477041906415588
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2176,6 +2191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   Target: {fileID: 0}
+  menuManager: {fileID: 0}
   groundCheck: {fileID: 8785384517540818139}
   groundMask:
     serializedVersion: 2

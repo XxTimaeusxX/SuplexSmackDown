@@ -9,15 +9,17 @@ public class Shockwave : MonoBehaviour
 
     public float growDuration = 2f;
     public float activeDuration = 2f;
-    public Vector3 targetScale;
+    private Vector3 targetScale;
     private Vector3 initialScale;
-    public float growSize;
+    public float growSizeX;
+    public float growSizeY;
+    public float growSizeZ;
 
     
 
     private void Start()
     {
-        targetScale = new Vector3(growSize, growSize, growSize);
+        targetScale = new Vector3(growSizeX, growSizeY, growSizeZ);
         initialScale = transform.localScale;
         StartCoroutine(ScaleOverTime(growDuration, targetScale));
     }
