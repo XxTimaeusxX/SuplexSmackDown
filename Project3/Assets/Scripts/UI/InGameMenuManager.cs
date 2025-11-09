@@ -9,14 +9,18 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] string _MainMenuScene;
 	
 	[SerializeField] GameObject _PauseMenuContainer;
+	[SerializeField] GameObject _SettingsPanel;
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
 	
+	[SerializeField] GameObject _PauseButtonContainer;
 	[SerializeField] GameObject _DefaultPauseButton;
+	[SerializeField] GameObject _DefaultSettingsButton;
 	[SerializeField] GameObject _DefaultWinButton;
 	[SerializeField] GameObject _DefaultGameOverButton;
 	
 	[SerializeField] GameObject _HealthUI;
+	[SerializeField] GameObject _SuperSuplexUI;
 
 	//[SerializeField] GameObject _PausePoster;
 	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
@@ -35,8 +39,23 @@ public class InGameMenuManager : MonoBehaviour
         Cursor.visible = false;
 		Time.timeScale = 1.0f;
 		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
+		if(_SettingsPanel) _SettingsPanel.SetActive(false);
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
+	}
+	
+	public void InGameSettingsButtonClicked()
+	{
+		_PauseButtonContainer.SetActive(false);
+		_SettingsPanel.SetActive(true);
+		EventSystem.current.SetSelectedGameObject(_DefaultSettingsButton);
+	}
+	
+	public void InGameSettingsBackButtonClicked()
+	{
+		_PauseButtonContainer.SetActive(true);
+		_SettingsPanel.SetActive(false);
+		EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
 	}
 	
 	//lock/hide cursor, unpause, and restart level
@@ -64,22 +83,24 @@ public class InGameMenuManager : MonoBehaviour
 	public void Pause()
 	{
 		if(canPause){
-			//unpausing: lock and hide cursor, set timeScale to 1, hide pause menu
+			//unpausing: lock and hide cursor, set timeScale to 1, show super suplex UI, and hide pause menu
 			if (isPaused){
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
 				Time.timeScale = 1.0f;
 				_PauseMenuContainer.SetActive(false);
+				_SuperSuplexUI.SetActive(true);
 				isPaused = false;
 				pause_anim.SetBool("isPaused", false);
 			}
-			//pausing: show cursor, set timeScale to 0, show pause menu
+			//pausing: show cursor, set timeScale to 0, hide super suplex UI, and show pause menu
 			else{
 				Cursor.lockState = CursorLockMode.Confined;
 				Cursor.visible = true;
 				Time.timeScale = 0.0f;
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
+				_SuperSuplexUI.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
 					//pause_anim.Play("PauseMenuAnim");
