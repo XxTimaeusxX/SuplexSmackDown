@@ -129,6 +129,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7974570196284671761, guid: af20fcef02373944285b4413424e9dea, type: 3}
   m_PrefabInstance: {fileID: 8711895913799955551}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &30783944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6869585396614564383, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30783942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8403bd96c4ba02342b47db96add54962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &85320547
 GameObject:
   m_ObjectHideFlags: 0
@@ -3094,6 +3105,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 375165695}
     m_Modifications:
+    - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 30783944}
+    - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSFXSliderChange
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SettingsManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6891832554534134210, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_Name
       value: SettingsPanel
