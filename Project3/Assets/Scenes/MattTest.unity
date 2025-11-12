@@ -2439,7 +2439,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9894985, z: -0, w: 0.14454345}
   m_LocalPosition: {x: 20.28143, y: 63.21148, z: 8.0790825}
-  m_LocalScale: {x: 2.8040054, y: 2.8040047, z: 2.8040054}
+  m_LocalScale: {x: 2.804006, y: 2.8040047, z: 2.804006}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1586240594}
@@ -2455,7 +2455,7 @@ Transform:
   - {fileID: 1608676611}
   - {fileID: 776368875}
   - {fileID: 42008688}
-  m_Father: {fileID: 1492473550}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &108588312
 PrefabInstance:
@@ -46120,7 +46120,6 @@ Transform:
   - {fileID: 665885543}
   - {fileID: 2035047231}
   - {fileID: 1424339303}
-  - {fileID: 108359310}
   - {fileID: 1145157604}
   - {fileID: 647857726}
   m_Father: {fileID: 0}
@@ -48381,6 +48380,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 663187633352759490, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_Mode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1426030033493243040, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.5
@@ -48441,6 +48444,62 @@ PrefabInstance:
       propertyPath: shockwave
       value: 
       objectReference: {fileID: 6776234784039089348, guid: 65cf949027a14fc43b56861f137c26e7, type: 3}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: longIconColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: longIconColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: longIconColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: superIconColor.b
+      value: 0.015686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: superIconColor.g
+      value: 0.92156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: targetLandPrefab
+      value: 
+      objectReference: {fileID: 5372078737660613741, guid: 2b1fd64e80a60174a87643cc41d56dff, type: 3}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: longSuplexMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 2118a5e6fe936dd43b52b0575bb0a841, type: 2}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: rainbowIconColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: rainbowIconColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: targetLandOffset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: targetLandOffset.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: superSuplexMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c62cc90577b69e54db46057a1a5004ba, type: 2}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: rainbowSuplexMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 377efa3a8f803c04497358cf6f7d2379, type: 2}
+    - target: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: _targetLandSpriteRenderer
+      value: 
+      objectReference: {fileID: 1784002442430543261, guid: 2b1fd64e80a60174a87643cc41d56dff, type: 3}
     - target: {fileID: 6715931116779892774, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: healthImg
       value: 
@@ -72007,16 +72066,17 @@ SceneRoots:
   - {fileID: 1172916436}
   - {fileID: 203844589}
   - {fileID: 829885302}
-  - {fileID: 1549849383}
   - {fileID: 1443792180}
   - {fileID: 1453589887}
   - {fileID: 158926019}
   - {fileID: 1348806473}
   - {fileID: 420010587}
   - {fileID: 1627335869}
+  - {fileID: 1549849383}
   - {fileID: 1492473550}
   - {fileID: 1425097775}
   - {fileID: 854229332}
+  - {fileID: 108359310}
   - {fileID: 87639259}
   - {fileID: 1880283347}
   - {fileID: 2106595298}

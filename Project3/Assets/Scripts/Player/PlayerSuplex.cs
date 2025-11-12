@@ -1,8 +1,8 @@
-using UnityEngine;
 using System.Collections;
-using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
@@ -74,9 +74,29 @@ public class PlayerSuplex : MonoBehaviour
     private InputAction jumpAction;
  
     public bool isSuplexing = false;         // True if a suplex is in progress
-
     private SuplexAbilities currentSuplex = SuplexAbilities.None; // Which suplex is being performed
 
+    [Header("Trajectory Materials")]
+    public Material longSuplexMaterial;     // Yellow version
+    public Material rainbowSuplexMaterial;  // Blue/default
+    public Material superSuplexMaterial;    // Red version
+
+    [Header("Trajectory Target")]
+    // Prefab asset you assign in inspector
+    public GameObject targetLandPrefab;
+    // Slight lift so it doesn't z-fight or clip under ground
+    [SerializeField] private Vector3 targetLandOffset = new Vector3(0f, 0.02f, 0f);
+
+    // Runtime-only references (do not assign in inspector)
+    private GameObject _targetLandInstance;
+    private SpriteRenderer _targetLandSpriteRenderer; // cached from the instance
+
+    [Header("Landing Icon Colors")]
+    public Color longIconColor = new Color(1f, 0.92f, 0.2f, 1f);   // Yellow
+    public Color rainbowIconColor = new Color(0.25f, 0.5f, 1f, 1f); // Blue
+    public Color superIconColor = new Color(1f, 0.15f, 0.15f, 1f);  // Red
+
+   
     /// <summary>
     /// Called when the script instance is being loaded.
     /// Sets up references to other components and input actions.
@@ -96,8 +116,6 @@ public class PlayerSuplex : MonoBehaviour
         RainbowSuplexAction = playerInput.actions.FindAction("RainbowSuplex");
         LongJumpSuplexAction = playerInput.actions.FindAction("LongjumpSuplex");
         homingAction = playerInput.actions.FindAction("Homing");
-
-
     }
 
     private void Update()
@@ -240,9 +258,10 @@ public class PlayerSuplex : MonoBehaviour
                 // While held: show that ability's trajectory and mark it as previewing
                 if (action.IsPressed())
                 {
+                    SetTrajectoryMaterial(ability);// change trajectory color based on ability
                     var cfg = suplexConfigs.Find(cfg => cfg.ability == ability);
                     if (cfg != null)
-                        ShowTrajectory(cfg);
+                        ShowTrajectory(cfg); // Show trajectory preview
 
                     previewing = ability;
                     anyHeldThisFrame = true;
@@ -266,6 +285,7 @@ public class PlayerSuplex : MonoBehaviour
             {
                 previewing = SuplexAbilities.None;
                 trajectoryRenderer.positionCount = 0;
+                SetTargetLandActive(false);
             }
 
             yield return null;
@@ -273,6 +293,7 @@ public class PlayerSuplex : MonoBehaviour
 
         // Clear preview and perform the chosen suplex
         trajectoryRenderer.positionCount = 0;
+        SetTargetLandActive(false);
         PerformSuplex(currentSuplex);
     }
 
@@ -499,18 +520,21 @@ public class PlayerSuplex : MonoBehaviour
         Collider[] enemyColliders = heldEnemy.GetComponentsInChildren<Collider>();
          foreach (var col in enemyColliders)
              col.enabled = false;
-
-         points[0] = pos;
+        // track landing (position + normal) for the marker
+        Vector3 landingNormal = Vector3.up;
+        points[0] = pos;
          for (int i = 1; i <= steps; i++)
          {
              // Apply gravity using the same value as the player
              velocity += Vector3.down * gravity * dt;
              Vector3 nextPos = pos + velocity * dt;
 
-             // Ignore triggers to reduce false hits
-             if (Physics.Linecast(pos, nextPos, out RaycastHit hit, ~0, QueryTriggerInteraction.Ignore))
+            
+            // Ignore triggers to reduce false hits
+            if (Physics.Linecast(pos, nextPos, out RaycastHit hit, ~0, QueryTriggerInteraction.Ignore))
              {
                  points[i] = hit.point;
+                 landingNormal = hit.normal;
                  lastPoint = i;
                  break;
              }
@@ -519,8 +543,12 @@ public class PlayerSuplex : MonoBehaviour
              {
                  nextPos.y = startPos.y;
                  points[i] = nextPos;
-                 lastPoint = i;
-                 break;
+
+                // try to get a ground normal under the clamped point
+                 if (Physics.Raycast(nextPos + Vector3.up * 0.25f, Vector3.down, out RaycastHit groundHit, 5f, ~0, QueryTriggerInteraction.Ignore))
+                    landingNormal = groundHit.normal;
+                    lastPoint = i;
+                    break;
              }
 
              points[i] = nextPos;
@@ -534,8 +562,78 @@ public class PlayerSuplex : MonoBehaviour
           trajectoryRenderer.positionCount = lastPoint+ 1;
           for (int i = 0; i <= lastPoint; i++)
               trajectoryRenderer.SetPosition(i, points[i]);
+        // place/update landing marker
+        Vector3 landingPos = points[lastPoint];
+        UpdateTargetLand(landingPos, landingNormal);
+    }
+    private void SetTrajectoryMaterial(SuplexAbilities ability)
+    {
+        if (trajectoryRenderer == null) return;
+        Material RendererColor = null;
+        switch (ability)
+        {
+            case SuplexAbilities.Long: RendererColor = longSuplexMaterial; break;
+            case SuplexAbilities.Rainbow: RendererColor = rainbowSuplexMaterial; break;
+            case SuplexAbilities.Super: RendererColor = superSuplexMaterial; break;
+        }
+        if (RendererColor != null && trajectoryRenderer.sharedMaterial != RendererColor)
+        {
+            // use .material to get an instance (keeps animated properties per player if needed)
+            trajectoryRenderer.material = RendererColor;
+        }
+        SetLandingMarkerMaterial(ability);
+    }
+    private void SetLandingMarkerMaterial(SuplexAbilities ability)
+    {
+        EnsureTargetLand();
+        if (_targetLandSpriteRenderer == null) return;
 
-      
+        Color c = Color.white;
+        switch (ability)
+        {
+            case SuplexAbilities.Long: c = longIconColor; break;
+            case SuplexAbilities.Rainbow: c = rainbowIconColor; break;
+            case SuplexAbilities.Super: c = superIconColor; break;
+        }
+
+        _targetLandSpriteRenderer.color = c;
+    }
+    private void EnsureTargetLand()
+    {
+        if (_targetLandInstance == null && targetLandPrefab != null)
+        {
+            _targetLandInstance = Instantiate(targetLandPrefab);
+            _targetLandInstance.SetActive(false);
+
+            // Cache the SpriteRenderer from the runtime instance
+            _targetLandSpriteRenderer = _targetLandInstance.GetComponentInChildren<SpriteRenderer>();
+            if (_targetLandSpriteRenderer == null)
+            {
+                Debug.LogWarning("PlayerSuplex: targetLandPrefab instance has no SpriteRenderer. Landing icon tinting will be skipped.");
+            }
+        }
+    }
+
+    private void UpdateTargetLand(Vector3 position, Vector3 normal)
+    {
+        EnsureTargetLand();
+        if (_targetLandInstance == null) return;
+
+        var t = _targetLandInstance.transform;
+        t.position = position + targetLandOffset;
+
+        if (normal.sqrMagnitude > 0.0001f)
+            t.rotation = Quaternion.FromToRotation(Vector3.forward, normal);
+
+        if (!_targetLandInstance.activeSelf)
+            _targetLandInstance.SetActive(true);
+    }
+
+    private void SetTargetLandActive(bool active)
+    {
+        if (_targetLandInstance == null) return;
+        if (_targetLandInstance.activeSelf != active)
+            _targetLandInstance.SetActive(active);
     }
     private bool CanPerformSuperSuplex()
     {
