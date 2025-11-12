@@ -17,13 +17,15 @@ public class MainMenuManager : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
+		AudioManager.PlayMainMenuBGM();// Play menu music (clip assigned on AudioManager)
     }
 	
 	public void StartButtonClicked(){
 		Debug.Log("start!");
 		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-		_loadingScreenManager.StartLoadingScene(_GameplaySceneInt);
+		AudioManager.PlayConstructionBGM();// Play construction music (clip assigned on AudioManager)
+        _loadingScreenManager.StartLoadingScene(_GameplaySceneInt);
 	}
 	
 	public void CreditsButtonClicked(){

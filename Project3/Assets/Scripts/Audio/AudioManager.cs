@@ -12,6 +12,11 @@ public sealed class AudioManager : MonoBehaviour
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
+    [Header("BGM Clips")]
+    public AudioClip mainMenuBGM;
+    public AudioClip constructionBGM;
+    public AudioClip boss1BGM;
+
     [Header("Player SFX")]
     public AudioClip footstepClip;
     public AudioClip jumpingClip;
@@ -104,6 +109,33 @@ public sealed class AudioManager : MonoBehaviour
         Instance.sfxSource.PlayOneShot(clip, Mathf.Clamp01(volume) * Instance.sfxVolume);
     }
 
+    // BGM
+    public static void PlayMainMenuBGM()
+    {
+        if (!Instance || !Instance.mainMenuBGM) return;
+        Instance.musicSource.clip = Instance.mainMenuBGM;
+        Instance.musicSource.loop = true;
+        Instance.musicSource.volume = Instance.musicVolume;
+        Instance.musicSource.Play();
+    }
+
+    public static void PlayConstructionBGM()
+    {
+        if (!Instance || !Instance.constructionBGM) return;
+        Instance.musicSource.clip = Instance.constructionBGM;
+        Instance.musicSource.loop = true;
+        Instance.musicSource.volume = Instance.musicVolume;
+        Instance.musicSource.Play();
+    }
+
+    public static void PlayBoss1BGM()
+    {
+        if (!Instance || !Instance.boss1BGM) return;
+        Instance.musicSource.clip = Instance.boss1BGM;
+        Instance.musicSource.loop = true;
+        Instance.musicSource.volume = Instance.musicVolume;
+        Instance.musicSource.Play();
+    }
     // player SFX
     public static void PlayFootstep()
     {
