@@ -17,12 +17,16 @@ public class PlayerMovement : MonoBehaviour
     bool isGrounded;
     public LayerMask groundMask;
     public float moveSpeed;
+    public float startingMoveSpeed = 5f;
+    public float moveAcceleration;
+    public float maxAcceleration;
     public float gravity = -9.81f; // Set to Unity's default gravity and change Unity's gravity to -50f
     public float groundDistance;
     public float jumpHeight;
     public float turnSmoothTime;
     float turnSmoothVelocity;
     public CinemachineCamera CinemachineCamera;
+    [SerializeField] private bool isMoving;
 
     PlayerSuplex playerSuplex;
     PlayerDash playerDash;
@@ -32,10 +36,10 @@ public class PlayerMovement : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
-
+        isMoving = false;
         playerSuplex = GetComponent<PlayerSuplex>();
         playerDash = GetComponent<PlayerDash>();
-
+        moveSpeed = startingMoveSpeed;
     }
 
     private void Update()
@@ -72,6 +76,19 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
         HandleCeilingHit();
+
+        if (isMoving)
+        {
+            moveSpeed += moveAcceleration * Time.deltaTime;
+        }
+        else
+        {
+            moveSpeed = startingMoveSpeed;
+        }
+        if (moveSpeed >= maxAcceleration)
+        {
+            moveSpeed = maxAcceleration;
+        }
     }
 
     void MovePlayer()
@@ -80,13 +97,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction.magnitude >= 0.1f)
         {
+            isMoving = true;
             float targetAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg + thirdPersonCamera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
         }
-        
+        if (direction.magnitude == 0)
+        {
+            isMoving = false;
+        }
     }
 
     void Jump()
