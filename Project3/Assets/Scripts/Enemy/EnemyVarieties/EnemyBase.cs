@@ -2,7 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-public class Enemy : MonoBehaviour
+
+public class EnemyBase : MonoBehaviour
 {
     public GameObject Target;
     private NavMeshAgent agent;
@@ -209,7 +210,7 @@ public class Enemy : MonoBehaviour
         // Fully charged -> attack, then reset charge for the next swing
         Debug.Log($"[{name}] Melee attack!");
         animator.SetTrigger("EnemySlap");
-       AudioManager.PlayEnemySlap();
+        AudioManager.PlayEnemySlap();
         _nextAttackTime = 0f; // restart charge
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
         StartCoroutine(SlapattackDuration());
