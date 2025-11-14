@@ -83,7 +83,9 @@ public class PlayerSuplex : MonoBehaviour
 
     [Header("Trajectory Target")]
     // Prefab asset you assign in inspector
-    public GameObject targetLandPrefab;
+    public GameObject RainbowArcLandPrefab;
+    public GameObject LongArcLandPrefab;
+    public GameObject SuperLandPrefab;
     // Slight lift so it doesn't z-fight or clip under ground
     [SerializeField] private Vector3 targetLandOffset = new Vector3(0f, 0.02f, 0f);
 
@@ -95,8 +97,9 @@ public class PlayerSuplex : MonoBehaviour
     public Color longIconColor = new Color(1f, 0.92f, 0.2f, 1f);   // Yellow
     public Color rainbowIconColor = new Color(0.25f, 0.5f, 1f, 1f); // Blue
     public Color superIconColor = new Color(1f, 0.15f, 0.15f, 1f);  // Red
+                                                                    // Tracks which ability the current marker instance represents
+    private SuplexAbilities _landingMarkerAbility = SuplexAbilities.None;
 
-   
     /// <summary>
     /// Called when the script instance is being loaded.
     /// Sets up references to other components and input actions.
@@ -234,15 +237,12 @@ public class PlayerSuplex : MonoBehaviour
     {
         currentSuplex = SuplexAbilities.None;
 
-        var suplexInputs = new (SuplexAbilities ability, InputAction action)[]
+        var suplexInputs = new (SuplexAbilities ability, InputAction action)[] 
         {
             (SuplexAbilities.Super, SuperSuplexAction),
             (SuplexAbilities.Rainbow, RainbowSuplexAction),
             (SuplexAbilities.Long, LongJumpSuplexAction)
         };
-        // camera features for the future use
-        //var orbital = playerMovement.CinemachineCamera.GetCinemachineComponent(CinemachineCore.Stage.Body) as CinemachineOrbitalFollow;
-        // Vector3 DefaultCameraOffset = orbital.TargetOffset;
 
         // Track which ability is currently being previewed/held
         SuplexAbilities previewing = SuplexAbilities.None;
@@ -284,7 +284,8 @@ public class PlayerSuplex : MonoBehaviour
             if (!anyHeldThisFrame)
             {
                 previewing = SuplexAbilities.None;
-                trajectoryRenderer.positionCount = 0;
+                if (trajectoryRenderer != null)
+                    trajectoryRenderer.positionCount = 0;
                 SetTargetLandActive(false);
             }
 
@@ -292,7 +293,8 @@ public class PlayerSuplex : MonoBehaviour
         }
 
         // Clear preview and perform the chosen suplex
-        trajectoryRenderer.positionCount = 0;
+        if (trajectoryRenderer != null)
+            trajectoryRenderer.positionCount = 0;
         SetTargetLandActive(false);
         PerformSuplex(currentSuplex);
     }
@@ -455,7 +457,7 @@ public class PlayerSuplex : MonoBehaviour
     {
         return controller != null && controller.isGrounded;
     }
-
+    ///------------------------------- Homing Attack ---------------------------------///
     //find nearest enemy within radius, ignoring a specific enemy (e.g., the just released one)
     private Transform FindNearestEnemy(Vector3 origin, float radius, Transform ignore = null)
     {
@@ -485,6 +487,8 @@ public class PlayerSuplex : MonoBehaviour
 
         return best;
     }
+
+    ///------------------------------- Trajectory Visualization ---------------------------------///
     /// <summary>
     /// Displays the predicted trajectory of the suplex using a LineRenderer.
     /// just copy and pasted logic from suplex routine into here for visualization
@@ -492,6 +496,9 @@ public class PlayerSuplex : MonoBehaviour
     /// <param name="config"></param>
     void ShowTrajectory(SuplexConfig config)
     {
+         if (trajectoryRenderer == null || heldEnemy == null || playerMovement == null)
+             return;
+
          int steps = 60;
          Vector3[] points = new Vector3[steps + 1];
          Vector3 startPos = heldEnemy.position;
@@ -514,9 +521,9 @@ public class PlayerSuplex : MonoBehaviour
          float dt = totalTime / steps;
          int lastPoint = 0;
         trajectoryRenderer.alignment = LineAlignment.View;
+        trajectoryRenderer.enabled = true;
         
         // Disable enemy colliders to prevent interference with trajectory calculation
-
         Collider[] enemyColliders = heldEnemy.GetComponentsInChildren<Collider>();
          foreach (var col in enemyColliders)
              col.enabled = false;
@@ -568,69 +575,90 @@ public class PlayerSuplex : MonoBehaviour
     }
     private void SetTrajectoryMaterial(SuplexAbilities ability)
     {
-        if (trajectoryRenderer == null) return;
-        Material RendererColor = null;
+        // Pick trajectory material, icon color, and prefab in one place
+        Material rendererMaterial = null;
+        Color iconColor = Color.white;
+        GameObject prefab = null;
+
         switch (ability)
         {
-            case SuplexAbilities.Long: RendererColor = longSuplexMaterial; break;
-            case SuplexAbilities.Rainbow: RendererColor = rainbowSuplexMaterial; break;
-            case SuplexAbilities.Super: RendererColor = superSuplexMaterial; break;
-        }
-        if (RendererColor != null && trajectoryRenderer.sharedMaterial != RendererColor)
-        {
-            // use .material to get an instance (keeps animated properties per player if needed)
-            trajectoryRenderer.material = RendererColor;
-        }
-        SetLandingMarkerMaterial(ability);
-    }
-    private void SetLandingMarkerMaterial(SuplexAbilities ability)
-    {
-        EnsureTargetLand();
-        if (_targetLandSpriteRenderer == null) return;
-
-        Color c = Color.white;
-        switch (ability)
-        {
-            case SuplexAbilities.Long: c = longIconColor; break;
-            case SuplexAbilities.Rainbow: c = rainbowIconColor; break;
-            case SuplexAbilities.Super: c = superIconColor; break;
+            case SuplexAbilities.Long:
+                rendererMaterial = longSuplexMaterial;
+                iconColor = longIconColor;
+                prefab = LongArcLandPrefab;
+                break;
+            case SuplexAbilities.Rainbow:
+                rendererMaterial = rainbowSuplexMaterial;
+                iconColor = rainbowIconColor;
+                prefab = RainbowArcLandPrefab;
+                break;
+            case SuplexAbilities.Super:
+                rendererMaterial = superSuplexMaterial;
+                iconColor = superIconColor;
+                prefab = SuperLandPrefab;
+                break;
+            default:
+                rendererMaterial = null;
+                prefab = null;
+                iconColor = Color.white;
+                break;
         }
 
-        _targetLandSpriteRenderer.color = c;
-    }
-    private void EnsureTargetLand()
-    {
-        if (_targetLandInstance == null && targetLandPrefab != null)
+        // Apply trajectory material if available; otherwise leave existing material
+        if (trajectoryRenderer != null && rendererMaterial != null)
         {
-            _targetLandInstance = Instantiate(targetLandPrefab);
-            _targetLandInstance.SetActive(false);
+            trajectoryRenderer.material = rendererMaterial;
+        }
 
-            // Cache the SpriteRenderer from the runtime instance
-            _targetLandSpriteRenderer = _targetLandInstance.GetComponentInChildren<SpriteRenderer>();
-            if (_targetLandSpriteRenderer == null)
+        // If no prefab assigned for this ability, destroy any existing marker and exit
+        if (prefab == null)
+        {
+            if (_targetLandInstance != null)
             {
-                Debug.LogWarning("PlayerSuplex: targetLandPrefab instance has no SpriteRenderer. Landing icon tinting will be skipped.");
+                Destroy(_targetLandInstance);
+                _targetLandInstance = null;
+                _targetLandSpriteRenderer = null;
+                _landingMarkerAbility = SuplexAbilities.None;
+            }
+            return;
+        }
+
+        // Ensure/Swap landing marker instance for this ability
+        if (_targetLandInstance == null || _landingMarkerAbility != ability)
+        {
+            if (_targetLandInstance != null) Destroy(_targetLandInstance);
+            _targetLandInstance = Instantiate(prefab);
+            if (_targetLandInstance != null)
+            {
+                _targetLandInstance.SetActive(false);
+                _targetLandSpriteRenderer = _targetLandInstance.GetComponentInChildren<SpriteRenderer>();
+                _landingMarkerAbility = ability;
+            }
+            else
+            {
+                _targetLandSpriteRenderer = null;
+                _landingMarkerAbility = SuplexAbilities.None;
             }
         }
+
+        // Tint icon if available
+        if (_targetLandSpriteRenderer != null)
+            _targetLandSpriteRenderer.color = iconColor;
     }
+
 
     private void UpdateTargetLand(Vector3 position, Vector3 normal)
     {
-        EnsureTargetLand();
         if (_targetLandInstance == null) return;
-
+       
         var t = _targetLandInstance.transform;
         t.position = position + targetLandOffset;
-
-        if (normal.sqrMagnitude > 0.0001f)
-            t.rotation = Quaternion.FromToRotation(Vector3.forward, normal);
-
-        if (!_targetLandInstance.activeSelf)
-            _targetLandInstance.SetActive(true);
+        t.rotation = Quaternion.FromToRotation(Vector3.forward, normal);
+        if (!_targetLandInstance.activeSelf) _targetLandInstance.SetActive(true);
     }
 
     private void SetTargetLandActive(bool active)
-    {
+    { 
         if (_targetLandInstance == null) return;
         if (_targetLandInstance.activeSelf != active)
             _targetLandInstance.SetActive(active);
@@ -641,3 +669,5 @@ public class PlayerSuplex : MonoBehaviour
     }
 
 }
+
+
