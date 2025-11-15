@@ -93,8 +93,9 @@ public class InGameMenuManager : MonoBehaviour
 				isPaused = false;
 				pause_anim.SetBool("isPaused", false);
 			}
-			//pausing: show cursor, set timeScale to 0, hide super suplex UI, and show pause menu
+			//pausing: play a sound, show cursor, set timeScale to 0, hide super suplex UI, and show pause menu
 			else{
+				AudioManager.PlaySuplexSlam();
 				Cursor.lockState = CursorLockMode.Confined;
 				Cursor.visible = true;
 				Time.timeScale = 0.0f;

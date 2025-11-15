@@ -9,6 +9,7 @@ public sealed class AudioManager : MonoBehaviour
     public AudioSource sfxSource;
 
     [Header("Volumes")]
+    [Range(0f, 1f)] public float masterVolume = 1f;
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
 
@@ -68,8 +69,8 @@ public sealed class AudioManager : MonoBehaviour
 
     private void ApplyVolumes()
     {
-        if (musicSource) musicSource.volume = musicVolume;
-        if (sfxSource) sfxSource.volume = sfxVolume;
+        if (musicSource) musicSource.volume = musicVolume*masterVolume;
+        if (sfxSource) sfxSource.volume = sfxVolume*masterVolume;
     }
 
     // Music control
@@ -78,7 +79,7 @@ public sealed class AudioManager : MonoBehaviour
         if (!Instance || !clip) return;
         Instance.musicSource.clip = clip;
         Instance.musicSource.loop = loop;
-        Instance.musicSource.volume = Instance.musicVolume;
+        Instance.musicSource.volume = Instance.musicVolume*Instance.masterVolume;
         Instance.musicSource.Play();
     }
 
@@ -102,6 +103,13 @@ public sealed class AudioManager : MonoBehaviour
         Instance.ApplyVolumes();
     }
 
+    public static void SetMasterVolume(float volume)
+    {
+        if (!Instance) return;
+        Instance.masterVolume = Mathf.Clamp01(volume);
+        Instance.ApplyVolumes();
+    }
+
     // Generic SFX (optional)
     public static void PlaySFX(AudioClip clip, float volume = 1f)
     {
@@ -115,7 +123,7 @@ public sealed class AudioManager : MonoBehaviour
         if (!Instance || !Instance.mainMenuBGM) return;
         Instance.musicSource.clip = Instance.mainMenuBGM;
         Instance.musicSource.loop = true;
-        Instance.musicSource.volume = Instance.musicVolume;
+        Instance.musicSource.volume = Instance.musicVolume*Instance.masterVolume;
         Instance.musicSource.Play();
     }
 
@@ -124,7 +132,7 @@ public sealed class AudioManager : MonoBehaviour
         if (!Instance || !Instance.constructionBGM) return;
         Instance.musicSource.clip = Instance.constructionBGM;
         Instance.musicSource.loop = true;
-        Instance.musicSource.volume = Instance.musicVolume;
+        Instance.musicSource.volume = Instance.musicVolume*Instance.masterVolume;
         Instance.musicSource.Play();
     }
 
@@ -133,7 +141,7 @@ public sealed class AudioManager : MonoBehaviour
         if (!Instance || !Instance.boss1BGM) return;
         Instance.musicSource.clip = Instance.boss1BGM;
         Instance.musicSource.loop = true;
-        Instance.musicSource.volume = Instance.musicVolume;
+        Instance.musicSource.volume = Instance.musicVolume*Instance.masterVolume;
         Instance.musicSource.Play();
     }
     // player SFX
