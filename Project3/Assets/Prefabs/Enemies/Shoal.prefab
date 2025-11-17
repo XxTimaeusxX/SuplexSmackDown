@@ -2465,6 +2465,7 @@ GameObject:
   - component: {fileID: 7635487898892356940}
   - component: {fileID: 7799733963915416470}
   - component: {fileID: 8723151458588115400}
+  - component: {fileID: 2176299889275031634}
   - component: {fileID: 2427514088501719867}
   - component: {fileID: 6265953614328822838}
   - component: {fileID: 3334223411546784647}
@@ -2558,6 +2559,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2176299889275031634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7557898954643461021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b004953d76a564da71f90395b76795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyRespawn
+  enemyRespawn: {fileID: 0}
+  respawnPoint: {fileID: 0}
 --- !u!114 &2427514088501719867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2579,6 +2594,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   groundDistance: 0.63
+  m_Distance: 0
+  wasGrounded: 0
   isGrabbed: 0
   isPushed: 0
   pushCooldown: 0
@@ -2589,8 +2606,10 @@ MonoBehaviour:
   patrolWalkSpeed: 2
   patrolWaitTime: 2
   patrolRunSpeed: 5
+  patrolWaitDefault: 0
   meleeRange: 3
   attackCooldown: 1.5
+  _nextAttackTime: 0
   slapbox: {fileID: 1386310527618302404}
   slapActiveTime: 0.1
   animator: {fileID: 6136497523464781368}
