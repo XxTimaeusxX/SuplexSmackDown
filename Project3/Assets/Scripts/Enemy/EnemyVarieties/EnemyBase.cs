@@ -6,21 +6,21 @@ using UnityEngine.UI;
 public class EnemyBase : MonoBehaviour
 {
     public GameObject Target;
-    private NavMeshAgent agent;
-    Rigidbody rb;
-    [SerializeField] InGameMenuManager menuManager;
+    public NavMeshAgent agent;
+    public Rigidbody rb;
+    public InGameMenuManager menuManager;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
 
 
-    private float m_Distance;
-    private bool wasGrounded = false;
+    public float m_Distance;
+    public bool wasGrounded = false;
     public bool isGrabbed;
-    bool isPushed = false;
+    public bool isPushed = false;
     public float pushCooldown;
     [Header("UI")]
-    [SerializeField] private Slider chargeSlider;
+    public Slider chargeSlider;
 
     public Slider enemyHealth;
     public GameObject enemyHealthScreen;
@@ -30,28 +30,28 @@ public class EnemyBase : MonoBehaviour
     public float patrolWalkSpeed;
     public float patrolWaitTime;
     public float patrolRunSpeed;
-    private float patrolWaitDefault;
+    public float patrolWaitDefault;
 
     [Header("Combat")]
     [Tooltip("Distance at which this enemy will attempt a melee attack.")]
     public float meleeRange = 1.75f;
     [Tooltip("Seconds between melee attack attempts (prevents spam).")]
     public float attackCooldown = 0.8f;
-    private float _nextAttackTime = 0f;
+    public float _nextAttackTime = 0f;
 
     [Header("Hitbox")]
-    [SerializeField] private Collider slapbox;          // child trigger collider with AttackHitBox
+    public Collider slapbox;          // child trigger collider with AttackHitBox
     [SerializeField] private float slapActiveTime = 0.1f;
 
     [Header("Animation")]
-    private Animator animator;
+    public Animator animator;
 
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     GameManager gameManager;
-    void Start()
+    public void Start()
     {
 
         agent = GetComponent<NavMeshAgent>();
@@ -69,7 +69,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         bool grounded = IsEnemyGrounded();
         if (isPushed)
@@ -84,15 +84,6 @@ public class EnemyBase : MonoBehaviour
                 isPushed = false;
                 agent.enabled = true;
                 rb.isKinematic = true;
-            }
-            if (gameObject.tag == "DontRespawn")
-            {
-                enemyHealth.value -= 1;
-                if (enemyHealth.value <= 0)
-                {
-                    enemyHealthScreen.SetActive(false);
-                }
-                Destroy(gameObject);
             }
         }
         if (!grounded)
@@ -111,7 +102,7 @@ public class EnemyBase : MonoBehaviour
             ChasePlayer();
         }
     }
-    private void ResetSlapState()
+    public void ResetSlapState()
     {
         _nextAttackTime = 0f;
         slapbox.enabled = false;
@@ -215,7 +206,7 @@ public class EnemyBase : MonoBehaviour
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
         StartCoroutine(SlapattackDuration());
     }
-    private IEnumerator SlapattackDuration()
+    public IEnumerator SlapattackDuration()
     {
         if (slapbox == null) yield break;
         yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
@@ -224,7 +215,7 @@ public class EnemyBase : MonoBehaviour
         slapbox.enabled = false;
     }
     // Add these helpers inside Enemy class
-    private void UpdateChargeUI(float current, float max, bool show)
+    public void UpdateChargeUI(float current, float max, bool show)
     {
         if (chargeSlider == null) return;
 
@@ -238,7 +229,7 @@ public class EnemyBase : MonoBehaviour
 
         chargeSlider.value = Mathf.Clamp(current, 0f, max);
     }
-    private void ResetChargeUI()
+    public void ResetChargeUI()
     {
         if (chargeSlider == null) return;
         chargeSlider.value = 0f;
@@ -255,7 +246,7 @@ public class EnemyBase : MonoBehaviour
         }
 
     }
-    bool IsEnemyGrounded()
+    public bool IsEnemyGrounded()
     {
         // Use a raycast or other method to check if the enemy is on the ground
         Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
@@ -265,7 +256,7 @@ public class EnemyBase : MonoBehaviour
     /// <summary>
     /// Gizmo to visualize the ground check sphere in the editor
     /// </summary>
-    private void OnDrawGizmosSelected()
+    public void OnDrawGizmosSelected()
     {
         Vector3 center = groundCheck != null ? groundCheck.position : transform.position;
         float radius = Mathf.Max(groundDistance, 0f);
@@ -273,7 +264,7 @@ public class EnemyBase : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(center, radius);
     }
-    private void OnCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Shockwave"))
         {
