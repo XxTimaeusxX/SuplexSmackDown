@@ -38,6 +38,7 @@ public class PlayerSuplex : MonoBehaviour
     public LineRenderer trajectoryRenderer; // Visualize the suplex arc
     public GameObject shockwave;
     public Transform player;
+    private CinemachineImpulseSource impulseSource;
 
     [Header("Suplex Configurations")]
     public List<SuplexConfig> suplexConfigs; // List of all possible suplex types
@@ -99,14 +100,14 @@ public class PlayerSuplex : MonoBehaviour
     public Color superIconColor = new Color(1f, 0.15f, 0.15f, 1f);  // Red
                                                                     // Tracks which ability the current marker instance represents
     private SuplexAbilities _landingMarkerAbility = SuplexAbilities.None;
-
+    
     /// <summary>
     /// Called when the script instance is being loaded.
     /// Sets up references to other components and input actions.
     /// </summary>
     private void Awake()
     {
-       
+       impulseSource = GetComponent<CinemachineImpulseSource>();
         if (playerDash == null)
             playerDash = GetComponentInParent<PlayerDash>();
         playerMovement = GetComponentInParent<PlayerMovement>();
@@ -426,7 +427,8 @@ public class PlayerSuplex : MonoBehaviour
             // End the suplex when the player lands (after a minimum airtime)
             if (t > minAirTime && IsGrounded())
             {
-                if(shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
+                CameraShakeManager.Instance.SuplexCameraShake(impulseSource);
+                if (shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
                     Instantiate(shockwave, player.position, player.rotation, player);
                 AudioManager.PlaySuplexSlam();
                 break;
