@@ -6,6 +6,7 @@ public class PlayerCheckpoint : MonoBehaviour
 	public Transform currentCheckpoint; //init with starting position
 	private PlayerMovement playerMovement;
 	private PlayerHealth playerHealth;
+	
     void Start()
 	{
 		playerMovement = GetComponentInParent<PlayerMovement>();
@@ -19,7 +20,6 @@ public class PlayerCheckpoint : MonoBehaviour
 	
 	private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("entered!");
 		//upon entering, set this checkpoint to currentCheckpoint
 		if (other.CompareTag("Respawn"))
         {
