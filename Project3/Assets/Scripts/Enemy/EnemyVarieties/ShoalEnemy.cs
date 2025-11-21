@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class ShoalEnemy : EnemyBase
 {
+    public GameObject door;
+
     new void Update()
     {
         bool grounded = IsEnemyGrounded();
@@ -24,6 +26,7 @@ public class ShoalEnemy : EnemyBase
             if (enemyHealth.value <= 0)
             {
                 enemyHealthScreen.SetActive(false);
+                Destroy(door);
             }
             Destroy(gameObject);
         }
