@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    [Header("References")]
     public GameObject Target;
     public NavMeshAgent agent;
     public Rigidbody rb;
@@ -13,7 +14,13 @@ public class EnemyBase : MonoBehaviour
     public LayerMask groundMask;
     public float groundDistance;
 
+    [Header("Behavior Toggles ")]
+    public bool canPatrol = true;
+    public bool canChase = true;
+    public bool canAttack = true;
 
+
+    [Header("Ground Settings")]
     public float m_Distance;
     public bool wasGrounded = false;
     public bool isGrabbed;
@@ -111,6 +118,8 @@ public class EnemyBase : MonoBehaviour
     }
     public void RandomPatrolDestination()
     {
+        // Behavior guard: only patrol when allowed
+        if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
 
         // Pick points around current floor height (not y=0) to stay on the same NavMesh island
@@ -139,6 +148,8 @@ public class EnemyBase : MonoBehaviour
     }
     public void ChasePlayer()
     {
+        // Behavior guard: only chase when allowed
+        if (!canChase) return;
         if (Target == null)
         {
             RandomPatrolDestination();
@@ -189,6 +200,10 @@ public class EnemyBase : MonoBehaviour
 
     public void SlapAttack()
     {
+        // Behavior guard: only attack when allowed
+        if (!canAttack) { ResetSlapState(); return; }// ensure state/UI is cleared if attack disabled mid-charge
+       
+
         // Charge up while in melee
         if (_nextAttackTime < attackCooldown)
         {

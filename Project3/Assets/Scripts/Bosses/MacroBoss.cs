@@ -8,6 +8,12 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Collider))]
 public class MacroBoss : Enemy
 {
+    private void Awake()
+    {
+        canAttack = false; // Disable basic attack for MacroBoss
+        canChase = true;
+        canPatrol = true;
+    }
     // Auto-provision basic Enemy fields so chase/slap work without manual setup.
     void OnValidate()
     {
@@ -27,8 +33,8 @@ public class MacroBoss : Enemy
         }
 
         // 3) Defaults for movement/combat so it actually chases and swings
-        if (chaseRange <= 0f) chaseRange = 12f;
-        if (meleeRange <= 0f) meleeRange = 1.75f;
+        if (chaseRange <= 0f) chaseRange = 20f;
+        if (meleeRange <= 0f) meleeRange = 20f;
         if (patrolRunSpeed <= 0f) patrolRunSpeed = 3.5f;
         if (patrolWalkSpeed <= 0f) patrolWalkSpeed = 1.5f;
         if (attackCooldown <= 0f) attackCooldown = 0.8f;
@@ -48,11 +54,33 @@ public class MacroBoss : Enemy
     }
     private IEnumerator Throwload()
     {
-        var wait = new WaitForSeconds(throwInterval);
-        while(true)
+        var waitInterval = new WaitForSeconds(throwInterval); // cooldown between throws when in-range
+        var poll = new WaitForSeconds(0.2f);                  // how often we check range when out-of-range
+
+        while (true)
         {
-           yield return wait;
-            ThrowMicro();
+            // Basic safety checks
+            if (Target == null || MicroPrefab == null)
+            {
+                yield return poll;
+                continue;
+            }
+
+            float dist = Vector3.Distance(Target.transform.position, transform.position);    
+            // Only throw when within chaseRange and boss currently allowed to chase
+            if (dist <= meleeRange && canChase)
+            {
+                ThrowMicro();
+                
+                // wait the full throw cooldown before attempting another throw
+                yield return waitInterval;
+            }
+            else
+            {
+               
+                // not in range yet — poll again shortly
+                yield return poll;
+            }
         }
     }
     public void ThrowMicro()
