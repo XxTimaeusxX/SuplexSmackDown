@@ -3602,6 +3602,7 @@ GameObject:
   - component: {fileID: 158926019}
   - component: {fileID: 158926018}
   - component: {fileID: 158926020}
+  - component: {fileID: 158926021}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -3633,6 +3634,9 @@ MonoBehaviour:
   _DefaultGameOverButton: {fileID: 1453589889}
   _HealthUI: {fileID: 904839012}
   _SuperSuplexUI: {fileID: 7320028099363092639}
+  DEBUG_Player: {fileID: 1301373645}
+  DEBUG_ShoalSpawnLocation: {fileID: 998491480}
+  DEBUG_BossSpawnLocation: {fileID: 0}
   canPause: 1
   pause_anim: {fileID: 1453589888}
 --- !u!4 &158926019
@@ -3665,6 +3669,18 @@ MonoBehaviour:
   _LoadingScreenContainer: {fileID: 0}
   _LoadingBar: {fileID: 0}
   _inGameMenuManager: {fileID: 158926018}
+--- !u!114 &158926021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158926017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b6849c7e8ba6d4186900924a4e9b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &161514461
 GameObject:
   m_ObjectHideFlags: 0
@@ -25279,15 +25295,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1811525581774194839, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16026461
+      value: 0.16026463
       objectReference: {fileID: 0}
     - target: {fileID: 1811525581774194839, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.0000005248863
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1811525581774194839, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.000000085222275
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1811525581774194839, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -25311,19 +25327,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4854545845511743442, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.98707414
+      value: 0.9870741
       objectReference: {fileID: 0}
     - target: {fileID: 4854545845511743442, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.16026463
+      value: 0.16026467
       objectReference: {fileID: 0}
     - target: {fileID: 4854545845511743442, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.00000053097887
+      value: 2.736226e-11
       objectReference: {fileID: 0}
     - target: {fileID: 4854545845511743442, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000008621149
+      value: -3.9094596e-12
       objectReference: {fileID: 0}
     - target: {fileID: 5765469481995071905, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -45089,6 +45105,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2300111244632298652, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 158926018}
+    - target: {fileID: 2300111244632298652, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToBossButtonClicked
+      objectReference: {fileID: 0}
     - target: {fileID: 2363168311468643827, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_Name
       value: MainHUDCanvas
@@ -45448,6 +45472,14 @@ PrefabInstance:
     - target: {fileID: 8892322008252817716, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8978321323444530080, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 158926018}
+    - target: {fileID: 8978321323444530080, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToShoalButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 9196445210518183109, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_Name

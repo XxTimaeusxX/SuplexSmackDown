@@ -22,6 +22,13 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _HealthUI;
 	[SerializeField] GameObject _SuperSuplexUI;
 
+	[Header("Debug Menu")]
+	[SerializeField] GameObject DEBUG_Player;
+	CharacterController DEBUG_PlayerCC;
+	[SerializeField] GameObject DEBUG_ShoalSpawnLocation;
+	[SerializeField] GameObject DEBUG_BossSpawnLocation;
+
+
 	//[SerializeField] GameObject _PausePoster;
 	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
 	float pause_t = 0;
@@ -30,6 +37,10 @@ public class InGameMenuManager : MonoBehaviour
 	public bool canPause = true;
 	
 	[SerializeField] Animator pause_anim;
+	
+	public void Start(){
+		DEBUG_PlayerCC = DEBUG_Player.GetComponent<CharacterController>();
+	}
 	
 	//lock/hide cursor, unpause, and hide pause menu
 	public void ResumeButtonClicked()
@@ -153,6 +164,27 @@ public class InGameMenuManager : MonoBehaviour
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
+	}
+	
+	//-------- DEBUG MENU OPTIONS --------//
+	//transports the player, then functions as ResumeButtonClicked
+	public void ToShoalButtonClicked()
+	{
+		StartCoroutine(DEBUG_Teleport(DEBUG_ShoalSpawnLocation.transform.position));
+	}
+	
+	//transports the player, then functions as ResumeButtonClicked
+	public void ToBossButtonClicked()
+	{
+		StartCoroutine(DEBUG_Teleport(DEBUG_BossSpawnLocation.transform.position));
+	}
+	
+	IEnumerator DEBUG_Teleport(Vector3 newPosition){
+		ResumeButtonClicked();
+		DEBUG_PlayerCC.enabled = false;
+		yield return new WaitForSeconds(.1f);
+		DEBUG_Player.transform.position = newPosition;
+		DEBUG_PlayerCC.enabled = true;
 	}
 	
 }
