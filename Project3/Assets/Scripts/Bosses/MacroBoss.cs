@@ -6,15 +6,15 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class MacroBoss : Enemy
+public class MacroBoss : EnemyBase
 {
     private void Awake()
     {
-        canAttack = false; // Disable basic attack for MacroBoss
+        canAttack = true; // little guy can attack
         canChase = true;
         canPatrol = true;
     }
-    // Auto-provision basic Enemy fields so chase/slap work without manual setup.
+    // ------------ auto assign references -------------- //
     void OnValidate()
     {
         // 1) Target: find and assign player as target if not assigned
@@ -31,64 +31,28 @@ public class MacroBoss : Enemy
             if (existing != null) groundCheck = existing;
            
         }
-
-        // 3) Defaults for movement/combat so it actually chases and swings
-        if (chaseRange <= 0f) chaseRange = 20f;
-        if (meleeRange <= 0f) meleeRange = 20f;
-        if (patrolRunSpeed <= 0f) patrolRunSpeed = 3.5f;
-        if (patrolWalkSpeed <= 0f) patrolWalkSpeed = 1.5f;
-        if (attackCooldown <= 0f) attackCooldown = 0.8f;
-
-        // 4) Grounding mask and distance
-        if (groundDistance <= 0f) groundDistance = 0.2f;
-        if (groundMask.value == 0) groundMask = ~0; // everything, fine for a flat test plane
     }
-    [Header("Boss Throw (Simple)")]
-    [SerializeField] private GameObject MicroPrefab;   // prefab For MicroBoss
-    [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
-    [SerializeField] private float throwInterval = 5f;
-    [SerializeField] private float throwForce = 12f;
+
+    [Header("Macro Settings")]
+    [SerializeField] private Transform MicroPosition;
+
     private void OnEnable()
     {
-        StartCoroutine(Throwload());
+        StartCoroutine(ReturnToMicroPosition());
     }
-    private IEnumerator Throwload()
-    {
-        var waitInterval = new WaitForSeconds(throwInterval); // cooldown between throws when in-range
-        var poll = new WaitForSeconds(0.2f);                  // how often we check range when out-of-range
 
+    private IEnumerator ReturnToMicroPosition()
+    {
+        var wait = new WaitForSeconds(5f);
         while (true)
         {
-            // Basic safety checks
-            if (Target == null || MicroPrefab == null)
+            if (MicroPosition != null)
             {
-                yield return poll;
-                continue;
+                Debug.Log("Returning to micro position");
+                agent.destination = MicroPosition.position;
+                //agent.SetDestination(MicroPosition.position);
             }
-
-            float dist = Vector3.Distance(Target.transform.position, transform.position);    
-            // Only throw when within chaseRange and boss currently allowed to chase
-            if (dist <= meleeRange && canChase)
-            {
-                ThrowMicro();
-                
-                // wait the full throw cooldown before attempting another throw
-                yield return waitInterval;
-            }
-            else
-            {
-               
-                // not in range yet — poll again shortly
-                yield return poll;
-            }
+            yield return wait;
         }
-    }
-    public void ThrowMicro()
-    {
-        Vector3 origin = throwOrigin.position;
-        var go = Instantiate(MicroPrefab, origin, Quaternion.identity);
-        var rb = go.GetComponent<Rigidbody>();
-        Vector3 dir = (Target.transform.position - origin).normalized;
-        rb.AddForce(dir * throwForce, ForceMode.VelocityChange);
     }
 }

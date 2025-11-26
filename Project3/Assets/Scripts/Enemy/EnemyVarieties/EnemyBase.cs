@@ -146,6 +146,14 @@ public class EnemyBase : MonoBehaviour
         }
 
     }
+    public void FaceTarget()
+    {
+        var TurnToTarget = agent.steeringTarget;
+        Vector3 direction = (TurnToTarget - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
+
     public void ChasePlayer()
     {
         // Behavior guard: only chase when allowed
@@ -164,10 +172,12 @@ public class EnemyBase : MonoBehaviour
                 patrolWaitDefault = 0f;
                 agent.speed = patrolRunSpeed; // set chase speed
                 agent.destination = Target.transform.position;
+                   
 
                 if (m_Distance < meleeRange)
                 {
                     agent.isStopped = true;
+                    FaceTarget();
                     SlapAttack();
                 }
                 else
