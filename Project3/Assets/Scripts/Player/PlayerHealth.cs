@@ -28,7 +28,7 @@ public class PlayerHealth : MonoBehaviour
 			currentHealth = newHP;
 			healthImg.texture = healthSprites[currentHealth];
 		}
-		if(newHP == 0){
+		if(newHP <= 0){
 			GameOver();
 			AudioManager.PlayGameOver();
 		}
