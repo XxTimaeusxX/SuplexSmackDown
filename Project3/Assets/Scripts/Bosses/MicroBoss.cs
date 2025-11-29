@@ -8,12 +8,27 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Collider))]
 public class MicroBoss : EnemyBase
 {
+    [Header("Boss Throw (Simple)")]
+    [SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
+    [SerializeField] private GameObject MacroPrefab;   // prefab For MicroBoss
+    [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
+    [SerializeField] private float throwInterval = 5f;
+    [SerializeField] private float throwForce = 12f;
+    private NavMeshAgent MacroAgent;
+    private Rigidbody MacrosRb;
+    private MacroBoss MacroEnemy;
 
     private void Awake()
     {
         canAttack = false; // Disable basic attack for MicroBoss "big guy"
         canChase = true;
         canPatrol = true;
+     
+
+        // ----- get macros components ----- //
+         MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
+         MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
+        MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -34,12 +49,6 @@ public class MicroBoss : EnemyBase
         }
     }
 
-
-    [Header("Boss Throw (Simple)")]
-    [SerializeField] private GameObject MicroPrefab;   // prefab For MicroBoss
-    [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
-    [SerializeField] private float throwInterval = 5f;
-    [SerializeField] private float throwForce = 12f;
     private void OnEnable()
     {
         StartCoroutine(Throwload());
@@ -52,7 +61,7 @@ public class MicroBoss : EnemyBase
         while (true)
         {
             // Basic safety checks
-            if (Target == null || MicroPrefab == null)
+            if (Target == null || MacroPrefab == null)
             {
                 yield return poll;
                 continue;
@@ -63,10 +72,10 @@ public class MicroBoss : EnemyBase
             if (dist <= meleeRange && canChase)
             {
 
-                ThrowMicro();
+              // StartCoroutine(ThrowMicro());
 
                 // wait the full throw cooldown before attempting another throw
-                yield return waitInterval;
+                 yield return waitInterval;
             }
             else
             {
@@ -76,13 +85,34 @@ public class MicroBoss : EnemyBase
             }
         }
     }
-    public void ThrowMicro()
+   
+    public IEnumerator ThrowMicro()
     {
+        // ----- Position macro prefab at throw origin ----- //
         Vector3 origin = throwOrigin.position;
-        var go = Instantiate(MicroPrefab, origin, Quaternion.identity);
-        var rb = go.GetComponent<Rigidbody>();
+        MacroPrefab.transform.position = origin;
+        MacroPrefab.transform.rotation = Quaternion.identity;
+
+
+        // ----- Disabling navmesh & kinematics  ----- //
+        MacroAgent.enabled = false; // disable navmesh agent to allow physics throw
+        MacrosRb.isKinematic = false; // ensure rigidbody is non-kinematic to allow physics throw
+
+       //---- Disable enemy AI behaviors on thrown MacroEnemy--//
+       MacroEnemy.canAttack = false;
+       MacroEnemy.canPatrol = false;
+       MacroEnemy.canChase = false;
+       MacroEnemy.SetGrabbed(true);
+
+        // ----- Calculate throw direction and apply force ----- //
         Vector3 dir = (Target.transform.position - origin).normalized;
-        rb.AddForce(dir * throwForce, ForceMode.VelocityChange);
+        MacrosRb.AddForce(dir * throwForce, ForceMode.VelocityChange);
+
+        yield return new WaitForSeconds(3f); // wait for macro to land
+        // ----- Re-enable navmesh & kinematics ----- //
+        
+        StartCoroutine(MacroEnemy.ResumeSequence());
+       
     }
 
 }

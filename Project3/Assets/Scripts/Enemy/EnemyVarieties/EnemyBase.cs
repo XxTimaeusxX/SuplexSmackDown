@@ -40,9 +40,7 @@ public class EnemyBase : MonoBehaviour
     public float patrolWaitDefault;
 
     [Header("Combat")]
-    [Tooltip("Distance at which this enemy will attempt a melee attack.")]
     public float meleeRange = 1.75f;
-    [Tooltip("Seconds between melee attack attempts (prevents spam).")]
     public float attackCooldown = 0.8f;
     public float _nextAttackTime = 0f;
 

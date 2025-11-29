@@ -38,19 +38,39 @@ public class MacroBoss : EnemyBase
 
     private void OnEnable()
     {
+        StartCoroutine(ResumeSequence());
+    }
+    public IEnumerator ResumeSequence()
+    {
+        //Resume normal behavior: EnemyBase
+        canChase = true;
+        canAttack = true;
+        canPatrol = true;
+        SetGrabbed(false);
+        yield return new WaitForSeconds(6f);
         StartCoroutine(ReturnToMicroPosition());
     }
-
     private IEnumerator ReturnToMicroPosition()
     {
-        var wait = new WaitForSeconds(5f);
+        var wait = new WaitForSeconds(.5f);
+        canChase = false; // disable chasing while returning to micro position
+        canAttack = false; // disable attacking while returning to micro position
+        canPatrol = false; // disable patrolling while returning to micro position
+        agent.isStopped = false; // ensure agent is not stopped
+        agent.SetDestination(MicroPosition.position);
         while (true)
         {
-            if (MicroPosition != null)
+            // If boss is being pushed/grabbed, pause progress until stable
+            if (isPushed || isGrabbed)
             {
-                Debug.Log("Returning to micro position");
-                agent.destination = MicroPosition.position;
-                //agent.SetDestination(MicroPosition.position);
+                yield return null;
+                continue;
+            }
+            if(agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 1f))
+            {
+                Debug.Log("Reached micro position");
+               StartCoroutine(ResumeSequence());
+                yield break; // exit coroutine
             }
             yield return wait;
         }

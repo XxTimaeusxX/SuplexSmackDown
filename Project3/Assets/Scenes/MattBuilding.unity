@@ -17801,6 +17801,37 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &65243779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 65243780}
+  m_Layer: 8
+  m_Name: MicroPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &65243780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65243779}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.564, y: -0.686, z: 1.455}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1915759903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &69463802
 GameObject:
   m_ObjectHideFlags: 0
@@ -31835,6 +31866,73 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &301046673
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 301046674}
+  - component: {fileID: 301046675}
+  - component: {fileID: 301046676}
+  m_Layer: 8
+  m_Name: GrabCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &301046674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301046673}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1915759903}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &301046675
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301046673}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2618939, y: 1.269659, z: 2.0093286}
+  m_Center: {x: -0.036898036, y: -0.13482982, z: 0.50466436}
+--- !u!114 &301046676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301046673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fe697a80d03fb54fa06a389e281a47e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MicroThrowboxCaller
+  microBoss: {fileID: 480741426}
 --- !u!43 &302318755
 Mesh:
   m_ObjectHideFlags: 0
@@ -44957,9 +45055,17 @@ PrefabInstance:
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 1653933575705297595, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
+      propertyPath: throwForce
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 1653933575705297595, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
+      propertyPath: MacroPrefab
+      value: 
+      objectReference: {fileID: 1619053092}
+    - target: {fileID: 1653933575705297595, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
       propertyPath: MicroPrefab
       value: 
-      objectReference: {fileID: 7740375658524990664, guid: cf4da8a6006340948abc22b740669c8e, type: 3}
+      objectReference: {fileID: 1619053092}
     - target: {fileID: 1653933575705297595, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
       propertyPath: throwOrigin
       value: 
@@ -45091,8 +45197,25 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 419584436173729249, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1623437336}
+    - targetCorrespondingSourceObject: {fileID: 419584436173729249, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 65243780}
+    - targetCorrespondingSourceObject: {fileID: 419584436173729249, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 301046674}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
+--- !u!114 &480741426 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1653933575705297595, guid: 5a8803196fd0c4948a350d5c85804c4e, type: 3}
+  m_PrefabInstance: {fileID: 480741425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163459469c2ccbd4cbddce773c3009cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MicroBoss
 --- !u!1 &482421064
 GameObject:
   m_ObjectHideFlags: 0
@@ -130174,6 +130297,11 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1619053092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 815463349756047240, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
+  m_PrefabInstance: {fileID: 2135745243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1623437335
 GameObject:
   m_ObjectHideFlags: 0
@@ -166480,6 +166608,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 94331698028440693, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
+      propertyPath: m_Mass
+      value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 94331698028440693, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
+      propertyPath: m_Constraints
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 815463349756047240, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
       propertyPath: m_Name
       value: Macro
@@ -166499,7 +166635,7 @@ PrefabInstance:
     - target: {fileID: 5319476868097519493, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
       propertyPath: MicroPosition
       value: 
-      objectReference: {fileID: 292690320}
+      objectReference: {fileID: 65243780}
     - target: {fileID: 8871271892808687196, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.322752
