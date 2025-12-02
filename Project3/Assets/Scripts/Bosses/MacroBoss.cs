@@ -8,11 +8,16 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Collider))]
 public class MacroBoss : EnemyBase
 {
+    [Header("Macro Settings")]
+    [SerializeField] private Transform MicroPosition;
+    [SerializeField] private float returnDelay = 6f;
+    public Collider damageHitbox;
     private void Awake()
     {
         canAttack = true; // little guy can attack
         canChase = true;
         canPatrol = true;
+       // damageHitbox.enabled = false;
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -32,10 +37,8 @@ public class MacroBoss : EnemyBase
            
         }
     }
-
-    [Header("Macro Settings")]
-    [SerializeField] private Transform MicroPosition;
-
+   
+   
     private void OnEnable()
     {
         StartCoroutine(ResumeSequence());
@@ -47,7 +50,7 @@ public class MacroBoss : EnemyBase
         canAttack = true;
         canPatrol = true;
         SetGrabbed(false);
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(returnDelay);
         StartCoroutine(ReturnToMicroPosition());
     }
     private IEnumerator ReturnToMicroPosition()
@@ -66,13 +69,26 @@ public class MacroBoss : EnemyBase
                 yield return null;
                 continue;
             }
-            if(agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 1f))
+            if(agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, .5f))
             {
                 Debug.Log("Reached micro position");
                StartCoroutine(ResumeSequence());
                 yield break; // exit coroutine
             }
             yield return wait;
+        }
+    }
+  
+    private void OnTriggerEnter(Collider other)
+    {
+        // prefer a tag on Micro; fallback to name check
+        if ( other.gameObject.name == "Micro")
+        {
+            // Micro was hit during suplex
+            Debug.Log("Micro is hit");
+            if (damageHitbox != null) damageHitbox.enabled = false;
+            enemyHealth.value -= 1;
+            // handle any damage/UI here
         }
     }
 }

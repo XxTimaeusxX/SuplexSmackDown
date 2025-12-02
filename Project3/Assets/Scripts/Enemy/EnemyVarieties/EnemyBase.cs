@@ -74,7 +74,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     // Update is called once per frame
-    public void Update()
+    private void Update()
     {
         bool grounded = IsEnemyGrounded();
         if (isPushed)

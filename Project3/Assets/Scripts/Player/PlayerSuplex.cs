@@ -366,6 +366,11 @@ public class PlayerSuplex : MonoBehaviour
         Vector3 DefaultCameraOffset = orbital.TargetOffset;
         bool cameratilted = false;
 
+        // enabling Macro's hitbox during suplex
+        var macroHitbox = grabbedEnemy.GetComponentInChildren<MacroBoss>();
+        if (macroHitbox != null)
+            macroHitbox.damageHitbox.enabled = true;
+
         // Wait for the player to land or jump off
         while (true)
         {
@@ -446,6 +451,7 @@ public class PlayerSuplex : MonoBehaviour
             playerMovement.velocity.x = 0f;
             playerMovement.velocity.z = 0f;
             playerMovement.velocity.y = -2f;
+           // macroHitbox.damageHitbox.enabled = false; // disable Macro's hitbox after suplex
         }
 
         isSuplexing = false;

@@ -7,7 +7,7 @@ public class MicroThrowboxCaller : MonoBehaviour
     {
         if (macro.gameObject.name.Equals("Macro"))
         {
-           StartCoroutine(microBoss.ThrowMicro());
+           StartCoroutine(microBoss.ThrowMacro());
         }
     }
 }

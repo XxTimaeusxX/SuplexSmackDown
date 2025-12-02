@@ -48,6 +48,17 @@ public class MicroBoss : EnemyBase
 
         }
     }
+   /* new void Update()
+    {
+       
+        if(enemyHealth.value == 1)
+            Debug.Log("Macro Health is 1");
+        if (enemyHealth.value <= 0)
+        {
+            Destroy(MacroPrefab);
+
+        }
+    }*/
 
     private void OnEnable()
     {
@@ -86,34 +97,39 @@ public class MicroBoss : EnemyBase
         }
     }
    
-    public IEnumerator ThrowMicro()
+    public IEnumerator ThrowMacro()
     {
+        
         // ----- Position macro prefab at throw origin ----- //
-        Vector3 origin = throwOrigin.position;
-        MacroPrefab.transform.position = origin;
+        var origin = (throwOrigin != null) ? throwOrigin : this.transform;
+        MacroPrefab.transform.position = origin.position;
         MacroPrefab.transform.rotation = Quaternion.identity;
-        //---- Hold Macro for 5 seconds--//
-      //  yield return new WaitForSeconds(5f);
-
+        MacroPrefab.transform.SetParent(origin);
+        MacroPrefab.transform.localPosition = Vector3.zero;
+        
         // ----- Disabling navmesh & kinematics  ----- //
-        MacroAgent.enabled = false; // disable navmesh agent to allow physics throw
-        MacrosRb.isKinematic = false; // ensure rigidbody is non-kinematic to allow physics throw
+        MacrosRb.isKinematic = true;
 
-       //---- Disable enemy AI behaviors on thrown MacroEnemy--//
-       MacroEnemy.canAttack = false;
-       MacroEnemy.canPatrol = false;
-       MacroEnemy.canChase = false;
-       MacroEnemy.SetGrabbed(true);
+        //---- Disable enemy AI behaviors on thrown MacroEnemy--//
+        MacroEnemy.canAttack = false;
+        MacroEnemy.canPatrol = false;
+        MacroEnemy.canChase = false;
+        MacroEnemy.SetGrabbed(true);
 
-     
+        //---- Hold Macro for x seconds--//
+        yield return new WaitForSeconds(1f);
+
+       
+        MacroPrefab.transform.SetParent(null); // unparent macro before throw
+        MacrosRb.isKinematic = false; // re-enable physics
 
         // ----- Calculate throw direction and apply force ----- //
-        Vector3 dir = (Target.transform.position - origin).normalized;
+        Vector3 dir = (Target.transform.position - MacroPrefab.transform.position).normalized;
         MacrosRb.AddForce(dir * throwForce, ForceMode.VelocityChange);
 
         yield return new WaitForSeconds(3f); // wait for macro to land
         // ----- Re-enable navmesh & kinematics ----- //
-        
+        MacroEnemy.SetGrabbed(false);
         StartCoroutine(MacroEnemy.ResumeSequence());
        
     }
