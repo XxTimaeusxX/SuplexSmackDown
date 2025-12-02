@@ -27,7 +27,7 @@ public class ShoalEnemy : EnemyBase
             if (enemyHealth.value <= 0)
             {
                 enemyHealthScreen.SetActive(false);
-                Destroy(door);
+                door.SetActive(false);
             }
             Destroy(gameObject);
         }
