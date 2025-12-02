@@ -92,7 +92,8 @@ public class MicroBoss : EnemyBase
         Vector3 origin = throwOrigin.position;
         MacroPrefab.transform.position = origin;
         MacroPrefab.transform.rotation = Quaternion.identity;
-
+        //---- Hold Macro for 5 seconds--//
+      //  yield return new WaitForSeconds(5f);
 
         // ----- Disabling navmesh & kinematics  ----- //
         MacroAgent.enabled = false; // disable navmesh agent to allow physics throw
@@ -103,6 +104,8 @@ public class MicroBoss : EnemyBase
        MacroEnemy.canPatrol = false;
        MacroEnemy.canChase = false;
        MacroEnemy.SetGrabbed(true);
+
+     
 
         // ----- Calculate throw direction and apply force ----- //
         Vector3 dir = (Target.transform.position - origin).normalized;
