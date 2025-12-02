@@ -39,7 +39,7 @@ public class PlayerSuplex : MonoBehaviour
     public GameObject shockwave;
     public Transform player;
     private CinemachineImpulseSource impulseSource;
-
+    private MacroBoss _currentMacroBoss;
     [Header("Suplex Configurations")]
     public List<SuplexConfig> suplexConfigs; // List of all possible suplex types
     public AnimationCurve GravityControl; // line graph to control gravity during suplex
@@ -168,11 +168,12 @@ public class PlayerSuplex : MonoBehaviour
     /// </summary>
     void HoldEnemy(Collider enemy)
     {
+        
         grabbedEnemy = enemy.transform;
         grabbedEnemy.SetParent(heldEnemy);
         grabbedEnemy.localPosition = Vector3.zero;
-
-        var root = enemy.GetComponentInParent<Enemy>()?.transform ?? enemy.transform;
+        _currentMacroBoss = grabbedEnemy.GetComponent<MacroBoss>();
+        var root = enemy.GetComponentInParent<EnemyBase>()?.transform ?? enemy.transform;
         int bigLayer = LayerMask.NameToLayer(bigEnemyLayerName);
         currentGravityScale = (root.gameObject.layer == bigLayer) ? bigEnemyGravityScale : 1f;
         currentMoveSpeedScale = (root.gameObject.layer == bigLayer) ? bigEnemyMoveSpeedScale : 1f;
@@ -189,7 +190,7 @@ public class PlayerSuplex : MonoBehaviour
         var rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)rb.isKinematic = true;// Prevent physics while held
 
-        var enemyScript = enemy.GetComponent<Enemy>();
+        var enemyScript = enemy.GetComponent<EnemyBase>();
         if (enemyScript != null) enemyScript.SetGrabbed(true); // Disable ground detection
 
         // starting a new suplex breaks any homing window
@@ -208,7 +209,7 @@ public class PlayerSuplex : MonoBehaviour
         if (grabbedEnemy != null)
         {
             var rb = grabbedEnemy.GetComponent<Rigidbody>();
-            var enemyScript = grabbedEnemy.GetComponent<Enemy>();
+            var enemyScript = grabbedEnemy.GetComponent<EnemyBase>();
             if (enemyScript != null)
             { // Enable ground detection
                 enemyScript.SetGrabbed(false);
@@ -228,6 +229,7 @@ public class PlayerSuplex : MonoBehaviour
                 grabbedEnemy = null;
                 playerMovement.moveSpeed = _savedMoveSpeed;
                 playerMovement.gravity = _defaultGravity;
+                _currentMacroBoss = null;
         }
     }
 
@@ -367,9 +369,10 @@ public class PlayerSuplex : MonoBehaviour
         bool cameratilted = false;
 
         // enabling Macro's hitbox during suplex
-        var macroHitbox = grabbedEnemy.GetComponentInChildren<MacroBoss>();
-        if (macroHitbox != null)
-            macroHitbox.damageHitbox.enabled = true;
+        if (_currentMacroBoss != null && _currentMacroBoss.damageHitbox != null)
+        {
+            _currentMacroBoss.damageHitbox.enabled = true;
+        }
 
         // Wait for the player to land or jump off
         while (true)
@@ -451,9 +454,12 @@ public class PlayerSuplex : MonoBehaviour
             playerMovement.velocity.x = 0f;
             playerMovement.velocity.z = 0f;
             playerMovement.velocity.y = -2f;
-           // macroHitbox.damageHitbox.enabled = false; // disable Macro's hitbox after suplex
+           
         }
-
+        if (_currentMacroBoss != null && _currentMacroBoss.damageHitbox != null)
+        {
+            _currentMacroBoss.damageHitbox.enabled = false;
+        }
         isSuplexing = false;
         orbital.TargetOffset = DefaultCameraOffset;
     }
@@ -481,7 +487,7 @@ public class PlayerSuplex : MonoBehaviour
             if (ignore != null && (col.transform == ignore || col.transform.IsChildOf(ignore)))
                 continue;
 
-            var enemy = col.GetComponentInParent<Enemy>();
+            var enemy = col.GetComponentInParent<EnemyBase>();
             if (enemy == null || !enemy.gameObject.activeInHierarchy)
                 continue;
 

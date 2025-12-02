@@ -6,8 +6,9 @@ public class ShoalEnemy : EnemyBase
 {
     public GameObject door;
 
-    new void Update()
+    public override void Update()
     {
+        base.Update();  
         bool grounded = IsEnemyGrounded();
         if (isPushed)
         {

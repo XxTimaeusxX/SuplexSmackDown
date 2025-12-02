@@ -17,7 +17,7 @@ public class MacroBoss : EnemyBase
         canAttack = true; // little guy can attack
         canChase = true;
         canPatrol = true;
-       // damageHitbox.enabled = false;
+        damageHitbox.enabled = false;
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -79,16 +79,5 @@ public class MacroBoss : EnemyBase
         }
     }
   
-    private void OnTriggerEnter(Collider other)
-    {
-        // prefer a tag on Micro; fallback to name check
-        if ( other.gameObject.name == "Micro")
-        {
-            // Micro was hit during suplex
-            Debug.Log("Micro is hit");
-            if (damageHitbox != null) damageHitbox.enabled = false;
-            enemyHealth.value -= 1;
-            // handle any damage/UI here
-        }
-    }
+   
 }

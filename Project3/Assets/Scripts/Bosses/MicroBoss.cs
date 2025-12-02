@@ -9,7 +9,7 @@ using UnityEngine.AI;
 public class MicroBoss : EnemyBase
 {
     [Header("Boss Throw (Simple)")]
-    [SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
+    //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
     [SerializeField] private GameObject MacroPrefab;   // prefab For MicroBoss
     [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
     [SerializeField] private float throwInterval = 5f;
@@ -48,17 +48,22 @@ public class MicroBoss : EnemyBase
 
         }
     }
-   /* new void Update()
+    public override void Update()
     {
-       
-        if(enemyHealth.value == 1)
-            Debug.Log("Macro Health is 1");
+       base.Update();
         if (enemyHealth.value <= 0)
         {
+            StopCoroutine(Throwload());
+            // Disable this boss functionality
+            canAttack = false;
+            canChase = false;
+            canPatrol = false;
+            agent.enabled = false;
+           
+            enemyHealthScreen.SetActive(false);
             Destroy(MacroPrefab);
-
         }
-    }*/
+    }
 
     private void OnEnable()
     {
@@ -105,7 +110,7 @@ public class MicroBoss : EnemyBase
         MacroPrefab.transform.position = origin.position;
         MacroPrefab.transform.rotation = Quaternion.identity;
         MacroPrefab.transform.SetParent(origin);
-        MacroPrefab.transform.localPosition = Vector3.zero;
+      //  MacroPrefab.transform.localPosition = Vector3.zero;
         
         // ----- Disabling navmesh & kinematics  ----- //
         MacrosRb.isKinematic = true;
@@ -117,7 +122,7 @@ public class MicroBoss : EnemyBase
         MacroEnemy.SetGrabbed(true);
 
         //---- Hold Macro for x seconds--//
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
        
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
@@ -133,5 +138,5 @@ public class MicroBoss : EnemyBase
         StartCoroutine(MacroEnemy.ResumeSequence());
        
     }
-
+  
 }
