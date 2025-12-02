@@ -38,6 +38,30 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip enemySlapClip;
     public AudioClip enemyDieclip;
 
+    [Header("Shoal Enemy SFX")]
+    public AudioClip shoalFallingClip;
+    public AudioClip shoalIdleclip;
+    public AudioClip shoalDamageHitClip;
+
+    [Header("Construction Enemy SFX")]
+    public AudioClip ConstructionIdleClip;
+    public AudioClip ConstructionSeenOneClip;
+    public AudioClip ConstructionSeentwoClip;
+    public AudioClip ConstructionFallingClip;
+    public AudioClip ConstructionDamageHitOneClip;
+    public AudioClip ConstructionDamageHitTwoClip;
+
+    [Header("Macro Enemy SFX")]
+    public AudioClip MacroIdleClip;
+    public AudioClip MacroRetreatOneClip;
+    public AudioClip MacroRetreatTwoClip;
+    public AudioClip MacroDamageHitOneClip;
+    public AudioClip MacroDamageHitTwoClip;
+
+    [Header("Micro Enemy SFX")]
+    public AudioClip MicroChaseOneClip; // chase state sounds when micro is chasing player 
+    public AudioClip MicroPrepareAttackClip; // tells macro hes ready to throw him
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -145,55 +169,50 @@ public sealed class AudioManager : MonoBehaviour
         Instance.musicSource.Play();
     }
     // player SFX
-    public static void PlayFootstep()
-    {
-        if (!Instance || !Instance.footstepClip) return;
-        Instance.sfxSource.PlayOneShot(Instance.footstepClip, Instance.sfxVolume);
-    }
-    public static void PlayJumping()
-    {
-        if (!Instance || !Instance.jumpingClip) return;
-        Instance.sfxSource.PlayOneShot(Instance.jumpingClip, Instance.sfxVolume);
-    }
-    // player suplex SFX
-    public static void PlaySuplexStart()
-    {
-        if (!Instance || !Instance.LaunchSoundClip) return;
-        Instance.sfxSource.PlayOneShot(Instance.LaunchSoundClip, Instance.sfxVolume);
-    }
+    public static void PlayFootstep() => Instance?.sfxSource?.PlayOneShot(Instance?.footstepClip, Instance.sfxVolume);
+    public static void PlayJumping() => Instance?.sfxSource?.PlayOneShot(Instance?.jumpingClip, Instance.sfxVolume);
 
-    public static void PlaySuplexSlam()
-    {
-        if (!Instance || !Instance.suplexSlamClip) return;
-        Instance.sfxSource.PlayOneShot(Instance.suplexSlamClip, Instance.sfxVolume);
-    }
+    // player suplex SFX
+    public static void PlaySuplexStart() => Instance?.sfxSource?.PlayOneShot(Instance?.GrabClip, Instance.sfxVolume);
+
+    public static void PlaySuplexSlam() => Instance?.sfxSource?.PlayOneShot(Instance?.suplexSlamClip, Instance.sfxVolume);
 
     // PLayer health SFX
-    public static void PlayHealth3()
-    {
-        if (!Instance || !Instance.health3Clip) return;
-        Instance.sfxSource.PlayOneShot(Instance.health3Clip, Instance.sfxVolume);
-    }
-    public static void PlayHealth2()
-    {
-        if (!Instance || !Instance.health2Clip) return;
-        Instance.sfxSource.PlayOneShot(Instance.health2Clip, Instance.sfxVolume);
-    }
-    public static void PlayHealth1()
-    {
-        if (!Instance || !Instance.health1Clip) return;
-        Instance.sfxSource.PlayOneShot(Instance.health1Clip, Instance.sfxVolume);
-    }
-    public static void PlayGameOver()
-    {
-        if (!Instance || !Instance.GameOverClip) return;
-        Instance.sfxSource.PlayOneShot(Instance.GameOverClip, Instance.sfxVolume);
-    }
+    public static void PlayHealth3() => Instance?.sfxSource?.PlayOneShot(Instance?.health3Clip, Instance.sfxVolume);
+
+    public static void PlayHealth2() => Instance?.sfxSource?.PlayOneShot(Instance?.health2Clip, Instance.sfxVolume);
+   
+    public static void PlayHealth1() => Instance?.sfxSource?.PlayOneShot(Instance?.health1Clip, Instance.sfxVolume);
+
+    public static void PlayGameOver() => Instance?.sfxSource?.PlayOneShot(Instance?.GameOverClip, Instance.sfxVolume);
+
 
     // Enemy SFX
-    public static void PlayEnemySlap()
-    {
-        if (!Instance || !Instance.enemySlapClip) return;
-        Instance.sfxSource.PlayOneShot(Instance.enemySlapClip, Instance.sfxVolume);
-    }
-}           
+    public static void PlayEnemySlap() => Instance?.sfxSource?.PlayOneShot(Instance?.enemySlapClip, Instance.sfxVolume);
+
+
+   // ----Shoal Enemy SFX----
+    public static void PlayEnemyDie() => Instance?.sfxSource?.PlayOneShot(Instance?.enemyDieclip, Instance.sfxVolume);
+
+    public static void PlayShoalFalling() => Instance?.sfxSource?.PlayOneShot(Instance?.shoalFallingClip, Instance.sfxVolume);
+    public static void PlayShoalIdle() => Instance?.sfxSource?.PlayOneShot(Instance?.shoalIdleclip, Instance.sfxVolume);
+    public static void PlayShoalDamageHit() => Instance?.sfxSource?.PlayOneShot(Instance?.shoalDamageHitClip, Instance.sfxVolume);
+    // ----Construction Enemy SFX----
+    public static void PlayConstructionIdle() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionIdleClip, Instance.sfxVolume);
+    public static void PlayConstructionSeenOne() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionSeenOneClip, Instance.sfxVolume);
+    public static void PlayConstructionSeentwo() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionSeentwoClip, Instance.sfxVolume);
+    public static void PlayConstructionFalling() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionFallingClip, Instance.sfxVolume);
+    public static void PlayConstructionDamageHitOne() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionDamageHitOneClip, Instance.sfxVolume);
+    public static void PlayConstructionDamageHitTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionDamageHitTwoClip, Instance.sfxVolume);
+    // ----Macro Enemy SFX----
+    public static void PlayMacroIdle() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroIdleClip, Instance.sfxVolume);
+    public static void PlayMacroRetreatOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroRetreatOneClip, Instance.sfxVolume);
+    public static void PlayMacroRetreatTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroRetreatTwoClip, Instance.sfxVolume);
+    public static void PlayMacroDamageHitOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroDamageHitOneClip, Instance.sfxVolume);
+    public static void PlayMacroDamageHitTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroDamageHitTwoClip, Instance.sfxVolume);
+    // ----Micro Enemy SFX----
+    public static void PlayMicroChaseOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroChaseOneClip, Instance.sfxVolume);
+    public static void PlayMicroPrepareAttack() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroPrepareAttackClip, Instance.sfxVolume);
+        
+
+}
