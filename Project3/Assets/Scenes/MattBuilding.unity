@@ -40128,7 +40128,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2144237824}
+  m_Mesh: {fileID: 1791387670}
 --- !u!33 &243584407
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -52827,6 +52827,73 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31c09a8d3886526459eb01a2896f0072, type: 3}
+--- !u!1 &280633940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 280633942}
+  - component: {fileID: 280633941}
+  - component: {fileID: 280633943}
+  m_Layer: 0
+  m_Name: TEMP_Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &280633941
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280633940}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 25.49548, z: 40.87629}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &280633942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280633940}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 72.96, y: 207.75, z: 16.76}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &280633943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280633940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22de885e5e20be41adc6a32d2250ccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TEMP_WinScreen
+  gameMenuManager: {fileID: 158926018}
 --- !u!43 &281912854
 Mesh:
   m_ObjectHideFlags: 0
@@ -187974,7 +188041,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4262588718942004264, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4483727063539924258, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchorMax.y
@@ -188110,7 +188177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8344009339633632543, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8494185934936092890, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchorMax.y
@@ -189273,7 +189340,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 994664010}
+  m_Mesh: {fileID: 637956988}
 --- !u!33 &1468542742
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -268773,6 +268840,7 @@ SceneRoots:
   - {fileID: 108359310}
   - {fileID: 52235958}
   - {fileID: 637676997}
+  - {fileID: 280633942}
   - {fileID: 1761800235923646359}
   - {fileID: 1647357039}
   - {fileID: 1867872233}
