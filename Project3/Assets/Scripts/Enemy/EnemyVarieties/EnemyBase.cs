@@ -104,7 +104,18 @@ public class EnemyBase : MonoBehaviour
         wasGrounded = grounded;
         if (agent.enabled && agent.isOnNavMesh)
         {
-            ChasePlayer();
+            // If chasing is enabled, use the standard chase/patrol flow.
+            if (canChase)
+            {
+                ChasePlayer();
+            }
+            else if (canPatrol)
+            {
+                // Patrol-only mode: request a new patrol destination when there's no path or we've arrived.
+                float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+                if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold)
+                    RandomPatrolDestination();
+            }
         }
     }
     public void ResetSlapState()
