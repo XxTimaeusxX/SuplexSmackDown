@@ -168,9 +168,10 @@ public class PlayerSuplex : MonoBehaviour
     /// </summary>
     void HoldEnemy(Collider enemy)
     {
-        
+      
         grabbedEnemy = enemy.transform;
         grabbedEnemy.SetParent(heldEnemy);
+        playerMovement.ChangeAnimtion("GRAB"); // call GRAB animation once
         grabbedEnemy.localPosition = Vector3.zero;
         _currentMacroBoss = grabbedEnemy.GetComponent<MacroBoss>();
         var root = enemy.GetComponentInParent<EnemyBase>()?.transform ?? enemy.transform;
@@ -193,7 +194,7 @@ public class PlayerSuplex : MonoBehaviour
         var enemyScript = enemy.GetComponent<EnemyBase>();
         if (enemyScript != null) enemyScript.SetGrabbed(true); // Disable ground detection
 
-        playerMovement.CoheteAnimator.SetTrigger("grab_walk");
+
 
         // starting a new suplex breaks any homing window
         canHomeChain = false;
@@ -227,8 +228,7 @@ public class PlayerSuplex : MonoBehaviour
                    rb.AddForce(Vector3.down * 5f, ForceMode.VelocityChange);            
                 } 
             }
-                playerMovement.CoheteAnimator.SetTrigger("grab_stop");
-                playerMovement.CoheteAnimator.SetTrigger("stop");
+
                 grabbedEnemy = null;
                 playerMovement.moveSpeed = _savedMoveSpeed;
                 playerMovement.gravity = _defaultGravity;
