@@ -178,6 +178,7 @@ public class EnemyBase : MonoBehaviour
         {
             if (m_Distance <= chaseRange)
             {
+                AudioManager.PlayShoalIdle();
                 patrolWaitDefault = 0f;
                 agent.speed = patrolRunSpeed; // set chase speed
                 agent.destination = Target.transform.position;

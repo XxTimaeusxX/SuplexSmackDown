@@ -30,9 +30,11 @@ public class PlayerMovement : MonoBehaviour
 
     PlayerSuplex playerSuplex;
     PlayerDash playerDash;
-
+    [Header("Animation")]
+    public Animator CoheteAnimator;
     private void Start()
     {
+        CoheteAnimator = GetComponent<Animator>();
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
@@ -97,6 +99,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (direction.magnitude >= 0.1f)
         {
+            // Only fire once when movement starts
+            if (!isMoving) CoheteAnimator?.SetTrigger("walk");
             isMoving = true;
             float targetAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg + thirdPersonCamera.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
@@ -104,10 +108,17 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, angle, 0f);
             controller.Move(moveDirection.normalized * moveSpeed * Time.deltaTime);
         }
-        if (direction.magnitude == 0)
+        else
         {
+            // Only fire once when movement stops
+            if (isMoving) CoheteAnimator?.SetTrigger("stop");
             isMoving = false;
         }
+        /*if (direction.magnitude == 0)
+        {
+            isMoving = false;
+            CoheteAnimator.SetTrigger("stop");
+        }*/
     }
 
     void Jump()
@@ -116,8 +127,14 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
+            CoheteAnimator.SetTrigger("jump");
             AudioManager.PlayJumping();
             // Debug.Log("Jumped!");
+        }
+        else if (!isGrounded)
+        {
+            Debug.Log("stop animation");
+            CoheteAnimator.SetTrigger("stop");
         }
         else if (playerSuplex.grabbedEnemy != null && !playerSuplex.isSuplexing)
         {
@@ -131,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public void ForceJump()
     {
+        CoheteAnimator.SetTrigger("jump");
         velocity.y = Mathf.Sqrt(jumpHeight*5f * -2f * gravity);
         isGrounded = false;
         AudioManager.PlayJumping();
