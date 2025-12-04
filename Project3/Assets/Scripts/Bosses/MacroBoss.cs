@@ -55,11 +55,13 @@ public class MacroBoss : EnemyBase
     }
     private IEnumerator ReturnToMicroPosition()
     {
+        AudioManager.PlayMacroRetreatTwo();
         var wait = new WaitForSeconds(.5f);
         canChase = false; // disable chasing while returning to micro position
         canAttack = false; // disable attacking while returning to micro position
         canPatrol = false; // disable patrolling while returning to micro position
         agent.isStopped = false; // ensure agent is not stopped
+        agent.enabled = true; // ensure agent is enabled
         agent.SetDestination(MicroPosition.position);
         while (true)
         {

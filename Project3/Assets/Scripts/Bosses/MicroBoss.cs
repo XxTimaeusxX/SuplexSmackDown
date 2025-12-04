@@ -104,7 +104,7 @@ public class MicroBoss : EnemyBase
    
     public IEnumerator ThrowMacro()
     {
-        
+        AudioManager.PlayMicroPrepareAttack();
         // ----- Position macro prefab at throw origin ----- //
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
         MacroPrefab.transform.position = origin.position;
