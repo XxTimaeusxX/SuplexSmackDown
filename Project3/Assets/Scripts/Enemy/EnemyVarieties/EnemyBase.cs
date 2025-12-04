@@ -45,7 +45,7 @@ public class EnemyBase : MonoBehaviour
     public float _nextAttackTime = 0f;
 
     [Header("Hitbox")]
-    public Collider slapbox;          // child trigger collider with AttackHitBox
+    public GameObject slapbox;          // child trigger collider with AttackHitBox
     [SerializeField] private float slapActiveTime = 0.1f;
 
     [Header("Animation")]
@@ -65,7 +65,7 @@ public class EnemyBase : MonoBehaviour
             chargeSlider.gameObject.SetActive(false);
         }
         if (animator == null) animator = GetComponent<Animator>();
-        slapbox.enabled = false;
+        slapbox.SetActive(false);
     }
 
     // Update is called once per frame
@@ -115,7 +115,10 @@ public class EnemyBase : MonoBehaviour
     public void ResetSlapState()
     {
         _nextAttackTime = 0f;
-        slapbox.enabled = false;
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
         StopCoroutine(SlapattackDuration());
         ResetChargeUI();
     }
@@ -236,9 +239,9 @@ public class EnemyBase : MonoBehaviour
     {
         if (slapbox == null) yield break;
         yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
-        slapbox.enabled = true;
+        slapbox.SetActive(true);
         yield return new WaitForSeconds(.09f);
-        slapbox.enabled = false;
+        slapbox.SetActive(false);
     }
     // Add these helpers inside Enemy class
     public void UpdateChargeUI(float current, float max, bool show)

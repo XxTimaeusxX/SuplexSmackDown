@@ -42,7 +42,7 @@ public class ConstructionEnemy : EnemyBase
             var hitbox = transform.Find("SlapHitBox");
             if (hitbox != null)
             {
-                var col = hitbox.GetComponentInChildren<Collider>();
+                var col = hitbox.GetComponentInChildren<GameObject>();
                 if (col != null) slapbox = col;
                 else Debug.LogWarning($"[{name}] 'SlapHitBox' found but has no Collider.", this);
             }

@@ -308,6 +308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2909269675503378431}
   - component: {fileID: 7914553728912234621}
+  - component: {fileID: 7827442708534708712}
   m_Layer: 0
   m_Name: SlapHitBox
   m_TagString: Untagged
@@ -351,6 +352,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.7589948, y: 0.23235351, z: 0.9075278}
   m_Center: {x: -0.06767821, y: -0.081174076, z: 0.24261266}
+--- !u!114 &7827442708534708712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6266211601759759052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3cae7fa33c25c4fad271fe0af89654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttackHitBox
 --- !u!1 &7321424840813435074
 GameObject:
   m_ObjectHideFlags: 0
@@ -367,7 +380,6 @@ GameObject:
   - component: {fileID: 8407228978967780538}
   - component: {fileID: 2737716720350929506}
   - component: {fileID: 8847915130969235865}
-  - component: {fileID: 8847274006994947091}
   - component: {fileID: -1950444604758302330}
   m_Layer: 8
   m_Name: OfficeWorker
@@ -564,18 +576,6 @@ MonoBehaviour:
   enemyRespawn4: {fileID: 0}
   enemyRespawn5: {fileID: 0}
   respawnPoint: {fileID: 0}
---- !u!114 &8847274006994947091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7321424840813435074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c3cae7fa33c25c4fad271fe0af89654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AttackHitBox
 --- !u!114 &-1950444604758302330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,7 +616,7 @@ MonoBehaviour:
   meleeRange: 1.75
   attackCooldown: 0.8
   _nextAttackTime: 0
-  slapbox: {fileID: 0}
+  slapbox: {fileID: 6266211601759759052}
   slapActiveTime: 0.1
   animator: {fileID: 2737716720350929506}
 --- !u!1 &7333588606936560562
