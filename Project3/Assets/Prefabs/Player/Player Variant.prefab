@@ -175,7 +175,11 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 1089915823440423454, guid: 6707ec71c18f8e745a55837add214815, type: 3}
     - {fileID: 6858947594094190366, guid: 6707ec71c18f8e745a55837add214815, type: 3}
+    - {fileID: 3136009876525396926, guid: 6707ec71c18f8e745a55837add214815, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 8788202217265017095}
     - targetCorrespondingSourceObject: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8215942331683528483}
@@ -213,11 +217,6 @@ CharacterController:
 --- !u!4 &1426030033493243040 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3445601359013622402, guid: 6707ec71c18f8e745a55837add214815, type: 3}
-  m_PrefabInstance: {fileID: 4331190623378540066}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2193065331547331450 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2482661659246681432, guid: 6707ec71c18f8e745a55837add214815, type: 3}
   m_PrefabInstance: {fileID: 4331190623378540066}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &3126293734828034420 stripped
@@ -281,7 +280,7 @@ MonoBehaviour:
   playerInput: {fileID: 7924019524143126933}
   trajectoryRenderer: {fileID: 663187633352759490}
   shockwave: {fileID: 6776234784039089348, guid: 65cf949027a14fc43b56861f137c26e7, type: 3}
-  player: {fileID: 2193065331547331450}
+  player: {fileID: 0}
   suplexConfigs:
   - ability: 1
     LiftHeight: 5
@@ -367,6 +366,16 @@ MonoBehaviour:
   bigEnemyMoveSpeedScale: 1
   grabbedEnemy: {fileID: 0}
   isSuplexing: 0
+  longSuplexMaterial: {fileID: 0}
+  rainbowSuplexMaterial: {fileID: 0}
+  superSuplexMaterial: {fileID: 0}
+  RainbowArcLandPrefab: {fileID: 0}
+  LongArcLandPrefab: {fileID: 0}
+  SuperLandPrefab: {fileID: 0}
+  targetLandOffset: {x: 0, y: 0.02, z: 0}
+  longIconColor: {r: 1, g: 0.92, b: 0.2, a: 1}
+  rainbowIconColor: {r: 0.25, g: 0.5, b: 1, a: 1}
+  superIconColor: {r: 1, g: 0.15, b: 0.15, a: 1}
 --- !u!120 &663187633352759490
 LineRenderer:
   serializedVersion: 2
@@ -541,3 +550,77 @@ MonoBehaviour:
   hoardEnemies: {fileID: 0}
   enemyHealth: {fileID: 0}
   targetGameObject: {fileID: 0}
+--- !u!1001 &9115090103199127276
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1426030033493243040}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 32.6406
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 32.6406
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 32.6406
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.02
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+      propertyPath: m_Name
+      value: El_CohetteIDLE
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+--- !u!4 &8788202217265017095 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 28c8e5a175fe0fd49816f3be7e284c7d, type: 3}
+  m_PrefabInstance: {fileID: 9115090103199127276}
+  m_PrefabAsset: {fileID: 0}

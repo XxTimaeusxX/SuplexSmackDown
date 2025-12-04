@@ -4,9 +4,32 @@ using UnityEngine.UI;
 
 public class ShoalEnemy : EnemyBase
 {
-    new void Update()
+    public GameObject door;
+    // Shoal-specific audio edge trigger state
+    private bool _shoalWasInChaseRange = false;
+
+    public override void Update()
     {
+        base.Update();  
         bool grounded = IsEnemyGrounded();
+        if (Target != null)
+        {
+            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
+            bool inChaseRange = m_Distance <= chaseRange;
+
+            if (inChaseRange && !_shoalWasInChaseRange)
+            {
+                // Entered chase range: play Shoal "detected" sound
+                AudioManager.PlayShoalIdle();
+            }
+       
+
+            _shoalWasInChaseRange = inChaseRange;
+        }
+        else _shoalWasInChaseRange = false;
+
+
+
         if (isPushed)
         {
             pushCooldown -= Time.deltaTime;
@@ -24,7 +47,10 @@ public class ShoalEnemy : EnemyBase
             if (enemyHealth.value <= 0)
             {
                 enemyHealthScreen.SetActive(false);
+                door.SetActive(false);
+               
             }
+            AudioManager.PlayShoalDamageHit();
             Destroy(gameObject);
         }
         if (!grounded)

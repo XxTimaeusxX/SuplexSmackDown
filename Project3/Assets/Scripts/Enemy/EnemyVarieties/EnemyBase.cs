@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
+    [Header("References")]
     public GameObject Target;
     public NavMeshAgent agent;
     public Rigidbody rb;
@@ -13,12 +14,18 @@ public class EnemyBase : MonoBehaviour
     public LayerMask groundMask;
     public float groundDistance;
 
+    [Header("Behavior Toggles ")]
+    public bool canPatrol = true;
+    public bool canChase = true;
+    public bool canAttack = true;
 
+    [Header("Ground Settings")]
     public float m_Distance;
     public bool wasGrounded = false;
     public bool isGrabbed;
     public bool isPushed = false;
     public float pushCooldown;
+
     [Header("UI")]
     public Slider chargeSlider;
 
@@ -33,9 +40,7 @@ public class EnemyBase : MonoBehaviour
     public float patrolWaitDefault;
 
     [Header("Combat")]
-    [Tooltip("Distance at which this enemy will attempt a melee attack.")]
     public float meleeRange = 1.75f;
-    [Tooltip("Seconds between melee attack attempts (prevents spam).")]
     public float attackCooldown = 0.8f;
     public float _nextAttackTime = 0f;
 
@@ -46,14 +51,10 @@ public class EnemyBase : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     GameManager gameManager;
     public void Start()
     {
-
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         if (chargeSlider != null)
@@ -65,11 +66,10 @@ public class EnemyBase : MonoBehaviour
         }
         if (animator == null) animator = GetComponent<Animator>();
         slapbox.enabled = false;
-
     }
 
     // Update is called once per frame
-    public void Update()
+    public virtual void Update()
     {
         bool grounded = IsEnemyGrounded();
         if (isPushed)
@@ -92,16 +92,26 @@ public class EnemyBase : MonoBehaviour
         }
         if (grounded && wasGrounded && !isGrabbed && !isPushed)
         {
-            // Debug.Log("Enemy just landed!");
             rb.isKinematic = true;
             agent.enabled = true;
         }
         wasGrounded = grounded;
         if (agent.enabled && agent.isOnNavMesh)
         {
-            ChasePlayer();
+            if (canChase)
+            {
+                ChasePlayer();
+            }
+            else if (canPatrol)
+            {
+                // Patrol-only mode: request a new patrol destination when there's no path or we've arrived.
+                float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+                if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold)
+                    RandomPatrolDestination();
+            }
         }
     }
+
     public void ResetSlapState()
     {
         _nextAttackTime = 0f;
@@ -109,11 +119,12 @@ public class EnemyBase : MonoBehaviour
         StopCoroutine(SlapattackDuration());
         ResetChargeUI();
     }
+
     public void RandomPatrolDestination()
     {
+        if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
 
-        // Pick points around current floor height (not y=0) to stay on the same NavMesh island
         const float patrolRadius = 20f;
         const int maxTries = 6;
         Vector3 origin = transform.position;
@@ -135,33 +146,47 @@ public class EnemyBase : MonoBehaviour
                 }
             }
         }
-
     }
+
+    public void FaceTarget()
+    {
+        var TurnToTarget = agent.steeringTarget;
+        Vector3 direction = (TurnToTarget - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
+
     public void ChasePlayer()
     {
+        // Behavior guard: only chase when allowed
+        if (!canChase) return;
         if (Target == null)
         {
             RandomPatrolDestination();
             return;
         }
+
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+
         if (agent.isOnNavMesh)
         {
-            if (m_Distance <= chaseRange)
+            bool inChaseRange = m_Distance <= chaseRange;
+
+            if (inChaseRange)
             {
                 patrolWaitDefault = 0f;
-                agent.speed = patrolRunSpeed; // set chase speed
+                agent.speed = patrolRunSpeed;
                 agent.destination = Target.transform.position;
 
                 if (m_Distance < meleeRange)
                 {
                     agent.isStopped = true;
+                    FaceTarget();
                     SlapAttack();
                 }
                 else
                 {
-                    // Out of melee: resume chase and clear timer so next entry arms again
                     if (agent.isStopped) agent.isStopped = false;
                     agent.destination = Target.transform.position;
                     _nextAttackTime = 0f;
@@ -169,26 +194,27 @@ public class EnemyBase : MonoBehaviour
                 }
             }
 
-
-            // Out of chase range -> patrol
             if (patrolWaitDefault > 0f)
             {
-                // Idle thinking
-                // m_EnemyAgent.isStopped = true;
                 patrolWaitDefault -= Time.deltaTime;
                 if (patrolWaitDefault <= 0f)
                 {
                     agent.isStopped = false;
-                    //  RandomPatrolDestination();
-
                 }
             }
-            else if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold) RandomPatrolDestination();
+            else if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold)
+            {
+                RandomPatrolDestination();
+            }
         }
     }
 
     public void SlapAttack()
     {
+        // Behavior guard: only attack when allowed
+        if (!canAttack) { ResetSlapState(); return; }// ensure state/UI is cleared if attack disabled mid-charge
+       
+
         // Charge up while in melee
         if (_nextAttackTime < attackCooldown)
         {

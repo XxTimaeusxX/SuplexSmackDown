@@ -6,9 +6,20 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class MacroBoss : Enemy
+public class MacroBoss : EnemyBase
 {
-    // Auto-provision basic Enemy fields so chase/slap work without manual setup.
+    [Header("Macro Settings")]
+    [SerializeField] private Transform MicroPosition;
+    [SerializeField] private float returnDelay = 6f;
+    public Collider damageHitbox;
+    private void Awake()
+    {
+        canAttack = true; // little guy can attack
+        canChase = true;
+        canPatrol = true;
+        damageHitbox.enabled = false;
+    }
+    // ------------ auto assign references -------------- //
     void OnValidate()
     {
         // 1) Target: find and assign player as target if not assigned
@@ -25,42 +36,50 @@ public class MacroBoss : Enemy
             if (existing != null) groundCheck = existing;
            
         }
-
-        // 3) Defaults for movement/combat so it actually chases and swings
-        if (chaseRange <= 0f) chaseRange = 12f;
-        if (meleeRange <= 0f) meleeRange = 1.75f;
-        if (patrolRunSpeed <= 0f) patrolRunSpeed = 3.5f;
-        if (patrolWalkSpeed <= 0f) patrolWalkSpeed = 1.5f;
-        if (attackCooldown <= 0f) attackCooldown = 0.8f;
-
-        // 4) Grounding mask and distance
-        if (groundDistance <= 0f) groundDistance = 0.2f;
-        if (groundMask.value == 0) groundMask = ~0; // everything, fine for a flat test plane
     }
-    [Header("Boss Throw (Simple)")]
-    [SerializeField] private GameObject MicroPrefab;   // prefab For MicroBoss
-    [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
-    [SerializeField] private float throwInterval = 5f;
-    [SerializeField] private float throwForce = 12f;
+   
+   
     private void OnEnable()
     {
-        StartCoroutine(Throwload());
+        StartCoroutine(ResumeSequence());
     }
-    private IEnumerator Throwload()
+    public IEnumerator ResumeSequence()
     {
-        var wait = new WaitForSeconds(throwInterval);
-        while(true)
+        //Resume normal behavior: EnemyBase
+        canChase = true;
+        canAttack = true;
+        canPatrol = true;
+        SetGrabbed(false);
+        yield return new WaitForSeconds(returnDelay);
+        StartCoroutine(ReturnToMicroPosition());
+    }
+    private IEnumerator ReturnToMicroPosition()
+    {
+        AudioManager.PlayMacroRetreatTwo();
+        var wait = new WaitForSeconds(.5f);
+        canChase = false; // disable chasing while returning to micro position
+        canAttack = false; // disable attacking while returning to micro position
+        canPatrol = false; // disable patrolling while returning to micro position
+        agent.isStopped = false; // ensure agent is not stopped
+        agent.enabled = true; // ensure agent is enabled
+        agent.SetDestination(MicroPosition.position);
+        while (true)
         {
-           yield return wait;
-            ThrowMicro();
+            // If boss is being pushed/grabbed, pause progress until stable
+            if (isPushed || isGrabbed)
+            {
+                yield return null;
+                continue;
+            }
+            if(agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, .5f))
+            {
+                Debug.Log("Reached micro position");
+               StartCoroutine(ResumeSequence());
+                yield break; // exit coroutine
+            }
+            yield return wait;
         }
     }
-    public void ThrowMicro()
-    {
-        Vector3 origin = throwOrigin.position;
-        var go = Instantiate(MicroPrefab, origin, Quaternion.identity);
-        var rb = go.GetComponent<Rigidbody>();
-        Vector3 dir = (Target.transform.position - origin).normalized;
-        rb.AddForce(dir * throwForce, ForceMode.VelocityChange);
-    }
+  
+   
 }

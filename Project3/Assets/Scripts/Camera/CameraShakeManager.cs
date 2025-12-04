@@ -1,4 +1,5 @@
 using System.Xml.Serialization;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class CameraShakeManager : MonoBehaviour
@@ -16,14 +17,8 @@ public class CameraShakeManager : MonoBehaviour
             Instance = this;
         }
     }
-    void Start()
+    public void SuplexCameraShake(CinemachineImpulseSource impulseSource)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        impulseSource.GenerateImpulse(GlobalShakeForce * 1.5f);
     }
 }
