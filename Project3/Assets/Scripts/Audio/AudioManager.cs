@@ -61,6 +61,10 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Micro Enemy SFX")]
     public AudioClip MicroChaseOneClip; // chase state sounds when micro is chasing player 
     public AudioClip MicroPrepareAttackClip; // tells macro hes ready to throw him
+    public AudioClip MicroAttackClip; // attack sound when micro is thrown at player
+    public AudioClip MicroDamageHitOneClip; 
+    public AudioClip MicroDamageHitTwoClip; 
+    public AudioClip MicroDieClip; // when micro dies sound
 
     void Awake()
     {
@@ -173,7 +177,7 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayJumping() => Instance?.sfxSource?.PlayOneShot(Instance?.jumpingClip, Instance.sfxVolume);
 
     // player suplex SFX
-    public static void PlaySuplexStart() => Instance?.sfxSource?.PlayOneShot(Instance?.GrabClip, Instance.sfxVolume);
+    public static void PlaySuplexStart() => Instance?.sfxSource?.PlayOneShot(Instance?.LaunchSoundClip, Instance.sfxVolume);
 
     public static void PlaySuplexSlam() => Instance?.sfxSource?.PlayOneShot(Instance?.suplexSlamClip, Instance.sfxVolume);
 
@@ -213,6 +217,10 @@ public sealed class AudioManager : MonoBehaviour
     // ----Micro Enemy SFX----
     public static void PlayMicroChaseOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroChaseOneClip, Instance.sfxVolume);
     public static void PlayMicroPrepareAttack() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroPrepareAttackClip, Instance.sfxVolume);
-        
+    public static void PlayMicroAttack() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroAttackClip, Instance.sfxVolume);
+    public static void PlayMicroDamageHitOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroDamageHitOneClip, Instance.sfxVolume);
+    public static void PlayMicroDamageHitTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroDamageHitTwoClip, Instance.sfxVolume);
+    public static void PlayMicroDie() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroDieClip, Instance.sfxVolume);
+
 
 }

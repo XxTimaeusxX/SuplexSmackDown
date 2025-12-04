@@ -19,13 +19,13 @@ public class EnemyBase : MonoBehaviour
     public bool canChase = true;
     public bool canAttack = true;
 
-
     [Header("Ground Settings")]
     public float m_Distance;
     public bool wasGrounded = false;
     public bool isGrabbed;
     public bool isPushed = false;
     public float pushCooldown;
+
     [Header("UI")]
     public Slider chargeSlider;
 
@@ -51,14 +51,10 @@ public class EnemyBase : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     GameManager gameManager;
     public void Start()
     {
-
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         if (chargeSlider != null)
@@ -70,7 +66,6 @@ public class EnemyBase : MonoBehaviour
         }
         if (animator == null) animator = GetComponent<Animator>();
         slapbox.enabled = false;
-
     }
 
     // Update is called once per frame
@@ -97,14 +92,12 @@ public class EnemyBase : MonoBehaviour
         }
         if (grounded && wasGrounded && !isGrabbed && !isPushed)
         {
-            // Debug.Log("Enemy just landed!");
             rb.isKinematic = true;
             agent.enabled = true;
         }
         wasGrounded = grounded;
         if (agent.enabled && agent.isOnNavMesh)
         {
-            // If chasing is enabled, use the standard chase/patrol flow.
             if (canChase)
             {
                 ChasePlayer();
@@ -118,6 +111,7 @@ public class EnemyBase : MonoBehaviour
             }
         }
     }
+
     public void ResetSlapState()
     {
         _nextAttackTime = 0f;
@@ -125,13 +119,12 @@ public class EnemyBase : MonoBehaviour
         StopCoroutine(SlapattackDuration());
         ResetChargeUI();
     }
+
     public void RandomPatrolDestination()
     {
-        // Behavior guard: only patrol when allowed
         if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
 
-        // Pick points around current floor height (not y=0) to stay on the same NavMesh island
         const float patrolRadius = 20f;
         const int maxTries = 6;
         Vector3 origin = transform.position;
@@ -153,8 +146,8 @@ public class EnemyBase : MonoBehaviour
                 }
             }
         }
-
     }
+
     public void FaceTarget()
     {
         var TurnToTarget = agent.steeringTarget;
@@ -172,17 +165,19 @@ public class EnemyBase : MonoBehaviour
             RandomPatrolDestination();
             return;
         }
+
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+
         if (agent.isOnNavMesh)
         {
-            if (m_Distance <= chaseRange)
+            bool inChaseRange = m_Distance <= chaseRange;
+
+            if (inChaseRange)
             {
-                AudioManager.PlayShoalIdle();
                 patrolWaitDefault = 0f;
-                agent.speed = patrolRunSpeed; // set chase speed
+                agent.speed = patrolRunSpeed;
                 agent.destination = Target.transform.position;
-                   
 
                 if (m_Distance < meleeRange)
                 {
@@ -192,7 +187,6 @@ public class EnemyBase : MonoBehaviour
                 }
                 else
                 {
-                    // Out of melee: resume chase and clear timer so next entry arms again
                     if (agent.isStopped) agent.isStopped = false;
                     agent.destination = Target.transform.position;
                     _nextAttackTime = 0f;
@@ -200,21 +194,18 @@ public class EnemyBase : MonoBehaviour
                 }
             }
 
-
-            // Out of chase range -> patrol
             if (patrolWaitDefault > 0f)
             {
-                // Idle thinking
-                // m_EnemyAgent.isStopped = true;
                 patrolWaitDefault -= Time.deltaTime;
                 if (patrolWaitDefault <= 0f)
                 {
                     agent.isStopped = false;
-                    //  RandomPatrolDestination();
-
                 }
             }
-            else if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold) RandomPatrolDestination();
+            else if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold)
+            {
+                RandomPatrolDestination();
+            }
         }
     }
 
