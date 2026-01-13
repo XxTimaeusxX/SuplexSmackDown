@@ -232,7 +232,12 @@ public class PlayerSuplex : MonoBehaviour
                 grabbedEnemy = null;
                 playerMovement.moveSpeed = _savedMoveSpeed;
                 playerMovement.gravity = _defaultGravity;
-                _currentMacroBoss = null;
+            // Disable damage hitbox when releasing )
+            if (_currentMacroBoss != null && _currentMacroBoss.damageHitbox != null)
+            {
+                _currentMacroBoss.damageHitbox.enabled = false;
+            }
+            _currentMacroBoss = null;
         }
     }
 

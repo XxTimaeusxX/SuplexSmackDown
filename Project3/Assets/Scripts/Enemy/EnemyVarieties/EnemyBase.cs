@@ -270,7 +270,7 @@ public class EnemyBase : MonoBehaviour
         isGrabbed = grabbed;
         if (grabbed)
         {
-            // Optionally disable agent here if needed
+            
             agent.enabled = false;
         }
 

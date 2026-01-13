@@ -8,16 +8,17 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Collider))]
 public class MicroBoss : EnemyBase
 {
-    [Header("Boss Throw (Simple)")]
+    [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
-    [SerializeField] private GameObject MacroPrefab;   // prefab For MicroBoss
+    [SerializeField] private GameObject macroPrefab;   // prefab For MicroBoss
     [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
-    [SerializeField] private float throwInterval = 5f;
+    [SerializeField] private float throwInterval = 3f;
     [SerializeField] private float throwForce = 12f;
     private NavMeshAgent MacroAgent;
     private Rigidbody MacrosRb;
     private MacroBoss MacroEnemy;
-
+    private float throwTimer;
+    public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
         canAttack = false; // Disable basic attack for MicroBoss "big guy"
@@ -45,7 +46,6 @@ public class MicroBoss : EnemyBase
         {
             var existing = transform.Find("GroundCheck");
             if (existing != null) groundCheck = existing;
-
         }
     }
     public override void Update()
@@ -53,7 +53,6 @@ public class MicroBoss : EnemyBase
        base.Update();
         if (enemyHealth.value <= 0)
         {
-            StopCoroutine(Throwload());
             // Disable this boss functionality
             canAttack = false;
             canChase = false;
@@ -65,43 +64,6 @@ public class MicroBoss : EnemyBase
         }
     }
 
-    private void OnEnable()
-    {
-        StartCoroutine(Throwload());
-    }
-    private IEnumerator Throwload()
-    {
-        var waitInterval = new WaitForSeconds(throwInterval); // cooldown between throws when in-range
-        var poll = new WaitForSeconds(0.2f);                  // how often we check range when out-of-range
-
-        while (true)
-        {
-            // Basic safety checks
-            if (Target == null || MacroPrefab == null)
-            {
-                yield return poll;
-                continue;
-            }
-
-            float dist = Vector3.Distance(Target.transform.position, transform.position);
-            // Only throw when within chaseRange and boss currently allowed to chase
-            if (dist <= meleeRange && canChase)
-            {
-
-              // StartCoroutine(ThrowMicro());
-
-                // wait the full throw cooldown before attempting another throw
-                 yield return waitInterval;
-            }
-            else
-            {
-
-                // not in range yet — poll again shortly
-                yield return poll;
-            }
-        }
-    }
-   
     public IEnumerator ThrowMacro()
     {
         AudioManager.PlayMicroPrepareAttack();
@@ -110,7 +72,6 @@ public class MicroBoss : EnemyBase
         MacroPrefab.transform.position = origin.position;
         MacroPrefab.transform.rotation = Quaternion.identity;
         MacroPrefab.transform.SetParent(origin);
-      //  MacroPrefab.transform.localPosition = Vector3.zero;
         
         // ----- Disabling navmesh & kinematics  ----- //
         MacrosRb.isKinematic = true;
@@ -122,21 +83,38 @@ public class MicroBoss : EnemyBase
         MacroEnemy.SetGrabbed(true);
 
         //---- Hold Macro for x seconds--//
-        yield return new WaitForSeconds(3f);
+        throwTimer = 0f;
+        while (throwTimer < throwInterval)
+        {
+            throwTimer += Time.deltaTime;
+            yield return null;
+        }
 
-       
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
         MacrosRb.isKinematic = false; // re-enable physics
-
+        
+      
         // ----- Calculate throw direction and apply force ----- //
         Vector3 dir = (Target.transform.position - MacroPrefab.transform.position).normalized;
         MacrosRb.AddForce(dir * throwForce, ForceMode.VelocityChange);
+        MacroEnemy.wasThrown = true; // flag macro as thrown
+        float enableMacroTimer = 0f;
+        while(enableMacroTimer < 3f)
+        {
+            // prevents enabling ai agent if player grabs macro mid-air
+            if (macroPrefab.transform.parent !=null)
+            {
+             //   Debug.Log("Player grabbed Macro mid-air, aborting resume sequence");
 
-        yield return new WaitForSeconds(3f); // wait for macro to land
+            yield break;
+            }
+            enableMacroTimer += Time.deltaTime;
+            yield return null;
+        }
         // ----- Re-enable navmesh & kinematics ----- //
-        MacroEnemy.SetGrabbed(false);
-        StartCoroutine(MacroEnemy.ResumeSequence());
-       
+      //  Debug.Log("Macro resumed after throw - not grabbed");
+      
+        MacroEnemy.ResumeSequence();
+        
     }
-  
 }

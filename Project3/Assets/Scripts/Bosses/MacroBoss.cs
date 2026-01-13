@@ -12,6 +12,9 @@ public class MacroBoss : EnemyBase
     [SerializeField] private Transform MicroPosition;
     [SerializeField] private float returnDelay = 6f;
     public Collider damageHitbox;
+    public Collider MacrosCollider;
+
+    public bool wasThrown = false;
     private void Awake()
     {
         canAttack = true; // little guy can attack
@@ -37,26 +40,55 @@ public class MacroBoss : EnemyBase
            
         }
     }
-   
-   
-    private void OnEnable()
+   public override void Update()
     {
-        StartCoroutine(ResumeSequence());
+       base.Update();
+           if(wasThrown && !isGrabbed && IsEnemyGrounded())
+        {
+            wasThrown = false;
+            damageHitbox.enabled = false;
+            ResumeSequence(); 
+            return; 
+        }
+        
+        if (returnDelay >0)
+        {
+            // If boss is being pushed/grabbed, pause progress until stable
+            if (isPushed || isGrabbed)
+            {
+                return;
+      
+            }
+            if (!isGrabbed && !isPushed)
+            {
+                returnDelay -= Time.deltaTime;
+                if (returnDelay < 0)
+                {
+                    returnDelay = 0;
+                    StartCoroutine(ReturnToMicroPosition());
+                }
+            }
+            
+        }
     }
-    public IEnumerator ResumeSequence()
+
+    public void ResumeSequence()
     {
-        //Resume normal behavior: EnemyBase
+        //Resume normal behavior: EnemyBases
+        MacrosCollider.enabled = true;
         canChase = true;
         canAttack = true;
         canPatrol = true;
         SetGrabbed(false);
-        yield return new WaitForSeconds(returnDelay);
-        StartCoroutine(ReturnToMicroPosition());
+        returnDelay = 6f;
+       
     }
     private IEnumerator ReturnToMicroPosition()
     {
+      
         AudioManager.PlayMacroRetreatTwo();
         var wait = new WaitForSeconds(.5f);
+        MacrosCollider.enabled = false; // disable macro collider while returning to micro position
         canChase = false; // disable chasing while returning to micro position
         canAttack = false; // disable attacking while returning to micro position
         canPatrol = false; // disable patrolling while returning to micro position
@@ -65,19 +97,15 @@ public class MacroBoss : EnemyBase
         agent.SetDestination(MicroPosition.position);
         while (true)
         {
-            // If boss is being pushed/grabbed, pause progress until stable
-            if (isPushed || isGrabbed)
+          
+            if(agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 11f))// get near the destination but not exactly on it
             {
-                yield return null;
-                continue;
-            }
-            if(agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, .5f))
-            {
-                Debug.Log("Reached micro position");
-               StartCoroutine(ResumeSequence());
+             // Debug.Log("Reached micro position");
+                MacrosCollider.enabled = true; // re-enable macro collider so it can be grabbed again
+                damageHitbox.enabled = false; // disable damage hitbox
                 yield break; // exit coroutine
             }
-            yield return wait;
+            yield return null;
         }
     }
   
