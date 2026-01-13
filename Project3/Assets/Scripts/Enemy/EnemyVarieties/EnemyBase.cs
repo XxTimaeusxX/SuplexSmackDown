@@ -78,7 +78,7 @@ public class EnemyBase : MonoBehaviour
         }
         if (pushCooldown < 0)
         {
-            if (!isGrabbed)
+            if (!isGrabbed && !CompareTag("DontRespawn"))
             {
                 pushCooldown = 0;
                 isPushed = false;
