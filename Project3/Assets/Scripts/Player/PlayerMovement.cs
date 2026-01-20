@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f; // Set to Unity's default gravity and change Unity's gravity to -50f
     public float groundDistance;
     public float jumpHeight;
+
     public float turnSmoothTime;
     float turnSmoothVelocity;
     
@@ -87,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         //  Reset horizontal momentum
             velocity.x = 0f; 
             velocity.z = 0f;
-            playerDash.airDashCount = 2;
+            //playerDash.airDashCount = 2;
         }
 
         if (velocity.y < velocityCap)
@@ -160,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && playerSuplex.grabbedEnemy == null)
+        if (isGrounded && playerSuplex.carriedEnemy == null)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
@@ -169,7 +170,7 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log("Jumped!");
         }
       
-        else if (playerSuplex.grabbedEnemy != null && !playerSuplex.isSuplexing)
+        else if (playerSuplex.carriedEnemy != null && !playerSuplex.isSuplexing)
         {
             StartCoroutine(playerSuplex.WaitForSuplexInput());
             // Debug.Log("Waiting for suplex input!");
@@ -236,7 +237,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ----- GRAB / GRABAIR / GRABWALK -----
-        if (playerSuplex.grabbedEnemy != null)
+        if (playerSuplex.carriedEnemy != null)
         {
            
             if (!isGrounded)
