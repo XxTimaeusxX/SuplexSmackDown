@@ -99,6 +99,8 @@ public class InGameMenuManager : MonoBehaviour
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
 				Time.timeScale = 1.0f;
+				_SettingsPanel.SetActive(false);	//allows unpausing while in the settings menu
+				_PauseButtonContainer.SetActive(true);
 				_PauseMenuContainer.SetActive(false);
 				_SuperSuplexUI.SetActive(true);
 				isPaused = false;
