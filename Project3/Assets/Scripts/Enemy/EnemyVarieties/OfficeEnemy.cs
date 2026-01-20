@@ -4,7 +4,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class OfficeEnemy : OGEnemyBase
+public class OfficeEnemy : EnemyBase
 {
     private bool _OfficeShoalWasInChaseRange = false;
     // Edge trigger to play damage sound once when push starts

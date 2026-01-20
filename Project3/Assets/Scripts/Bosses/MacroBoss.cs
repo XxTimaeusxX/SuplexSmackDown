@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class MacroBoss : OGEnemyBase
+public class MacroBoss : EnemyBase
 {
     [Header("Macro Settings")]
     [SerializeField] private Transform MicroPosition;
