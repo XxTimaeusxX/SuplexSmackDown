@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+// Last Edited: 1/19/2026 by Istvan W.
+
 /// <summary>
 /// Stores configuration for each type of suplex (height, distance, speed, etc). 
 /// </summary>
@@ -33,7 +35,8 @@ public enum SuplexAbilities
 public class PlayerSuplex : MonoBehaviour
 {
     [Header("References")]
-    public Transform heldEnemy;      // Where the grabbed enemy is held
+    public Transform carryPoint;      // Where the grabbed enemy is held
+
     public PlayerInput playerInput;  // Reference to the player's input system
     public LineRenderer trajectoryRenderer; // Visualize the suplex arc
     public GameObject shockwave;
@@ -65,7 +68,8 @@ public class PlayerSuplex : MonoBehaviour
     private PowerGauge powerGauge;
     private PlayerMovement playerMovement;
     private PlayerDash playerDash;
-    public Transform grabbedEnemy;          // The enemy currently grabbed
+    public Transform carriedEnemy;          // The transform of the enemy that's currently being carried
+    public EnemyBase carriedEnemyBase;      // The EnemyBase script of the carried enemy
     private CharacterController controller;  // For ground checks
 
     // Input actions for different suplexes and jumping
@@ -142,10 +146,10 @@ public class PlayerSuplex : MonoBehaviour
                 Transform target = FindNearestEnemy(transform.position, homingSearchRadius, lastReleasedEnemy);
                 if (target != null)
                 {
-                    if (playerDash.TryDashTowards(target)) // steer to live enemy position (vertical included)
-                    {
-                        canHomeChain = false; // consume the window
-                    }
+                    //if (playerDash.TryDashTowards(target)) // steer to live enemy position (vertical included)
+                    //{
+                    //    canHomeChain = false; // consume the window
+                    //}
                 }
             }
         }
@@ -153,12 +157,18 @@ public class PlayerSuplex : MonoBehaviour
     /// <summary>
     /// Starts the suplex process by grabbing the enemy.
     /// </summary>
-    public void StartSuplex(Collider enemy)
+
+    //NOTE: isSuplexing flag was the cause of not being able to drop enemy after dropping once. Must make sure to disable isSuplexing when releasing enemy
+    public void StartSuplex(EnemyBase enemy)
     {
+        Debug.Log("StartSuplex called. Setting carriedEnemyBase to: " + enemy.name);
+
         if (isSuplexing) return; // Prevent double suplexing
-                                 
+        
+        carriedEnemyBase = enemy;
+
         if (playerDash != null && playerDash.isDashing) // Ensure dash movement stops before we grab and start the next suplex
-        playerDash.CancelDash();
+        //playerDash.CancelDash();
         isSuplexing = true;
         HoldEnemy(enemy);
     }
@@ -166,15 +176,15 @@ public class PlayerSuplex : MonoBehaviour
     /// <summary>
     /// Attaches the enemy to the player and disables its physics.
     /// </summary>
-    void HoldEnemy(Collider enemy)
+    void HoldEnemy(EnemyBase enemy)
     {
       
-        grabbedEnemy = enemy.transform;
-        grabbedEnemy.SetParent(heldEnemy);
+        carriedEnemy = enemy.transform;
+        carriedEnemy.SetParent(carryPoint);
         playerMovement.ChangeAnimtion("GRAB"); // call GRAB animation once
-        grabbedEnemy.localPosition = Vector3.zero;
-        _currentMacroBoss = grabbedEnemy.GetComponent<MacroBoss>();
-        var root = enemy.GetComponentInParent<EnemyBase>()?.transform ?? enemy.transform;
+        carriedEnemy.localPosition = Vector3.zero;
+        _currentMacroBoss = carriedEnemy.GetComponent<MacroBoss>();
+        var root = enemy.GetComponentInParent<OGEnemyBase>()?.transform ?? enemy.transform;
         int bigLayer = LayerMask.NameToLayer(bigEnemyLayerName);
         currentGravityScale = (root.gameObject.layer == bigLayer) ? bigEnemyGravityScale : 1f;
         currentMoveSpeedScale = (root.gameObject.layer == bigLayer) ? bigEnemyMoveSpeedScale : 1f;
@@ -191,7 +201,7 @@ public class PlayerSuplex : MonoBehaviour
         var rb = enemy.GetComponent<Rigidbody>();
         if (rb != null)rb.isKinematic = true;// Prevent physics while held
 
-        var enemyScript = enemy.GetComponent<EnemyBase>();
+        var enemyScript = enemy.GetComponent<OGEnemyBase>();
         if (enemyScript != null) enemyScript.SetGrabbed(true); // Disable ground detection
 
 
@@ -207,12 +217,15 @@ public class PlayerSuplex : MonoBehaviour
     /// <summary>
     /// Releases the enemy, optionally slamming them down.
     /// </summary>
+ 
+
+    //MARK: Current logic for releasing enemy
     void ReleaseEnemy(bool slam, SuplexConfig config = null)
     {
-        if (grabbedEnemy != null)
+        if (carriedEnemy != null)
         {
-            var rb = grabbedEnemy.GetComponent<Rigidbody>();
-            var enemyScript = grabbedEnemy.GetComponent<EnemyBase>();
+            var rb = carriedEnemy.GetComponent<Rigidbody>();
+            var enemyScript = carriedEnemy.GetComponent<OGEnemyBase>();
             if (enemyScript != null)
             { // Enable ground detection
                 enemyScript.SetGrabbed(false);
@@ -220,7 +233,7 @@ public class PlayerSuplex : MonoBehaviour
 
             if (rb != null)
             {
-                grabbedEnemy.SetParent(null);
+                carriedEnemy.SetParent(null);
                 rb.isKinematic = false; // Re-enable physics
                 if (slam && config != null)
                 {
@@ -229,9 +242,10 @@ public class PlayerSuplex : MonoBehaviour
                 } 
             }
 
-                grabbedEnemy = null;
+                carriedEnemy = null;
                 playerMovement.moveSpeed = _savedMoveSpeed;
                 playerMovement.gravity = _defaultGravity;
+
             // Disable damage hitbox when releasing )
             if (_currentMacroBoss != null && _currentMacroBoss.damageHitbox != null)
             {
@@ -424,7 +438,7 @@ public class PlayerSuplex : MonoBehaviour
             // Allow player to jump off during the arc
             if (!jumpedOff && jumpAction != null && jumpAction.WasPressedThisFrame())
             {
-                Transform justReleased = grabbedEnemy;
+                Transform justReleased = carriedEnemy;
                 playerMovement.ForceJump();
                 jumpedOff = true;
                 ReleaseEnemy(true, config); // apply downward force and enable enemy ground detection 
@@ -495,7 +509,7 @@ public class PlayerSuplex : MonoBehaviour
             if (ignore != null && (col.transform == ignore || col.transform.IsChildOf(ignore)))
                 continue;
 
-            var enemy = col.GetComponentInParent<EnemyBase>();
+            var enemy = col.GetComponentInParent<OGEnemyBase>();
             if (enemy == null || !enemy.gameObject.activeInHierarchy)
                 continue;
 
@@ -518,12 +532,12 @@ public class PlayerSuplex : MonoBehaviour
     /// <param name="config"></param>
     void ShowTrajectory(SuplexConfig config)
     {
-         if (trajectoryRenderer == null || heldEnemy == null || playerMovement == null)
+         if (trajectoryRenderer == null || carryPoint == null || playerMovement == null)
              return;
 
          int steps = 60;
          Vector3[] points = new Vector3[steps + 1];
-         Vector3 startPos = heldEnemy.position;
+         Vector3 startPos = carryPoint.position;
          float gravity = Mathf.Abs(playerMovement.gravity)* currentGravityScale; // Use the same gravity as the player
 
          float height = config.LiftHeight;
@@ -535,7 +549,7 @@ public class PlayerSuplex : MonoBehaviour
          float vy = (2f * height) / timeToPeak;
          float vx = distance / totalTime;
 
-         Vector3 forward = heldEnemy.forward.normalized;
+         Vector3 forward = carryPoint.forward.normalized;
          Vector3 launchVelocity = forward * vx + Vector3.up * vy;
 
          Vector3 pos = startPos;
@@ -546,7 +560,7 @@ public class PlayerSuplex : MonoBehaviour
         trajectoryRenderer.enabled = true;
         
         // Disable enemy colliders to prevent interference with trajectory calculation
-        Collider[] enemyColliders = heldEnemy.GetComponentsInChildren<Collider>();
+        Collider[] enemyColliders = carryPoint.GetComponentsInChildren<Collider>();
          foreach (var col in enemyColliders)
              col.enabled = false;
         // track landing (position + normal) for the marker
@@ -689,7 +703,4 @@ public class PlayerSuplex : MonoBehaviour
     {
         return powerGauge != null && powerGauge.currentMeter >= powerGauge.maxMeter;
     }
-
 }
-
-

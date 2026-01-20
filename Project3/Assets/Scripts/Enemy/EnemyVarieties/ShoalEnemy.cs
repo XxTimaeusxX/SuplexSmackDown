@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class ShoalEnemy : EnemyBase
+public class ShoalEnemy : OGEnemyBase
 {
     public GameObject door;
     // Shoal-specific audio edge trigger state
