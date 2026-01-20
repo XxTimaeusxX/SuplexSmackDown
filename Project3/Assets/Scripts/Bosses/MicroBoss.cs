@@ -6,7 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class MicroBoss : OGEnemyBase
+public class MicroBoss : EnemyBase
 {
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro

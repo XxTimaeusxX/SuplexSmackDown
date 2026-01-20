@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-public class Enemy : OGEnemyBase
+public class Enemy : EnemyBase
 {
     // Shoal-specific audio edge trigger state
     private bool _shoalWasInChaseRange = false;

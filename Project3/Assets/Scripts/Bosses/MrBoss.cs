@@ -5,7 +5,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class MrBoss : OGEnemyBase
+public class MrBoss : EnemyBase
 {
     private void Awake()
     {

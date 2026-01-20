@@ -2,20 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-// Contributers: Istvan W., Donovan, Ovido
-
-// Last Modified: 1/15/2026 
-// Modified By:  Istvan W.
-
-public class OGEnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour
 {
     [Header("References")]
     public GameObject Target;
     public NavMeshAgent agent;
     public Rigidbody rb;
-    //public InGameMenuManager menuManager;
+    public InGameMenuManager menuManager;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
@@ -26,7 +20,7 @@ public class OGEnemyBase : MonoBehaviour
     public bool canAttack = true;
 
     [Header("Ground Settings")]
-    public float m_Distance;    // Distance to the target
+    public float m_Distance;
     public bool wasGrounded = false;
     public bool isGrabbed;
     public bool isPushed = false;
@@ -118,7 +112,6 @@ public class OGEnemyBase : MonoBehaviour
         }
     }
 
-    //MARK - Function needs to go into 'Shoal' enemy script 
     public void ResetSlapState()
     {
         _nextAttackTime = 0f;
@@ -219,7 +212,6 @@ public class OGEnemyBase : MonoBehaviour
         }
     }
 
-    //MARK - Function needs to go into 'Office' enemy script 
     public void SlapAttack()
     {
         // Behavior guard: only attack when allowed
@@ -243,7 +235,6 @@ public class OGEnemyBase : MonoBehaviour
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
         StartCoroutine(SlapattackDuration());
     }
-    //MARK - Function needs to go into 'Shoal' enemy script 
     public IEnumerator SlapattackDuration()
     {
         if (slapbox == null) yield break;
@@ -279,6 +270,7 @@ public class OGEnemyBase : MonoBehaviour
         isGrabbed = grabbed;
         if (grabbed)
         {
+            
             agent.enabled = false;
         }
 

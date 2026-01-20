@@ -1,19 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-// Last Edited: 1/19/2026 by Istvan W.
 public class ConstructionEnemy : EnemyBase
 {
-    public override void Death()
-    {
-
-    }
-    public override void Attack()
-    {
-
-    }
-    /*
- private bool _WorkerInChaseRange = false;
+    private bool _WorkerInChaseRange = false;
     // Edge trigger to play damage sound once when push starts
     private bool _wasPushed = false;
     void OnValidate()
@@ -104,5 +94,4 @@ public class ConstructionEnemy : EnemyBase
             Debug.Log("construction");
         }
     }
-    */
 }
