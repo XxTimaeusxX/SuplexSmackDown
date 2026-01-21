@@ -10,9 +10,11 @@ public class EnemyBase : MonoBehaviour
     public NavMeshAgent agent;
     public Rigidbody rb;
     public InGameMenuManager menuManager;
+    public RageMeter rageMeter;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
+    public Slider rageBar;
 
     [Header("Behavior Toggles ")]
     public bool canPatrol = true;
@@ -301,6 +303,10 @@ public class EnemyBase : MonoBehaviour
             isPushed = true;
             agent.enabled = false;
             rb.isKinematic = false;
+            if (rageMeter.rageIncrease == true)
+            {
+                rageBar.value += 0.01f;
+            }
         }
     }
 }

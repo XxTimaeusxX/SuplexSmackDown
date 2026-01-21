@@ -37,9 +37,12 @@ public class PlayerSuplex : MonoBehaviour
     public PlayerInput playerInput;  // Reference to the player's input system
     public LineRenderer trajectoryRenderer; // Visualize the suplex arc
     public GameObject shockwave;
+    public GameObject rageShockwave;
     public Transform player;
     private CinemachineImpulseSource impulseSource;
     private MacroBoss _currentMacroBoss;
+    public Slider rageBar;
+    public RageMeter rageMeter;
     [Header("Suplex Configurations")]
     public List<SuplexConfig> suplexConfigs; // List of all possible suplex types
     public AnimationCurve GravityControl; // line graph to control gravity during suplex
@@ -445,7 +448,19 @@ public class PlayerSuplex : MonoBehaviour
             {
                 CameraShakeManager.Instance.SuplexCameraShake(impulseSource);
                 if (shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
-                    Instantiate(shockwave, player.position, player.rotation, player);
+                {
+                    if (rageBar.value == 1)
+                    {
+                        Instantiate(rageShockwave, player.position, player.rotation, player);
+                        rageMeter.rageIncrease = false;
+                        rageBar.value = 0;
+                    }
+                    else
+                    {
+                        Instantiate(shockwave, player.position, player.rotation, player);
+                    }
+                }
+                        
                 AudioManager.PlaySuplexSlam();
                 break;
             }
