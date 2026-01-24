@@ -8,6 +8,8 @@ using UnityEngine;
 
 // Last Edited: 1/19/2026 by Istvan W.
 
+// TODO: Add in vertical movment Animation Curves for suplexes
+// TODO: Adjust horizontal movement Animation Curves for suplexes
 public class MovementConfig : MonoBehaviour
 {
     [Header("Basic Movement Values")]
@@ -37,7 +39,9 @@ public class MovementConfig : MonoBehaviour
     /// After that, the player is affected by a downward force to bring them down faster
     [Header("Suplex Arcs")]             
     public AnimationCurve rainbowSuplexHeight;
+    //
     public AnimationCurve longSuplexHeight;
+    //
     public AnimationCurve superSuplexHeight;
 
     [Header("Throwing/Carrying")]

@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 // Last Edited: 1/19/2026 by Istvan W.
 
+// NOTE: Notice that when in air for a period of time the gravity effect increases.
 [RequireComponent(typeof(CharacterController))]
 public class MovementController : MonoBehaviour
 {
@@ -35,6 +36,10 @@ public class MovementController : MonoBehaviour
     public InputAction rightBumper;
 
     // Test
+    private SuplexTest suplexTest;
+
+    public bool overrideVerticalMotion = false;
+
     public InputAction testButton;
 
     private Vector3 velocity;          // Player's current velocity
@@ -62,6 +67,11 @@ public class MovementController : MonoBehaviour
         rightBumper = playerInput.actions.FindAction("RB");
         // Test
         testButton = playerInput.actions.FindAction("Test");
+        suplexTest = GetComponent<SuplexTest>();
+        if (suplexTest == null)
+        {
+            Debug.LogWarning("SuplexTest component not found on Player.");
+        }
     }
 
     private void Update()
@@ -106,21 +116,30 @@ public class MovementController : MonoBehaviour
         /// Jump input
         if (jumpAction.WasPressedThisFrame() && isGrounded) { Jump(); }
 
-        /// Test
+        /// Testing
         if (testButton.WasPressedThisFrame())
         {
             Debug.Log("Test button pressed");
+            suplexTest.StartLoop();
         }
 
         /// Gravity
-        if (playerDash.isDashing == false)
-            velocity.y += movementConfig.customGravity * Time.deltaTime;
-        else
-            velocity.y = 0;                                                 // No vertical movement while dashing
+        if (!overrideVerticalMotion) // Use this to override vertical motion during suplex testing
+        {
+            if (playerDash.isDashing == false)
+                velocity.y += movementConfig.customGravity * Time.deltaTime;
+            else
+                velocity.y = 0;                                                 // No vertical movement while dashing
+        }
+
 
         /// Move char: Hor + Vert seperately
         Vector3 finalMove = move * Time.deltaTime;
-        finalMove.y = velocity.y * Time.deltaTime;
+
+        if (!overrideVerticalMotion)    // Vertical motion override for suplex testing
+            finalMove.y = velocity.y * Time.deltaTime;
+        else
+            finalMove.y = 0f; // SuplexTest will move vertically instead
 
         controller.Move(finalMove);
     }
