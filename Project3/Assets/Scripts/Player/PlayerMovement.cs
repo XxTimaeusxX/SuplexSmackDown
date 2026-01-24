@@ -160,7 +160,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
-        if (isGrounded && playerSuplex.grabbedEnemy == null)
+
+        bool isHoldingEnemy = playerSuplex.grabHandler.IsHoldingEnemy();
+        if (isGrounded && !isHoldingEnemy)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
@@ -169,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
             // Debug.Log("Jumped!");
         }
       
-        else if (playerSuplex.grabbedEnemy != null && !playerSuplex.isSuplexing)
+        else if (isHoldingEnemy && !playerSuplex.isSuplexing)
         {
             StartCoroutine(playerSuplex.WaitForSuplexInput());
             // Debug.Log("Waiting for suplex input!");
@@ -236,7 +238,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ----- GRAB / GRABAIR / GRABWALK -----
-        if (playerSuplex.grabbedEnemy != null)
+        if (playerSuplex.grabHandler.IsHoldingEnemy())
         {
            
             if (!isGrounded)
@@ -247,6 +249,7 @@ public class PlayerMovement : MonoBehaviour
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.
             if (direction.magnitude >= 0.1f)
             {
+                Debug.Log("Changing to GRABWALK animation");
                 ChangeAnimtion("GRABWALK");
                 return;
             }
