@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 /// <summary>
 /// Stores configuration for each type of suplex (height, distance, speed, etc). 
@@ -35,8 +36,11 @@ public class PlayerSuplex : MonoBehaviour
     [Header("References")]
     public PlayerInput playerInput;
     public GameObject shockwave;
+    public GameObject rageShockwave;
     public Transform player;
     private CinemachineImpulseSource impulseSource;
+    public Slider rageBar;
+    public RageMeter rageMeter;
     
     [Header("Component References")]
     public SuplexTrajectoryVisualizer trajectoryVisualizer;
@@ -336,7 +340,18 @@ public class PlayerSuplex : MonoBehaviour
             {
                 CameraShakeManager.Instance.SuplexCameraShake(impulseSource);
                 if (shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
-                    Instantiate(shockwave, player.position, player.rotation, player);
+                {
+                    if (rageBar.value == 1)
+                    {
+                        Instantiate(rageShockwave, player.position, player.rotation, player);
+                        rageMeter.rageIncrease = false;
+                        rageBar.value = 0;
+                    }
+                    else
+                    {
+                        Instantiate(shockwave, player.position, player.rotation, player);
+                    }
+                } 
                 AudioManager.PlaySuplexSlam();
                 break;
             }
