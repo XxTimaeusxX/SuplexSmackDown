@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Shockwave : MonoBehaviour
 {
     public float pushForce;
-
+    public Slider rageMeter;
     public float growDuration = 2f;
     public float activeDuration = 2f;
     private Vector3 targetScale;
