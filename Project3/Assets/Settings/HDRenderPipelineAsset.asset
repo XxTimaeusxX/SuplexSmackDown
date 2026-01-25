@@ -17,7 +17,7 @@ MonoBehaviour:
     supportSSR: 0
     supportSSRTransparent: 0
     supportSSAO: 1
-    supportSSGI: 0
+    supportSSGI: 1
     supportSubsurfaceScattering: 1
     subsurfaceScatteringAttenuation: 1
     sssSampleBudget:
@@ -29,10 +29,10 @@ MonoBehaviour:
       m_SchemaId:
         m_Id: With3Levels
     supportVolumetrics: 1
-    supportVolumetricClouds: 0
-    supportLightLayers: 0
-    renderingLayerMaskBuffer: 0
-    supportWater: 0
+    supportVolumetricClouds: 1
+    supportLightLayers: 1
+    renderingLayerMaskBuffer: 1
+    supportWater: 1
     waterSimulationResolution: 128
     supportWaterExclusion: 1
     supportWaterHorizontalDeformation: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
     supportDecalLayers: 0
     supportSurfaceGradient: 1
     decalNormalBufferHP: 0
-    supportHighQualityLineRendering: 0
+    supportHighQualityLineRendering: 1
     highQualityLineRenderingMemoryBudget: 128
     msaaSampleCount: 1
     supportMotionVectors: 1
@@ -229,7 +229,7 @@ MonoBehaviour:
       ChromaticAberrationMaxSamples: 03000000060000000c000000
     lightSettings:
       useContactShadow:
-        m_Values: 000001
+        m_Values: 000100
         m_SchemaId:
           m_Id: With3Levels
     maximumLODLevel:
