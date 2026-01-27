@@ -235316,6 +235316,10 @@ PrefabInstance:
       value: InGameSettingsButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 704608638847405990, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1200
+      objectReference: {fileID: 0}
+    - target: {fileID: 704608638847405990, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -235547,6 +235551,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 158926018}
+    - target: {fileID: 4051466155711316648, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: SkyVolume
+      value: 
+      objectReference: {fileID: 818059005}
     - target: {fileID: 4091711253857577333, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -248039,9 +248047,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8133489695491877253, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: suplexBar
+      value: 
+      objectReference: {fileID: 7320028099363092640}
+    - target: {fileID: 8133489695491877253, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: suplexImg1
+      value: 
+      objectReference: {fileID: 21300000, guid: c6e37812ac206ac42a9843cfcad3d775, type: 3}
+    - target: {fileID: 8133489695491877253, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: powerSlider
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 8133489695491877253, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      propertyPath: suplexImgFull
+      value: 
+      objectReference: {fileID: 21300000, guid: 2951182b9d594c048bf77a7119c054fc, type: 3}
     - target: {fileID: 8215942331683528483, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.336
@@ -341189,6 +341209,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3649288329607577572, guid: b488d15a538894d4a817ea86f48880d7, type: 3}
   m_PrefabInstance: {fileID: 7320028099363092638}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7320028099363092640 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8853137720765316471, guid: b488d15a538894d4a817ea86f48880d7, type: 3}
+  m_PrefabInstance: {fileID: 7320028099363092638}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
