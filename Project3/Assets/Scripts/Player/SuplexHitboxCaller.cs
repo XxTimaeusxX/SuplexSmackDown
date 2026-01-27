@@ -21,9 +21,13 @@ public class SuplexHitboxCaller : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
-        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") && playerSuplex != null)
+        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") && playerSuplex != null)
         {
              Debug.Log("hitboxcollider called");
+            if (other.CompareTag("Macro"))
+            {
+                other.gameObject.tag = "Grabbed";
+            }
             gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
             playerSuplex.StartSuplex(other); // Begin the suplex sequence on the enemy
         }

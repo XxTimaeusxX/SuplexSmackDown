@@ -46,4 +46,13 @@ public class PlayerHealth : MonoBehaviour
 	{
 		menuManager.GameOver();
 	}
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("DamagePlayer"))
+		{
+			TakeDamage();
+			collision.gameObject.tag = "Macro";
+		}
+    }
 }

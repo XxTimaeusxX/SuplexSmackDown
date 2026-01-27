@@ -46,8 +46,11 @@ public class MacroBoss : EnemyBase
            if(wasThrown && !isGrabbed && IsEnemyGrounded())
         {
             wasThrown = false;
-            damageHitbox.enabled = false;
             ResumeSequence(); 
+            if (CompareTag("DamagePlayer"))
+            {
+                this.gameObject.tag = "Macro";
+            }
             return; 
         }
         

@@ -81,6 +81,10 @@ public class MicroBoss : EnemyBase
         MacroEnemy.canPatrol = false;
         MacroEnemy.canChase = false;
         MacroEnemy.SetGrabbed(true);
+        if (MacroEnemy.CompareTag("Macro"))
+        {
+            MacroEnemy.gameObject.tag = "DamagePlayer";
+        }
 
         //---- Hold Macro for x seconds--//
         throwTimer = 0f;
