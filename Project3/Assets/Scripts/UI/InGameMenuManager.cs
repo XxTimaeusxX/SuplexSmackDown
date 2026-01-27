@@ -9,18 +9,21 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] string _MainMenuScene;
 	
 	[SerializeField] GameObject _PauseMenuContainer;
+	[SerializeField] GameObject _ControlsPanel;
 	[SerializeField] GameObject _SettingsPanel;
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
 	
 	[SerializeField] GameObject _PauseButtonContainer;
 	[SerializeField] GameObject _DefaultPauseButton;
+	[SerializeField] GameObject _DefaultControlsButton;
 	[SerializeField] GameObject _DefaultSettingsButton;
 	[SerializeField] GameObject _DefaultWinButton;
 	[SerializeField] GameObject _DefaultGameOverButton;
 	
 	[SerializeField] GameObject _HealthUI;
 	[SerializeField] GameObject _SuperSuplexUI;
+	[SerializeField] GameObject _RageMeterUI;
 
 	[Header("Debug Menu")]
 	[SerializeField] GameObject DEBUG_Player;
@@ -51,8 +54,25 @@ public class InGameMenuManager : MonoBehaviour
 		Time.timeScale = 1.0f;
 		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
 		if(_SettingsPanel) _SettingsPanel.SetActive(false);
+		if(_ControlsPanel) _ControlsPanel.SetActive(false);
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
+		_SuperSuplexUI.SetActive(true);
+		_RageMeterUI.SetActive(true);
+	}
+	
+	public void ControlsButtonClicked()
+	{
+		_PauseButtonContainer.SetActive(false);
+		_ControlsPanel.SetActive(true);
+		EventSystem.current.SetSelectedGameObject(_DefaultControlsButton);
+	}
+	
+	public void ControlsBackButtonClicked()
+	{
+		_PauseButtonContainer.SetActive(true);
+		_ControlsPanel.SetActive(false);
+		EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
 	}
 	
 	public void InGameSettingsButtonClicked()
@@ -100,9 +120,10 @@ public class InGameMenuManager : MonoBehaviour
 				Cursor.visible = false;
 				Time.timeScale = 1.0f;
 				_SettingsPanel.SetActive(false);	//allows unpausing while in the settings menu
-				_PauseButtonContainer.SetActive(true);
+				_ControlsPanel.SetActive(false);
 				_PauseMenuContainer.SetActive(false);
 				_SuperSuplexUI.SetActive(true);
+				_RageMeterUI.SetActive(true);
 				isPaused = false;
 				pause_anim.SetBool("isPaused", false);
 			}
@@ -115,6 +136,7 @@ public class InGameMenuManager : MonoBehaviour
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
 				_SuperSuplexUI.SetActive(false);
+				_RageMeterUI.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
 					//pause_anim.Play("PauseMenuAnim");

@@ -9,6 +9,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject _MainMenuButtonContainer;
     [SerializeField] GameObject _SettingsPanel;
     [SerializeField] GameObject _SettingsBackButton;
+    [SerializeField] GameObject _ControlsPanel;
+    [SerializeField] GameObject _ControlsBackButton;
     [SerializeField] GameObject _CreditsPanel;
     [SerializeField] GameObject _CreditsBackButton;
     [SerializeField] LoadingScreenManager _loadingScreenManager;
@@ -28,10 +30,10 @@ public class MainMenuManager : MonoBehaviour
         _loadingScreenManager.StartLoadingScene(_GameplaySceneInt);
 	}
 	
-	public void CreditsButtonClicked(){
-		if(_CreditsPanel) _CreditsPanel.SetActive(true);
+	public void HowToPlayButtonClicked(){
+		if(_ControlsPanel) _ControlsPanel.SetActive(true);
 		if(_MainMenuButtonContainer) _MainMenuButtonContainer.SetActive(false);
-		EventSystem.current.SetSelectedGameObject(_CreditsBackButton);
+		EventSystem.current.SetSelectedGameObject(_ControlsBackButton);
 	}
 	
 	public void SettingsButtonClicked(){
@@ -40,9 +42,16 @@ public class MainMenuManager : MonoBehaviour
 		EventSystem.current.SetSelectedGameObject(_SettingsBackButton);
 	}
 	
+	public void CreditsButtonClicked(){
+		if(_CreditsPanel) _CreditsPanel.SetActive(true);
+		if(_MainMenuButtonContainer) _MainMenuButtonContainer.SetActive(false);
+		EventSystem.current.SetSelectedGameObject(_CreditsBackButton);
+	}
+	
 	public void BackButtonToMainClicked(){
-		if(_CreditsPanel) _CreditsPanel.SetActive(false);
+		if(_ControlsPanel) _ControlsPanel.SetActive(false);
 		if(_SettingsPanel) _SettingsPanel.SetActive(false);
+		if(_CreditsPanel) _CreditsPanel.SetActive(false);
 		if(_MainMenuButtonContainer) _MainMenuButtonContainer.SetActive(true);
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
 	}
