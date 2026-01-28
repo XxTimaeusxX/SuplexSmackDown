@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -66,11 +67,12 @@ public class MicroBoss : EnemyBase
 
     public IEnumerator ThrowMacro()
     {
+
         AudioManager.PlayMicroPrepareAttack();
         // ----- Position macro prefab at throw origin ----- //
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
         MacroPrefab.transform.position = origin.position;
-        MacroPrefab.transform.rotation = Quaternion.identity;
+        MacroPrefab.transform.rotation = Quaternion.Euler(90f, origin.rotation.eulerAngles.y, 0f);
         MacroPrefab.transform.SetParent(origin);
         
         // ----- Disabling navmesh & kinematics  ----- //
@@ -96,11 +98,18 @@ public class MicroBoss : EnemyBase
 
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
         MacrosRb.isKinematic = false; // re-enable physics
-        
-      
+
+
         // ----- Calculate throw direction and apply force ----- //
+
+     //  float hieght = 0f;
+     //   float foward = 18f;
         Vector3 dir = (Target.transform.position - MacroPrefab.transform.position).normalized;
-        MacrosRb.AddForce(dir * throwForce, ForceMode.VelocityChange);
+      //  Vector3 orientThrow = new Vector3(dir.x, 0f, dir.z).normalized;
+      //  Vector3 Upwardforce = hieght *  Vector3.up; // total power to apply to macro
+      //  Vector3 FowardForce = foward * orientThrow; // forward force to apply to macro*/
+
+        MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
         MacroEnemy.wasThrown = true; // flag macro as thrown
         float enableMacroTimer = 0f;
         while(enableMacroTimer < 3f)
