@@ -15,10 +15,12 @@ public class MicroBoss : EnemyBase
     [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
     [SerializeField] private float throwInterval = 3f;
     [SerializeField] private float throwForce = 12f;
-    private NavMeshAgent MacroAgent;
-    private Rigidbody MacrosRb;
-    private MacroBoss MacroEnemy;
-    private float throwTimer;
+   [SerializeField] private PowerGauge _powerGauge;
+    private NavMeshAgent _MacroAgent;
+    private Rigidbody _MacrosRb;
+    private MacroBoss _MacroEnemy;
+    private float _throwTimer;
+    
     public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
@@ -28,9 +30,12 @@ public class MicroBoss : EnemyBase
      
 
         // ----- get macros components ----- //
-         MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
-         MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
-        MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
+         _MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
+         _MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
+        _MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
+
+        if (_powerGauge == null)
+            _powerGauge = GetComponent<PowerGauge>();
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -59,9 +64,10 @@ public class MicroBoss : EnemyBase
             canChase = false;
             canPatrol = false;
             agent.enabled = false;
-           
+           this.gameObject.tag ="Enemy";
             enemyHealthScreen.SetActive(false);
             Destroy(MacroPrefab);
+            _powerGauge.EnableInfiniteMeter();
         }
     }
 
@@ -76,28 +82,28 @@ public class MicroBoss : EnemyBase
         MacroPrefab.transform.SetParent(origin);
         
         // ----- Disabling navmesh & kinematics  ----- //
-        MacrosRb.isKinematic = true;
+        _MacrosRb.isKinematic = true;
 
         //---- Disable enemy AI behaviors on thrown MacroEnemy--//
-        MacroEnemy.canAttack = false;
-        MacroEnemy.canPatrol = false;
-        MacroEnemy.canChase = false;
-        MacroEnemy.SetGrabbed(true);
-        if (MacroEnemy.CompareTag("Macro"))
+        _MacroEnemy.canAttack = false;
+        _MacroEnemy.canPatrol = false;
+        _MacroEnemy.canChase = false;
+        _MacroEnemy.SetGrabbed(true);
+        if (_MacroEnemy.CompareTag("Macro"))
         {
-            MacroEnemy.gameObject.tag = "DamagePlayer";
+            _MacroEnemy.gameObject.tag = "DamagePlayer";
         }
 
         //---- Hold Macro for x seconds--//
-        throwTimer = 0f;
-        while (throwTimer < throwInterval)
+        _throwTimer = 0f;
+        while (_throwTimer < throwInterval)
         {
-            throwTimer += Time.deltaTime;
+            _throwTimer += Time.deltaTime;
             yield return null;
         }
 
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
-        MacrosRb.isKinematic = false; // re-enable physics
+        _MacrosRb.isKinematic = false; // re-enable physics
 
 
         // ----- Calculate throw direction and apply force ----- //
@@ -109,8 +115,8 @@ public class MicroBoss : EnemyBase
       //  Vector3 Upwardforce = hieght *  Vector3.up; // total power to apply to macro
       //  Vector3 FowardForce = foward * orientThrow; // forward force to apply to macro*/
 
-        MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
-        MacroEnemy.wasThrown = true; // flag macro as thrown
+        _MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
+        _MacroEnemy.wasThrown = true; // flag macro as thrown
         float enableMacroTimer = 0f;
         while(enableMacroTimer < 3f)
         {
@@ -127,7 +133,7 @@ public class MicroBoss : EnemyBase
         // ----- Re-enable navmesh & kinematics ----- //
       //  Debug.Log("Macro resumed after throw - not grabbed");
       
-        MacroEnemy.ResumeSequence();
+        _MacroEnemy.ResumeSequence();
         
     }
 }

@@ -17,6 +17,8 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip mainMenuBGM;
     public AudioClip constructionBGM;
     public AudioClip boss1BGM;
+    public AudioClip VictoryBGM;
+    public AudioClip DefeatBGM;
 
     [Header("Player SFX")]
     public AudioClip footstepClip;
@@ -146,32 +148,12 @@ public sealed class AudioManager : MonoBehaviour
     }
 
     // BGM
-    public static void PlayMainMenuBGM()
-    {
-        if (!Instance || !Instance.mainMenuBGM) return;
-        Instance.musicSource.clip = Instance.mainMenuBGM;
-        Instance.musicSource.loop = true;
-        Instance.musicSource.volume = Instance.musicVolume*Instance.masterVolume;
-        Instance.musicSource.Play();
-    }
+    public static void PlayMainMenuBGM() => PlayMusic(Instance?.mainMenuBGM);
+    public static void PlayConstructionBGM() => PlayMusic(Instance?.constructionBGM);
+    public static void PlayBoss1BGM() => PlayMusic(Instance?.boss1BGM);
+    public static void PLayVictory() => PlayMusic(Instance?.VictoryBGM,false);
+    public static void PlayDefeat() => PlayMusic(Instance?.DefeatBGM,false);
 
-    public static void PlayConstructionBGM()
-    {
-        if (!Instance || !Instance.constructionBGM) return;
-        Instance.musicSource.clip = Instance.constructionBGM;
-        Instance.musicSource.loop = true;
-        Instance.musicSource.volume = Instance.musicVolume*Instance.masterVolume;
-        Instance.musicSource.Play();
-    }
-
-    public static void PlayBoss1BGM()
-    {
-        if (!Instance || !Instance.boss1BGM) return;
-        Instance.musicSource.clip = Instance.boss1BGM;
-        Instance.musicSource.loop = true;
-        Instance.musicSource.volume = Instance.musicVolume*Instance.masterVolume;
-        Instance.musicSource.Play();
-    }
     // player SFX
     public static void PlayFootstep() => Instance?.sfxSource?.PlayOneShot(Instance?.footstepClip, Instance.sfxVolume);
     public static void PlayJumping() => Instance?.sfxSource?.PlayOneShot(Instance?.jumpingClip, Instance.sfxVolume);

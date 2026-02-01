@@ -216,9 +216,10 @@ GameObject:
   - component: {fileID: 7605789539901660356}
   - component: {fileID: 7682660358684015366}
   - component: {fileID: 5319476868097519493}
+  - component: {fileID: 6593519372934216356}
   m_Layer: 8
   m_Name: Macro
-  m_TagString: Enemy
+  m_TagString: Macro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -334,9 +335,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815463349756047240}
   serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Mass: 0.2
+  m_LinearDamping: 1
+  m_AngularDamping: 44
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -351,7 +352,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 8
+  m_Constraints: 0
   m_CollisionDetection: 2
 --- !u!195 &7605789539901660356
 NavMeshAgent:
@@ -363,8 +364,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 0.99
-  m_Speed: 3.5
-  m_Acceleration: 8
+  m_Speed: 1
+  m_Acceleration: 24
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
@@ -413,11 +414,13 @@ MonoBehaviour:
   agent: {fileID: 7605789539901660356}
   rb: {fileID: 94331698028440693}
   menuManager: {fileID: 0}
+  rageMeter: {fileID: 0}
   groundCheck: {fileID: 5251169627730159186}
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  groundDistance: 0.6
+  groundDistance: 0.99
+  rageBar: {fileID: 0}
   canPatrol: 1
   canChase: 1
   canAttack: 1
@@ -429,20 +432,40 @@ MonoBehaviour:
   chargeSlider: {fileID: 4624170346586136509}
   enemyHealth: {fileID: 0}
   enemyHealthScreen: {fileID: 0}
-  chaseRange: 33
-  patrolWalkSpeed: 22
+  chaseRange: 70
+  patrolWalkSpeed: 12
   patrolWaitTime: 2
-  patrolRunSpeed: 22
+  patrolRunSpeed: 12
   patrolWaitDefault: 1
   meleeRange: 3
-  attackCooldown: 2
+  attackCooldown: 0.7
   _nextAttackTime: 0
   slapbox: {fileID: 6012653439748319867}
   slapActiveTime: 0.1
   animator: {fileID: 0}
   MicroPosition: {fileID: 0}
   returnDelay: 6
-  damageHitbox: {fileID: 0}
+  damageHitbox: {fileID: 8486778903386653615}
+  MacrosCollider: {fileID: 6194857328625989249}
+  wasThrown: 0
+--- !u!114 &6593519372934216356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815463349756047240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b004953d76a564da71f90395b76795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyRespawn
+  enemyRespawn: {fileID: 0}
+  enemyRespawn2: {fileID: 0}
+  enemyRespawn3: {fileID: 0}
+  enemyRespawn4: {fileID: 0}
+  enemyRespawn5: {fileID: 0}
+  respawnPoint: {fileID: 0}
 --- !u!1 &845245145641101098
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,6 +922,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4568785280658764674}
   - component: {fileID: 8486778903386653615}
+  - component: {fileID: 1215634125066022420}
   m_Layer: 8
   m_Name: DamageHitBox
   m_TagString: Untagged
@@ -940,8 +964,22 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.6816809, y: 2.3002472, z: 1.509592}
-  m_Center: {x: -0.0306288, y: -0.07463837, z: 0.006315708}
+  m_Size: {x: 2.4228697, y: 3.0309567, z: 2.685135}
+  m_Center: {x: -0.030628681, y: 0.06691575, z: -0.07125473}
+--- !u!114 &1215634125066022420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3366709561584665705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2050cd8bd24c3a7428c94bc6c3e63a02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MacroHitboxCaller
+  macroBoss: {fileID: 5319476868097519493}
+  microBoss: {fileID: 0}
 --- !u!1 &3639598886093573215
 GameObject:
   m_ObjectHideFlags: 0

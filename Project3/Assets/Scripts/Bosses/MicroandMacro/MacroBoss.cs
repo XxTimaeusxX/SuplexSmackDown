@@ -108,7 +108,7 @@ public class MacroBoss : EnemyBase
                 yield return null;
                 continue;
             }
-            //  agent.SetDestination(MicroPosition.position);
+          
 
             if (agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 5f))// get near the destination but not exactly on it
             {

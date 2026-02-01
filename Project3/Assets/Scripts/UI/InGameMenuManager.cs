@@ -163,8 +163,10 @@ public class InGameMenuManager : MonoBehaviour
 		Cursor.visible = true;
 		Time.timeScale = 0.0f;
 		_GameOverMenuContainer.SetActive(true);
-		
-		// Set default selected button for navigation
+		AudioManager.StopMusic();
+		AudioManager.PlayDefeat();
+
+        // Set default selected button for navigation
         EventSystem.current.SetSelectedGameObject(_DefaultGameOverButton);
 	}
 	
@@ -176,8 +178,9 @@ public class InGameMenuManager : MonoBehaviour
 		Cursor.visible = true;
 		Time.timeScale = 0.0f;
 		_WinMenuContainer.SetActive(true);
-		
-		// Set default selected button for navigation
+		AudioManager.StopMusic();
+		AudioManager.PLayVictory();
+        // Set default selected button for navigation
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
 	}
 	
