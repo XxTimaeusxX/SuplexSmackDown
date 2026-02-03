@@ -33,7 +33,7 @@ MonoBehaviour:
     m_Value: {fileID: 0}
   dirtIntensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   anamorphic:
     m_OverrideState: 0
     m_Value: 1
@@ -408,7 +408,7 @@ MonoBehaviour:
     m_Value: 0.5
   contrast:
     m_OverrideState: 1
-    m_Value: 22
+    m_Value: 25
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -417,7 +417,7 @@ MonoBehaviour:
     m_Value: 0
   saturation:
     m_OverrideState: 1
-    m_Value: 10
+    m_Value: 20
 --- !u!114 &-5250133951008066641
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -733,7 +733,7 @@ MonoBehaviour:
     m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   tint:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 0.9575472, g: 0.98378205, b: 1, a: 1}
   maxFogDistance:
     m_OverrideState: 1
     m_Value: 5000
@@ -748,7 +748,7 @@ MonoBehaviour:
     m_Value: 1000
   baseHeight:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 10
   maximumHeight:
     m_OverrideState: 1
     m_Value: 50
@@ -760,7 +760,7 @@ MonoBehaviour:
     m_Value: 1
   albedo:
     m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_Value: {r: 0.8537736, g: 0.9463119, b: 1, a: 1}
   globalLightProbeDimmer:
     m_OverrideState: 1
     m_Value: 1
@@ -818,3 +818,23 @@ MonoBehaviour:
   - {fileID: -6041456089789239205}
   - {fileID: -6927630676786596996}
   - {fileID: -5250133951008066641}
+  - {fileID: 964302389643103870}
+--- !u!114 &964302389643103870
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da1359036ae730419771331edd4a2a7, type: 3}
+  m_Name: ToonShadingPP
+  m_EditorClassIdentifier: Assembly-CSharp::ToonShadingPP
+  active: 1
+  _posterizeAmount:
+    m_OverrideState: 1
+    m_Value: 35
+  _isEnabled:
+    m_OverrideState: 1
+    m_Value: 1
