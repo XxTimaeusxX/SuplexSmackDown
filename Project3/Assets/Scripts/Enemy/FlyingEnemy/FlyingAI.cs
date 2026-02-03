@@ -101,7 +101,7 @@ public class FlyingAI : MonoBehaviour
         var proj = Instantiate(projectilePrefab, spawn.position, spawn.rotation);
         var rb = proj.GetComponent<Rigidbody>();
         if (rb)
-            rb.velocity = spawn.forward * projectileSpeed;
+            rb.linearVelocity = spawn.forward * projectileSpeed;
     }
     #endregion
 
