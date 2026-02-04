@@ -45,6 +45,12 @@ public class InGameMenuManager : MonoBehaviour
 		DEBUG_PlayerCC = DEBUG_Player.GetComponent<CharacterController>();
 	}
 	
+	//when hovering over a button, set it to selected
+	public void ButtonHover(GameObject curButton){
+		EventSystem.current.SetSelectedGameObject(curButton);
+		Debug.Log("hovered " + curButton.name);
+	}
+	
 	//lock/hide cursor, unpause, and hide pause menu
 	public void ResumeButtonClicked()
 	{

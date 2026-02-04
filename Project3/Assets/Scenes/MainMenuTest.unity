@@ -504,6 +504,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135432340}
   m_CullTransparentMesh: 1
+--- !u!1 &137337315 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4762653476830312989, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &184040157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -602,6 +607,7 @@ GameObject:
   - component: {fileID: 260520312}
   - component: {fileID: 260520311}
   - component: {fileID: 260520310}
+  - component: {fileID: 260520313}
   m_Layer: 5
   m_Name: HowToPlayButton
   m_TagString: Untagged
@@ -723,6 +729,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260520308}
   m_CullTransparentMesh: 1
+--- !u!114 &260520313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260520308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 914068908}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+          m_MethodName: ButtonHover
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 260520308}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &296390987
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,6 +849,7 @@ GameObject:
   - component: {fileID: 353653031}
   - component: {fileID: 353653030}
   - component: {fileID: 353653029}
+  - component: {fileID: 353653032}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -935,6 +971,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 353653027}
   m_CullTransparentMesh: 1
+--- !u!114 &353653032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 353653027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 914068908}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+          m_MethodName: ButtonHover
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 353653027}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &363465329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,6 +1223,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &428653909 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7964899270133124437, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &455158379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1288,6 +1358,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &524435049 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8014860465782624976, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &526219865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2073,6 +2148,7 @@ GameObject:
   - component: {fileID: 946728858}
   - component: {fileID: 946728857}
   - component: {fileID: 946728856}
+  - component: {fileID: 946728859}
   m_Layer: 5
   m_Name: CreditsButton
   m_TagString: Untagged
@@ -2194,6 +2270,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946728854}
   m_CullTransparentMesh: 1
+--- !u!114 &946728859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 946728854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 914068908}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+          m_MethodName: ButtonHover
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 946728854}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1212546510
 GameObject:
   m_ObjectHideFlags: 0
@@ -2273,6 +2378,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212546510}
   m_CullTransparentMesh: 1
+--- !u!1 &1215301974 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8822414801930544741, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1261271961
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,6 +2836,7 @@ GameObject:
   - component: {fileID: 1315404698}
   - component: {fileID: 1315404697}
   - component: {fileID: 1315404696}
+  - component: {fileID: 1315404699}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -2847,6 +2958,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1315404694}
   m_CullTransparentMesh: 1
+--- !u!114 &1315404699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315404694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 914068908}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+          m_MethodName: ButtonHover
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1315404694}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1326239200
 GameObject:
   m_ObjectHideFlags: 0
@@ -3005,6 +3145,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1410308595}
   m_CullTransparentMesh: 1
+--- !u!1 &1412115679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2124359098477791133, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1442913564
 GameObject:
   m_ObjectHideFlags: 0
@@ -3017,6 +3162,7 @@ GameObject:
   - component: {fileID: 1442913568}
   - component: {fileID: 1442913567}
   - component: {fileID: 1442913566}
+  - component: {fileID: 1442913569}
   m_Layer: 5
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -3138,6 +3284,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1442913564}
   m_CullTransparentMesh: 1
+--- !u!114 &1442913569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442913564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 914068908}
+          m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+          m_MethodName: ButtonHover
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 1442913564}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &1509368704 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6823921980361382021, guid: af20fcef02373944285b4413424e9dea, type: 3}
@@ -3509,6 +3684,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1731058807}
   m_CullTransparentMesh: 1
+--- !u!1 &1731070860 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9060081296734117605, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1771629633
 GameObject:
   m_ObjectHideFlags: 0
@@ -3705,6 +3885,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1879332471 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3684354501729273483, guid: af20fcef02373944285b4413424e9dea, type: 3}
+  m_PrefabInstance: {fileID: 8711895913799955551}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1890069766 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1657971965358539173, guid: cf29c7f70fcb1aa49a1ffc85c11ac85e, type: 3}
@@ -4078,6 +4263,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1110025236437303357, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110025236437303357, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 1110025236437303357, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110025236437303357, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1110025236437303357, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1215301974}
+    - target: {fileID: 1110025236437303357, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1226914804895042829, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4141,6 +4350,30 @@ PrefabInstance:
     - target: {fileID: 2258880623888602403, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461394526902295200, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461394526902295200, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 2461394526902295200, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461394526902295200, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2461394526902295200, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1509368704}
+    - target: {fileID: 2461394526902295200, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 2603720980772696036, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
@@ -4170,6 +4403,30 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3073576001413008104, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073576001413008104, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 3073576001413008104, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073576001413008104, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073576001413008104, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 524435049}
+    - target: {fileID: 3073576001413008104, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3644246748674944359, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4194,6 +4451,54 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3730944400498205023, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730944400498205023, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 3730944400498205023, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730944400498205023, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3730944400498205023, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 137337315}
+    - target: {fileID: 3730944400498205023, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240351428117438370, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240351428117438370, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 4240351428117438370, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240351428117438370, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240351428117438370, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1412115679}
+    - target: {fileID: 4240351428117438370, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4671823771053436180, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4209,6 +4514,30 @@ PrefabInstance:
     - target: {fileID: 4671823771053436180, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986080336435134483, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986080336435134483, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 4986080336435134483, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986080336435134483, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4986080336435134483, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1731070860}
+    - target: {fileID: 4986080336435134483, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5486795058844254553, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4221,6 +4550,30 @@ PrefabInstance:
     - target: {fileID: 5486795058844254553, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517476022316803372, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517476022316803372, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 5517476022316803372, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517476022316803372, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5517476022316803372, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 428653909}
+    - target: {fileID: 5517476022316803372, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6437190362523432341, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4422,6 +4775,30 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 914068908}
+    - target: {fileID: 8469392127373971547, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8469392127373971547, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 914068908}
+    - target: {fileID: 8469392127373971547, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ButtonHover
+      objectReference: {fileID: 0}
+    - target: {fileID: 8469392127373971547, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8469392127373971547, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1879332471}
+    - target: {fileID: 8469392127373971547, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8921420095868159849, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

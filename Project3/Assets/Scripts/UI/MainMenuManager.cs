@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
 	[SerializeField] int _GameplaySceneInt;
     [SerializeField] GameObject _DefaultPlayButton;
     [SerializeField] GameObject _MainMenuButtonContainer;
+	private Button MainMenuButtons;
     [SerializeField] GameObject _SettingsPanel;
     [SerializeField] GameObject _SettingsBackButton;
     [SerializeField] GameObject _ControlsPanel;
@@ -21,6 +23,12 @@ public class MainMenuManager : MonoBehaviour
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
 		AudioManager.PlayMainMenuBGM();// Play menu music (clip assigned on AudioManager)
     }
+	
+	//when hovering over a button, set it to selected
+	public void ButtonHover(GameObject curButton){
+		EventSystem.current.SetSelectedGameObject(curButton);
+		Debug.Log("hovered " + curButton.name);
+	}
 	
 	public void StartButtonClicked(){
 		Debug.Log("start!");
