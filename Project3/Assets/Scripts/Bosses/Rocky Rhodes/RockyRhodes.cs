@@ -33,87 +33,121 @@ public class RockyRhodes : EnemyBase
         RockyRhodesStates.BullRock,
     };
 
+    public float jumpForce = 55f;
     public float AbilityCooldown = 5f;
     public bool IsPerformingAbility = false;
     private float _abilityTimer = 0f;
-    private void OnValidate()
-    {
-    }
+    private Coroutine _currentStateCoroutine;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
   new  void Start()
     {
-        CurrentRockyState = RockyRhodesStates.Regular;
+        CheckState(RockyRhodesStates.Regular);
     }
 
     // Update is called once per frame
     public override void  Update()
     {
         base.Update();
-        CheckState();
+       if(IsPerformingAbility && agent.enabled) agent.enabled = false;
     }
 
-    public void CheckState()
+    public void CheckState(RockyRhodesStates states)
     {
-        switch(CurrentRockyState)
+        if (_currentStateCoroutine != null)
+        {
+            StopCoroutine(_currentStateCoroutine);
+            _currentStateCoroutine = null;
+        }
+        CurrentRockyState = states;
+        switch (states)
         {
             case RockyRhodesStates.Regular:
-                Regular();
+             _currentStateCoroutine =  StartCoroutine(Regular());
                 break;
             case RockyRhodesStates.BoulderEruption:
-                BoulderEruption();
+             _currentStateCoroutine =  StartCoroutine(BoulderEruption());
                 break;
             case RockyRhodesStates.BullRock:
-                BullRock();
+             _currentStateCoroutine = StartCoroutine(BullRock());
                 break;
         }
      }
 
-    public void Regular()
-    {
-       
-        _abilityTimer += Time.deltaTime;
+    public IEnumerator Regular()
+    {  
         Debug.Log("Regular State Active");
-        
-        if (_abilityTimer >= AbilityCooldown)
-        {
-            ShuffleAbilities();
-           
-        }
-       
-       
-    }
-    public void BoulderEruption()
-    {
-
-        Debug.Log("Boulder Eruption Activated");
-        _abilityTimer += Time.deltaTime;
-        if (_abilityTimer >= AbilityCooldown)
-        {
-            CurrentRockyState = RockyRhodesStates.Regular;
-            _abilityTimer = 0f;
-        }
-    }
-
-    public void BullRock()
-    {
-        Debug.Log("Bull Rock Activated");
-        _abilityTimer += Time.deltaTime;
-        if (_abilityTimer >= AbilityCooldown)
-        {            
-            CurrentRockyState = RockyRhodesStates.Regular;
-            _abilityTimer = 0f;
-        }
-
-    }
-    public void ShuffleAbilities()
-    { 
+        // Wait for cooldown
+        yield return new WaitForSeconds(AbilityCooldown);
         int randomIndex = Random.Range(0, _RandomSelection.Count);
         CurrentRockyState = _RandomSelection[randomIndex];
-        _abilityTimer = 0f;
-
+        CheckState(CurrentRockyState);
+        yield return null;
     }
+    public IEnumerator BoulderEruption()
+    {
+        IsPerformingAbility = true; // Prevent EnemyBase from re-enabling agent
+        ToggleBehaviors(false); // Disable AI behaviors and NavMesh
+        IgnoreGroundCheck = true; // Prevent ground check interference during ability
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        rb.angularVelocity = new Vector3(90f, 00f, 0f) * 5f * Time.fixedDeltaTime;
+        float timer = 0f;
+            while(timer < 5f)
+        {
+            Debug.Log("Boulder Eruption - Agent disabled, waiting 4 seconds...");
+            timer += Time.fixedDeltaTime;
+            yield return null;
+        }
+       
+        
+
+        IgnoreGroundCheck = false;
+        yield return new WaitForSeconds(AbilityCooldown);
+        Debug.Log("Boulder Eruption - 4 seconds passed");
+        if (isGrabbed || isPushed) yield break;
+        // Re-enable everything
+        ToggleBehaviors(true);
+        IsPerformingAbility = false; // Allow EnemyBase to control agent again
+        CheckState(RockyRhodesStates.Regular);
+    }
+
+    public IEnumerator BullRock()
+    {
+        IsPerformingAbility = true;
+        ToggleBehaviors(false);
+        IgnoreGroundCheck = true; // Prevent ground check interference during ability
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+        rb.angularVelocity = new Vector3(0f, 90f, 0f) * 5f * Time.fixedDeltaTime;
+        float timer = 0f;
+        while (timer < 5f)
+        {
+            Debug.Log("Bull Rock - Agent disabled, waiting for cooldown...");
+            timer += Time.fixedDeltaTime;
+            yield return null;
+        }
+
+        IgnoreGroundCheck = false; // Prevent ground check interference during ability
+        yield return new WaitForSeconds(AbilityCooldown);
+        if (isGrabbed || isPushed) yield break;
+
+        ToggleBehaviors(true);
+        IsPerformingAbility = false;
+        CheckState(RockyRhodesStates.Regular);
+    }
+ 
     public void Dead()
     {
                Debug.Log("Rocky Rhodes is Dead");
+    }
+    public void ToggleBehaviors( bool IsEnabled)
+    {
+        // Disable AI behaviors
+        canAttack = IsEnabled;
+        canChase = IsEnabled;
+        canPatrol = IsEnabled;
+
+        // Disable NavMesh
+        agent.enabled = IsEnabled;
+        rb.isKinematic = IsEnabled;
     }
 }

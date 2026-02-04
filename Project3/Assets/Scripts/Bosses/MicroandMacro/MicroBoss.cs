@@ -20,7 +20,8 @@ public class MicroBoss : EnemyBase
     private Rigidbody _MacrosRb;
     private MacroBoss _MacroEnemy;
     private float _throwTimer;
-    
+
+    [SerializeField] private LowerRoom lowerRoom;
     public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
@@ -36,6 +37,8 @@ public class MicroBoss : EnemyBase
 
         if (_powerGauge == null)
             _powerGauge = GetComponent<PowerGauge>();
+
+        lowerRoom = FindFirstObjectByType<LowerRoom>();
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -68,6 +71,7 @@ public class MicroBoss : EnemyBase
             enemyHealthScreen.SetActive(false);
             Destroy(MacroPrefab);
             _powerGauge.EnableInfiniteMeter();
+            lowerRoom.MoveDown();
         }
     }
 

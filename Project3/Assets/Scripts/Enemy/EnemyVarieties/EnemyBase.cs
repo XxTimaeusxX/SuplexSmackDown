@@ -24,6 +24,7 @@ public class EnemyBase : MonoBehaviour
     [Header("Ground Settings")]
     public float m_Distance;
     public bool wasGrounded = false;
+    public bool IgnoreGroundCheck = false;
     public bool isGrabbed;
     public bool isPushed = false;
     public float pushCooldown;
@@ -284,6 +285,7 @@ public class EnemyBase : MonoBehaviour
     }
     public bool IsEnemyGrounded()
     {
+        if (IgnoreGroundCheck) return false;
         // Use a raycast or other method to check if the enemy is on the ground
         Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);

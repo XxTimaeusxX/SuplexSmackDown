@@ -838,6 +838,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3630882412574168363, guid: 20c6f53feb0ac3043a915f7419010267, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6495744098536937054, guid: 20c6f53feb0ac3043a915f7419010267, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -994,7 +998,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &697100903
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5532,8 +5536,8 @@ Transform:
   m_GameObject: {fileID: 8985381124412353162}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 8.77, z: -0.2957}
-  m_LocalScale: {x: 3.878112, y: 3.878112, z: 3.878112}
+  m_LocalPosition: {x: 0, y: 7.94, z: -0.065352}
+  m_LocalScale: {x: 2.4384406, y: 2.4384406, z: 2.4384406}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3502718386523533959}
@@ -6543,7 +6547,7 @@ GameObject:
   - component: {fileID: 8985381124412353163}
   m_Layer: 8
   m_Name: RockyRhodes
-  m_TagString: Micro
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6569,13 +6573,14 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  groundDistance: 0.2
+  groundDistance: 0.01
   rageBar: {fileID: 0}
-  canPatrol: 1
+  canPatrol: 0
   canChase: 1
-  canAttack: 1
+  canAttack: 0
   m_Distance: 0
   wasGrounded: 0
+  IgnoreGroundCheck: 0
   isGrabbed: 0
   isPushed: 0
   pushCooldown: 0
@@ -6594,7 +6599,8 @@ MonoBehaviour:
   slapActiveTime: 0.1
   animator: {fileID: 5981510028302032743}
   CurrentRockyState: 0
-  AbilityCooldown: 5
+  jumpForce: 22
+  AbilityCooldown: 3
   IsPerformingAbility: 0
 --- !u!1 &9207498249536304586
 GameObject:
