@@ -301169,6 +301169,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b78a0d8a8f38fe40916b665331b8afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerGauge
+--- !u!114 &1853466071 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5242084715125540275, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+  m_PrefabInstance: {fileID: 1549849383}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301373645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90add32a628a4de4fa17006164a63e9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSuplex
 --- !u!43 &1854546425
 Mesh:
   m_ObjectHideFlags: 0
@@ -340942,42 +340953,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 91977225278940997, guid: 32523315fb0f5554985d211854c7259e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 91977225278940997, guid: 32523315fb0f5554985d211854c7259e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.725
-      objectReference: {fileID: 0}
     - target: {fileID: 1101830880779546519, guid: 32523315fb0f5554985d211854c7259e, type: 3}
       propertyPath: m_Name
       value: FlyingEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3133027795368765632, guid: 32523315fb0f5554985d211854c7259e, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6683471109068783240, guid: 32523315fb0f5554985d211854c7259e, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1853466000}
     - target: {fileID: 6683471109068783240, guid: 32523315fb0f5554985d211854c7259e, type: 3}
-      propertyPath: moveSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6683471109068783240, guid: 32523315fb0f5554985d211854c7259e, type: 3}
-      propertyPath: attackRange
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 6683471109068783240, guid: 32523315fb0f5554985d211854c7259e, type: 3}
-      propertyPath: attackDuration
-      value: 5
-      objectReference: {fileID: 0}
+      propertyPath: playerSuplex
+      value: 
+      objectReference: {fileID: 1853466071}
     - target: {fileID: 6683471109068783240, guid: 32523315fb0f5554985d211854c7259e, type: 3}
       propertyPath: waypointHolder
       value: 
       objectReference: {fileID: 1764470224}
-    - target: {fileID: 6683471109068783240, guid: 32523315fb0f5554985d211854c7259e, type: 3}
-      propertyPath: angleToShootAtPlayer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7205051365553102971, guid: 32523315fb0f5554985d211854c7259e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15.15

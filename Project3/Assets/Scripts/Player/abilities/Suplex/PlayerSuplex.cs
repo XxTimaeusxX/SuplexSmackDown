@@ -41,6 +41,8 @@ public class PlayerSuplex : MonoBehaviour
     private CinemachineImpulseSource impulseSource;
     public Slider rageBar;
     public RageMeter rageMeter;
+    public bool droneDropped;
+    private float droneCooldown;
     
     [Header("Component References")]
     public SuplexTrajectoryVisualizer trajectoryVisualizer;
@@ -101,6 +103,9 @@ public class PlayerSuplex : MonoBehaviour
         
         if (homingAttack != null)
             homingAttack.Initialize(playerDash, controller, homingAction);
+
+        droneDropped = false;
+        droneCooldown = 1f;
     }
 
     private void Update()
@@ -108,6 +113,15 @@ public class PlayerSuplex : MonoBehaviour
         // Update homing attack logic
         if (homingAttack != null)
             homingAttack.UpdateHoming(isSuplexing);
+        if (droneDropped == true)
+        {
+            droneCooldown -= Time.deltaTime;
+        }
+        if (droneCooldown <= 0)
+        {
+            droneDropped = false;
+            droneCooldown = 1f;
+        }
     }
 
     /// <summary>
@@ -324,7 +338,13 @@ public class PlayerSuplex : MonoBehaviour
                 
                 // Release enemy with slam force
                 if (grabHandler != null)
+                {
+                    droneDropped = true;
                     grabHandler.ReleaseEnemy(applyDownwardForce: true);
+                }
+                    
+
+                
                 
                 // Arm homing window for chaining attacks
                 if (homingAttack != null)

@@ -5,8 +5,10 @@ public class FlyingAI : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform player;
     [SerializeField] private WaypointHolder waypointHolder;
+    [SerializeField] private PlayerSuplex playerSuplex;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
+    public bool grabbed;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 20f;
@@ -27,6 +29,7 @@ public class FlyingAI : MonoBehaviour
 
     private void Start()
     {
+        grabbed = false;
         if (waypointHolder != null)
         {
             waypointHolder.RefreshWaypoints();
@@ -36,13 +39,24 @@ public class FlyingAI : MonoBehaviour
         StartCoroutine(StateMachine());
     }
 
+    private void Update()
+    {
+        if (playerSuplex.droneDropped == true)
+        {
+            grabbed = false;
+        }
+    }
+
     #region Target Player
     private void FaceTarget(Vector3 targetPos)
     {
-        Vector3 dir = targetPos - transform.position;
-        if (dir.sqrMagnitude < 0.0001f) return;
-        dir.Normalize();
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotationSpeed);
+        if (grabbed == false)
+        {
+            Vector3 dir = targetPos - transform.position;
+            if (dir.sqrMagnitude < 0.0001f) return;
+            dir.Normalize();
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotationSpeed);
+        }
     }
     private bool IsFacingPlayer(float angleThreshold)
     {
@@ -53,10 +67,13 @@ public class FlyingAI : MonoBehaviour
     }
     private IEnumerator RotateUntilFacingPlayer(float angleThreshold)
     {
-        while (!IsFacingPlayer(angleThreshold))
+        if (grabbed == false)
         {
-            FaceTarget(player.position);
-            yield return null;
+            while (!IsFacingPlayer(angleThreshold))
+            {
+                FaceTarget(player.position);
+                yield return null;
+            }
         }
     }
     #endregion
@@ -76,15 +93,15 @@ public class FlyingAI : MonoBehaviour
     }
     private void MoveTowardsTarget(Vector3 targetPos)
     {
-        Vector3 dir = targetPos - transform.position;
-        if (dir.sqrMagnitude < 0.0001f) return;
-        dir.Normalize();
-        transform.rotation = Quaternion.Slerp(
-        transform.rotation,
-        Quaternion.LookRotation(dir),
-        Time.deltaTime * rotationSpeed
-        );
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        if (grabbed == false)
+        {
+            Vector3 dir = targetPos - transform.position;
+            if (dir.sqrMagnitude < 0.0001f) return;
+            dir.Normalize();
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotationSpeed);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        }
+        
     }
     #endregion
 
@@ -96,50 +113,59 @@ public class FlyingAI : MonoBehaviour
     }
     private void FireProjectile()
     {
-        if (!projectilePrefab) return;
-        var spawn = projectileSpawnPoint ? projectileSpawnPoint : transform;
-        var proj = Instantiate(projectilePrefab, spawn.position, spawn.rotation);
-        var rb = proj.GetComponent<Rigidbody>();
-        if (rb)
-            rb.linearVelocity = spawn.forward * projectileSpeed;
+        if (grabbed == false)
+        {
+            if (!projectilePrefab) return;
+            var spawn = projectileSpawnPoint ? projectileSpawnPoint : transform;
+            var proj = Instantiate(projectilePrefab, spawn.position, spawn.rotation);
+            var rb = proj.GetComponent<Rigidbody>();
+            if (rb)
+                rb.linearVelocity = spawn.forward * projectileSpeed;
+        }
     }
     #endregion
 
     #region States
     private IEnumerator CircleState(float duration)
     {
-        float timer = 0f;
-        PickRandomWaypoint();
-        while (timer < duration)
+        if (grabbed == false)
         {
-            timer += Time.deltaTime;
-            if (currentWaypointTarget)
-                MoveTowardsTarget(currentWaypointTarget.position);
-            if (ReachedWaypoint()) PickRandomWaypoint();
-            yield return null;
+            float timer = 0f;
+            PickRandomWaypoint();
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                if (currentWaypointTarget)
+                    MoveTowardsTarget(currentWaypointTarget.position);
+                if (ReachedWaypoint()) PickRandomWaypoint();
+                yield return null;
+            }
         }
     }
     private IEnumerator AttackState(float duration)
     {
-        yield return StartCoroutine(RotateUntilFacingPlayer(angleToShootAtPlayer));
-        FireProjectile();
-        float timer = 0f;
-        float shootTimer = 0f;
-        while (timer < duration)
+        if (grabbed == false)
         {
-            timer += Time.deltaTime;
-            shootTimer += Time.deltaTime;
-            FaceTarget(player.position);
-            if (DistanceToPlayer() > attackRange)
+            yield return StartCoroutine(RotateUntilFacingPlayer(angleToShootAtPlayer));
+            FireProjectile();
+            float timer = 0f;
+            float shootTimer = 0f;
+            while (timer < duration)
             {
-                MoveTowardsTarget(player.position);
+                timer += Time.deltaTime;
+                shootTimer += Time.deltaTime;
+                FaceTarget(player.position);
+                if (DistanceToPlayer() > attackRange)
+                {
+                    MoveTowardsTarget(player.position);
+                }
+                if (shootTimer >= shootInterval)
+                {
+                    shootTimer = 0f;
+                    FireProjectile();
+                }
+                yield return null;
             }
-            if (shootTimer >= shootInterval)
-            {
-                shootTimer = 0f;
-                FireProjectile();
-            }
-            yield return null;
         }
     }
     private IEnumerator StateMachine()
