@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -10,24 +12,28 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject _MainMenuButtonContainer;
 	private Button MainMenuButtons;
     [SerializeField] GameObject _SettingsPanel;
+	SettingsManager sm;
     [SerializeField] GameObject _SettingsBackButton;
     [SerializeField] GameObject _ControlsPanel;
     [SerializeField] GameObject _ControlsBackButton;
     [SerializeField] GameObject _CreditsPanel;
     [SerializeField] GameObject _CreditsBackButton;
     [SerializeField] LoadingScreenManager _loadingScreenManager;
+    [SerializeField] Volume SkyVolume;
    
     public void Start(){
 		Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
 		AudioManager.PlayMainMenuBGM();// Play menu music (clip assigned on AudioManager)
+		sm = _SettingsPanel.GetComponent<SettingsManager>();
+		sm.GammaInit(SkyVolume);
     }
 	
 	//when hovering over a button, set it to selected
 	public void ButtonHover(GameObject curButton){
 		EventSystem.current.SetSelectedGameObject(curButton);
-		Debug.Log("hovered " + curButton.name);
+		//Debug.Log("hovered " + curButton.name);
 	}
 	
 	public void StartButtonClicked(){
