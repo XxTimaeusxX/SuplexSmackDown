@@ -28,6 +28,7 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip health1Clip;
     public AudioClip GameOverClip;
     public AudioClip GrabClip;
+    public AudioClip PhraseOneclip;
     [Header("Suplex SFX")]
     public AudioClip LaunchSoundClip;
     public AudioClip suplexSlamClip;
@@ -39,11 +40,19 @@ public sealed class AudioManager : MonoBehaviour
     
     public AudioClip enemySlapClip;
     public AudioClip enemyDieclip;
+    public AudioClip shoalPhraseClip;
+    public AudioClip AngryShoalClip;
 
     [Header("Shoal Enemy SFX")]
     public AudioClip shoalFallingClip;
     public AudioClip shoalIdleclip;
     public AudioClip shoalDamageHitClip;
+
+    [Header("Drone enemy SFX")]
+    public AudioClip DroneDetectionClip;
+    public AudioClip DroneIdleClip;
+    public AudioClip DroneGrabbedClip;
+    public AudioClip DroneDieClip;
 
     [Header("Construction Enemy SFX")]
     public AudioClip ConstructionIdleClip;
