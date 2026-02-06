@@ -54,6 +54,9 @@ public class PlayerSuplex : MonoBehaviour
     public AnimationCurve GravityControl;
     public AnimationCurve CameraOffsetCurve;
 
+    [Header("Visual References")]
+    public Transform playerMesh; // Reference to "el cohette idle" child
+
     // Internal references to other player scripts/components
     private PowerGauge powerGauge;
     private PlayerMovement playerMovement;
@@ -86,7 +89,7 @@ public class PlayerSuplex : MonoBehaviour
             grabHandler = GetComponent<EnemyGrabHandler>();
         if (homingAttack == null)
             homingAttack = GetComponent<HomingAttack>();
-        
+       
         // Get input actions
         jumpAction = playerInput.actions.FindAction("Jump");
         SuperSuplexAction = playerInput.actions.FindAction("SuperSuplex");
@@ -274,6 +277,9 @@ public class PlayerSuplex : MonoBehaviour
         Vector3 launchVelocity = transform.forward * vx + Vector3.up * vy;
         playerMovement.velocity = launchVelocity;
 
+        // Store original mesh rotation to restore later
+        Quaternion originalMeshRotation = playerMesh != null ? playerMesh.localRotation : Quaternion.identity;
+
         float t = 0f;
         bool jumpedOff = false;
         float minAirTime = 0.2f;
@@ -296,11 +302,13 @@ public class PlayerSuplex : MonoBehaviour
         // Enable MacroBoss hitbox during suplex
         if (grabHandler != null)
             grabHandler.SetMacroBossHitbox(true);
-
+       
         while (true)
         {
             t += Time.deltaTime;
-            
+            // transform.Rotate(Vector3.up, 1600f * Time.deltaTime, Space.World);
+            playerMesh.Rotate(Vector3.down, 1000f * Time.deltaTime, Space.World);
+
             if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0)
             {
                 playerMovement.velocity.x = 0f;
@@ -311,7 +319,10 @@ public class PlayerSuplex : MonoBehaviour
             // if player is falling down with the super suplex performed
             if (playerMovement.velocity.y < 0)
             {
-                if(currentSuplex == SuplexAbilities.Super)
+                // transform.Rotate(Vector3.down, 1600f * Time.deltaTime, Space.World);
+               // transform.Rotate(Vector3.forward, 1600f * Time.deltaTime, Space.World);
+              //  transform.RotateAround(player.position, Vector3.up, 1600f * Time.deltaTime);
+                if (currentSuplex == SuplexAbilities.Super)
                 {
                     // add moon gravity effect during descent
                     gravityLerpTime += Time.deltaTime;
@@ -378,7 +389,8 @@ public class PlayerSuplex : MonoBehaviour
 
             yield return null;
         }
-
+        playerMesh.localRotation = originalMeshRotation;
+        // _RB.angularVelocity = Vector3.zero;
         if (!jumpedOff)
         {
             // Release enemy without slam force
