@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 public class FlyingAI : MonoBehaviour
 {
     [Header("References")]
@@ -9,6 +10,8 @@ public class FlyingAI : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
     public bool grabbed;
+    public RageMeter rageMeter;
+    public Slider rageBar;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 20f;
@@ -101,7 +104,7 @@ public class FlyingAI : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * rotationSpeed);
             transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
         }
-        
+
     }
     #endregion
 
@@ -177,5 +180,17 @@ public class FlyingAI : MonoBehaviour
         }
     }
     #endregion
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            if (rageMeter.rageIncrease == true)
+            {
+                rageBar.value += 0.01f;
+            }
+            Destroy(gameObject);
+        }
+    }
 }
 
