@@ -40,10 +40,12 @@ public class PlayerSuplex : MonoBehaviour
     public Transform player;
     private CinemachineImpulseSource impulseSource;
     public Slider rageBar;
-    public RageMeter rageMeter;
+    public PowerGauge powerGuage;
     public bool droneDropped;
     private float droneCooldown;
-    
+    [SerializeField] Image suplexBar;
+    [SerializeField] Sprite suplexImg1;
+
     [Header("Component References")]
     public SuplexTrajectoryVisualizer trajectoryVisualizer;
     public EnemyGrabHandler grabHandler;
@@ -239,7 +241,7 @@ public class PlayerSuplex : MonoBehaviour
         var config = suplexConfigs.Find(cfg => cfg.ability == type);
         if (config != null)
         {
-            powerGauge.AddMeter(10f);
+            powerGauge.powerSlider.value += 0.01f;
 
             if (type == SuplexAbilities.Super && powerGauge != null)
                 powerGauge.SpendMeter();
@@ -372,11 +374,12 @@ public class PlayerSuplex : MonoBehaviour
                 CameraShakeManager.Instance.SuplexCameraShake(impulseSource);
                 if (shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
                 {
-                    if (rageBar.value == 1)
+                    if (rageBar.value >= 1)
                     {
                         Instantiate(rageShockwave, player.position, player.rotation, player);
-                        rageMeter.rageIncrease = false;
+                        powerGuage.rageIncrease = false;
                         rageBar.value = 0;
+                        suplexBar.sprite = suplexImg1;
                     }
                     else
                     {
@@ -417,7 +420,7 @@ public class PlayerSuplex : MonoBehaviour
 
     private bool CanPerformSuperSuplex()
     {
-        return powerGauge != null && powerGauge.currentMeter >= powerGauge.maxMeter;
+        return powerGauge != null && powerGauge.powerSlider.value >= 1;
     }
 }
 

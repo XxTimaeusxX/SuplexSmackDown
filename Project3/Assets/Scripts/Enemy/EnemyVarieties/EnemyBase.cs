@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour
     public NavMeshAgent agent;
     public Rigidbody rb;
     public InGameMenuManager menuManager;
-    public RageMeter rageMeter;
+    public PowerGauge powerGuage;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
@@ -310,7 +310,7 @@ public class EnemyBase : MonoBehaviour
             isPushed = true;
             agent.enabled = false;
             rb.isKinematic = false;
-            if (rageMeter.rageIncrease == true)
+            if (powerGuage.rageIncrease == true)
             {
                 rageBar.value += 0.01f;
             }

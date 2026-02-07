@@ -23,7 +23,6 @@ public class InGameMenuManager : MonoBehaviour
 	
 	[SerializeField] GameObject _HealthUI;
 	[SerializeField] GameObject _SuperSuplexUI;
-	[SerializeField] GameObject _RageMeterUI;
 
 	[Header("Debug Menu")]
 	[SerializeField] GameObject DEBUG_Player;
@@ -64,7 +63,6 @@ public class InGameMenuManager : MonoBehaviour
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		_SuperSuplexUI.SetActive(true);
-		_RageMeterUI.SetActive(true);
 	}
 	
 	public void ControlsButtonClicked()
@@ -129,7 +127,6 @@ public class InGameMenuManager : MonoBehaviour
 				_ControlsPanel.SetActive(false);
 				_PauseMenuContainer.SetActive(false);
 				_SuperSuplexUI.SetActive(true);
-				_RageMeterUI.SetActive(true);
 				isPaused = false;
 				pause_anim.SetBool("isPaused", false);
 			}
@@ -142,7 +139,6 @@ public class InGameMenuManager : MonoBehaviour
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
 				_SuperSuplexUI.SetActive(false);
-				_RageMeterUI.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
 					//pause_anim.Play("PauseMenuAnim");
