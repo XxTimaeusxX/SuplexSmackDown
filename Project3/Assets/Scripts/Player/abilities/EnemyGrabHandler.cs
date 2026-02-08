@@ -79,11 +79,11 @@ public class EnemyGrabHandler : MonoBehaviour
         var rb = GrabbedEnemy.GetComponent<Rigidbody>();
         var enemyScript = GrabbedEnemy.GetComponent<EnemyBase>();
 
-        // Re-enable enemy ground detection
-        if (enemyScript != null)
-        {
-            enemyScript.SetGrabbed(false);
-        }
+        //// Re-enable enemy ground detection
+        //if (enemyScript != null)
+        //{
+        //    enemyScript.SetGrabbed(false);
+        //}
 
         // Re-enable physics and optionally apply slam force
         if (rb != null)
@@ -140,8 +140,11 @@ public class EnemyGrabHandler : MonoBehaviour
 
         // Disable enemy ground detection
         var enemyScript = enemy.GetComponent<EnemyBase>();
-        if (enemyScript != null)
-            enemyScript.SetGrabbed(true);
+        if (enemyScript != null) 
+        { 
+                    //enemyScript.SetGrabbed(true);
+        }
+
     }
 
 

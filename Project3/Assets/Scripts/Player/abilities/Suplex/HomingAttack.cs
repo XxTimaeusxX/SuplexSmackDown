@@ -47,10 +47,10 @@ public class HomingAttack : MonoBehaviour
                 Transform target = FindNearestEnemy(transform.position, homingSearchRadius, lastReleasedEnemy);
                 if (target != null)
                 {
-                    if (playerDash.TryDashTowards(target))
-                    {
-                        canHomeChain = false; // Consume the homing window
-                    }
+                    //if (playerDash.TryDashTowards(target))
+                    //{
+                    //    canHomeChain = false; // Consume the homing window
+                    //}
                 }
             }
         }

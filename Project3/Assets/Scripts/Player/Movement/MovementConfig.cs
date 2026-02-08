@@ -35,15 +35,6 @@ public class MovementConfig : MonoBehaviour
     public float targetDashCooldown;                    // Cooldown time between dashes
     public int maxAirDashes;                            // Number of dashes a player can perform in air
 
-    /// NOTE: Suplex arcs only define the height of the suplex over time and how they slightly come down after the peak.
-    /// After that, the player is affected by a downward force to bring them down faster
-    [Header("Suplex Arcs")]             
-    public AnimationCurve rainbowSuplexHeight;
-    //
-    public AnimationCurve longSuplexHeight;
-    //
-    public AnimationCurve superSuplexHeight;
-
     [Header("Throwing/Carrying")]
     public float aimingWalkSpeed;                       // Speed while aiming to throw
 

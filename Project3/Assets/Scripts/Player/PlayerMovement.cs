@@ -174,7 +174,7 @@ public class PlayerMovement : MonoBehaviour
       
         else if (isHoldingEnemy && !playerSuplex.isSuplexing)
         {
-            StartCoroutine(playerSuplex.WaitForSuplexInput());
+            //StartCoroutine(playerSuplex.WaitForSuplexInput());
             // Debug.Log("Waiting for suplex input!");
         }
     }

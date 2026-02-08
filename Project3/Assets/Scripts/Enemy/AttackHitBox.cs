@@ -7,7 +7,7 @@ public class AttackHitBox : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Enemy attack hitbox triggered on Player");
+            //Debug.Log("Enemy attack hitbox triggered on Player");
             // Here you would typically call a method on the Player to apply damage
              other.GetComponent<PlayerHealth>().TakeDamage();
         }

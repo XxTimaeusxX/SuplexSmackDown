@@ -168,7 +168,7 @@ public abstract class EnemyBase : MonoBehaviour
     /// Called when the player picks up the enemy
     public virtual void EnterCarriedState(Transform carryPoint)
     {
-        Debug.Log("Enemy picked up");
+        //Debug.Log("Enemy picked up");
 
         originalParent = transform.parent;  // Store original parent
 
@@ -226,6 +226,18 @@ public abstract class EnemyBase : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
+    public static float GetHeight(Collider col)
+    {
+        return col.bounds.size.y;
+    }
+
+    public virtual void ApplyDownwardForce(float force)
+    {
+        if (rb == null)
+            return;
+
+        rb.AddForce(Vector3.down * force, ForceMode.Impulse);
+    }
     /// ------------------------------- ///
 
     /// Testing purposes

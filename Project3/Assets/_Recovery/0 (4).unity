@@ -373,9 +373,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1654228328}
-    - targetCorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1654228334}
   m_SourcePrefab: {fileID: 100100000, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
 --- !u!1 &318662833
 GameObject:
@@ -634,7 +631,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4fd37c1da928749865fe54623c562e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MovementController
-  controller: {fileID: 0}
   cameraTransform: {fileID: 1797308551}
   isTemp: 0
   moveAction:
@@ -701,7 +697,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  velocity: {x: 0, y: 0, z: 0}
   move: {x: 0, y: 0, z: 0}
 --- !u!114 &1654228301
 MonoBehaviour:
@@ -728,6 +723,87 @@ MonoBehaviour:
   dashDuration: 0.4
   targetDashCooldown: 5
   maxAirDashes: 1
+  rainbowSuplexHeight:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 18.806366
+      outSlope: 18.806366
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.79760224
+      value: 15
+      inSlope: 0.15505354
+      outSlope: 0.15505354
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.54076767
+    - serializedVersion: 3
+      time: 1
+      value: 10
+      inSlope: -67.15897
+      outSlope: -67.15897
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11594557
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  rainbowSuplexForward:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 10
+      outSlope: 10
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 10
+      inSlope: 10
+      outSlope: 10
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  longSuplexHeight:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  longSuplexForward:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  superSuplexHeight:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  superSuplexForward:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   aimingWalkSpeed: 3
   defaultCarryProfile: {fileID: 11400000, guid: 93a65f6c745d1144c886831b3d3bc15b, type: 2}
 --- !u!114 &1654228314
@@ -742,6 +818,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a327f8fbeea2744be076b4402247ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SuplexTest
+  isTesting: 0
+  t: 0
 --- !u!114 &1654228327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -763,11 +841,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   longSuplexBuffer: 0.4
-  suplexes:
-  - {fileID: 11400000, guid: 235e729b026b26f4ab7c748c295e266a, type: 2}
-  - {fileID: 11400000, guid: 696e07a792c08024a8d1d444bb46684e, type: 2}
-  - {fileID: 11400000, guid: a29c9d26cefc8f24fa300cd5a87fc6d7, type: 2}
-  - {fileID: 11400000, guid: 248ccaaa9cd65754d8abbf51d256e9b5, type: 2}
 --- !u!114 &1654228328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,33 +855,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OGPlayerSuplex
   grabHandler: {fileID: 0}
   suplexConfig: {fileID: 0}
+  suplexType: 
   carriedEnemyBase: {fileID: 0}
   isSuplexing: 0
-  suplexInputLocked: 0
---- !u!114 &1654228334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1654228299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8673cb57eae616040a353396b8cd71fe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SuplexMotionDebugger
-  suplexConfig: {fileID: 1654228327}
-  movementController: {fileID: 1654228300}
-  suplexToPreview: 2
-  resolution: 60
-  gizmoSize: 0.05
-  pathColor: {r: 0, g: 1, b: 1, a: 1}
-  forwardColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  verticalColor: {r: 1, g: 0, b: 1, a: 1}
-  showDebug: 1
-  drawForwardVectors: 1
-  drawVerticalVectors: 1
-  drawTrajectory: 1
 --- !u!114 &1695373859
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,0 +1,234 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.Cinemachine;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+// Last Edited: 1/19/2026 by Istvan W.
+
+/// <summary>
+/// Handles all logic for grabbing, holding, and suplexing enemies.
+/// </summary>
+public class SuplexController : MonoBehaviour
+{
+    [Header("References")]
+    public EnemyGrabHandler grabHandler;
+
+    private MovementController movementController;
+    private MovementConfig movementConfig;
+    public SuplexConfig suplexConfig;
+    private PlayerDash playerDash;
+
+    [Header("Suplex Configurations")]
+    private SuplexAbilities currentSuplex = SuplexAbilities.None; // Which suplex is being performed
+    private SuplexData activeSuplex;
+
+    [Header("Enemy Carrying")]
+    public EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried enemy
+    private Transform carriedEnemy;          // The transform of the enemy that's currently being carried
+ 
+    public bool isSuplexing = false;         // True if a suplex is in progress
+    public bool suplexInputLocked = false;
+
+
+    private Vector3 suplexHorizontalVelocity;
+
+    private Coroutine suplexRoutine;
+
+    private void Awake()
+    {
+        playerDash = GetComponent<PlayerDash>();
+        movementController = GetComponent<MovementController>();
+        movementConfig = GetComponent<MovementConfig>();
+        suplexConfig = GetComponent<SuplexConfig>();
+    }
+
+    public void StartSuplex(EnemyBase enemy)
+    {
+        //Debug.Log("StartSuplex called. Setting carriedEnemyBase to: " + enemy.name);
+        
+        carriedEnemyBase = enemy;
+        isSuplexing = true;
+
+        carriedEnemy = enemy.transform;
+        carriedEnemy.SetParent(suplexConfig.carryPoint);
+        carriedEnemy.localPosition = Vector3.zero;
+
+
+        StartCoroutine(WaitForSuplexInput());        // Wait for player to choose which suplex to perform
+
+    }
+
+    public void ReleaseEnemy()
+    {
+        if (carriedEnemy != null)
+        {
+            StopAllCoroutines();
+
+            carriedEnemy.SetParent(null);
+
+            carriedEnemyBase.ExitCarriedState(Vector3.zero);
+
+            carriedEnemy = null;
+            carriedEnemyBase = null;
+
+            isSuplexing = false;
+        }
+    }
+
+    /// <summary>
+    /// Waits for the player to press a suplex input, then starts the chosen suplex.
+    /// </summary>
+    public IEnumerator WaitForSuplexInput()
+    {
+        currentSuplex = SuplexAbilities.None;
+        suplexInputLocked = false;
+
+        //TODO: Redo the dictionary to match new Input System
+        var suplexInputs = new[] 
+        {
+            new SuplexInput(
+                SuplexAbilities.Super,
+                () =>   movementController.leftBumper.IsPressed() && 
+                        movementController.rightBumper.IsPressed()
+                ),
+
+            new SuplexInput(
+                SuplexAbilities.Long,
+                () =>   playerDash.isDashing &&
+                        Time.time - playerDash.dashStartTime < suplexConfig.longSuplexBuffer &&
+                        movementController.jumpAction.IsPressed()
+
+                ),           
+            new SuplexInput(
+                SuplexAbilities.Rainbow,
+                () =>   movementController.jumpAction.WasPressedThisFrame()
+                )
+
+        };
+
+        while (currentSuplex == SuplexAbilities.None)
+        {
+            foreach (var input in suplexInputs)
+            {
+                if (input.onPress())
+                {
+                    //if (input.ability == SuplexAbilities.Super && !SuplexConditionHandler())
+                    //{
+                    //    Debug.Log("Not enough power for Super Suplex!");
+                    //    continue; // Ignore the attempt
+                    //}
+                    currentSuplex = input.ability;
+                    break;
+                }
+            }
+
+            suplexInputLocked = true;
+            yield return new WaitForEndOfFrame();
+        }
+        Debug.Log("Chosen Suplex: " + currentSuplex);
+        PerformSuplex(currentSuplex);
+    }
+
+    void PerformSuplex(SuplexAbilities type)
+    {
+        activeSuplex = suplexConfig.suplexes.Find(s => s.ability == type);
+        SuplexConditionHandler(type);
+        suplexRoutine = StartCoroutine(SuplexRoutine(activeSuplex));
+    }
+    IEnumerator SuplexRoutine(SuplexData data)
+    {
+        movementController.move = Vector3.zero;
+        movementController.overrideVerticalMotion = true;
+        suplexInputLocked = false;
+
+        Vector3 lockedForward = movementController.transform.forward;
+        lockedForward.y = 0;
+        lockedForward.Normalize();
+
+        float t = 0f;
+
+        while (t < data.duration)
+        {
+            float normalized = t / data.duration;
+
+            float velocityY = data.verticalCurve.Evaluate(normalized);
+            float forwardSpeed = data.forwardCurve.Evaluate(normalized);
+
+            Vector3 forward = movementController.transform.forward;
+            forward.y = 0f;
+            forward.Normalize();
+
+            suplexHorizontalVelocity = forward * forwardSpeed;
+
+            Vector3 delta =
+                lockedForward * forwardSpeed * Time.deltaTime +
+                Vector3.up * velocityY * Time.deltaTime;
+
+            movementController.controller.Move(delta);
+
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        //ReleaseEnemy();
+        movementController.overrideVerticalMotion = false;
+    }
+
+
+    // On-Press Struct
+    public struct SuplexInput
+    {
+        public SuplexAbilities ability;
+        public Func<bool> onPress;
+
+        public SuplexInput(SuplexAbilities ability, Func<bool> onPress)
+        {
+            this.ability = ability;
+            this.onPress = onPress;
+        }
+    }
+
+    public void JumpOff()
+    {
+        if (carriedEnemyBase == null)
+            return;
+
+        CancelSuplexEarly();
+
+        movementController.controller.Move(suplexHorizontalVelocity * Time.deltaTime);
+
+        float enemyHeight = EnemyBase.GetHeight(carriedEnemyBase.mainCollider);
+        Vector3 dropPos = transform.position + Vector3.down * enemyHeight;
+        carriedEnemyBase.transform.position = dropPos;
+
+        carriedEnemyBase.ApplyDownwardForce(64f);    // Apply downward force to ensure they hit the ground
+
+        ReleaseEnemy();
+    }
+
+    public void CancelSuplexEarly()
+    {
+        if (suplexRoutine != null)
+            StopCoroutine(suplexRoutine);
+
+        movementController.overrideVerticalMotion = false;
+    }
+
+    private void SuplexConditionHandler(SuplexAbilities type)
+    {
+        if (type == SuplexAbilities.Long)
+        {
+            playerDash.CancelDash();
+        }
+        if (type == SuplexAbilities.Super)
+        {
+            // If requirements aren't met, cancel suplex
+
+            //Debug.Log("Not enough power for Super Suplex!");
+            //CancelSuplexEarly();
+        }
+    }
+}

@@ -33,7 +33,7 @@ public class SuplexTrajectoryVisualizer : MonoBehaviour
     private Transform _heldEnemyTransform;
     private float _currentGravityScale = 1f;
 
-
+    /*
     public void Initialize(PlayerMovement playerMovement, Transform heldEnemyTransform) //initialize references caching
     {
         _playerMovement = playerMovement;
@@ -233,4 +233,5 @@ public class SuplexTrajectoryVisualizer : MonoBehaviour
         if (_targetLandInstance != null)
             Destroy(_targetLandInstance);
     }
+    */
 }

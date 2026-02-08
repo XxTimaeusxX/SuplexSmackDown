@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 // Last Edited: 1/19/2026 by Istvan W.
 
+// TODO: Add rotation locking logic using the isTesting boolean
 // NOTE: Notice that when in air for a period of time the gravity effect increases.
 [RequireComponent(typeof(CharacterController))]
 public class MovementController : MonoBehaviour
@@ -12,9 +13,9 @@ public class MovementController : MonoBehaviour
     [Header("References")]
     private MovementConfig movementConfig;
     private PlayerInput playerInput; 
-    private CharacterController controller;
+    public CharacterController controller;
     private PlayerDash playerDash;
-    private PlayerSuplex playerSuplex;
+    private SuplexController suplexController;
 
     public Transform cameraTransform;
 
@@ -35,14 +36,11 @@ public class MovementController : MonoBehaviour
     public InputAction leftBumper;
     public InputAction rightBumper;
 
-    // Test
-    private SuplexTest suplexTest;
-
     public bool overrideVerticalMotion = false;
 
     public InputAction testButton;
 
-    private Vector3 velocity;          // Player's current velocity
+    [SerializeField] private Vector3 velocity;          // Player's current velocity
     public Vector3 move;              // Horizontal movement vector
     private float rotationVelocity;     // Keeps track of rotation velocity for smooth damping
 
@@ -55,7 +53,7 @@ public class MovementController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         controller = GetComponent<CharacterController>();
         playerDash = GetComponent<PlayerDash>();
-        playerSuplex = GetComponent<PlayerSuplex>();
+        suplexController = GetComponent<SuplexController>();
 
         /// Find input actions
         moveAction = playerInput.actions.FindAction("Move");
@@ -67,11 +65,6 @@ public class MovementController : MonoBehaviour
         rightBumper = playerInput.actions.FindAction("RB");
         // Test
         testButton = playerInput.actions.FindAction("Test");
-        suplexTest = GetComponent<SuplexTest>();
-        if (suplexTest == null)
-        {
-            Debug.LogWarning("SuplexTest component not found on Player.");
-        }
     }
 
     private void Update()
@@ -89,18 +82,8 @@ public class MovementController : MonoBehaviour
         /// Drop input
         if (dropAction.WasPressedThisFrame())
         {
-            Debug.Log("Drop pressed. carriedEnemyBase = " + playerSuplex.carriedEnemyBase);
-
-            if (playerSuplex.carriedEnemyBase != null)
-            {
-                playerSuplex.carriedEnemyBase.ExitCarriedState(Vector3.zero);
-                playerSuplex.carriedEnemyBase = null;   // Clear reference
-                playerSuplex.isSuplexing = false;
-            }
-            else
-            {
-                Debug.Log("No carried object to drop.");
-            }
+            //Debug.Log("Drop pressed. carriedEnemyBase = " + suplexController.carriedEnemyBase);
+            suplexController.ReleaseEnemy();
         }
 
         /// Handle movement
@@ -114,13 +97,21 @@ public class MovementController : MonoBehaviour
 
 
         /// Jump input
-        if (jumpAction.WasPressedThisFrame() && isGrounded) { Jump(); }
+        if (jumpAction.WasPressedThisFrame() && isGrounded && !suplexController.isSuplexing)
+        { 
+            Jump(); 
+        }
+        else if (jumpAction.WasPressedThisFrame() && suplexController.isSuplexing && !playerDash.isDashing && !suplexController.suplexInputLocked)
+        {
+            ForceJump();
+            Debug.Log("Forced jump during suplex!");
+        }
 
         /// Testing
         if (testButton.WasPressedThisFrame())
         {
-            Debug.Log("Test button pressed");
-            suplexTest.StartLoop();
+            //Debug.Log("Test button pressed");
+
         }
 
         /// Gravity
@@ -196,7 +187,13 @@ public class MovementController : MonoBehaviour
     private void Jump()
     {
         velocity.y = Mathf.Sqrt(movementConfig.jumpHeight * -2f * movementConfig.customGravity);
-        Debug.Log("Jumped");
-
+        isGrounded = false;
+        //Debug.Log("Jumped");
+    }
+    private void ForceJump()
+    {
+        suplexController.JumpOff();
+        velocity.y = Mathf.Sqrt(movementConfig.jumpHeight * 5f * -2f * movementConfig.customGravity);
+        isGrounded = false;
     }
 }
