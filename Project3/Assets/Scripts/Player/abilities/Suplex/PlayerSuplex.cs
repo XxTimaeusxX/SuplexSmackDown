@@ -329,7 +329,7 @@ public class PlayerSuplex : MonoBehaviour
 
                         break;
                     case SuplexAbilities.Super:
-                        playerMesh.Rotate(Vector3.up, 100f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
                         break;
                 } 
                     
@@ -350,7 +350,8 @@ public class PlayerSuplex : MonoBehaviour
                         playerMesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
                         break;
                     case SuplexAbilities.Super:
-                        playerMesh.Rotate(Vector3.up, 1000f * Time.deltaTime, Space.World);
+                    //    playerMesh.Rotate(Vector3.left, 1300f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.up, 1300f * Time.deltaTime, Space.World);
                         // add moon gravity effect during descent
                         gravityLerpTime += Time.deltaTime;
                         float lerpFactor = Mathf.Clamp01(gravityLerpTime / gravityIncreaseDuration);

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public sealed class AudioManager : MonoBehaviour
 {
@@ -7,11 +8,21 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Sources")]
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource narratorSource; // New: Dedicated source for narration/dialogue
 
     [Header("Volumes")]
     [Range(0f, 1f)] public float masterVolume = 1f;
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float sfxVolume = 1f;
+
+    [Header("Audio Ducking Settings")]
+    [Range(0f, 1f)] public float duckVolume = 0f; // Volume to reduce to during narration
+    public float duckSpeed = 2f; // How fast audio ducks/restores
+    
+    private bool isDucking = false;
+    private float currentSfxMultiplier = 1f; // Track current SFX volume multiplier
+    private float targetMusicVolume;
+    private float targetSfxVolume;
 
     [Header("BGM Clips")]
     public AudioClip mainMenuBGM;
@@ -28,7 +39,7 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip health1Clip;
     public AudioClip GameOverClip;
     public AudioClip GrabClip;
-    public AudioClip PhraseOneclip;
+    public AudioClip CohettePhraseOneclip;
     [Header("Suplex SFX")]
     public AudioClip LaunchSoundClip;
     public AudioClip suplexSlamClip;
@@ -47,6 +58,7 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip shoalFallingClip;
     public AudioClip shoalIdleclip;
     public AudioClip shoalDamageHitClip;
+    public AudioClip ShoalPhrase1Clip;
 
     [Header("Drone enemy SFX")]
     public AudioClip DroneDetectionClip;
@@ -76,6 +88,9 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip MicroDamageHitOneClip; 
     public AudioClip MicroDamageHitTwoClip; 
     public AudioClip MicroDieClip; // when micro dies sound
+    public AudioClip MicroEncounterClip;// intro1 
+    public AudioClip MicroTwoHealthClip;// intro2
+    public AudioClip MicroOneHealthClip;
 
     void Awake()
     {
@@ -102,14 +117,42 @@ public sealed class AudioManager : MonoBehaviour
             sfxSource.loop = false;
             sfxSource.spatialBlend = 0f; // 2D
         }
+        if (!narratorSource)
+        {
+            var go = new GameObject("NarratorSource");
+            go.transform.SetParent(transform, false);
+            narratorSource = go.AddComponent<AudioSource>();
+            narratorSource.playOnAwake = false;
+            narratorSource.loop = false;
+            narratorSource.spatialBlend = 0f; // 2D
+            narratorSource.priority = 0; // Highest priority
+        }
 
+        targetMusicVolume = musicVolume;
+        targetSfxVolume = sfxVolume;
         ApplyVolumes();
+    }
+
+    void Update()
+    {
+        // Smooth ducking transition
+        if (isDucking)
+        {
+            musicSource.volume = Mathf.Lerp(musicSource.volume, duckVolume * masterVolume, Time.deltaTime * duckSpeed);
+            currentSfxMultiplier = Mathf.Lerp(currentSfxMultiplier, duckVolume, Time.deltaTime * duckSpeed);
+        }
+        else
+        {
+            musicSource.volume = Mathf.Lerp(musicSource.volume, musicVolume * masterVolume, Time.deltaTime * duckSpeed);
+            currentSfxMultiplier = Mathf.Lerp(currentSfxMultiplier, 1f, Time.deltaTime * duckSpeed);
+        }
     }
 
     private void ApplyVolumes()
     {
         if (musicSource) musicSource.volume = musicVolume*masterVolume;
         if (sfxSource) sfxSource.volume = sfxVolume*masterVolume;
+        if (narratorSource) narratorSource.volume = masterVolume; // Always full volume
     }
 
     // Music control
@@ -132,6 +175,7 @@ public sealed class AudioManager : MonoBehaviour
     {
         if (!Instance) return;
         Instance.musicVolume = Mathf.Clamp01(volume);
+        Instance.targetMusicVolume = Instance.musicVolume;
         Instance.ApplyVolumes();
     }
 
@@ -139,6 +183,7 @@ public sealed class AudioManager : MonoBehaviour
     {
         if (!Instance) return;
         Instance.sfxVolume = Mathf.Clamp01(volume);
+        Instance.targetSfxVolume = Instance.sfxVolume;
         Instance.ApplyVolumes();
     }
 
@@ -149,11 +194,57 @@ public sealed class AudioManager : MonoBehaviour
         Instance.ApplyVolumes();
     }
 
-    // Generic SFX (optional)
+    // Generic SFX - NOW RESPECTS DUCKING
     public static void PlaySFX(AudioClip clip, float volume = 1f)
     {
         if (!Instance || !clip) return;
-        Instance.sfxSource.PlayOneShot(clip, Mathf.Clamp01(volume) * Instance.sfxVolume);
+        // Apply ducking multiplier to PlayOneShot volume parameter
+        Instance.sfxSource.PlayOneShot(clip, Mathf.Clamp01(volume) * Instance.sfxVolume * Instance.currentSfxMultiplier);
+    }
+
+    // --- NEW: Narration/Priority Audio System ---
+    /// <summary>
+    /// Plays a priority audio clip (like narration or boss dialogue) and ducks other audio.
+    /// Audio automatically restores after the clip finishes.
+    /// </summary>
+    public static void PlayNarration(AudioClip clip, float volume = 1f)
+    {
+        if (!Instance || !clip) return;
+        Instance.StartCoroutine(Instance.PlayNarrationCoroutine(clip, volume));
+    }
+
+    private IEnumerator PlayNarrationCoroutine(AudioClip clip, float volume)
+    {
+        isDucking = true;
+        
+        // INSTANT mute music and SFX - no lerp delay
+        musicSource.volume = duckVolume * masterVolume;
+        currentSfxMultiplier = duckVolume;
+        
+        narratorSource.PlayOneShot(clip, volume);
+        
+        // Wait for clip to finish
+        yield return new WaitForSeconds(clip.length);
+        
+        isDucking = false;
+    }
+
+    /// <summary>
+    /// Manually start ducking audio (useful for dialogue sequences)
+    /// </summary>
+    public static void StartDucking()
+    {
+        if (!Instance) return;
+        Instance.isDucking = true;
+    }
+
+    /// <summary>
+    /// Manually stop ducking audio
+    /// </summary>
+    public static void StopDucking()
+    {
+        if (!Instance) return;
+        Instance.isDucking = false;
     }
 
     // BGM
@@ -164,54 +255,61 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayDefeat() => PlayMusic(Instance?.DefeatBGM,false);
 
     // player SFX
-    public static void PlayFootstep() => Instance?.sfxSource?.PlayOneShot(Instance?.footstepClip, Instance.sfxVolume);
-    public static void PlayJumping() => Instance?.sfxSource?.PlayOneShot(Instance?.jumpingClip, Instance.sfxVolume);
+    public static void PlayFootstep() => PlaySFX(Instance?.footstepClip, 1f);
+    public static void PlayJumping() => PlaySFX(Instance?.jumpingClip, 1f);
 
     // player suplex SFX
-    public static void PlaySuplexStart() => Instance?.sfxSource?.PlayOneShot(Instance?.LaunchSoundClip, Instance.sfxVolume);
+    public static void PlaySuplexStart() => PlaySFX(Instance?.LaunchSoundClip, 1f);
 
-    public static void PlaySuplexSlam() => Instance?.sfxSource?.PlayOneShot(Instance?.suplexSlamClip, Instance.sfxVolume);
+    public static void PlaySuplexSlam() => PlaySFX(Instance?.suplexSlamClip, 1f);
 
     // PLayer health SFX
-    public static void PlayHealth3() => Instance?.sfxSource?.PlayOneShot(Instance?.health3Clip, Instance.sfxVolume);
+    public static void PlayCohettePhraseOne() => PlayNarration(Instance?.CohettePhraseOneclip, 1f); // Uses narration system for important player lines
+    public static void PlayHealth3() => PlaySFX(Instance?.health3Clip, 1f);
 
-    public static void PlayHealth2() => Instance?.sfxSource?.PlayOneShot(Instance?.health2Clip, Instance.sfxVolume);
+    public static void PlayHealth2() => PlaySFX(Instance?.health2Clip, 1f);
    
-    public static void PlayHealth1() => Instance?.sfxSource?.PlayOneShot(Instance?.health1Clip, Instance.sfxVolume);
+    public static void PlayHealth1() => PlaySFX(Instance?.health1Clip, 1f);
 
-    public static void PlayGameOver() => Instance?.sfxSource?.PlayOneShot(Instance?.GameOverClip, Instance.sfxVolume);
+    public static void PlayGameOver() => PlaySFX(Instance?.GameOverClip, 1f);
 
 
     // Enemy SFX
-    public static void PlayEnemySlap() => Instance?.sfxSource?.PlayOneShot(Instance?.enemySlapClip, Instance.sfxVolume);
+    public static void PlayEnemySlap() => PlaySFX(Instance?.enemySlapClip, 1f);
 
 
    // ----Shoal Enemy SFX----
-    public static void PlayEnemyDie() => Instance?.sfxSource?.PlayOneShot(Instance?.enemyDieclip, Instance.sfxVolume);
+    public static void PlayEnemyDie() => PlaySFX(Instance?.enemyDieclip, 1f);
 
-    public static void PlayShoalFalling() => Instance?.sfxSource?.PlayOneShot(Instance?.shoalFallingClip, Instance.sfxVolume);
-    public static void PlayShoalIdle() => Instance?.sfxSource?.PlayOneShot(Instance?.shoalIdleclip, Instance.sfxVolume);
-    public static void PlayShoalDamageHit() => Instance?.sfxSource?.PlayOneShot(Instance?.shoalDamageHitClip, Instance.sfxVolume);
+    public static void PlayShoalFalling() => PlaySFX(Instance?.shoalFallingClip, 1f);
+    public static void PlayShoalIdle() => PlaySFX(Instance?.shoalIdleclip, 1f);
+    public static void PlayShoalDamageHit() => PlaySFX(Instance?.shoalDamageHitClip, 1f);
+    public static void PlayShoalPhrase1() => PlayNarration(Instance?.ShoalPhrase1Clip, 1f); // Uses narration system
     // ----Construction Enemy SFX----
-    public static void PlayConstructionIdle() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionIdleClip, Instance.sfxVolume);
-    public static void PlayConstructionSeenOne() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionSeenOneClip, Instance.sfxVolume);
-    public static void PlayConstructionSeentwo() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionSeentwoClip, Instance.sfxVolume);
-    public static void PlayConstructionFalling() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionFallingClip, Instance.sfxVolume);
-    public static void PlayConstructionDamageHitOne() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionDamageHitOneClip, Instance.sfxVolume);
-    public static void PlayConstructionDamageHitTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.ConstructionDamageHitTwoClip, Instance.sfxVolume);
+    public static void PlayConstructionIdle() => PlaySFX(Instance?.ConstructionIdleClip, 1f);
+    public static void PlayConstructionSeenOne() => PlaySFX(Instance?.ConstructionSeenOneClip, 1f);
+    public static void PlayConstructionSeentwo() => PlaySFX(Instance?.ConstructionSeentwoClip, 1f);
+    public static void PlayConstructionFalling() => PlaySFX(Instance?.ConstructionFallingClip, 1f);
+    public static void PlayConstructionDamageHitOne() => PlaySFX(Instance?.ConstructionDamageHitOneClip, 1f);
+    public static void PlayConstructionDamageHitTwo() => PlaySFX(Instance?.ConstructionDamageHitTwoClip, 1f);
     // ----Macro Enemy SFX----
-    public static void PlayMacroIdle() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroIdleClip, Instance.sfxVolume);
-    public static void PlayMacroRetreatOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroRetreatOneClip, Instance.sfxVolume);
-    public static void PlayMacroRetreatTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroRetreatTwoClip, Instance.sfxVolume);
-    public static void PlayMacroDamageHitOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroDamageHitOneClip, Instance.sfxVolume);
-    public static void PlayMacroDamageHitTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.MacroDamageHitTwoClip, Instance.sfxVolume);
+    public static void PlayMacroIdle() => PlaySFX(Instance?.MacroIdleClip, 1f);
+    public static void PlayMacroRetreatOne() => PlaySFX(Instance?.MacroRetreatOneClip, 1f);
+    public static void PlayMacroRetreatTwo() => PlaySFX(Instance?.MacroRetreatTwoClip, 1f);
+    public static void PlayMacroDamageHitOne() => PlaySFX(Instance?.MacroDamageHitOneClip, 1f);
+    public static void PlayMacroDamageHitTwo() => PlaySFX(Instance?.MacroDamageHitTwoClip, 1f);
     // ----Micro Enemy SFX----
-    public static void PlayMicroChaseOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroChaseOneClip, Instance.sfxVolume);
-    public static void PlayMicroPrepareAttack() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroPrepareAttackClip, Instance.sfxVolume);
-    public static void PlayMicroAttack() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroAttackClip, Instance.sfxVolume);
-    public static void PlayMicroDamageHitOne() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroDamageHitOneClip, Instance.sfxVolume);
-    public static void PlayMicroDamageHitTwo() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroDamageHitTwoClip, Instance.sfxVolume);
-    public static void PlayMicroDie() => Instance?.sfxSource?.PlayOneShot(Instance?.MicroDieClip, Instance.sfxVolume);
+    public static void PlayMicroEncounterOne() => PlayNarration(Instance?.MicroEncounterClip, 1f); // Uses narration system for spawn line
+    public static void PlayMicroTwoHealth() => PlayNarration(Instance?.MicroTwoHealthClip, 1f); // Uses narration system for spawn line
+    public static void PlayMicroOneHealth() => PlayNarration(Instance?.MicroOneHealthClip, 1f); // Uses narration system for spawn line
+    public static void PlayMicroChaseOne() => PlaySFX(Instance?.MicroChaseOneClip, 1f);
+    public static void PlayMicroPrepareAttack() => PlaySFX(Instance?.MicroPrepareAttackClip, 1f);
+    public static void PlayMicroAttack() => PlaySFX(Instance?.MicroAttackClip, 1f);
+    public static void PlayMicroEncounter() => PlaySFX(Instance?.MicroDamageHitOneClip, 1f);
+    public static void PlayMicroDamageHitTwo() => PlaySFX(Instance?.MicroDamageHitTwoClip, 1f);
+
+
+    public static void PlayMicroDie() => PlaySFX(Instance?.MicroDieClip, 1f);
 
 
 }

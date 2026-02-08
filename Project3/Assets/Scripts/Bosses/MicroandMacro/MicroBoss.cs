@@ -22,6 +22,13 @@ public class MicroBoss : EnemyBase
     private float _throwTimer;
 
     [SerializeField] private LowerRoom lowerRoom;
+
+    [Header("Voice Line Settings")]
+    private bool hasPlayed3HealthLine = false;
+    private bool hasPlayed2HealthLine = false;
+    private bool hasPlayed1HealthLine = false;
+    private bool wasInChaseRange = false;
+
     public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
@@ -60,6 +67,12 @@ public class MicroBoss : EnemyBase
     public override void Update()
     {
        base.Update();
+
+        // Check if player is in chase range
+        if(canChase)
+        {
+            PlayHealthBasedVoiceLine();
+        }
         if (enemyHealth.value <= 0)
         {
             // Disable this boss functionality
@@ -72,6 +85,28 @@ public class MicroBoss : EnemyBase
             Destroy(MacroPrefab);
             _powerGauge.EnableInfiniteMeter();
             lowerRoom.MoveDown();
+        }
+    }
+
+    private void PlayHealthBasedVoiceLine()
+    {
+        int currentHealth = (int)enemyHealth.value;
+
+        // Play voice line based on current health (only once per health threshold)
+        if (currentHealth == 3 && !hasPlayed3HealthLine)
+        {
+            AudioManager.PlayMicroEncounterOne();
+            hasPlayed3HealthLine = true;
+        }
+        else if (currentHealth == 2 && !hasPlayed2HealthLine)
+        {
+            AudioManager.PlayMicroTwoHealth();
+            hasPlayed2HealthLine = true;
+        }
+        else if (currentHealth == 1 && !hasPlayed1HealthLine)
+        {
+            AudioManager.PlayMicroOneHealth();
+            hasPlayed1HealthLine = true;
         }
     }
 

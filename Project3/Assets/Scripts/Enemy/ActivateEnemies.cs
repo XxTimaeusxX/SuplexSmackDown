@@ -14,6 +14,7 @@ public class ActivateEnemies : MonoBehaviour
             {
                 hoardEnemies.SetActive(true);
                 enemyHealth.SetActive(true);
+                AudioManager.PlayShoalPhrase1();
                 Destroy(targetGameObject);
             }
         }

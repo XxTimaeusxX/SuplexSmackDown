@@ -115,6 +115,8 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+
+
     public void ResetSlapState()
     {
         _nextAttackTime = 0f;

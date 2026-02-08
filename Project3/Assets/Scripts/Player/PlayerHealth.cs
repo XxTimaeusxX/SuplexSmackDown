@@ -10,7 +10,7 @@ public class PlayerHealth : MonoBehaviour
 	public bool iFrames;
 	private float iFrameCooldown;
 	[SerializeField] InGameMenuManager menuManager;
-	
+    private bool isFirstHealthUpdate = true; // Flag to skip initial health sound
     void Start()
     {
         // Start the player with 1 HP (but never exceed maxHealth)
@@ -50,7 +50,13 @@ public class PlayerHealth : MonoBehaviour
 			GameOver();
 			AudioManager.PlayGameOver();
 		}
-	   	switch(newHP)
+        // Skip health sound on first update (game start)
+        if (isFirstHealthUpdate)
+        {
+            isFirstHealthUpdate = false;
+            return;
+        }
+        switch (newHP)
 		{
 			case 3: AudioManager.PlayHealth3(); break;
 			case 2: AudioManager.PlayHealth2(); break;
