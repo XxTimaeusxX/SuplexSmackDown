@@ -8,7 +8,7 @@ public class LowerRoom : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        TargetDistance = transform.position + Vector3.down * 5.0f;
+        TargetDistance = transform.position + Vector3.down * 5.0f - Vector3.right * 7.0f;
     }
 
     // Update is called once per frame

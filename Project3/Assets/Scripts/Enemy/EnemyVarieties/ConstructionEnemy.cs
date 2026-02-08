@@ -91,7 +91,7 @@ public class ConstructionEnemy : EnemyBase
             // EnemyBase sets isPushed=true here; play immediately
             // AudioManager.PlayConstructionDamageHitTwo();
             AudioManager.PlayConstructionFalling();
-            Debug.Log("construction");
+         //   Debug.Log("construction");
         }
     }
 }
