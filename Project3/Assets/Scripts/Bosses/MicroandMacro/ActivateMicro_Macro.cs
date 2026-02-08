@@ -5,6 +5,7 @@ public class ActivateMicro_Macro : MonoBehaviour
     public GameObject microMacroBoss;
     public GameObject microMacroHealth;
     public GameObject BossColliderTrigger;
+    public GameObject drones;
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("BossTrigger"))
@@ -13,6 +14,7 @@ public class ActivateMicro_Macro : MonoBehaviour
             {
                 microMacroBoss.SetActive(true);
                 microMacroHealth.SetActive(true);
+                drones.SetActive(true);
                 Destroy(BossColliderTrigger);
             }
         }

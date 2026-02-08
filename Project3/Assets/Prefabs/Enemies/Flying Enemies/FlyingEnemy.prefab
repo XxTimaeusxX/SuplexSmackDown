@@ -54,11 +54,13 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2191072288264449683, guid: 6ea53602c8947014e951ed4c9f30c454, type: 3}
   projectileSpawnPoint: {fileID: 91977225278940997}
   grabbed: 0
+  powerGuage: {fileID: 0}
+  rageBar: {fileID: 0}
   moveSpeed: 5
   rotationSpeed: 7.5
   circleDuration: 5
   waypointDistanceThreshold: 2
-  attackRange: 20
+  attackRange: 10
   attackDuration: 5
   shootInterval: 1
   projectileSpeed: 60
@@ -138,7 +140,7 @@ Transform:
   m_GameObject: {fileID: 5798790628818392710}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.725}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
