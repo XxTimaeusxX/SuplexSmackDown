@@ -12,6 +12,7 @@ public class FlyingAI : MonoBehaviour
     public bool grabbed;
     public PowerGauge powerGuage;
     public Slider rageBar;
+    public GameObject explosion;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 20f;
@@ -185,6 +186,7 @@ public class FlyingAI : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Shockwave"))
         {
+            Instantiate(explosion, transform.position, transform.rotation);
             if (powerGuage.rageIncrease == true)
             {
                 rageBar.value += 0.01f;
