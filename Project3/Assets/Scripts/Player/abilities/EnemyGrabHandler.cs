@@ -8,6 +8,7 @@ public class EnemyGrabHandler : MonoBehaviour
 {
     [Header("Grab Settings")]
     public Transform heldEnemyTransform;
+    public Transform TrajectoryTransform;
 
     [Header("Enemy Weight/Size")]
     [SerializeField] private string bigEnemyLayerName = "BigEnemy";

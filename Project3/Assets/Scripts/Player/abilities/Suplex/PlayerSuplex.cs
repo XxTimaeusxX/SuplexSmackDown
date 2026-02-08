@@ -104,7 +104,7 @@ public class PlayerSuplex : MonoBehaviour
             grabHandler.Initialize(playerMovement);
         
         if (trajectoryVisualizer != null && grabHandler != null)
-            trajectoryVisualizer.Initialize(playerMovement, grabHandler.heldEnemyTransform);
+            trajectoryVisualizer.Initialize(playerMovement, grabHandler.TrajectoryTransform);
         
         if (homingAttack != null)
             homingAttack.Initialize(playerDash, controller, homingAction);
@@ -308,8 +308,6 @@ public class PlayerSuplex : MonoBehaviour
         while (true)
         {
             t += Time.deltaTime;
-            // transform.Rotate(Vector3.up, 1600f * Time.deltaTime, Space.World);
-            playerMesh.Rotate(Vector3.down, 1000f * Time.deltaTime, Space.World);
 
             if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0)
             {
@@ -318,29 +316,61 @@ public class PlayerSuplex : MonoBehaviour
                 playerMovement.velocity.y = -1f;
                 break;
             }
+            if (playerMovement.velocity.y > 0f)// when player launches up, rotate player mesh based on suplex type
+            {
+                switch(currentSuplex)
+                {
+                    case SuplexAbilities.Rainbow:
+                        playerMesh.Rotate(Vector3.left, 100f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.forward, 100f * Time.deltaTime, Space.World);
+                        break;
+                    case SuplexAbilities.Long:
+                        playerMesh.Rotate(Vector3.forward, 800f * Time.deltaTime, Space.World);
+
+                        break;
+                    case SuplexAbilities.Super:
+                        playerMesh.Rotate(Vector3.up, 100f * Time.deltaTime, Space.World);
+                        break;
+                } 
+                    
+                  
+            }
             // if player is falling down with the super suplex performed
             if (playerMovement.velocity.y < 0)
             {
-                // transform.Rotate(Vector3.down, 1600f * Time.deltaTime, Space.World);
-               // transform.Rotate(Vector3.forward, 1600f * Time.deltaTime, Space.World);
-              //  transform.RotateAround(player.position, Vector3.up, 1600f * Time.deltaTime);
-                if (currentSuplex == SuplexAbilities.Super)
+                switch(currentSuplex)
                 {
-                    // add moon gravity effect during descent
-                    gravityLerpTime += Time.deltaTime;
-                    float lerpFactor = Mathf.Clamp01(gravityLerpTime / gravityIncreaseDuration);
-                    playerMovement.gravity = Mathf.Lerp(minGravity, maxGravity, GravityControl.Evaluate(lerpFactor));
-                    if (!cameratilted)
-                    {
-                        // tilt camera downwards during descent and have more control on flowing down 
-                        cameratilted = true;
-                        playerMovement.velocity.x = 0f;
-                        playerMovement.velocity.z = 0f;
-                    }
-                    cameraLerpTime += Time.deltaTime;
-                    float cameraLerpFactor = Mathf.Clamp01(cameraLerpTime / cameraLerpDuration);
-                    orbital.TargetOffset = Vector3.Lerp(DefaultCameraOffset, targetOffset, CameraOffsetCurve.Evaluate(cameraLerpFactor));
-                }     
+
+                    case SuplexAbilities.Rainbow:
+                        playerMesh.Rotate(Vector3.up, 1000f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+                        break;
+                    case SuplexAbilities.Long:
+                        playerMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
+                        break;
+                    case SuplexAbilities.Super:
+                        playerMesh.Rotate(Vector3.up, 1000f * Time.deltaTime, Space.World);
+                        // add moon gravity effect during descent
+                        gravityLerpTime += Time.deltaTime;
+                        float lerpFactor = Mathf.Clamp01(gravityLerpTime / gravityIncreaseDuration);
+                        playerMovement.gravity = Mathf.Lerp(minGravity, maxGravity, GravityControl.Evaluate(lerpFactor));
+                        playerMesh.Rotate(Vector3.right, 1000f * Time.deltaTime, Space.World);
+                        if (!cameratilted)
+                        {
+                            // tilt camera downwards during descent and have more control on flowing down 
+                            cameratilted = true;
+                            playerMovement.velocity.x = 0f;
+                            playerMovement.velocity.z = 0f;
+                        }
+                        cameraLerpTime += Time.deltaTime;
+                        float cameraLerpFactor = Mathf.Clamp01(cameraLerpTime / cameraLerpDuration);
+                        orbital.TargetOffset = Vector3.Lerp(DefaultCameraOffset, targetOffset, CameraOffsetCurve.Evaluate(cameraLerpFactor));
+                        break;
+                }
+                
+               
+               
             }
 
             if (!jumpedOff && jumpAction != null && jumpAction.WasPressedThisFrame())
