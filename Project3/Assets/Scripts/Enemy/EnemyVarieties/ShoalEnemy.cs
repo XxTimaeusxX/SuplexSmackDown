@@ -13,6 +13,10 @@ public class ShoalEnemy : EnemyBase
     public GameObject player;
     public GameObject bossTrigger2;
 
+    [Header("Animation")]
+    public Animator ShoalAnimator;
+    private string CurrentShoalAnimation = "";
+
     public override void Update()
     {
         base.Update();  
@@ -83,5 +87,37 @@ public class ShoalEnemy : EnemyBase
         {
             ChasePlayer();
         }
+
+        CheckAnimation();
+    }
+
+    //---------------- Animation ---------------------------//
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (CurrentShoalAnimation != animation)
+        {
+            CurrentShoalAnimation = animation;
+            ShoalAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+    private void CheckAnimation()
+    {
+        // Attack state takes priority
+        if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
+        {
+            ChangeAnimation("ShoalSlap");
+            return;
+        }
+
+        // Check if moving (has a path and is actively navigating)
+        if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        {
+            ChangeAnimation("ShoalWalk");
+            return;
+        }
+
+        // Default to idle
+      //  ChangeAnimation("IdleShoal");
     }
 }
