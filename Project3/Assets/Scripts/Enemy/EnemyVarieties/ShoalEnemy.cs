@@ -10,6 +10,8 @@ public class ShoalEnemy : EnemyBase
     private bool _shoalWasInChaseRange = false;
     public bool bossShoal;
     public GameObject timer;
+    public GameObject player;
+    public GameObject bossTrigger2;
 
     [Header("Animation")]
     public Animator ShoalAnimator;
@@ -60,6 +62,7 @@ public class ShoalEnemy : EnemyBase
                 }
                 if (bossShoal == true)
                 {
+                    bossTrigger2.SetActive(true);
                     timer.SetActive(true);
                 }
             }
