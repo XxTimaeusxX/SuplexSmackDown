@@ -6,11 +6,10 @@ using UnityEngine.UI;
 public class ShoalEnemy : EnemyBase
 {
     public GameObject door;
-    public GameObject microMacroBoss;
-    public GameObject microMacroHealth;
     // Shoal-specific audio edge trigger state
     private bool _shoalWasInChaseRange = false;
     public bool bossShoal;
+    public GameObject timer;
 
     public override void Update()
     {
@@ -57,8 +56,7 @@ public class ShoalEnemy : EnemyBase
                 }
                 if (bossShoal == true)
                 {
-                    microMacroBoss.SetActive(true);
-                    microMacroHealth.SetActive(true);
+                    timer.SetActive(true);
                 }
             }
             AudioManager.PlayShoalDamageHit();
