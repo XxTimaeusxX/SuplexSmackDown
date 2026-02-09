@@ -74,8 +74,9 @@ public class Cinema_final : MonoBehaviour
         }
         yield return new WaitForSeconds(0.2f);
 
-        introUI.SetActive(true);
+        //introUI.SetActive(true);
         audioSource.Play();
+        
 
         yield return new WaitForSeconds(4f);
         EndIntro();
@@ -83,7 +84,7 @@ public class Cinema_final : MonoBehaviour
 
     private void EndIntro()
     {
-        introUI.SetActive(false);
+        //introUI.SetActive(false);
         introCameraObj.SetActive(false);
 
         introCamera.Priority = 1;
