@@ -7,6 +7,7 @@ using System.Collections;
 public class InGameMenuManager : MonoBehaviour
 {
 	[SerializeField] string _MainMenuScene;
+	[SerializeField] string _Stage2Scene;
 	
 	[SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _ControlsPanel;
@@ -112,6 +113,14 @@ public class InGameMenuManager : MonoBehaviour
 		isPaused = false;
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(_MainMenuScene);
+	}
+	
+	//unpause and return to main menu
+	public void Stage2ButtonClicked()
+	{
+		isPaused = false;
+		Time.timeScale = 1.0f;
+		SceneManager.LoadScene(_Stage2Scene);
 	}
 	
 	//pause and show pause menu
