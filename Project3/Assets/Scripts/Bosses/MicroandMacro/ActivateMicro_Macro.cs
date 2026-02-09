@@ -23,6 +23,7 @@ public class ActivateMicro_Macro : MonoBehaviour
         {
             if (BossColliderTrigger2 != null)
             {
+                Destroy(BossColliderTrigger2);
                 cinema.introPlayed = true;
             }
         }
