@@ -16,7 +16,7 @@ public class Cinema_final : MonoBehaviour
     [Header("Trigger Settings")]
     public GameObject player;
     public float triggerRange = 25f;
-    private bool introPlayed = false;
+    public bool introPlayed = false;
     private PlayerMovement playerMovementScript;
 
     [Header("UI Settings")]
@@ -34,6 +34,7 @@ public class Cinema_final : MonoBehaviour
     public bool isMainMenuIntro;
     private CinemachineCamera lastActiveCamera;
     private AudioSource audioSource;
+    public GameObject shoalHealth;
 
     private void Start()
     {
@@ -49,7 +50,7 @@ public class Cinema_final : MonoBehaviour
 
     private void Update()
     {
-        if (!introPlayed && Vector3.Distance(transform.position, player.transform.position) <= triggerRange)
+        if (introPlayed)
         {
             StartCoroutine(StartIntro());
         }
@@ -57,7 +58,7 @@ public class Cinema_final : MonoBehaviour
 
     private IEnumerator StartIntro()
     {
-        introPlayed = true;
+        introPlayed = false;
         playerMovementScript.enabled = false;
 
         lastActiveCamera = freeLookCamera.Priority > towerCamera.Priority ? freeLookCamera : towerCamera;

@@ -4,7 +4,7 @@ public class BossTimer : MonoBehaviour
 {
     public GameObject microMacroBoss;
     public GameObject microMacroHealth;
-    public float timer = 4f;
+    public float timer = 6f;
 
     private void Update()
     {
