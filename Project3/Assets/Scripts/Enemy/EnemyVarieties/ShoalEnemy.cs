@@ -58,7 +58,10 @@ public class ShoalEnemy : EnemyBase
                 }
                 if (bossShoal == true)
                 {
-                    bossTrigger2.SetActive(true);
+                    if (bossTrigger2 != null)
+                    {
+                        bossTrigger2.SetActive(true);
+                    }
                     timer.SetActive(true);
                 }
             }

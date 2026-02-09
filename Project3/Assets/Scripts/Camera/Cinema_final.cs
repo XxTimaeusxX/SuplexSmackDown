@@ -24,6 +24,9 @@ public class Cinema_final : MonoBehaviour
 
     [Header("Sounds")]
     public AudioClip introSound;
+    public bool audio1;
+    public bool audio2;
+    public bool audio3;
 
     [Header("Camera Transition Settings")]
     public float transitionSpeed = 2f;
@@ -35,6 +38,7 @@ public class Cinema_final : MonoBehaviour
     private CinemachineCamera lastActiveCamera;
     private AudioSource audioSource;
     public GameObject shoalHealth;
+    public GameObject bossTrigger2;
 
     private void Start()
     {
@@ -59,6 +63,7 @@ public class Cinema_final : MonoBehaviour
     private IEnumerator StartIntro()
     {
         introPlayed = false;
+
         playerMovementScript.enabled = false;
 
         lastActiveCamera = freeLookCamera.Priority > towerCamera.Priority ? freeLookCamera : towerCamera;
@@ -91,6 +96,11 @@ public class Cinema_final : MonoBehaviour
         introCamera.Priority = 1;
 
         playerMovementScript.enabled = true;
+
+        if (bossTrigger2 == true)
+        {
+            bossTrigger2.SetActive(false);
+        }
     }
 
     private bool IsCameraInPosition(Transform targetTransform)
