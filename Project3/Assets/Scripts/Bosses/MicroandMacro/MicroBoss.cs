@@ -96,7 +96,7 @@ public class MicroBoss : EnemyBase
         // Play voice line based on current health (only once per health threshold)
         if (currentHealth == 3 && !hasPlayed3HealthLine)
         {
-             yield return new WaitForSeconds(4f); // slight delay before first line
+             yield return new WaitForSeconds(3f); // slight delay before first line
             AudioManager.PlayMicroEncounterOne();
             hasPlayed3HealthLine = true;
         }
