@@ -79,7 +79,6 @@ public class MacroBoss : EnemyBase
     {
         //Resume normal behavior: EnemyBases
         MacrosCollider.enabled = true;
-        agent.enabled = true;
         canChase = true;
         canAttack = true;
         canPatrol = true;

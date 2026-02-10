@@ -7,10 +7,8 @@ using System.Collections;
 public class InGameMenuManager : MonoBehaviour
 {
 	[SerializeField] string _MainMenuScene;
-    [SerializeField] string _Stage1Scene;
-    [SerializeField] string _Stage2Scene;
 	
-    [SerializeField] GameObject _PauseMenuContainer;
+	[SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _ControlsPanel;
 	[SerializeField] GameObject _SettingsPanel;
 	[SerializeField] GameObject _WinMenuContainer;
@@ -105,8 +103,7 @@ public class InGameMenuManager : MonoBehaviour
 		_PauseMenuContainer.SetActive(false);
 		_WinMenuContainer.SetActive(false);
 		_GameOverMenuContainer.SetActive(false);
-		PlaySceneMusic();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
 	}
 	
 	//unpause and return to main menu
@@ -115,15 +112,6 @@ public class InGameMenuManager : MonoBehaviour
 		isPaused = false;
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(_MainMenuScene);
-	}
-	
-	//unpause and return to main menu
-	public void Stage2ButtonClicked()
-	{
-		isPaused = false;
-		Time.timeScale = 1.0f;
-		PlaySceneMusic();
-        SceneManager.LoadScene(_Stage2Scene);
 	}
 	
 	//pause and show pause menu
@@ -206,27 +194,10 @@ public class InGameMenuManager : MonoBehaviour
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
 	}
-    //plays the appropriate music based on the current scene
-    void PlaySceneMusic()
-    {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        if (currentSceneName == _MainMenuScene)
-        {
-            AudioManager.PlayMainMenuBGM();
-        }
-		else if (currentSceneName == _Stage1Scene)
-		{
-				AudioManager.PlayConstructionBGM();
-        }
-        else if (currentSceneName == _Stage2Scene)
-		{
-			AudioManager.PlayConstructionBGM();
-		}     
-    }
-
-    //-------- DEBUG MENU OPTIONS --------//
-    //transports the player, then functions as ResumeButtonClicked
-    public void ToShoalButtonClicked()
+	
+	//-------- DEBUG MENU OPTIONS --------//
+	//transports the player, then functions as ResumeButtonClicked
+	public void ToShoalButtonClicked()
 	{
 		StartCoroutine(DEBUG_Teleport(DEBUG_ShoalSpawnLocation.transform.position));
 	}

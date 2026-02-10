@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 /// <summary>
 /// Handles grabbing, holding, and releasing enemies during suplex operations.
@@ -80,30 +79,23 @@ public class EnemyGrabHandler : MonoBehaviour
 
         var rb = GrabbedEnemy.GetComponent<Rigidbody>();
         var enemyScript = GrabbedEnemy.GetComponent<EnemyBase>();
-        
-        // Re-enable enemy ground detection FIRST
+
+        // Re-enable enemy ground detection
         if (enemyScript != null)
         {
             enemyScript.SetGrabbed(false);
         }
 
-        // Unparent and re-enable physics
-        GrabbedEnemy.SetParent(null);
-        
+        // Re-enable physics and optionally apply slam force
         if (rb != null)
         {
+            GrabbedEnemy.SetParent(null);
             rb.isKinematic = false;
 
             if (applyDownwardForce)
             {
                 rb.AddForce(Vector3.down * 5f, ForceMode.VelocityChange);
             }
-        }
-
-        // Re-enable NavMeshAgent AFTER unparenting
-        if (enemyScript != null && enemyScript.agent != null)
-        {
-            enemyScript.agent.enabled = true;
         }
 
         // Restore player movement settings
