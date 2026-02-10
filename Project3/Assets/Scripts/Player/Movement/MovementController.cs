@@ -22,7 +22,7 @@ public class MovementController : MonoBehaviour
     // private Vector3 velocity;
 
     [Header("Boolean States")]
-    private bool isGrounded;
+    public bool isGrounded;
     //private bool isDashing;
     public bool isTemp;
 
@@ -70,10 +70,13 @@ public class MovementController : MonoBehaviour
     private void Update()
     {
         isGrounded = controller.isGrounded;
-
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded)
         {
-            velocity.y = -2f;                                               // Small negative value to keep grounded
+            if (velocity.y < 0)
+                velocity.y = -2f;
+
+            velocity.x = 0f;
+            velocity.z = 0f;
         }
 
         /// Dash input
@@ -127,10 +130,17 @@ public class MovementController : MonoBehaviour
         /// Move char: Hor + Vert seperately
         Vector3 finalMove = move * Time.deltaTime;
 
-        if (!overrideVerticalMotion)    // Vertical motion override for suplex testing
+        if (!overrideVerticalMotion)
+        {
+            finalMove = (move + new Vector3(velocity.x, 0, velocity.z)) * Time.deltaTime;
             finalMove.y = velocity.y * Time.deltaTime;
+        }
         else
-            finalMove.y = 0f; // SuplexTest will move vertically instead
+        {
+            finalMove = move * Time.deltaTime;
+            finalMove.y = 0f;
+        }
+
 
         controller.Move(finalMove);
     }
@@ -195,5 +205,14 @@ public class MovementController : MonoBehaviour
         suplexController.JumpOff();
         velocity.y = Mathf.Sqrt(movementConfig.jumpHeight * 5f * -2f * movementConfig.customGravity);
         isGrounded = false;
+    }
+    public void SetVelocity(Vector3 newVelocity)
+    {
+        velocity = newVelocity;
+    }
+
+    public void AddImpulse(Vector3 impulse)
+    {
+        velocity += impulse;
     }
 }

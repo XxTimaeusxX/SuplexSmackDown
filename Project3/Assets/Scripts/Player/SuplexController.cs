@@ -150,18 +150,24 @@ public class SuplexController : MonoBehaviour
 
         float t = 0f;
 
+        float verticalEndTime = data.verticalCurve.keys[^1].time;
+        float forwardEndTime = data.forwardCurve.keys[^1].time;
+
         while (t < data.duration)
         {
             float normalized = t / data.duration;
 
+            float curveTimeV = normalized * verticalEndTime;
+            float curveTimeF = normalized * forwardEndTime;
+
             float velocityY = data.verticalCurve.Evaluate(normalized);
             float forwardSpeed = data.forwardCurve.Evaluate(normalized);
 
-            Vector3 forward = movementController.transform.forward;
-            forward.y = 0f;
-            forward.Normalize();
+            //Vector3 forward = movementController.transform.forward;
+            //forward.y = 0f;
+            //forward.Normalize();
 
-            suplexHorizontalVelocity = forward * forwardSpeed;
+            //suplexHorizontalVelocity = forward * forwardSpeed;
 
             Vector3 delta =
                 lockedForward * forwardSpeed * Time.deltaTime +
@@ -173,8 +179,26 @@ public class SuplexController : MonoBehaviour
             yield return null;
         }
 
-        //ReleaseEnemy();
+        float finalVerticalVel = data.verticalCurve.Evaluate(verticalEndTime);
+        float finalForwardVel = data.forwardCurve.Evaluate(forwardEndTime);
+
+        Vector3 finalVelocity =
+            lockedForward * finalForwardVel +
+            Vector3.up * finalVerticalVel;
+
+        Vector3 slamImpulse =
+            lockedForward * data.slamForwardForce +
+            Vector3.down * data.slamDownwardForce;
+
         movementController.overrideVerticalMotion = false;
+
+        movementController.SetVelocity(finalVelocity);
+        movementController.AddImpulse(slamImpulse);
+
+        yield return new WaitUntil(() => movementController.isGrounded == true);
+
+        ReleaseEnemy();
+
     }
 
 
@@ -230,5 +254,10 @@ public class SuplexController : MonoBehaviour
             //Debug.Log("Not enough power for Super Suplex!");
             //CancelSuplexEarly();
         }
+    }
+
+    private void SuplexImpulse()
+    {
+
     }
 }
