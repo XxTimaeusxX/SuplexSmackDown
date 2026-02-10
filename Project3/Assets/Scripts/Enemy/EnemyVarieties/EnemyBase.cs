@@ -46,6 +46,7 @@ public class EnemyBase : MonoBehaviour
     public float meleeRange = 1.75f;
     public float attackCooldown = 0.8f;
     public float _nextAttackTime = 0f;
+  //public bool IsDead = false;
 
     [Header("Hitbox")]
     public GameObject slapbox;          // child trigger collider with AttackHitBox
@@ -303,6 +304,13 @@ public class EnemyBase : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(center, radius);
+        // Chase range sphere (yellow)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+        // Melee range sphere (red/orange)
+        Gizmos.color = new Color(1f, 0.5f, 0f); // orange
+        Gizmos.DrawWireSphere(transform.position, meleeRange);
     }
     public void OnCollisionEnter(Collision collision)
     {
