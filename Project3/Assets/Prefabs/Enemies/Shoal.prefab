@@ -165,8 +165,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5739018078679963436}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.411, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -9.5}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -667,9 +667,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  groundDistance: 0.15
+  groundDistance: 0.24
   rageBar: {fileID: 0}
-  canPatrol: 1
+  canPatrol: 0
   canChase: 1
   canAttack: 1
   m_Distance: 0
@@ -681,20 +681,24 @@ MonoBehaviour:
   chargeSlider: {fileID: 8195935738016138037}
   enemyHealth: {fileID: 0}
   enemyHealthScreen: {fileID: 0}
-  chaseRange: 100
+  chaseRange: 1000
   patrolWalkSpeed: 2
-  patrolWaitTime: 2
-  patrolRunSpeed: 5
+  patrolWaitTime: 1
+  patrolRunSpeed: 15
   patrolWaitDefault: 0
   meleeRange: 3
   attackCooldown: 1.5
   _nextAttackTime: 0
+  IsDead: 0
   slapbox: {fileID: 3410506903803866641}
   slapActiveTime: 0.1
   animator: {fileID: 6136497523464781368}
   door: {fileID: 0}
   bossShoal: 0
   timer: {fileID: 0}
+  player: {fileID: 0}
+  bossTrigger2: {fileID: 0}
+  CinemaScript: {fileID: 0}
   ShoalAnimator: {fileID: 6136497523464781368}
 --- !u!136 &6265953614328822838
 CapsuleCollider:
@@ -766,8 +770,8 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1.95
   m_BaseOffset: 0.6
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_WalkableMask: 1
+  m_ObstacleAvoidanceType: 1
 --- !u!114 &5366730448657179665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -790,7 +794,7 @@ Animator:
   m_GameObject: {fileID: 7557898954643461021}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c4042bf9f96a98b4aa1112fa48b6c487, type: 3}
-  m_Controller: {fileID: 9100000, guid: 672e53085293fae4e83b02bb969babdb, type: 2}
+  m_Controller: {fileID: 9100000, guid: d4b38b1b665c6f3479da8d313d768e6d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

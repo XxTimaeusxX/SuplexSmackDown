@@ -12,7 +12,7 @@ public class ShoalEnemy : EnemyBase
     public GameObject timer;
     public GameObject player;
     public GameObject bossTrigger2;
-
+    public Cinema_final CinemaScript;
     [Header("Animation")]
     public Animator ShoalAnimator;
     private string CurrentShoalAnimation = "";
@@ -31,7 +31,7 @@ public class ShoalEnemy : EnemyBase
                 // Entered chase range: play Shoal "detected" sound
                 AudioManager.PlayShoalIdle();
             }
-       
+      
 
             _shoalWasInChaseRange = inChaseRange;
         }
@@ -43,16 +43,15 @@ public class ShoalEnemy : EnemyBase
         {
             pushCooldown -= Time.deltaTime;
         }
-        if (pushCooldown < 0)
+        if (pushCooldown < 0 && isPushed)
         {
-            if (!isGrabbed)
-            {
-                pushCooldown = 0;
-                isPushed = false;
-                agent.enabled = true;
-                rb.isKinematic = true;
-            }
+            pushCooldown = 0;
+            isPushed = false;
+            
             enemyHealth.value -= 1;
+            AudioManager.PlayShoalDamageHit();
+            
+            
             if (enemyHealth.value <= 0)
             {
                 enemyHealthScreen.SetActive(false);
@@ -65,11 +64,16 @@ public class ShoalEnemy : EnemyBase
                     if (bossTrigger2 != null)
                     {
                         bossTrigger2.SetActive(true);
-                    }
+                    }  
                     timer.SetActive(true);
+                    if (CinemaScript != null)
+                    {
+                        CinemaScript.isPhase2Intro = true;
+                    }
                 }
             }
-            AudioManager.PlayShoalDamageHit();
+            
+   
             Destroy(gameObject);
         }
         if (!grounded)

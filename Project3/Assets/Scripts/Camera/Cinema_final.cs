@@ -2,7 +2,7 @@ using Unity.Cinemachine;
 using System.Collections;
 using UnityEngine;
 using Unity.VisualScripting;
-using UnityEngine.Audio;
+//using UnityEngine.Audio;
 
 
 public class Cinema_final : MonoBehaviour
@@ -23,10 +23,10 @@ public class Cinema_final : MonoBehaviour
     public GameObject introUI;
 
     [Header("Sounds")]
-    public AudioClip introSound;
-    public bool audio1;
-    public bool audio2;
-    public bool audio3;
+  //  public AudioClip introSound;
+ //   public bool audio1;
+ //   public bool audio2;
+ //   public bool audio3;
 
     [Header("Camera Transition Settings")]
     public float transitionSpeed = 2f;
@@ -34,9 +34,13 @@ public class Cinema_final : MonoBehaviour
     public float positionThreshold = 1f;
     public float rotationThreshold = 2f;
 
+    [Header("Phase Settings")]
     public bool isMainMenuIntro;
+    public bool isPhase1Intro; // first intro before Shoal defeat
+    public bool isPhase2Intro; //  second intro after Shoal defeat
+  
     private CinemachineCamera lastActiveCamera;
-    private AudioSource audioSource;
+   // private AudioSource audioSource;
     public GameObject shoalHealth;
     public GameObject bossTrigger2;
 
@@ -44,12 +48,13 @@ public class Cinema_final : MonoBehaviour
     {
         playerMovementScript = player.GetComponent<PlayerMovement>();
         introCameraTransform = introCamera.transform;
-        audioSource = GetComponent<AudioSource>();
+     //   audioSource = GetComponent<AudioSource>();
 
         if (!isMainMenuIntro)
             introCameraObj.SetActive(false);
 
         lastActiveCamera = freeLookCamera.Priority > towerCamera.Priority ? freeLookCamera : towerCamera;
+        isPhase1Intro = true;
     }
 
     private void Update()
@@ -80,8 +85,17 @@ public class Cinema_final : MonoBehaviour
         }
         yield return new WaitForSeconds(0.2f);
 
+        if (isPhase1Intro) 
+        {
+            AudioManager.PlayBossIntro();
+        }
+        else if (isPhase2Intro)
+        {
+            AudioManager.PlayBossPhase();
+        }
         //introUI.SetActive(true);
-        audioSource.Play();
+        //  audioSource.Play();
+      //  AudioManager.PlayBossIntro();
         
 
         yield return new WaitForSeconds(4f);
@@ -92,7 +106,8 @@ public class Cinema_final : MonoBehaviour
     {
         //introUI.SetActive(false);
         introCameraObj.SetActive(false);
-
+        isPhase1Intro = false;
+        isPhase2Intro = false;
         introCamera.Priority = 1;
 
         playerMovementScript.enabled = true;
