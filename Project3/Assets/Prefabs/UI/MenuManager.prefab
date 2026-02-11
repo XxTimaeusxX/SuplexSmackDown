@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9089036943608662845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2112839988070759112}
+  - component: {fileID: 3966636123982367990}
+  - component: {fileID: 7847562165673600921}
+  m_Layer: 0
+  m_Name: MenuManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2112839988070759112
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089036943608662845}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3966636123982367990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089036943608662845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c07074c1c363334ebc4af44efe5fd6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InGameMenuManager
+  _MainMenuScene: MainMenuTest
+  _PauseMenuContainer: {fileID: 0}
+  _ControlsPanel: {fileID: 0}
+  _SettingsPanel: {fileID: 0}
+  _WinMenuContainer: {fileID: 0}
+  _GameOverMenuContainer: {fileID: 0}
+  _PauseButtonContainer: {fileID: 0}
+  _DefaultPauseButton: {fileID: 0}
+  _DefaultControlsButton: {fileID: 0}
+  _DefaultSettingsButton: {fileID: 0}
+  _DefaultWinButton: {fileID: 0}
+  _DefaultGameOverButton: {fileID: 0}
+  _HealthUI: {fileID: 0}
+  _SuperSuplexUI: {fileID: 0}
+  _RageMeterUI: {fileID: 0}
+  DEBUG_Player: {fileID: 0}
+  DEBUG_ShoalSpawnLocation: {fileID: 0}
+  DEBUG_BossSpawnLocation: {fileID: 0}
+  canPause: 1
+  pause_anim: {fileID: 0}
+--- !u!114 &7847562165673600921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089036943608662845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7643b6cecd4a1f84ca38be3a7b9e1418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenManager
+  _LoadingScreenContainer: {fileID: 0}
+  _LoadingBar: {fileID: 0}
+  _inGameMenuManager: {fileID: 3966636123982367990}

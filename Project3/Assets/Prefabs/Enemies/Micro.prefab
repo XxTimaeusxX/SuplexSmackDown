@@ -89,6 +89,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &249079067233834605
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5616784512599421389}
+  m_Layer: 8
+  m_Name: MicroPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5616784512599421389
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 249079067233834605}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.564, y: -0.686, z: 1.455}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 419584436173729249}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &350756949621285968
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 350756949621285968}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.79, y: 0, z: 0}
+  m_LocalPosition: {x: -0.13, y: 2.03, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -653,72 +684,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &2571467383651795063
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4349223271421690314}
-  - component: {fileID: 8321838049418883005}
-  - component: {fileID: 979117463517588428}
-  m_Layer: 0
-  m_Name: SlapHitBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4349223271421690314
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2571467383651795063}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.14546016, y: 0.17884478, z: 0.4783626}
-  m_LocalScale: {x: 2.0519135, y: 2.0519135, z: 2.0519135}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 419584436173729249}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8321838049418883005
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2571467383651795063}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.7589948, y: 0.23235351, z: 0.9075278}
-  m_Center: {x: -0.06767821, y: -0.081174076, z: 0.24261266}
---- !u!114 &979117463517588428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2571467383651795063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c3cae7fa33c25c4fad271fe0af89654, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AttackHitBox
 --- !u!1 &2685999164740433713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1001,9 +966,10 @@ GameObject:
   - component: {fileID: 9174718078381055315}
   - component: {fileID: 476013331475240838}
   - component: {fileID: 1653933575705297595}
+  - component: {fileID: 3003317761280415236}
   m_Layer: 8
   m_Name: Micro
-  m_TagString: Enemy
+  m_TagString: Micro
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1028,8 +994,9 @@ Transform:
   - {fileID: 2264893890303243407}
   - {fileID: 6727102237962576896}
   - {fileID: 6831403585358062624}
-  - {fileID: 4349223271421690314}
   - {fileID: 8688815964074762816}
+  - {fileID: 5616784512599421389}
+  - {fileID: 839732572683544051}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2338434722320659042
@@ -1136,7 +1103,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 8
+  m_Constraints: 0
   m_CollisionDetection: 2
 --- !u!195 &9174718078381055315
 NavMeshAgent:
@@ -1147,7 +1114,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 2966685442618335851}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.99
+  m_Radius: 0.67
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -1196,13 +1163,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MicroBoss
   Target: {fileID: 0}
   agent: {fileID: 9174718078381055315}
-  rb: {fileID: 0}
+  rb: {fileID: 5876049601639161282}
   menuManager: {fileID: 0}
+  rageMeter: {fileID: 0}
   groundCheck: {fileID: 6727102237962576896}
   groundMask:
     serializedVersion: 2
-    m_Bits: 0
-  groundDistance: 0
+    m_Bits: 64
+  groundDistance: 0.6
+  rageBar: {fileID: 0}
   canPatrol: 1
   canChase: 1
   canAttack: 1
@@ -1211,24 +1180,43 @@ MonoBehaviour:
   isGrabbed: 0
   isPushed: 0
   pushCooldown: 0
-  chargeSlider: {fileID: 0}
+  chargeSlider: {fileID: 1018614484388305929}
   enemyHealth: {fileID: 0}
   enemyHealthScreen: {fileID: 0}
-  chaseRange: 0
-  patrolWalkSpeed: 0
-  patrolWaitTime: 0
-  patrolRunSpeed: 0
+  chaseRange: 80
+  patrolWalkSpeed: 3
+  patrolWaitTime: 1
+  patrolRunSpeed: 3
   patrolWaitDefault: 0
-  meleeRange: 1.75
-  attackCooldown: 0.8
+  meleeRange: 80
+  attackCooldown: 2
   _nextAttackTime: 0
-  slapbox: {fileID: 2571467383651795063}
+  slapbox: {fileID: 0}
   slapActiveTime: 0.1
   animator: {fileID: 0}
-  MacroPrefab: {fileID: 0}
-  throwOrigin: {fileID: 0}
-  throwInterval: 5
-  throwForce: 12
+  macroPrefab: {fileID: 0}
+  throwOrigin: {fileID: 6831403585358062624}
+  throwInterval: 3
+  throwForce: 20
+  _powerGauge: {fileID: 0}
+--- !u!114 &3003317761280415236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2966685442618335851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b004953d76a564da71f90395b76795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyRespawn
+  enemyRespawn: {fileID: 0}
+  enemyRespawn2: {fileID: 0}
+  enemyRespawn3: {fileID: 0}
+  enemyRespawn4: {fileID: 0}
+  enemyRespawn5: {fileID: 0}
+  respawnPoint: {fileID: 0}
 --- !u!1 &3052929172749679915
 GameObject:
   m_ObjectHideFlags: 0
@@ -2803,6 +2791,73 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &8176037897935317339
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 839732572683544051}
+  - component: {fileID: 3199535262160582328}
+  - component: {fileID: 5358773701711039439}
+  m_Layer: 8
+  m_Name: GrabCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &839732572683544051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8176037897935317339}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 419584436173729249}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3199535262160582328
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8176037897935317339}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.03, y: 1.82, z: 2.41}
+  m_Center: {x: 0, y: -0.12, z: 0.16}
+--- !u!114 &5358773701711039439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8176037897935317339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fe697a80d03fb54fa06a389e281a47e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MicroThrowboxCaller
+  microBoss: {fileID: 1653933575705297595}
 --- !u!1 &8533670580951013250
 GameObject:
   m_ObjectHideFlags: 0

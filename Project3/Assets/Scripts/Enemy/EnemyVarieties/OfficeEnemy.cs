@@ -98,7 +98,7 @@ public class OfficeEnemy : OGEnemyBase
             // EnemyBase sets isPushed=true here; play immediately
            
             AudioManager.PlayShoalFalling();
-            Debug.Log("construction");
+         //   Debug.Log("construction");
         }
     }
 }
