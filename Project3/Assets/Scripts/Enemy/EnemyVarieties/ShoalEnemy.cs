@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ShoalEnemy : EnemyBase
 {
-    public GameObject door;
+    public DoorManager doorManager;
     // Shoal-specific audio edge trigger state
     private bool _shoalWasInChaseRange = false;
     public bool bossShoal;
@@ -57,7 +57,7 @@ public class ShoalEnemy : EnemyBase
                 enemyHealthScreen.SetActive(false);
                 if (bossShoal == false)
                 {
-                    door.SetActive(false);
+                    doorManager.open = true;
                 }
                 if (bossShoal == true)
                 {

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActivateRespawn : MonoBehaviour
@@ -6,7 +7,7 @@ public class ActivateRespawn : MonoBehaviour
     public GameObject player;
     public GameObject respawnTrigger1;
     public GameObject respawnTrigger2;
-    public GameObject door;
+    public DoorManager doorManager;
     public GameObject respawnZone1;
     public GameObject respawnZone2;
     public Transform playerRespawnPoint1;
@@ -29,7 +30,7 @@ public class ActivateRespawn : MonoBehaviour
     {
         if (other.CompareTag("Collider2"))
         {
-            door.SetActive(true);
+            doorManager.close = true;
             Destroy(respawnTrigger1);
             respawnZone1.SetActive(true);
             respawn1 = true;
