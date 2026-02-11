@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 // ~ Ovi. 
-
+//MARK - Currenty disabed IgnoreGroundCheck logic
 
 
 // TODO: Develop the principle mechnics
@@ -23,7 +23,7 @@ public enum RockyRhodesStates
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class RockyRhodes : EnemyBase
+public class RockyRhodes : OGEnemyBase
 {
     [Header("Rocky Rhodes Settings")]
     public RockyRhodesStates CurrentRockyState;
@@ -88,7 +88,7 @@ public class RockyRhodes : EnemyBase
     {
         IsPerformingAbility = true; // Prevent EnemyBase from re-enabling agent
         ToggleBehaviors(false); // Disable AI behaviors and NavMesh
-        IgnoreGroundCheck = true; // Prevent ground check interference during ability
+        //IgnoreGroundCheck = true; // Prevent ground check interference during ability
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         rb.angularVelocity = new Vector3(90f, 00f, 0f) * 5f * Time.fixedDeltaTime;
         float timer = 0f;
@@ -101,7 +101,7 @@ public class RockyRhodes : EnemyBase
        
         
 
-        IgnoreGroundCheck = false;
+        //IgnoreGroundCheck = false;
         yield return new WaitForSeconds(AbilityCooldown);
         Debug.Log("Boulder Eruption - 4 seconds passed");
         if (isGrabbed || isPushed) yield break;
@@ -115,7 +115,7 @@ public class RockyRhodes : EnemyBase
     {
         IsPerformingAbility = true;
         ToggleBehaviors(false);
-        IgnoreGroundCheck = true; // Prevent ground check interference during ability
+        //IgnoreGroundCheck = true; // Prevent ground check interference during ability
         rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
         rb.angularVelocity = new Vector3(0f, 90f, 0f) * 5f * Time.fixedDeltaTime;
         float timer = 0f;
@@ -126,7 +126,7 @@ public class RockyRhodes : EnemyBase
             yield return null;
         }
 
-        IgnoreGroundCheck = false; // Prevent ground check interference during ability
+        //IgnoreGroundCheck = false; // Prevent ground check interference during ability
         yield return new WaitForSeconds(AbilityCooldown);
         if (isGrabbed || isPushed) yield break;
 

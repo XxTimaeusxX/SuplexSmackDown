@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-// Last Edited: 1/19/2026 by Istvan W.
+// Last Edited: 2/11/2026 by Istvan W.
 
 /// <summary>
 /// Handles all logic for grabbing, holding, and suplexing enemies.

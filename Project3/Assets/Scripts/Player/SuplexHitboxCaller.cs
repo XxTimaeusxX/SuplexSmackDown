@@ -54,24 +54,20 @@ public class SuplexHitboxCaller : MonoBehaviour
             {
                 Debug.Log("canGrab tag detected");
             }
-
-            
-
-
             hitTarget = true;
 
-        // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
-        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") && playerSuplex != null)
-        {
-             Debug.Log("hitboxcollider called");
-            if (other.CompareTag("Macro"))
-            {
-                other.gameObject.tag = "Grabbed";
-            }
-            if (other.CompareTag("Drone"))
-            {
-                other.gameObject.GetComponent<FlyingAI>().grabbed = true;
-            }
+        //// Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
+        //if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") && playerSuplex != null)
+        //{
+        //     Debug.Log("hitboxcollider called");
+        //    if (other.CompareTag("Macro"))
+        //    {
+        //        other.gameObject.tag = "Grabbed";
+        //    }
+        //    if (other.CompareTag("Drone"))
+        //    {
+        //        other.gameObject.GetComponent<FlyingAI>().grabbed = true;
+        //    }
             gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
         }
     }

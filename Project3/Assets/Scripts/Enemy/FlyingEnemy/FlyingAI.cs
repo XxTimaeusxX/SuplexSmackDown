@@ -45,10 +45,10 @@ public class FlyingAI : MonoBehaviour
 
     private void Update()
     {
-        if (playerSuplex.droneDropped == true)
-        {
-            grabbed = false;
-        }
+        //if (playerSuplex.droneDropped == true)
+        //{
+        //    grabbed = false;
+        //}
     }
 
     #region Target Player

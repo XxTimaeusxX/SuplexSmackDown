@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 // Last Edited: 1/19/2026 by Istvan W.
 
 // TODO: Add rotation locking logic using the isTesting boolean
-// NOTE: Notice that when in air for a period of time the gravity effect increases.
+// TODO: Prevent dropping enemy whie supexing/fix floating glitch
 [RequireComponent(typeof(CharacterController))]
 public class MovementController : MonoBehaviour
 {

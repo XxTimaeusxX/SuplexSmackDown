@@ -6,10 +6,8 @@ using UnityEngine;
 
 // ~Istvan W
 
-// Last Edited: 1/19/2026 by Istvan W.
+// Last Edited: 2/11/2026 by Istvan W.
 
-// TODO: Add in vertical movment Animation Curves for suplexes
-// TODO: Adjust horizontal movement Animation Curves for suplexes
 public class MovementConfig : MonoBehaviour
 {
     [Header("Basic Movement Values")]
