@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public InputAction jumpAction;
     public Vector3 velocity;
     public float velocityCap = -20f;
-    bool isGrounded;
+    public bool isGrounded;
     public LayerMask groundMask;
     private Vector2 direction; // variable to store movement direction 
     public float moveSpeed;
