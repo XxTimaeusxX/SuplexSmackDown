@@ -20770,6 +20770,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -30885,6 +30889,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -32099,6 +32107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGameMenuManager
   _MainMenuScene: MainMenuTest
+  _Stage1Scene: 
+  _Stage2Scene: 
   _PauseMenuContainer: {fileID: 1258977866}
   _ControlsPanel: {fileID: 1265106507}
   _SettingsPanel: {fileID: 2130239830}
@@ -47959,6 +47969,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -48890,6 +48904,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -49019,6 +49037,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -54385,6 +54407,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -56075,6 +56101,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -66440,60 +66470,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.014585031, y: 0.0023109925, z: 0.0004523427}
   m_Center: {x: -0.0000000037252903, y: 0.000000029802322, z: 0.000000014901161}
---- !u!1 &248924281
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 248924283}
-  - component: {fileID: 248924282}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!195 &248924282
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248924281}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.07
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.19
-  m_BaseOffset: 0.09
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!4 &248924283
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 248924281}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.745, y: 3.137, z: 0}
-  m_LocalScale: {x: 11.34, y: 11.34, z: 11.34}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &249359041
 GameObject:
   m_ObjectHideFlags: 0
@@ -68856,6 +68832,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -71510,6 +71490,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -72379,6 +72363,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -76437,6 +76425,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -77928,6 +77920,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -78356,6 +78352,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -83876,6 +83876,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -85153,6 +85157,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -94539,6 +94547,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -98467,6 +98479,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -99805,6 +99821,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -103194,6 +103214,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -104934,6 +104958,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -107056,6 +107084,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -110249,6 +110281,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -113206,6 +113242,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -115875,6 +115915,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -124212,6 +124256,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -127217,6 +127265,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -127480,6 +127532,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1586240594}
     m_Modifications:
+    - target: {fileID: 44963636918888281, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: m_ObstacleAvoidanceType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 461110300938288247, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1
@@ -127528,6 +127584,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -128213,6 +128273,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -131992,6 +132056,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -132863,6 +132931,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -133218,6 +133290,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -134361,6 +134437,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -136390,6 +136470,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -137656,6 +137740,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -141215,6 +141303,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -142346,6 +142438,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -145453,6 +145549,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -148917,7 +149017,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 909478660}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -9.82559, y: 187.79857, z: 26.06635}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -148930,7 +149030,7 @@ Transform:
   - {fileID: 1312830929}
   - {fileID: 1242995273}
   - {fileID: 1804442428}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1124568623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &909756058
 GameObject:
@@ -151652,6 +151752,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -153598,6 +153702,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hidden Hall
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 882304795ae9f2f45bfe5b2a49c7d6ff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -154360,6 +154468,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -160310,6 +160422,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -160985,6 +161101,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -162756,6 +162876,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -163123,6 +163247,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -176260,6 +176388,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -180644,6 +180776,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 909478661}
   - {fileID: 1619053100}
   - {fileID: 1915759903}
   m_Father: {fileID: 0}
@@ -182051,6 +182184,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -183925,6 +184062,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -202005,6 +202146,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -202727,6 +202872,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -205341,6 +205490,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -210801,6 +210954,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -211116,6 +211273,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -211716,6 +211877,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -214593,6 +214758,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -219234,6 +219403,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -219572,6 +219745,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -222114,6 +222291,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -223909,42 +224090,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1586240594}
     m_Modifications:
-    - target: {fileID: 461110300938288247, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461110300938288247, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461110300938288247, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.411
-      objectReference: {fileID: 0}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn
-      value: 
-      objectReference: {fileID: 1596394703}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: respawnPoint
-      value: 
-      objectReference: {fileID: 1624380687}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn2
-      value: 
-      objectReference: {fileID: 674921433}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn3
-      value: 
-      objectReference: {fileID: 161514461}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn4
-      value: 
-      objectReference: {fileID: 2052429815}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn5
-      value: 
-      objectReference: {fileID: 1202670971}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: door
       value: 
@@ -223958,12 +224103,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: rageMeter
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: chaseRange
-      value: 100
+      propertyPath: canPatrol
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: powerGuage
@@ -224025,8 +224166,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -229512,6 +229652,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -230134,6 +230278,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -232016,6 +232164,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -232205,6 +232357,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -242271,6 +242427,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -242932,6 +243092,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -245230,6 +245394,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -245442,6 +245610,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -247200,6 +247372,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -248239,6 +248415,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -251983,6 +252163,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -253174,6 +253358,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -255333,6 +255521,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -259266,6 +259458,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -260254,6 +260450,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -262093,6 +262293,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -262447,6 +262651,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -264971,6 +265179,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -265943,6 +266155,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -269561,6 +269777,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -272287,6 +272507,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -286849,6 +287073,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -287526,6 +287754,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -292205,6 +292437,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -294141,6 +294377,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -298296,6 +298536,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -298965,6 +299209,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -301982,6 +302230,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -302811,6 +303063,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -312806,6 +313062,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -314549,6 +314809,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -317351,6 +317615,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -318175,7 +318443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1995748020
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -323194,6 +323462,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -325033,6 +325305,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -326837,6 +327113,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -326967,6 +327247,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -327096,6 +327380,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -327492,6 +327780,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -327788,6 +328080,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -328987,6 +329283,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -330809,6 +331109,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -331958,6 +332262,10 @@ PrefabInstance:
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
@@ -336461,6 +336769,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1827894049}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+      propertyPath: canPatrol
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageMeter
       value: 
       objectReference: {fileID: 0}
@@ -336740,7 +337052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1790301754194849584, guid: e82eb0779a1df3e4d8ec58291ff46529, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2584237026947508171, guid: e82eb0779a1df3e4d8ec58291ff46529, type: 3}
       propertyPath: m_LocalPosition.y
@@ -337180,7 +337492,6 @@ SceneRoots:
   - {fileID: 158926019}
   - {fileID: 420010587}
   - {fileID: 1627335869}
-  - {fileID: 248924283}
   - {fileID: 1420640235}
   - {fileID: 220944091}
   - {fileID: 1167549558}
@@ -337188,7 +337499,6 @@ SceneRoots:
   - {fileID: 1124568623}
   - {fileID: 1569742145}
   - {fileID: 1643348833}
-  - {fileID: 909478661}
   - {fileID: 108359310}
   - {fileID: 52235958}
   - {fileID: 637676997}
