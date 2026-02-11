@@ -131281,6 +131281,37 @@ Transform:
   - {fileID: 1214593840}
   m_Father: {fileID: 1226850172}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &542055636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 542055637}
+  m_Layer: 8
+  m_Name: MicroRespawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &542055637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 542055636}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -30.76, y: 192.55, z: 15.1}
+  m_LocalScale: {x: 17.62, y: 17.62, z: 17.62}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 828088640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &542125540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179587,6 +179618,39 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1832136291}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &828088639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 828088640}
+  m_Layer: 0
+  m_Name: BossRespawnPoints
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &828088640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828088639}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1779696263}
+  - {fileID: 542055637}
+  m_Father: {fileID: 2047063534}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &828148143
 PrefabInstance:
@@ -318192,12 +318256,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b004953d76a564da71f90395b76795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRespawn
-  enemyRespawn: {fileID: 0}
+  enemyRespawn: {fileID: 1947188940}
   enemyRespawn2: {fileID: 0}
   enemyRespawn3: {fileID: 0}
   enemyRespawn4: {fileID: 0}
   enemyRespawn5: {fileID: 0}
-  respawnPoint: {fileID: 0}
+  respawnPoint: {fileID: 542055637}
 --- !u!43 &1512135099
 Mesh:
   m_ObjectHideFlags: 0
@@ -376042,6 +376106,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1770539605}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1779696262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1779696263}
+  m_Layer: 8
+  m_Name: MacroRespawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1779696263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1779696262}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -40.57, y: 190, z: 16.14}
+  m_LocalScale: {x: 15.2, y: 15.2, z: 15.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 828088640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1780975521
 GameObject:
   m_ObjectHideFlags: 0
@@ -381341,11 +381436,11 @@ PrefabInstance:
     - target: {fileID: 5949455922660498766, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
       propertyPath: enemyRespawn
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1947188940}
     - target: {fileID: 5949455922660498766, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
       propertyPath: respawnPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1779696263}
     - target: {fileID: 6194857328625989249, guid: f7d8caebb8776bc4ab062b9e47efb7db, type: 3}
       propertyPath: m_Height
       value: 0.12
@@ -426840,6 +426935,7 @@ Transform:
   m_Children:
   - {fileID: 820666493}
   - {fileID: 1512113770}
+  - {fileID: 828088640}
   m_Father: {fileID: 1170871340}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2047240426
