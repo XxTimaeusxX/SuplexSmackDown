@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 // TODO: Add rotation locking logic using the isTesting boolean
 // TODO: Prevent dropping enemy whie supexing/fix floating glitch
+// TODO: Make sure carry proxy collider works properly
+
 [RequireComponent(typeof(CharacterController))]
 public class MovementController : MonoBehaviour
 {

@@ -25,9 +25,11 @@ public class SuplexController : MonoBehaviour
     private SuplexAbilities currentSuplex = SuplexAbilities.None; // Which suplex is being performed
     private SuplexData activeSuplex;
 
-    [Header("Enemy Carrying")]
+    [Header("Enemy/Object Carrying")]
     public EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried enemy
     private Transform carriedEnemy;          // The transform of the enemy that's currently being carried
+    public ObjectTest objectTest;
+    public Transform objectTestTransform;
  
     public bool isSuplexing = false;         // True if a suplex is in progress
     public bool suplexInputLocked = false;
@@ -37,6 +39,9 @@ public class SuplexController : MonoBehaviour
 
     private Coroutine suplexRoutine;
 
+    //[Header("Testing")]
+
+
     private void Awake()
     {
         playerDash = GetComponent<PlayerDash>();
@@ -45,16 +50,22 @@ public class SuplexController : MonoBehaviour
         suplexConfig = GetComponent<SuplexConfig>();
     }
 
-    public void StartSuplex(EnemyBase enemy)
+    public void StartSuplex(MonoBehaviour target)   // Allows me to change the suplexable object type by using a simple check
     {
-        //Debug.Log("StartSuplex called. Setting carriedEnemyBase to: " + enemy.name);
-        
-        carriedEnemyBase = enemy;
-        isSuplexing = true;
+        if (target is EnemyBase enemy)
+        {
+            carriedEnemyBase = enemy;
+            isSuplexing = true;
 
-        carriedEnemy = enemy.transform;
-        carriedEnemy.SetParent(suplexConfig.carryPoint);
-        carriedEnemy.localPosition = Vector3.zero;
+            carriedEnemy = enemy.transform;
+            carriedEnemy.SetParent(suplexConfig.carryPoint);
+            carriedEnemy.localPosition = Vector3.zero;
+            //Debug.Log("StartSuplex called. Setting carriedEnemyBase to: " + enemy.name);
+        }
+        //if (target is ObjectTest objectTest)    // MARK: Template for object suplexing
+        //{
+
+        //}
 
 
         StartCoroutine(WaitForSuplexInput());        // Wait for player to choose which suplex to perform
@@ -254,10 +265,5 @@ public class SuplexController : MonoBehaviour
             //Debug.Log("Not enough power for Super Suplex!");
             //CancelSuplexEarly();
         }
-    }
-
-    private void SuplexImpulse()
-    {
-
     }
 }

@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 7569478272242731753}
   - component: {fileID: 27261784811504700}
   - component: {fileID: 2580810581553623723}
+  - component: {fileID: 3532537928389574241}
   m_Layer: 0
   m_Name: Third Person Camera
   m_TagString: Untagged
@@ -65,8 +66,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3804572147149893273}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16018227, y: -0.000000025427322, z: 0.000000004126287, w: 0.9870875}
-  m_LocalPosition: {x: 3.4529505, y: 3, z: -68.395096}
+  m_LocalRotation: {x: 0.16018224, y: -3.925654e-14, z: 1.1574199e-15, w: 0.9870875}
+  m_LocalPosition: {x: 3.8029509, y: 4.211, z: -66.6521}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,6 +340,30 @@ MonoBehaviour:
     FrequencyGain: 1
     Duration: 1
     m_NoiseOffsets: {x: 0, y: 0, z: 0}
+--- !u!114 &3532537928389574241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3804572147149893273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineImpulseListener
+  ApplyAfter: 2
+  ChannelMask: 1
+  Gain: 1
+  Use2DDistance: 0
+  UseCameraSpace: 1
+  SignalCombinationMode: 0
+  ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    AmplitudeGain: 1
+    FrequencyGain: 1
+    Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &8783937196673940900
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +377,7 @@ GameObject:
   - component: {fileID: 1411298017691384132}
   - component: {fileID: 358980606431412692}
   - component: {fileID: 1995156546522074469}
-  - component: {fileID: 6405873762954055119}
+  - component: {fileID: 7443449760237172920}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -368,8 +393,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8783937196673940900}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1601823, y: -0.000000025427326, z: 0.000000004126288, w: 0.9870875}
-  m_LocalPosition: {x: 3.4529486, y: 1.5981427, z: -64.18853}
+  m_LocalRotation: {x: 0.16018225, y: -4.0125384e-14, z: 6.5114536e-15, w: 0.9870875}
+  m_LocalPosition: {x: -6.313549, y: 3, z: -91.6213}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -569,9 +594,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 271311824012196182, guid: dfb85cb773be62d40a10ab9d3011f767, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6405873762954055119}
+      addedObject: {fileID: 7443449760237172920}
   m_SourcePrefab: {fileID: 100100000, guid: dfb85cb773be62d40a10ab9d3011f767, type: 3}
---- !u!114 &6405873762954055119
+--- !u!114 &7443449760237172920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
