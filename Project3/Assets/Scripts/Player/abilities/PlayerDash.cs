@@ -68,7 +68,7 @@ public class PlayerDash : MonoBehaviour
 
             //homingDashActive = false; // input dash by default is not a homing dash
 
-            if (movementConfig.grabHitbox != null && suplexController.carriedEnemyBase == null)
+            if (movementConfig.grabHitbox != null && suplexController.carriedObject == null)
                 movementConfig.grabHitbox.SetActive(true);    // Enable hitbox for the dash
             //Debug.Log("Dash initiated!");
         }

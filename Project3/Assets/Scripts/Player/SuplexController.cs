@@ -15,7 +15,7 @@ public class SuplexController : MonoBehaviour
 {
     [Header("References")]
     public EnemyGrabHandler grabHandler;
-
+    private PlayerThrow playerThrow;
     private MovementController movementController;
     private MovementConfig movementConfig;
     public SuplexConfig suplexConfig;
@@ -26,10 +26,12 @@ public class SuplexController : MonoBehaviour
     private SuplexData activeSuplex;
 
     [Header("Enemy/Object Carrying")]
-    public EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried enemy
+    public GameObject carriedObject = null;        // The GameObject of the enemy/object being carried
+
+    private EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried enemy
     private Transform carriedEnemy;          // The transform of the enemy that's currently being carried
-    public ObjectTest objectTest;
-    public Transform objectTestTransform;
+    private ObjectTest objectTest;
+    private Transform objectTestTransform;
  
     public bool isSuplexing = false;         // True if a suplex is in progress
     public bool suplexInputLocked = false;
@@ -48,6 +50,7 @@ public class SuplexController : MonoBehaviour
         movementController = GetComponent<MovementController>();
         movementConfig = GetComponent<MovementConfig>();
         suplexConfig = GetComponent<SuplexConfig>();
+        playerThrow = GetComponent<PlayerThrow>();
     }
 
     public void StartSuplex(MonoBehaviour target)   // Allows me to change the suplexable object type by using a simple check
@@ -60,6 +63,9 @@ public class SuplexController : MonoBehaviour
             carriedEnemy = enemy.transform;
             carriedEnemy.SetParent(suplexConfig.carryPoint);
             carriedEnemy.localPosition = Vector3.zero;
+
+            carriedObject = carriedEnemy.gameObject;
+
             //Debug.Log("StartSuplex called. Setting carriedEnemyBase to: " + enemy.name);
         }
         //if (target is ObjectTest objectTest)    // MARK: Template for object suplexing
@@ -67,6 +73,11 @@ public class SuplexController : MonoBehaviour
 
         //}
 
+        if (carriedObject != null)
+        {
+            playerThrow.carryingObject = true;
+            playerThrow.readyToThrow = true;
+        }
 
         StartCoroutine(WaitForSuplexInput());        // Wait for player to choose which suplex to perform
 
@@ -84,6 +95,9 @@ public class SuplexController : MonoBehaviour
 
             carriedEnemy = null;
             carriedEnemyBase = null;
+            carriedObject = null;
+            playerThrow.carryingObject = false;
+            playerThrow.readyToThrow = false;
 
             isSuplexing = false;
         }

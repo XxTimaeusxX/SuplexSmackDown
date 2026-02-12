@@ -18,6 +18,7 @@ public class MovementController : MonoBehaviour
     public CharacterController controller;
     private PlayerDash playerDash;
     private SuplexController suplexController;
+    private PlayerThrow playerThrow;
 
     public Transform cameraTransform;
 
@@ -38,6 +39,10 @@ public class MovementController : MonoBehaviour
     public InputAction leftBumper;
     public InputAction rightBumper;
 
+    // Aim/Throw
+    public InputAction throwAction;
+    public InputAction aimAction;
+
     public bool overrideVerticalMotion = false;
 
     public InputAction testButton;
@@ -56,6 +61,7 @@ public class MovementController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         playerDash = GetComponent<PlayerDash>();
         suplexController = GetComponent<SuplexController>();
+        playerThrow = GetComponent<PlayerThrow>();
 
         /// Find input actions
         moveAction = playerInput.actions.FindAction("Move");
@@ -65,6 +71,9 @@ public class MovementController : MonoBehaviour
         // Super Suplex Buttons
         leftBumper = playerInput.actions.FindAction("LB");
         rightBumper = playerInput.actions.FindAction("RB");
+        // Aim/Throw
+        throwAction = playerInput.actions.FindAction("Throw");
+        aimAction = playerInput.actions.FindAction("Aim");
         // Test
         testButton = playerInput.actions.FindAction("Test");
     }
@@ -110,6 +119,12 @@ public class MovementController : MonoBehaviour
         {
             ForceJump();
             Debug.Log("Forced jump during suplex!");
+        }
+
+        /// Throw input
+        if (throwAction.WasPressedThisFrame() && suplexController.carriedObject != null)
+        {
+            playerThrow.Throw();
         }
 
         /// Testing

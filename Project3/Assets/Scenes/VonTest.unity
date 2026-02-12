@@ -376,6 +376,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1654228334}
+    - targetCorrespondingSourceObject: {fileID: 8444165294582084947, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1654228344}
   m_SourcePrefab: {fileID: 100100000, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
 --- !u!1 &318662833
 GameObject:
@@ -798,6 +801,24 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  throwAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 53db3a17-cf41-452b-bda9-674ac64355b0
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  aimAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 85ab15c6-1712-476b-a576-77105ad8154b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   overrideVerticalMotion: 0
   testButton:
     m_Name: Test Button
@@ -891,9 +912,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OGPlayerSuplex
   grabHandler: {fileID: 0}
   suplexConfig: {fileID: 0}
-  carriedEnemyBase: {fileID: 0}
-  objectTest: {fileID: 0}
-  objectTestTransform: {fileID: 0}
+  carriedObject: {fileID: 0}
   isSuplexing: 0
   suplexInputLocked: 0
 --- !u!114 &1654228334
@@ -925,6 +944,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1426030033493243040, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
   m_PrefabInstance: {fileID: 266873665}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1654228344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1654228299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b454ff9dcd047cc4f89a001285dc2d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerThrow
+  readyToThrow: 0
+  carryingObject: 0
 --- !u!4 &1720721161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8215942331683528483, guid: 31de1195b9b92864e959d87f853f53ea, type: 3}
