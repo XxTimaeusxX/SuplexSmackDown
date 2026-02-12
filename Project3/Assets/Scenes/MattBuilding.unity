@@ -180896,6 +180896,14 @@ PrefabInstance:
       value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 864382936195170931, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
+      propertyPath: Priority.Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 864382936195170931, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
+      propertyPath: Priority.m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 864382936195170931, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
       propertyPath: Target.TrackingTarget
       value: 
       objectReference: {fileID: 1152671285}
@@ -226618,8 +226626,7 @@ Transform:
   m_LocalPosition: {x: -9.5, y: 179.4, z: 13.2}
   m_LocalScale: {x: 2.6173913, y: 3.0155516, z: 15.308577}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1618849251}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -0.988, z: 0}
 --- !u!1 &1063325951
@@ -340005,7 +340012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
-    Enabled: 0
+    Enabled: 1
     m_Value: 0
   OutputChannel: 1
   StandbyUpdate: 2
@@ -340189,7 +340196,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618849246}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -340241,12 +340248,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1618849246}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.05691398, y: 0.8593146, z: -0.081380986, w: 0.5017135}
-  m_LocalPosition: {x: 27.369999, y: 10.250002, z: 1.5049999}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.057613734, y: 0.8549556, z: -0.08088711, w: 0.50910604}
+  m_LocalPosition: {x: 61.72995, y: 210.3094, z: 37.47162}
+  m_LocalScale: {x: 12.257114, y: 3.0869133, z: 5.597498}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1063204782}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 11.36, y: 119.537, z: 0.944}
 --- !u!1001 &1619453632
 PrefabInstance:
@@ -409471,7 +409478,7 @@ MonoBehaviour:
     AmplitudeGain: 1
     FrequencyGain: 1
     Duration: 1
-    m_NoiseOffsets: {x: 0, y: 0, z: 0}
+    m_NoiseOffsets: {x: -788.145, y: 38.981567, z: 500.89142}
 --- !u!1 &1951395867
 GameObject:
   m_ObjectHideFlags: 0
@@ -445373,6 +445380,7 @@ SceneRoots:
   - {fileID: 1540987892}
   - {fileID: 857647035}
   - {fileID: 584754365}
+  - {fileID: 1618849251}
   - {fileID: 829885302}
   - {fileID: 1348806473}
   - {fileID: 216100979}
