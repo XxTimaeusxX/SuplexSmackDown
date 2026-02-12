@@ -85,7 +85,7 @@ public class SuplexController : MonoBehaviour
 
     public void ReleaseEnemy()
     {
-        if (carriedEnemy != null)
+        if (carriedObject != null)
         {
             StopAllCoroutines();
 
@@ -98,7 +98,6 @@ public class SuplexController : MonoBehaviour
             carriedObject = null;
             playerThrow.carryingObject = false;
             playerThrow.readyToThrow = false;
-
             isSuplexing = false;
         }
     }

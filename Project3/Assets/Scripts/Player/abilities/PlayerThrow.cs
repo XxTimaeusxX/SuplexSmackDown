@@ -26,6 +26,13 @@ public class PlayerThrow : MonoBehaviour
         {
             thrownObject = suplexController.carriedObject.GetComponent<Rigidbody>();
 
+            suplexController.ReleaseEnemy();
+
+            //thrownObject.isKinematic = false; // Allow physics to affect the thrown object
+            // TOOO: Add additional logic here to correct the throw force, direction, etc.
+            // Make sure to use carry weight profiles if applicable
+            thrownObject.AddForce(transform.forward * 100f, ForceMode.Impulse); // Adjust the force as needed
+
             Debug.Log("Throwing object: " + thrownObject.name);
         }
     }
