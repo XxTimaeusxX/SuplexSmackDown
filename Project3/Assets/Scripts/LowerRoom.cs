@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class LowerRoom : MonoBehaviour
 {
-    float speed = 2.0f;
+    float speed = 8.0f;
     public Vector3 TargetDistance;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        TargetDistance = transform.position + Vector3.down * 5.0f - Vector3.right * 7.0f;
+        TargetDistance = transform.position + Vector3.down * 4.0f - Vector3.right * 30.0f;
     }
 
     // Update is called once per frame

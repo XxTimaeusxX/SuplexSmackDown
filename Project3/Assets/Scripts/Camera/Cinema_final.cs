@@ -106,6 +106,8 @@ public class Cinema_final : MonoBehaviour
     {
         //introUI.SetActive(false);
         introCameraObj.SetActive(false);
+
+        // set the states to false to prevent the intro from playing again
         isPhase1Intro = false;
         isPhase2Intro = false;
         introCamera.Priority = 1;
