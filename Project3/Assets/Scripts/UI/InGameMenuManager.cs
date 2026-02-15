@@ -150,6 +150,8 @@ public class InGameMenuManager : MonoBehaviour
 				Time.timeScale = 0.0f;
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
+				_PauseButtonContainer.SetActive(true);
+				Debug.Log(_PauseMenuContainer.active);
 				_SuperSuplexUI.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
