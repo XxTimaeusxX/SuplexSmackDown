@@ -16,10 +16,14 @@ public class LowerRoom : MonoBehaviour
         TargetDistance = transform.position + Vector3.down * 4.0f - Vector3.right * 30.0f;
 
     }
-    public void MoveDown()
+    public void EnableArrows()
     {
         FloorArrowCanvas.alpha = 1;
         TargetArrowCanvas.alpha = 1;
+    }
+    public void MoveDown()
+    {
+       
         transform.position = Vector3.MoveTowards(transform.position, TargetDistance, speed * Time.deltaTime);
     }
 }

@@ -90,6 +90,7 @@ public class MicroBoss : EnemyBase
             canPatrol = false;
             agent.enabled = false;
             _glowMesh.SetGlowColor(); // trigger glow effect on death
+            lowerRoom.EnableArrows();// enable arrows to show path to next area
             this.gameObject.tag ="Enemy";
             enemyHealthScreen.SetActive(false);
             Destroy(MacroPrefab);
