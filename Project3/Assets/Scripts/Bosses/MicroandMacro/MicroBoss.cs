@@ -24,6 +24,7 @@ public class MicroBoss : EnemyBase
 
     [SerializeField] private LowerRoom lowerRoom;
 
+    private GlowMesh _glowMesh;
     [Header("Voice Line Settings")]
     private bool hasPlayed3HealthLine = false;
     private bool hasPlayed2HealthLine = false;
@@ -48,6 +49,13 @@ public class MicroBoss : EnemyBase
             _powerGauge = GetComponent<PowerGauge>();
 
         lowerRoom = FindFirstObjectByType<LowerRoom>();
+
+        // ----- call glowmesh script on prefab----- //
+           _glowMesh = GetComponent<GlowMesh>();
+        if (_glowMesh == null)
+            {
+                Debug.LogError("GlowMesh component not found on MacroPrefab or its children.");
+        }
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -81,7 +89,8 @@ public class MicroBoss : EnemyBase
             canChase = false;
             canPatrol = false;
             agent.enabled = false;
-           this.gameObject.tag ="Enemy";
+            _glowMesh.SetGlowColor(); // trigger glow effect on death
+            this.gameObject.tag ="Enemy";
             enemyHealthScreen.SetActive(false);
             Destroy(MacroPrefab);
             _powerGauge.EnableInfiniteMeter();
