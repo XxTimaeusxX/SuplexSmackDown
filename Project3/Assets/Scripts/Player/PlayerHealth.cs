@@ -11,6 +11,8 @@ public class PlayerHealth : MonoBehaviour
 	private float iFrameCooldown;
 	[SerializeField] InGameMenuManager menuManager;
     private bool isFirstHealthUpdate = true; // Flag to skip initial health sound
+	[SerializeField] bool isInvincible;
+	
     void Start()
     {
         // Start the player with 1 HP (but never exceed maxHealth)
@@ -36,8 +38,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage()
     {
-		UpdateHealth(--currentHealth);
-		iFrames = true;
+		if(!isInvincible){
+			UpdateHealth(--currentHealth);
+			iFrames = true;
+		}
     }
 	
 	public void UpdateHealth(int newHP)
@@ -83,4 +87,12 @@ public class PlayerHealth : MonoBehaviour
             TakeDamage();
         }
     }
+	
+	public bool ToggleInvincibility(){
+		if (!isInvincible)
+			isInvincible = true;
+		else
+			isInvincible = false;
+		return isInvincible;
+	}
 }
