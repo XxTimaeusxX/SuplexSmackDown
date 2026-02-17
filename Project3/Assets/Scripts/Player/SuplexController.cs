@@ -26,13 +26,17 @@ public class SuplexController : MonoBehaviour
     private SuplexData activeSuplex;
 
     [Header("Enemy/Object Carrying")]
-    public GameObject carriedObject = null;        // The GameObject of the enemy/object being carried
+    public ICarriable carriedObject;
+    //public GameObject carriedObject = null;        // The GameObject of the carriable/object being carried
+    //public MonoBehaviour carriedObjectScript = null;  // The script of the carriable/object being carried (if needed for specific interactions)
 
-    private EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried enemy
-    private Transform carriedEnemy;          // The transform of the enemy that's currently being carried
+    private EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried carriable
+    private Transform carriedEnemy;          // The transform of the carriable that's currently being carried
     private ObjectTest objectTest;
     private Transform objectTestTransform;
- 
+
+    public Rigidbody lastReleasedRigidbody;
+
     public bool isSuplexing = false;         // True if a suplex is in progress
     public bool suplexInputLocked = false;
 
@@ -55,23 +59,22 @@ public class SuplexController : MonoBehaviour
 
     public void StartSuplex(MonoBehaviour target)   // Allows me to change the suplexable object type by using a simple check
     {
-        if (target is EnemyBase enemy)
+        if (target is ICarriable carriable)
         {
-            carriedEnemyBase = enemy;
             isSuplexing = true;
+            carriedObject = carriable;
 
-            carriedEnemy = enemy.transform;
-            carriedEnemy.SetParent(suplexConfig.carryPoint);
-            carriedEnemy.localPosition = Vector3.zero;
+            if (target is EnemyBase enemy)
+            {
+                //carriedEnemy = enemy.transform;
+                carriedEnemyBase = enemy;
 
-            carriedObject = carriedEnemy.gameObject;
+                //carriedEnemy.SetParent(suplexConfig.carryPoint);
+                //carriedEnemy.localPosition = Vector3.zero;
+            }
 
-            //Debug.Log("StartSuplex called. Setting carriedEnemyBase to: " + enemy.name);
+            //Debug.Log("StartSuplex called. Setting carriedEnemyBase to: " + carriable.name);
         }
-        //if (target is ObjectTest objectTest)    // MARK: Template for object suplexing
-        //{
-
-        //}
 
         if (carriedObject != null)
         {
@@ -83,19 +86,22 @@ public class SuplexController : MonoBehaviour
 
     }
 
-    public void ReleaseEnemy()
+    public void ReleaseEnemy(Vector3 throwForce)
     {
         if (carriedObject != null)
         {
             StopAllCoroutines();
 
-            carriedEnemy.SetParent(null);
+            //carriedEnemy.SetParent(null);
+            lastReleasedRigidbody = carriedObject.Rigidbody;
 
-            carriedEnemyBase.ExitCarriedState(Vector3.zero);
+            carriedObject.ExitCarriedState(throwForce);
 
             carriedEnemy = null;
             carriedEnemyBase = null;
             carriedObject = null;
+
+            movementController.overrideVerticalMotion = false;
             playerThrow.carryingObject = false;
             playerThrow.readyToThrow = false;
             isSuplexing = false;
@@ -152,7 +158,7 @@ public class SuplexController : MonoBehaviour
             suplexInputLocked = true;
             yield return new WaitForEndOfFrame();
         }
-        Debug.Log("Chosen Suplex: " + currentSuplex);
+        //Debug.Log("Chosen Suplex: " + currentSuplex);
         PerformSuplex(currentSuplex);
     }
 
@@ -221,7 +227,7 @@ public class SuplexController : MonoBehaviour
 
         yield return new WaitUntil(() => movementController.isGrounded == true);
 
-        ReleaseEnemy();
+        ReleaseEnemy(Vector3.zero);
 
     }
 
@@ -241,7 +247,7 @@ public class SuplexController : MonoBehaviour
 
     public void JumpOff()
     {
-        if (carriedEnemyBase == null)
+        if (carriedObject == null)
             return;
 
         CancelSuplexEarly();
@@ -252,9 +258,9 @@ public class SuplexController : MonoBehaviour
         Vector3 dropPos = transform.position + Vector3.down * enemyHeight;
         carriedEnemyBase.transform.position = dropPos;
 
-        carriedEnemyBase.ApplyDownwardForce(64f);    // Apply downward force to ensure they hit the ground
+       // carriedEnemyBase.ApplyDownwardForce(64f);    // Apply downward force to ensure they hit the ground
 
-        ReleaseEnemy();
+        ReleaseEnemy(Vector3.down * 64f);
     }
 
     public void CancelSuplexEarly()

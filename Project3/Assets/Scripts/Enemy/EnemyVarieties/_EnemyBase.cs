@@ -7,24 +7,32 @@ using UnityEngine.UI;
 
 // Last Modified: 1/19/2026 by Istvan W.
 
+// TODO: Make sure to make a grounded check before enabling NavMeshAgent after being thrown, to prevent weird mid-air pathfinding behavior
+// TODO: Enable constraints when exiting carried state, but only after the enemy has landed on the ground (to prevent weird mid-air behavior)
+
 /// <summary>
 /// Abstract base class for enemy characters, providing core behavior such as patrolling, chasing, attacking, and
 /// handling carried state interactions.
 /// </summary>
-public abstract class EnemyBase : MonoBehaviour
+public abstract class EnemyBase : MonoBehaviour, ICarriable
 {
     [Header("References")]
     public GameObject PLAYER; // Reference to the player (Currenly set as so due to no enemy vs enemy interactions)
+    public Rigidbody Rigidbody => rb; // Public getter for Rigidbody (for ICarriable interface)
     private Rigidbody rb;
     private NavMeshAgent agent;
     //public MonoBehaviour enemyAI; // whatever AI script used
     private Transform originalParent; // To store original parent when carried (e.g. After picking up an enemy that's parented to another object, once released it should go back to that object)
-    private MonoBehaviour groundChecker;
+    //private GroundChecker groundChecker;
+    private RigidbodyConstraints originalConstraints;
 
     [Header("Stats")]
     public float health;
     public float enemyWalkSpeed;
     public float enemySprintSpeed;
+
+    [SerializeField] protected CarryWeightProfile carryWeightProfile; // Used to determine how the enemy behaves when being carried (e.g. how much it slows the player down, whether it can be thrown, etc.)
+    public CarryWeightProfile CarryWeightProfile => carryWeightProfile; // Public getter for carry weight profile
 
     [Header("Combat")]
     public float attackRange = 2f;
@@ -34,6 +42,9 @@ public abstract class EnemyBase : MonoBehaviour
     [Header("Colliders")]
     public Collider mainCollider;   // Main collider for the enemy
     public Collider carryProxy;     // Collider used when being carried to prevent clipping
+
+    private bool hasLanded = false;
+
 
     [Header("Patrol Settings")]
     public float distanceToTarget;
@@ -57,7 +68,8 @@ public abstract class EnemyBase : MonoBehaviour
         /// Initialize references
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
-        groundChecker = GetComponent<MonoBehaviour>(); // Replace with actual ground checker script type if available
+        //groundChecker = GetComponent<GroundChecker>(); // Replace with actual ground checker script type if available
+        originalConstraints = rb.constraints; // Store original Rigidbody constraints
 
         // Test purposes
         if (chargeSlider != null)
@@ -76,7 +88,6 @@ public abstract class EnemyBase : MonoBehaviour
 
         }
     }
-
 
     // Default = Random Roaming Patrol
     public virtual void Patrol()
@@ -182,6 +193,7 @@ public abstract class EnemyBase : MonoBehaviour
         // Disable AI/NavMeshAgent
         //if (enemyAI != null) enemyAI.enabled = false;
         agent.enabled = false;
+        hasLanded = false; // Reset landing state for when the enemy is thrown
 
         if (carryProxy != null) carryProxy.enabled = true;  // Enable proxy collider (prevents clipping)
 
@@ -201,17 +213,33 @@ public abstract class EnemyBase : MonoBehaviour
   
         rb.isKinematic = false;     // Re-enable physics
 
+        rb.constraints = RigidbodyConstraints.None;
+
         mainCollider.enabled = true;    //  Re-enable colliders
      
         if (carryProxy != null) carryProxy.enabled = false;     //  Disable proxy collider
 
+        if (throwForce != Vector3.zero)
+            rb.AddForce(throwForce, ForceMode.Impulse);    // Apply throw force
+
         // Re-enable AI/NavMeshAgent
         //if (enemyAI != null) enemyAI.enabled = true;
-        agent.enabled = true;
-
-        //rb.AddForce(throwForce, ForceMode.VelocityChange);    // Apply throw force
 
         //Debug.Log("ExitCarriedState called on " + gameObject.name);
+        //Debug.Log($"Main collider enabled: {mainCollider.enabled}, Proxy: {carryProxy.enabled}");
+    }
+
+    public virtual void OnCollisionEnter(Collision collision)
+    {
+        if (hasLanded) return;
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            hasLanded = true;
+            rb.constraints = originalConstraints;
+            agent.enabled = true;
+            //Debug.Log("Agent has landed and is now enabled for " + gameObject.name);
+        }
     }
 
     /// ------------------------------- ///

@@ -97,7 +97,7 @@ public class MovementController : MonoBehaviour
         if (dropAction.WasPressedThisFrame())
         {
             //Debug.Log("Drop pressed. carriedEnemyBase = " + suplexController.carriedEnemyBase);
-            suplexController.ReleaseEnemy();
+            suplexController.ReleaseEnemy(Vector3.zero);
         }
 
         /// Handle movement
@@ -119,6 +119,15 @@ public class MovementController : MonoBehaviour
         {
             ForceJump();
             Debug.Log("Forced jump during suplex!");
+        }
+
+        /// Aim input
+        if (aimAction.IsPressed() && suplexController.carriedObject != null)
+        {
+            // TODO: Add trajectory prediction
+            // TODO: Add trajectory prediction for suplex throws
+            //Debug.Log("Aiming with object");
+            transform.forward = CamForward; // Face the same direction as the camera while aiming
         }
 
         /// Throw input
@@ -169,12 +178,12 @@ public class MovementController : MonoBehaviour
 
         if (input.magnitude >= 0.1f)
         {
+
             /// Camera-relative directions (ignore vertical tilt)
-            Vector3 camForward = Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
             Vector3 camRight = cameraTransform.right;
 
             /// Convert input into world-space movement
-            Vector3 moveDir = (camForward * input.y + camRight * input.x).normalized;
+            Vector3 moveDir = (CamForward * input.y + camRight * input.x).normalized;
 
             /// Target angle for rotation
             float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
@@ -231,5 +240,12 @@ public class MovementController : MonoBehaviour
     public void AddImpulse(Vector3 impulse)
     {
         velocity += impulse;
+    }
+    public Vector3 CamForward // Helper property to get camera-relative forward direction on the horizontal plane
+    {
+        get
+        {
+            return Vector3.Scale(cameraTransform.forward, new Vector3(1, 0, 1)).normalized;
+        }
     }
 }

@@ -16,6 +16,9 @@ public class CarryWeightProfile : ScriptableObject
     public float speedMultiplier;    // e.g. 1.0f (no penalty), 0.8f (20% slower), 0.5f (50% slower)
     public float rotationMultiplier; // Higher values mean slower rotation
 
+    public float forwardThrowForce; // Base forward force applied when throwing an object with this profile
+    public float upwardThrowForce;  // Base upward force applied when throwing an object with this profile
+
     // Optional: expand later
 
 }

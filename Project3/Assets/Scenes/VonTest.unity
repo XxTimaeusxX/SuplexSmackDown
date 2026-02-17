@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 252033109}
   - component: {fileID: 252033108}
   - component: {fileID: 252033107}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -583,6 +583,10 @@ PrefabInstance:
       propertyPath: mainCollider
       value: 
       objectReference: {fileID: 1588906010}
+    - target: {fileID: -4791456235284145877, guid: 31c09a8d3886526459eb01a2896f0072, type: 3}
+      propertyPath: carryWeightProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: f28b4bfe052c8fb48ae2d89baa547e8b, type: 2}
     - target: {fileID: 1183523280299658058, guid: 31c09a8d3886526459eb01a2896f0072, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -678,6 +682,10 @@ PrefabInstance:
     - target: {fileID: 8102038383483071568, guid: 31c09a8d3886526459eb01a2896f0072, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8407228978967780538, guid: 31c09a8d3886526459eb01a2896f0072, type: 3}
+      propertyPath: m_Constraints
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8548402644918735001, guid: 31c09a8d3886526459eb01a2896f0072, type: 3}
       propertyPath: m_IsActive
@@ -802,7 +810,7 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   throwAction:
-    m_Name: 
+    m_Name: Throw
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 53db3a17-cf41-452b-bda9-674ac64355b0
@@ -811,7 +819,7 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   aimAction:
-    m_Name: 
+    m_Name: Aim
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 85ab15c6-1712-476b-a576-77105ad8154b
@@ -912,7 +920,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::OGPlayerSuplex
   grabHandler: {fileID: 0}
   suplexConfig: {fileID: 0}
-  carriedObject: {fileID: 0}
+  lastReleasedRigidbody: {fileID: 0}
   isSuplexing: 0
   suplexInputLocked: 0
 --- !u!114 &1654228334

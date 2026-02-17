@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerThrow : MonoBehaviour
@@ -20,20 +21,25 @@ public class PlayerThrow : MonoBehaviour
         movementController = GetComponent<MovementController>();
 
     }
+    //TODO: Add aiming assist for throwing, maybe a trajectory prediction or something similar
     public void Throw()
     {
         if (readyToThrow && carryingObject)
         {
-            thrownObject = suplexController.carriedObject.GetComponent<Rigidbody>();
+            var carriable = suplexController.carriedObject;
+            var profile = carriable.CarryWeightProfile;
+            var rb = carriable.Rigidbody;
 
-            suplexController.ReleaseEnemy();
+            float forwardForce = profile.forwardThrowForce;
+            float upwardForce = profile.upwardThrowForce;
 
-            //thrownObject.isKinematic = false; // Allow physics to affect the thrown object
-            // TOOO: Add additional logic here to correct the throw force, direction, etc.
-            // Make sure to use carry weight profiles if applicable
-            thrownObject.AddForce(transform.forward * 100f, ForceMode.Impulse); // Adjust the force as needed
+            Vector3 throwDirection = movementController.transform.forward * forwardForce + transform.up * upwardForce;
 
-            Debug.Log("Throwing object: " + thrownObject.name);
+            rb.AddForce(throwDirection, ForceMode.Impulse);
+            suplexController.ReleaseEnemy(throwDirection);
+
+            //Debug.Log("Throwing object");
+            //Debug.Log($"Applied forward throw force: {forwardForce}\nApplied upward throw force: {upwardForce}");
         }
     }
 }
