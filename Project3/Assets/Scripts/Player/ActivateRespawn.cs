@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActivateRespawn : MonoBehaviour
@@ -6,54 +7,115 @@ public class ActivateRespawn : MonoBehaviour
     public GameObject player;
     public GameObject respawnTrigger1;
     public GameObject respawnTrigger2;
-    public GameObject door;
-    public GameObject respawnZone1;
-    public GameObject respawnZone2;
+    public GameObject respawnTrigger3;
+    public GameObject respawnTrigger4;
+    public DoorManager doorManager;
     public Transform playerRespawnPoint1;
     public Transform playerRespawnPoint2;
-    public bool respawn1 = false;
-    public bool respawn2 = false;
+    public Transform playerRespawnPoint3;
+    public Transform playerRespawnPoint4;
+    public Transform playerRespawnPoint5;
+    public bool respawn1;
+    public bool respawn2;
+    public bool respawn3;
+    public bool respawn4;
+    public bool respawn5;
     private PlayerMovement playerMovement;
     private CharacterController PlayerCC;
     private PlayerHealth playerHealth;
     private bool isRespawning = false;
+    public bool falling;
+    public float fallTime;
+    public float maxFallTime;
 
     private void Start()
     {
         PlayerCC = GetComponent<CharacterController>();
         playerMovement = GetComponentInParent<PlayerMovement>();
         playerHealth = GetComponentInParent<PlayerHealth>();
+        falling = false;
+        fallTime = maxFallTime;
+        respawn1 = true;
+        respawn2 = false;
+        respawn3 = false;
+    }
+    private void Update()
+    {
+        if (playerMovement.isGrounded == false)
+        {
+            falling = true;
+        }
+        if (playerMovement.isGrounded)
+        {
+            falling = false;
+            fallTime = maxFallTime;
+        }
+        if (falling)
+        {
+            fallTime -= Time.deltaTime;
+        }
+        if (fallTime <= 0)
+        {
+            if (respawn1)
+            {
+                RespawnPlayer(playerRespawnPoint1);
+                fallTime = maxFallTime;
+            }
+            if (respawn2)
+            {
+                RespawnPlayer(playerRespawnPoint2);
+                fallTime = maxFallTime;
+            }
+            if (respawn3)
+            {
+                RespawnPlayer(playerRespawnPoint3);
+                fallTime = maxFallTime;
+            }
+            if (respawn4)
+            {
+                RespawnPlayer(playerRespawnPoint4);
+                fallTime = maxFallTime;
+            }
+            if (respawn5)
+            {
+                RespawnPlayer(playerRespawnPoint5);
+                fallTime = maxFallTime;
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Collider1"))
+        {
+            Destroy(respawnTrigger1);
+            respawn1 = false;
+            respawn2 = true;
+        }
         if (other.CompareTag("Collider2"))
         {
-            door.SetActive(true);
-            Destroy(respawnTrigger1);
-            respawnZone1.SetActive(true);
-            respawn1 = true;
+            Destroy(respawnTrigger2);
+            respawn2 = false;
+            respawn3 = true;
         }
         if (other.CompareTag("Collider3"))
         {
-            Destroy(respawnTrigger2);
-            respawnZone2.SetActive(true);
-            respawn2 = true;
+            Destroy(respawnTrigger3);
+            respawn3 = false;
+            respawn4 = true;
         }
-        if (other.CompareTag("Respawn1") && respawn1 == true)
+        if (other.CompareTag("Collider4"))
         {
-            RespawnPlayer(playerRespawnPoint1);
-        }
-        if (other.CompareTag("Respawn2") && respawn2 == true)
-        {
-            Debug.Log("Collide");
-            RespawnPlayer(playerRespawnPoint2);
+            Destroy(respawnTrigger4);
+            respawn3 = false;
+            respawn4 = true;
         }
     }
 
     public void RespawnPlayer(Transform newTransform)
     {
         StartCoroutine(TeleportPlayer(newTransform));
+        playerHealth.TakeDamage();
     }
 
     IEnumerator TeleportPlayer(Transform newTransform)

@@ -12,6 +12,7 @@ public class MicroBoss : OGEnemyBase
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
     [SerializeField] private GameObject macroPrefab;   // prefab For MicroBoss
+    [SerializeField] private Transform macrosmesh;
     [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
     [SerializeField] private float throwInterval = 3f;
     [SerializeField] private float throwForce = 12f;
@@ -23,10 +24,12 @@ public class MicroBoss : OGEnemyBase
 
     [SerializeField] private LowerRoom lowerRoom;
 
+    private GlowMesh _glowMesh;
     [Header("Voice Line Settings")]
     private bool hasPlayed3HealthLine = false;
     private bool hasPlayed2HealthLine = false;
     private bool hasPlayed1HealthLine = false;
+    private bool isPlayingVoiceLine = false;
     private bool wasInChaseRange = false;
 
     public GameObject MacroPrefab => macroPrefab;
@@ -41,11 +44,18 @@ public class MicroBoss : OGEnemyBase
          _MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
          _MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
         _MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
-
+       
         if (_powerGauge == null)
             _powerGauge = GetComponent<PowerGauge>();
 
         lowerRoom = FindFirstObjectByType<LowerRoom>();
+
+        // ----- call glowmesh script on prefab----- //
+           _glowMesh = GetComponent<GlowMesh>();
+        if (_glowMesh == null)
+            {
+                Debug.LogError("GlowMesh component not found on MacroPrefab or its children.");
+        }
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -67,12 +77,11 @@ public class MicroBoss : OGEnemyBase
     public override void Update()
     {
        base.Update();
-
-        // Check if player is in chase range
-        if(canChase)
+        if (canChase && !isPlayingVoiceLine)
         {
-            PlayHealthBasedVoiceLine();
+            StartCoroutine(PlayHealthBasedVoiceLine());
         }
+     
         if (enemyHealth.value <= 0)
         {
             // Disable this boss functionality
@@ -80,7 +89,9 @@ public class MicroBoss : OGEnemyBase
             canChase = false;
             canPatrol = false;
             agent.enabled = false;
-           this.gameObject.tag ="Enemy";
+            _glowMesh.SetGlowColor(); // trigger glow effect on death
+            lowerRoom.EnableArrows();// enable arrows to show path to next area
+            this.gameObject.tag ="Enemy";
             enemyHealthScreen.SetActive(false);
             Destroy(MacroPrefab);
             _powerGauge.EnableInfiniteMeter();
@@ -88,13 +99,14 @@ public class MicroBoss : OGEnemyBase
         }
     }
 
-    private void PlayHealthBasedVoiceLine()
+    private IEnumerator PlayHealthBasedVoiceLine()
     {
+        isPlayingVoiceLine = true;
         int currentHealth = (int)enemyHealth.value;
-
         // Play voice line based on current health (only once per health threshold)
         if (currentHealth == 3 && !hasPlayed3HealthLine)
         {
+             yield return new WaitForSeconds(3f); // slight delay before first line
             AudioManager.PlayMicroEncounterOne();
             hasPlayed3HealthLine = true;
         }
@@ -108,11 +120,14 @@ public class MicroBoss : OGEnemyBase
             AudioManager.PlayMicroOneHealth();
             hasPlayed1HealthLine = true;
         }
+        isPlayingVoiceLine = false;
+        yield return null;
     }
 
     public IEnumerator ThrowMacro()
     {
-
+        // Store original mesh rotation to restore later
+        Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
         AudioManager.PlayMicroPrepareAttack();
         // ----- Position macro prefab at throw origin ----- //
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
@@ -155,6 +170,7 @@ public class MicroBoss : OGEnemyBase
       //  Vector3 FowardForce = foward * orientThrow; // forward force to apply to macro*/
 
         _MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
+     
         _MacroEnemy.wasThrown = true; // flag macro as thrown
         float enableMacroTimer = 0f;
         while(enableMacroTimer < 3f)
@@ -166,12 +182,19 @@ public class MicroBoss : OGEnemyBase
 
             yield break;
             }
+         
             enableMacroTimer += Time.deltaTime;
             yield return null;
         }
+      /*  while(!_MacroEnemy.IsEnemyGrounded())
+        {
+            Debug.Log("Macro is grounded but not resuming - waiting to resume");
+            macrosmesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
+            yield return null;
+        }*/
         // ----- Re-enable navmesh & kinematics ----- //
       //  Debug.Log("Macro resumed after throw - not grabbed");
-      
+     // macrosmesh.localRotation = originalMeshRotation; // restore original mesh rotation
         _MacroEnemy.ResumeSequence();
         
     }
