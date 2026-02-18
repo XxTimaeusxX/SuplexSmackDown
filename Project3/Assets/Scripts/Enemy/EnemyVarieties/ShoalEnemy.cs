@@ -12,6 +12,7 @@ public class ShoalEnemy : EnemyBase
     public GameObject timer;
     public GameObject player;
     public GameObject bossTrigger2;
+    public GameObject areaTwoEnemies;
     public Cinema_final CinemaScript;
     [Header("Animation")]
     public Animator ShoalAnimator;
@@ -58,6 +59,7 @@ public class ShoalEnemy : EnemyBase
                 if (bossShoal == false)
                 {
                     doorManager.open = true;
+                    areaTwoEnemies.SetActive(true);
                 }
                 if (bossShoal == true)
                 {
@@ -74,7 +76,7 @@ public class ShoalEnemy : EnemyBase
             }
             
    
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
         if (!grounded)
         {
