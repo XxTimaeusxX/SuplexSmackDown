@@ -25,10 +25,13 @@ public class SettingsManager : MonoBehaviour
 		}
 		ca = color_adjust;
 		
-		am = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-		SFX_Slider.value = am.sfxVolume;
-		BGM_Slider.value = am.musicVolume;
-		Master_Slider.value = am.masterVolume;
+		if (AudioManager.Instance != null)
+		{
+            am = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+            SFX_Slider.value = am.sfxVolume;
+            BGM_Slider.value = am.musicVolume;
+            Master_Slider.value = am.masterVolume;
+        }
 		
 		//set gamma to player prefs if it's been set already
 		if(PlayerPrefs.GetFloat("gamma") != 0)

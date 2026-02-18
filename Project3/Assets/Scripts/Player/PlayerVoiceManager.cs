@@ -18,7 +18,10 @@ public class PlayerVoiceManager : MonoBehaviour
     {
         if (!hasPlayedLevelStartLine)
         {
-            AudioManager.PlayNarration(AudioManager.Instance.CohettePhraseOneclip, 1f);
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.PlayNarration(AudioManager.Instance.CohettePhraseOneclip, 1f);
+            }
             hasPlayedLevelStartLine = true;
         }
     }

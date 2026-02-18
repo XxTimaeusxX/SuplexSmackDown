@@ -69,7 +69,10 @@ public class EnemyBase : MonoBehaviour
             chargeSlider.gameObject.SetActive(false);
         }
         if (animator == null) animator = GetComponent<Animator>();
-        slapbox.SetActive(false);
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
     }
 
     // Update is called once per frame
