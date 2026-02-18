@@ -76,9 +76,8 @@ public class SettingsManager : MonoBehaviour
 		if(!vol.profile.TryGet<ColorAdjustments>(out var color_adjust)){
 			color_adjust = SkyVolume.profile.Add<ColorAdjustments>(false);
 		}
-		else Debug.Log("nope");
+		else Debug.Log("SkyVolume not found");
 		ca = color_adjust;
 		ca.postExposure.value = 2*ExposureMultiplier*(PlayerPrefs.GetFloat("gamma")-0.5f);
-		Debug.Log("Gamma Init");
 	}
 }

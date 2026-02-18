@@ -7,12 +7,18 @@ using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
+	[SerializeField] CharacterController playerCC;
+	[SerializeField] PlayerMovement playerMovement;
+	[SerializeField] PlayerDash playerDash;
+	public PlayerInput playerInput;
+	[SerializeField] GameObject _SuperSuplexUI;
+
 	[SerializeField] string _MainMenuScene;
     [SerializeField] string _Stage1Scene;
     [SerializeField] string _Stage2Scene;
 	
     [SerializeField] GameObject _PauseMenuContainer;
-	[SerializeField] GameObject _ControlsPanel;
+	[SerializeField] GameObject _HowToPlayPanel;
 	[SerializeField] GameObject _SettingsPanel;
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
@@ -20,22 +26,14 @@ public class InGameMenuManager : MonoBehaviour
 	
 	[SerializeField] GameObject _PauseButtonContainer;
 	[SerializeField] GameObject _DefaultPauseButton;
-	[SerializeField] GameObject _DefaultControlsButton;
+	[SerializeField] GameObject _DefaultHowToPlayButton;
 	[SerializeField] GameObject _DefaultSettingsButton;
 	[SerializeField] GameObject _DefaultWinButton;
 	[SerializeField] GameObject _DefaultGameOverButton;
 	[SerializeField] GameObject _DefaultCheatsButton;
 	
 	[SerializeField] GameObject _HealthUI;
-	[SerializeField] GameObject _SuperSuplexUI;
 
-	[Header("Debug Menu")]
-	[SerializeField] GameObject DEBUG_Player;
-	CharacterController DEBUG_PlayerCC;
-	[SerializeField] GameObject DEBUG_ShoalSpawnLocation;
-	[SerializeField] GameObject DEBUG_BossSpawnLocation;
-	
-	public PlayerInput playerInput;
 	InputAction cheatsAction1;
 	InputAction cheatsAction2;
 	InputAction cheatsAction3;
@@ -51,12 +49,10 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] Animator pause_anim;
 	
 	public void Start(){
-		DEBUG_PlayerCC = DEBUG_Player.GetComponent<CharacterController>();
-        cheatsAction1 = playerInput.actions.FindAction("LongjumpSuplex");
-        cheatsAction2 = playerInput.actions.FindAction("RainbowSuplex");
-        cheatsAction3 = playerInput.actions.FindAction("Dash");
+        cheatsAction1 = playerInput.actions.FindAction("RainbowSuplex");
+        cheatsAction2 = playerInput.actions.FindAction("Dash");
 		//check to make sure the system can find the inputs
-		if (cheatsAction1 != null && cheatsAction2 != null && cheatsAction3 != null)
+		if (cheatsAction1 != null && cheatsAction2 != null)
 			canInputCheats = true;
 		else{
 			canInputCheats = false;
@@ -68,72 +64,106 @@ public class InGameMenuManager : MonoBehaviour
 	public void Update()
 	{
 		//if all cheat inputs are pressed together, activate the cheats menu
-		if (canInputCheats && cheatsAction2.IsPressed() && cheatsAction3.IsPressed())
+		if (_SettingsPanel.active == true && canInputCheats && cheatsAction1.IsPressed() && cheatsAction2.IsPressed())
         {
-			Debug.Log("activated!");
 			CheatsMenuActivate();
         }
+	}
+	
+	
+	//pause and show pause menu
+	public void Pause()
+	{
+		if(canPause){
+			//if already paused, act as ResumeButtonClicked
+			if (isPaused){
+				ResumeButtonClicked();
+			}
+			//pausing: play a sound, show cursor, set timeScale to 0, hide super suplex UI, and show pause menu
+			else{
+				playerCC.enabled = false; //prevent player input in the menu
+				playerMovement.enabled = false;
+				playerDash.enabled = false;
+				
+				AudioManager.PlaySuplexSlam();
+				Cursor.lockState = CursorLockMode.Confined;
+				Cursor.visible = true;
+				Time.timeScale = 0.0f;
+				isPaused = true;
+				_PauseMenuContainer.SetActive(true);
+				_PauseButtonContainer.SetActive(true);
+				_SuperSuplexUI.SetActive(false);
+				if (pause_anim != null){
+					pause_anim.SetTrigger("justPaused");
+				}
+				else 
+					Debug.Log("no pause anim!");
+
+				// Set default selected button for navigation
+				EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
+			}
+		}
+	}
+
+	//lock and hide cursor, set timeScale to 1, show super suplex UI, and hide pause menu
+	public void ResumeButtonClicked()
+	{
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+		Time.timeScale = 1.0f;
+		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
+		if(_SettingsPanel) _SettingsPanel.SetActive(false);
+		if(_HowToPlayPanel) _HowToPlayPanel.SetActive(false);
+		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
+		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
+		if(_CheatsMenu) _CheatsMenu.SetActive(false);
+		isPaused = false;
+		_SuperSuplexUI.SetActive(true);
+		pause_anim.SetBool("isPaused", false);
+		
+		playerCC.enabled = true; //allow the player to move again
+		playerMovement.enabled = true;
+		playerDash.enabled = true;
 	}
 	
 	//when hovering over a button, set it to selected
 	public void ButtonHover(GameObject curButton){
 		EventSystem.current.SetSelectedGameObject(curButton);
-		Debug.Log("hovered " + curButton.name);
+		//Debug.Log("hovered " + curButton.name);
 	}
 	
-	//lock/hide cursor, unpause, and hide pause menu
-	public void ResumeButtonClicked()
-	{
-		isPaused = false;
-		Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-		Time.timeScale = 1.0f;
-		if(_PauseMenuContainer) _PauseMenuContainer.SetActive(false);
-		if(_SettingsPanel) _SettingsPanel.SetActive(false);
-		if(_ControlsPanel) _ControlsPanel.SetActive(false);
-		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
-		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
-		_SuperSuplexUI.SetActive(true);
-	}
-	
-	public void ControlsButtonClicked()
+	public void HowToPlayButtonClicked()
 	{
 		_PauseButtonContainer.SetActive(false);
-		_ControlsPanel.SetActive(true);
-		EventSystem.current.SetSelectedGameObject(_DefaultControlsButton);
+		_HowToPlayPanel.SetActive(true);
+		EventSystem.current.SetSelectedGameObject(_DefaultHowToPlayButton);
 	}
 	
-	public void ControlsBackButtonClicked()
+	public void HowToPlayBackButtonClicked()
 	{
 		_PauseButtonContainer.SetActive(true);
-		_ControlsPanel.SetActive(false);
+		_HowToPlayPanel.SetActive(false);
 		EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
 	}
 	
-	public void InGameSettingsButtonClicked()
+	public void SettingsButtonClicked()
 	{
 		_PauseButtonContainer.SetActive(false);
 		_SettingsPanel.SetActive(true);
 		EventSystem.current.SetSelectedGameObject(_DefaultSettingsButton);
 	}
 	
-	public void InGameSettingsBackButtonClicked()
+	public void SettingsBackButtonClicked()
 	{
 		_PauseButtonContainer.SetActive(true);
 		_SettingsPanel.SetActive(false);
 		EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
 	}
 	
-	//lock/hide cursor, unpause, and restart level
+	//acts as ResumeButtonClicked and restart level
 	public void RestartButtonClicked()
 	{
-		isPaused = false;
-		Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-		Time.timeScale = 1.0f;
-		_PauseMenuContainer.SetActive(false);
-		_WinMenuContainer.SetActive(false);
-		_GameOverMenuContainer.SetActive(false);
+		ResumeButtonClicked();
 		PlaySceneMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
 	}
@@ -168,52 +198,6 @@ public class InGameMenuManager : MonoBehaviour
 		_CheatsMenu.SetActive(false);
 		_SettingsPanel.SetActive(true);
 		EventSystem.current.SetSelectedGameObject(_DefaultSettingsButton);
-	}
-	
-	//pause and show pause menu
-	public void Pause()
-	{
-		if(canPause){
-			//unpausing: lock and hide cursor, set timeScale to 1, show super suplex UI, and hide pause menu
-			if (isPaused){
-				Cursor.lockState = CursorLockMode.Locked;
-				Cursor.visible = false;
-				Time.timeScale = 1.0f;
-				_SettingsPanel.SetActive(false);	//allows unpausing while in the settings menu
-				_ControlsPanel.SetActive(false);
-				_PauseMenuContainer.SetActive(false);
-				_CheatsMenu.SetActive(false);
-				_SuperSuplexUI.SetActive(true);
-				isPaused = false;
-				pause_anim.SetBool("isPaused", false);
-			}
-			//pausing: play a sound, show cursor, set timeScale to 0, hide super suplex UI, and show pause menu
-			else{
-				AudioManager.PlaySuplexSlam();
-				Cursor.lockState = CursorLockMode.Confined;
-				Cursor.visible = true;
-				Time.timeScale = 0.0f;
-				isPaused = true;
-				_PauseMenuContainer.SetActive(true);
-				_PauseButtonContainer.SetActive(true);
-				Debug.Log(_PauseMenuContainer.active);
-				_SuperSuplexUI.SetActive(false);
-				if (pause_anim != null){
-					pause_anim.SetTrigger("justPaused");
-					//pause_anim.Play("PauseMenuAnim");
-					Debug.Log("-- play anim --");
-				}
-				else 
-					Debug.Log("no anim!");
-				//_PauseMenuContainer.transform.localScale = pauseMaxScale;
-				//pause_t = 0f;
-				//StartCoroutine("PauseAnimation");
-
-				// Set default selected button for navigation
-				EventSystem.current.SetSelectedGameObject(_DefaultPauseButton);
-				
-			}
-		}
 	}
 	
 	//show cursor, pause, and show game over menu
@@ -270,26 +254,4 @@ public class InGameMenuManager : MonoBehaviour
 			AudioManager.PlayConstructionBGM();
 		}     
     }
-
-    //-------- DEBUG MENU OPTIONS --------//
-    //transports the player, then functions as ResumeButtonClicked
-    public void ToShoalButtonClicked()
-	{
-		StartCoroutine(DEBUG_Teleport(DEBUG_ShoalSpawnLocation.transform.position));
-	}
-	
-	//transports the player, then functions as ResumeButtonClicked
-	public void ToBossButtonClicked()
-	{
-		StartCoroutine(DEBUG_Teleport(DEBUG_BossSpawnLocation.transform.position));
-	}
-	
-	IEnumerator DEBUG_Teleport(Vector3 newPosition){
-		ResumeButtonClicked();
-		DEBUG_PlayerCC.enabled = false;
-		yield return new WaitForSeconds(.1f);
-		DEBUG_Player.transform.position = newPosition;
-		DEBUG_PlayerCC.enabled = true;
-	}
-	
 }
