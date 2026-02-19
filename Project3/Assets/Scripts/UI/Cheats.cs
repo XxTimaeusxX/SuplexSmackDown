@@ -12,15 +12,20 @@ public class Cheats : MonoBehaviour
 	[SerializeField] Color validColor;
 	[SerializeField] Color invalidColor;
 	[SerializeField] InGameMenuManager menuManager;
+    [SerializeField] LoadingScreenManager _loadingScreenManager;
 	
 	[Header("Put Player Object Here")]
 	[SerializeField] GameObject player;
 	[SerializeField] CharacterController playerCC;
 	[SerializeField] PlayerHealth playerHealth;
+	[SerializeField] PowerGauge powerGauge;
 	
 	[Header("Teleport Locations")]
 	[SerializeField] GameObject MinibossLocation;
 	[SerializeField] GameObject LevelBossLocation;
+	[SerializeField] int level1index;
+	[SerializeField] int level2index;
+	[SerializeField] int level3index;
 	
     //function to call from cheat menu's Input Field's On Submit
 	public void SubmitCheat(){
@@ -48,6 +53,26 @@ public class Cheats : MonoBehaviour
 			case "BIGCHEESE":
 				StartCoroutine(Teleport(LevelBossLocation.transform.position));
 				break;
+			
+			// ROCKET - infinite super suplex
+			case "ROCKET":
+				powerGauge.EnableInfiniteMeter();
+				break;
+			
+			// SALMON - level 1 warp
+			case "SALMON":
+				_loadingScreenManager.StartLoadingScene(level1index);
+				break;
+			
+			// MARIACHI - level 2 warp
+			case "MARIACHI":
+				_loadingScreenManager.StartLoadingScene(level2index);
+				break;
+			
+			/*// SUPLEXITY - level 3 warp
+			case "SUPLEXITY":
+				_loadingScreenManager.StartLoadingScene(level3index);
+				break;*/
 			
 			//if code is incorrect, set color to invalidColor and show an error
 			default:

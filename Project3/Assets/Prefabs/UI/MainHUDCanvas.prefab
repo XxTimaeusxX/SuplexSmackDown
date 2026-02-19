@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 8437809285756880162}
   - component: {fileID: 8794194007937065432}
   - component: {fileID: 3175567735082858662}
+  - component: {fileID: 1397358056899210102}
   m_Layer: 5
   m_Name: MainHUDCanvas
   m_TagString: Untagged
@@ -694,6 +695,22 @@ MonoBehaviour:
   _HealthUI: {fileID: 1571871321709041239}
   canPause: 1
   pause_anim: {fileID: 1300087702612475836}
+--- !u!114 &1397358056899210102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2363168311468643827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7643b6cecd4a1f84ca38be3a7b9e1418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenManager
+  _LoadingScreenContainer: {fileID: 3221962237340599148}
+  _LoadingBar: {fileID: 2809738573347616875}
+  _LoadLevel: 
+  _inGameMenuManager: {fileID: 3175567735082858662}
 --- !u!1 &2446833740438422618
 GameObject:
   m_ObjectHideFlags: 0
@@ -2127,6 +2144,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a3b35dddbe066b4a952f75140141736, type: 3}
+--- !u!114 &2809738573347616875 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1507837350138249179, guid: 2a3b35dddbe066b4a952f75140141736, type: 3}
+  m_PrefabInstance: {fileID: 3608184073649293232}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+--- !u!1 &3221962237340599148 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2208010499423880412, guid: 2a3b35dddbe066b4a952f75140141736, type: 3}
+  m_PrefabInstance: {fileID: 3608184073649293232}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6383419833625394938 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7675451842611525962, guid: 2a3b35dddbe066b4a952f75140141736, type: 3}
@@ -2448,6 +2481,10 @@ PrefabInstance:
       propertyPath: menuManager
       value: 
       objectReference: {fileID: 3175567735082858662}
+    - target: {fileID: 4588874946953737836, guid: f810d464ee157a04db1c0e325e20231c, type: 3}
+      propertyPath: _loadingScreenManager
+      value: 
+      objectReference: {fileID: 1397358056899210102}
     - target: {fileID: 5153226360298028398, guid: f810d464ee157a04db1c0e325e20231c, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
