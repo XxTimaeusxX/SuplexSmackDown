@@ -628,6 +628,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 601898457}
+  - {fileID: 946728855}
   m_Father: {fileID: 1788024663}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2189,6 +2190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenManager
   _LoadingScreenContainer: {fileID: 184040160}
   _LoadingBar: {fileID: 184040158}
+  _LoadLevel: MattBuilding
   _inGameMenuManager: {fileID: 0}
 --- !u!1 &946728854
 GameObject:
@@ -2217,17 +2219,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 946728854}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 705559247}
-  m_Father: {fileID: 1788024663}
+  m_Father: {fileID: 260520309}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 259.25, y: -147.02496}
   m_SizeDelta: {x: 518.5, y: 91.35}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &946728856
@@ -3909,7 +3911,6 @@ RectTransform:
   - {fileID: 353653028}
   - {fileID: 1442913565}
   - {fileID: 260520309}
-  - {fileID: 946728855}
   - {fileID: 1315404695}
   m_Father: {fileID: 379241378}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

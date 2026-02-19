@@ -36,8 +36,10 @@ public class RockyRhodes : EnemyBase
     [Header("Visual References")]
     public Transform RockyRhodesMesh;
     private Quaternion originalMeshRotation;
+
+    [Header ("Launch Settings")]
     public float jumpForce = 55f;
-    public float dashForce = 2f;
+    private Vector3 dashForce;
     public float AbilityCooldown = 5f;
     public bool IsPerformingAbility = false;
     private float _abilityTimer = 0f;
@@ -55,7 +57,6 @@ public class RockyRhodes : EnemyBase
     public override void  Update()
     {
         base.Update();
-       if(IsPerformingAbility && agent.enabled) agent.enabled = false;
     }
 
     public void CheckState(RockyRhodesStates states)
@@ -94,7 +95,7 @@ public class RockyRhodes : EnemyBase
     {
 
         // Vector3 toTarget = _homingTarget.position - transform.position; // include vertical
-        //  dashDirection = transform.forward; 
+       //  dashForce = transform.forward; 
         IsPerformingAbility = true; // Prevent EnemyBase from re-enabling agent
         ToggleBehaviors(false); // Disable AI behaviors and NavMesh
         IgnoreGroundCheck = true; // Prevent ground check interference during ability
@@ -104,29 +105,26 @@ public class RockyRhodes : EnemyBase
          toTarget.y = 0f; // Ignore vertical difference for horizontal movement
         //toTarget.x = 0f;
         toTarget.Normalize();
-       
-        rb.AddForce((Vector3.up * jumpForce*1f) + (toTarget*jumpForce*1f ), ForceMode.Impulse);
-  
-           
+        rb.AddForce((Vector3.up * jumpForce*1f) + (Vector3.forward+ toTarget*20f ), ForceMode.Impulse);
         // --- lock to player logic -- //
 
-        //    rb.angularVelocity = new Vector3(90f, 00f, 0f) * 5f * Time.fixedDeltaTime;
-        float timer = 0f;
-            while(timer < 5f)
+       yield return new WaitForSeconds(0.5f); // Short delay before allowing ground check to prevent early reset
+                                              
+        IgnoreGroundCheck = false; // enable ground check after initial jump to allow proper landing detection
+        while ( !IsEnemyGrounded() && IsPerformingAbility)
         {
-            Debug.Log("Boulder Eruption - Agent disabled, waiting 4 seconds...");
+            Debug.Log("Boulder Eruption -in motion.");
             // Rotate mesh continuously
-            RockyRhodesMesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
-            timer += Time.fixedDeltaTime;
+            RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
             yield return null;
         }
-       
-        
+      
         RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
-        IgnoreGroundCheck = false;
         yield return new WaitForSeconds(AbilityCooldown);
-        Debug.Log("Boulder Eruption - 4 seconds passed");
+
+
         if (isGrabbed || isPushed) yield break;
+
         // Re-enable everything
         ToggleBehaviors(true);
         IsPerformingAbility = false; // Allow EnemyBase to control agent again
@@ -139,17 +137,21 @@ public class RockyRhodes : EnemyBase
         ToggleBehaviors(false);
         IgnoreGroundCheck = true; // Prevent ground check interference during ability
         rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
-        
-      //  rb.angularVelocity = new Vector3(0f, 90f, 0f) * 5f * Time.fixedDeltaTime;
-        float timer = 0f;
-        while (timer < 5f)
+
+        //  rb.angularVelocity = new Vector3(0f, 90f, 0f) * 5f * Time.fixedDeltaTime;
+        yield return new WaitForSeconds(0.5f); // Short delay before allowing ground check to prevent early reset
+
+        IgnoreGroundCheck = false; // enable ground check after initial jump to allow proper landing detection
+
+        while (!IsEnemyGrounded() && IsPerformingAbility)
         {
-            Debug.Log("Bull Rock - Agent disabled, waiting for cooldown...");
-            timer += Time.fixedDeltaTime;
+            Debug.Log("Bull rock -in motion.");
+            // Rotate mesh continuously
+            RockyRhodesMesh.Rotate(Vector3.up *1400f * Time.deltaTime, Space.World);
             yield return null;
         }
 
-        IgnoreGroundCheck = false; // Prevent ground check interference during ability
+        RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
         yield return new WaitForSeconds(AbilityCooldown);
         if (isGrabbed || isPushed) yield break;
 

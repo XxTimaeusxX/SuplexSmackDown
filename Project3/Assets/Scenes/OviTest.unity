@@ -3005,6 +3005,10 @@ PrefabInstance:
       propertyPath: thirdPersonCamera
       value: 
       objectReference: {fileID: 2053909951}
+    - target: {fileID: 4897555121369902786, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5198306680872701079, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       propertyPath: healthImg
       value: 
@@ -3073,6 +3077,10 @@ PrefabInstance:
       propertyPath: _PauseMenuContainer
       value: 
       objectReference: {fileID: 563985397}
+    - target: {fileID: 8403880622809742853, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6675,7 +6683,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  groundDistance: 0.01
+  groundDistance: 0.54
   rageBar: {fileID: 0}
   canPatrol: 0
   canChase: 1
@@ -6703,7 +6711,6 @@ MonoBehaviour:
   CurrentRockyState: 0
   RockyRhodesMesh: {fileID: 1811997902}
   jumpForce: 33
-  dashForce: 22
   AbilityCooldown: 2
   IsPerformingAbility: 0
   PlayerTarget: {fileID: 471682383}
