@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -48,6 +47,7 @@ public class RockyRhodes : EnemyBase
     // Start is called once before the first execution of Update after the MonoBehaviour is created
   new  void Start()
     {
+        base.Start();
         // default orientation of mesh, used to reset rotation after abilities
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
         CheckState(RockyRhodesStates.Regular);
@@ -57,6 +57,14 @@ public class RockyRhodes : EnemyBase
     public override void  Update()
     {
         base.Update();
+        if(IsPerformingAbility &&(isGrabbed || isPushed))
+        {
+            ToggleBehaviors(false); // Ensure behaviors remain disabled while performing ability and being grabbed/pushed
+            StopAllCoroutines(); // Stop current ability coroutine to prevent conflicts
+             _currentStateCoroutine = null;
+             Debug.Log("Ability interrupted by grab/push. Stopping ability and waiting for release.");
+        }
+       
     }
 
     public void CheckState(RockyRhodesStates states)
@@ -113,19 +121,29 @@ public class RockyRhodes : EnemyBase
         IgnoreGroundCheck = false; // enable ground check after initial jump to allow proper landing detection
         while ( !IsEnemyGrounded() && IsPerformingAbility)
         {
-            Debug.Log("Boulder Eruption -in motion.");
-            // Rotate mesh continuously
-            RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+            // PAUSE: Wait while grabbed or pushed
+            if (!isGrabbed && !isPushed)
+            {
+                Debug.Log("Boulder Eruption -in motion.");
+                RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+
+            }
+            
             yield return null;
         }
       
         RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
+        while (isGrabbed && isPushed)
+        {
+            yield return null;
+        }
         yield return new WaitForSeconds(AbilityCooldown);
 
 
-        if (isGrabbed || isPushed) yield break;
+       
 
         // Re-enable everything
+        Debug.Log("TOGGLING ---------------- BEHAVIORS-------------.");
         ToggleBehaviors(true);
         IsPerformingAbility = false; // Allow EnemyBase to control agent again
         CheckState(RockyRhodesStates.Regular);
@@ -145,16 +163,25 @@ public class RockyRhodes : EnemyBase
 
         while (!IsEnemyGrounded() && IsPerformingAbility)
         {
-            Debug.Log("Bull rock -in motion.");
-            // Rotate mesh continuously
-            RockyRhodesMesh.Rotate(Vector3.up *1400f * Time.deltaTime, Space.World);
+            // PAUSE: Wait while grabbed or pushed
+            if (!isGrabbed && !isPushed)
+            {
+                Debug.Log("Bull rock -in motion.");
+                RockyRhodesMesh.Rotate(Vector3.up * 1400f * Time.deltaTime, Space.World);
+
+            }
+            
             yield return null;
         }
 
         RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
+        while (isGrabbed && isPushed)
+        {
+            yield return null;
+        }
         yield return new WaitForSeconds(AbilityCooldown);
-        if (isGrabbed || isPushed) yield break;
-
+ 
+        Debug.Log("TOGGLING ---------------- BEHAVIORS-------------.");
         ToggleBehaviors(true);
         IsPerformingAbility = false;
         CheckState(RockyRhodesStates.Regular);
@@ -167,9 +194,9 @@ public class RockyRhodes : EnemyBase
     public void ToggleBehaviors( bool IsEnabled)
     {
         // Disable AI behaviors
-        canAttack = IsEnabled;
+       // canAttack = IsEnabled;
         canChase = IsEnabled;
-        canPatrol = IsEnabled;
+       // canPatrol = IsEnabled;
 
         // Disable NavMesh
         agent.enabled = IsEnabled;
