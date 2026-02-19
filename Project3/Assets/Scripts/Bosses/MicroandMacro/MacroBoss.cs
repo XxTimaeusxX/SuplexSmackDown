@@ -46,8 +46,11 @@ public class MacroBoss : EnemyBase
            if(wasThrown && !isGrabbed && IsEnemyGrounded())
         {
             wasThrown = false;
-            damageHitbox.enabled = false;
             ResumeSequence(); 
+            if (CompareTag("DamagePlayer"))
+            {
+                this.gameObject.tag = "Macro";
+            }
             return; 
         }
         
@@ -76,6 +79,7 @@ public class MacroBoss : EnemyBase
     {
         //Resume normal behavior: EnemyBases
         MacrosCollider.enabled = true;
+        agent.enabled = true;
         canChase = true;
         canAttack = true;
         canPatrol = true;
@@ -94,13 +98,22 @@ public class MacroBoss : EnemyBase
         canPatrol = false; // disable patrolling while returning to micro position
         agent.isStopped = false; // ensure agent is not stopped
         agent.enabled = true; // ensure agent is enabled
-        agent.SetDestination(MicroPosition.position);
+   
+     
         while (true)
         {
-          
-            if(agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 11f))// get near the destination but not exactly on it
+            agent.SetDestination(MicroPosition.position);
+
+            if (agent.pathPending)
             {
-             // Debug.Log("Reached micro position");
+                yield return null;
+                continue;
+            }
+          
+
+            if (agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 5f))// get near the destination but not exactly on it
+            {
+              Debug.Log("Reached micro position");
                 MacrosCollider.enabled = true; // re-enable macro collider so it can be grabbed again
                 damageHitbox.enabled = false; // disable damage hitbox
                 yield break; // exit coroutine

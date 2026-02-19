@@ -9,7 +9,8 @@ public class LoadingScreenManager : MonoBehaviour
 	[SerializeField] GameObject _LoadingScreenContainer;
 	[SerializeField] Image _LoadingBar;
 	private int sceneId = 0;
-	[SerializeField] InGameMenuManager _inGameMenuManager;
+	[SerializeField] string _LoadLevel;
+    [SerializeField] InGameMenuManager _inGameMenuManager;
 	
 	public void Start(){
 		//StartLoadingScene(1); //TESTING ONLY - loads scene
@@ -26,9 +27,9 @@ public class LoadingScreenManager : MonoBehaviour
 	
 	IEnumerator Load()
 	{
-		AsyncOperation operation = SceneManager.LoadSceneAsync(2);
-		
-		while (!operation.isDone)
+		AsyncOperation operation = SceneManager.LoadSceneAsync(_LoadLevel);
+
+        while (!operation.isDone)
 		{
 			float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
 			_LoadingBar.fillAmount = progressValue;

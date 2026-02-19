@@ -10,7 +10,7 @@ public class EnemyBase : MonoBehaviour
     public NavMeshAgent agent;
     public Rigidbody rb;
     public InGameMenuManager menuManager;
-    public RageMeter rageMeter;
+    public PowerGauge powerGuage;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
@@ -24,6 +24,7 @@ public class EnemyBase : MonoBehaviour
     [Header("Ground Settings")]
     public float m_Distance;
     public bool wasGrounded = false;
+    public bool IgnoreGroundCheck = false;
     public bool isGrabbed;
     public bool isPushed = false;
     public float pushCooldown;
@@ -45,6 +46,7 @@ public class EnemyBase : MonoBehaviour
     public float meleeRange = 1.75f;
     public float attackCooldown = 0.8f;
     public float _nextAttackTime = 0f;
+  //public bool IsDead = false;
 
     [Header("Hitbox")]
     public GameObject slapbox;          // child trigger collider with AttackHitBox
@@ -67,7 +69,10 @@ public class EnemyBase : MonoBehaviour
             chargeSlider.gameObject.SetActive(false);
         }
         if (animator == null) animator = GetComponent<Animator>();
-        slapbox.SetActive(false);
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -113,6 +118,8 @@ public class EnemyBase : MonoBehaviour
             }
         }
     }
+
+
 
     public void ResetSlapState()
     {
@@ -169,6 +176,11 @@ public class EnemyBase : MonoBehaviour
         {
             RandomPatrolDestination();
             return;
+        }
+
+        if (CompareTag("Grabbed"))
+        {
+            this.gameObject.tag = "Macro";
         }
 
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
@@ -279,6 +291,7 @@ public class EnemyBase : MonoBehaviour
     }
     public bool IsEnemyGrounded()
     {
+        if (IgnoreGroundCheck) return false;
         // Use a raycast or other method to check if the enemy is on the ground
         Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -294,6 +307,13 @@ public class EnemyBase : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(center, radius);
+        // Chase range sphere (yellow)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+        // Melee range sphere (red/orange)
+        Gizmos.color = new Color(1f, 0.5f, 0f); // orange
+        Gizmos.DrawWireSphere(transform.position, meleeRange);
     }
     public void OnCollisionEnter(Collision collision)
     {
@@ -303,7 +323,7 @@ public class EnemyBase : MonoBehaviour
             isPushed = true;
             agent.enabled = false;
             rb.isKinematic = false;
-            if (rageMeter.rageIncrease == true)
+            if (powerGuage.rageIncrease == true)
             {
                 rageBar.value += 0.01f;
             }

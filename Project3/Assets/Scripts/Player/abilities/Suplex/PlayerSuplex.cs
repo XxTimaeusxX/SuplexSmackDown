@@ -40,8 +40,12 @@ public class PlayerSuplex : MonoBehaviour
     public Transform player;
     private CinemachineImpulseSource impulseSource;
     public Slider rageBar;
-    public RageMeter rageMeter;
-    
+    public PowerGauge powerGuage;
+    public bool droneDropped;
+    private float droneCooldown;
+    [SerializeField] Image suplexBar;
+    [SerializeField] Sprite suplexImg1;
+
     [Header("Component References")]
     public SuplexTrajectoryVisualizer trajectoryVisualizer;
     public EnemyGrabHandler grabHandler;
@@ -51,6 +55,9 @@ public class PlayerSuplex : MonoBehaviour
     public List<SuplexConfig> suplexConfigs;
     public AnimationCurve GravityControl;
     public AnimationCurve CameraOffsetCurve;
+
+    [Header("Visual References")]
+    public Transform playerMesh; // Reference to "el cohette idle" child
 
     // Internal references to other player scripts/components
     private PowerGauge powerGauge;
@@ -84,7 +91,7 @@ public class PlayerSuplex : MonoBehaviour
             grabHandler = GetComponent<EnemyGrabHandler>();
         if (homingAttack == null)
             homingAttack = GetComponent<HomingAttack>();
-        
+       
         // Get input actions
         jumpAction = playerInput.actions.FindAction("Jump");
         SuperSuplexAction = playerInput.actions.FindAction("SuperSuplex");
@@ -97,10 +104,13 @@ public class PlayerSuplex : MonoBehaviour
             grabHandler.Initialize(playerMovement);
         
         if (trajectoryVisualizer != null && grabHandler != null)
-            trajectoryVisualizer.Initialize(playerMovement, grabHandler.heldEnemyTransform);
+            trajectoryVisualizer.Initialize(playerMovement, grabHandler.TrajectoryTransform);
         
         if (homingAttack != null)
             homingAttack.Initialize(playerDash, controller, homingAction);
+
+        droneDropped = false;
+        droneCooldown = 1f;
     }
 
     private void Update()
@@ -108,6 +118,15 @@ public class PlayerSuplex : MonoBehaviour
         // Update homing attack logic
         if (homingAttack != null)
             homingAttack.UpdateHoming(isSuplexing);
+        if (droneDropped == true)
+        {
+            droneCooldown -= Time.deltaTime;
+        }
+        if (droneCooldown <= 0)
+        {
+            droneDropped = false;
+            droneCooldown = 1f;
+        }
     }
 
     /// <summary>
@@ -222,7 +241,7 @@ public class PlayerSuplex : MonoBehaviour
         var config = suplexConfigs.Find(cfg => cfg.ability == type);
         if (config != null)
         {
-            powerGauge.AddMeter(10f);
+            powerGauge.powerSlider.value += 0.01f;
 
             if (type == SuplexAbilities.Super && powerGauge != null)
                 powerGauge.SpendMeter();
@@ -260,6 +279,9 @@ public class PlayerSuplex : MonoBehaviour
         Vector3 launchVelocity = transform.forward * vx + Vector3.up * vy;
         playerMovement.velocity = launchVelocity;
 
+        // Store original mesh rotation to restore later
+        Quaternion originalMeshRotation = playerMesh != null ? playerMesh.localRotation : Quaternion.identity;
+
         float t = 0f;
         bool jumpedOff = false;
         float minAirTime = 0.2f;
@@ -282,11 +304,11 @@ public class PlayerSuplex : MonoBehaviour
         // Enable MacroBoss hitbox during suplex
         if (grabHandler != null)
             grabHandler.SetMacroBossHitbox(true);
-
+       
         while (true)
         {
             t += Time.deltaTime;
-            
+
             if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0)
             {
                 playerMovement.velocity.x = 0f;
@@ -294,26 +316,62 @@ public class PlayerSuplex : MonoBehaviour
                 playerMovement.velocity.y = -1f;
                 break;
             }
+            if (playerMovement.velocity.y > 0f)// when player launches up, rotate player mesh based on suplex type
+            {
+                switch(currentSuplex)
+                {
+                    case SuplexAbilities.Rainbow:
+                        playerMesh.Rotate(Vector3.left, 100f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.forward, 100f * Time.deltaTime, Space.World);
+                        break;
+                    case SuplexAbilities.Long:
+                        playerMesh.Rotate(Vector3.forward, 800f * Time.deltaTime, Space.World);
+
+                        break;
+                    case SuplexAbilities.Super:
+                        playerMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+                        break;
+                } 
+                    
+                  
+            }
             // if player is falling down with the super suplex performed
             if (playerMovement.velocity.y < 0)
             {
-                if(currentSuplex == SuplexAbilities.Super)
+                switch(currentSuplex)
                 {
-                    // add moon gravity effect during descent
-                    gravityLerpTime += Time.deltaTime;
-                    float lerpFactor = Mathf.Clamp01(gravityLerpTime / gravityIncreaseDuration);
-                    playerMovement.gravity = Mathf.Lerp(minGravity, maxGravity, GravityControl.Evaluate(lerpFactor));
-                    if (!cameratilted)
-                    {
-                        // tilt camera downwards during descent and have more control on flowing down 
-                        cameratilted = true;
-                        playerMovement.velocity.x = 0f;
-                        playerMovement.velocity.z = 0f;
-                    }
-                    cameraLerpTime += Time.deltaTime;
-                    float cameraLerpFactor = Mathf.Clamp01(cameraLerpTime / cameraLerpDuration);
-                    orbital.TargetOffset = Vector3.Lerp(DefaultCameraOffset, targetOffset, CameraOffsetCurve.Evaluate(cameraLerpFactor));
-                }     
+
+                    case SuplexAbilities.Rainbow:
+                        playerMesh.Rotate(Vector3.up, 1000f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+                        break;
+                    case SuplexAbilities.Long:
+                        playerMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
+                        break;
+                    case SuplexAbilities.Super:
+                    //    playerMesh.Rotate(Vector3.left, 1300f * Time.deltaTime, Space.World);
+                        playerMesh.Rotate(Vector3.up, 1300f * Time.deltaTime, Space.World);
+                        // add moon gravity effect during descent
+                        gravityLerpTime += Time.deltaTime;
+                        float lerpFactor = Mathf.Clamp01(gravityLerpTime / gravityIncreaseDuration);
+                        playerMovement.gravity = Mathf.Lerp(minGravity, maxGravity, GravityControl.Evaluate(lerpFactor));
+                        playerMesh.Rotate(Vector3.right, 1000f * Time.deltaTime, Space.World);
+                        if (!cameratilted)
+                        {
+                            // tilt camera downwards during descent and have more control on flowing down 
+                            cameratilted = true;
+                            playerMovement.velocity.x = 0f;
+                            playerMovement.velocity.z = 0f;
+                        }
+                        cameraLerpTime += Time.deltaTime;
+                        float cameraLerpFactor = Mathf.Clamp01(cameraLerpTime / cameraLerpDuration);
+                        orbital.TargetOffset = Vector3.Lerp(DefaultCameraOffset, targetOffset, CameraOffsetCurve.Evaluate(cameraLerpFactor));
+                        break;
+                }
+                
+               
+               
             }
 
             if (!jumpedOff && jumpAction != null && jumpAction.WasPressedThisFrame())
@@ -324,7 +382,13 @@ public class PlayerSuplex : MonoBehaviour
                 
                 // Release enemy with slam force
                 if (grabHandler != null)
+                {
+                    droneDropped = true;
                     grabHandler.ReleaseEnemy(applyDownwardForce: true);
+                }
+                    
+
+                
                 
                 // Arm homing window for chaining attacks
                 if (homingAttack != null)
@@ -341,11 +405,12 @@ public class PlayerSuplex : MonoBehaviour
                 CameraShakeManager.Instance.SuplexCameraShake(impulseSource);
                 if (shockwave != null)// checks if there is a shockwave prefab assigned ,optional check if player !=null
                 {
-                    if (rageBar.value == 1)
+                    if (rageBar.value >= 1)
                     {
                         Instantiate(rageShockwave, player.position, player.rotation, player);
-                        rageMeter.rageIncrease = false;
+                        powerGuage.rageIncrease = false;
                         rageBar.value = 0;
+                        suplexBar.sprite = suplexImg1;
                     }
                     else
                     {
@@ -358,7 +423,8 @@ public class PlayerSuplex : MonoBehaviour
 
             yield return null;
         }
-
+        playerMesh.localRotation = originalMeshRotation;
+        // _RB.angularVelocity = Vector3.zero;
         if (!jumpedOff)
         {
             // Release enemy without slam force
@@ -385,7 +451,7 @@ public class PlayerSuplex : MonoBehaviour
 
     private bool CanPerformSuperSuplex()
     {
-        return powerGauge != null && powerGauge.currentMeter >= powerGauge.maxMeter;
+        return powerGauge != null && powerGauge.powerSlider.value >= 1;
     }
 }
 

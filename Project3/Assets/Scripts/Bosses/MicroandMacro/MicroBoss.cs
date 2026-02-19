@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Rendering;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -11,13 +12,26 @@ public class MicroBoss : EnemyBase
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
     [SerializeField] private GameObject macroPrefab;   // prefab For MicroBoss
+    [SerializeField] private Transform macrosmesh;
     [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
     [SerializeField] private float throwInterval = 3f;
     [SerializeField] private float throwForce = 12f;
-    private NavMeshAgent MacroAgent;
-    private Rigidbody MacrosRb;
-    private MacroBoss MacroEnemy;
-    private float throwTimer;
+   [SerializeField] private PowerGauge _powerGauge;
+    private NavMeshAgent _MacroAgent;
+    private Rigidbody _MacrosRb;
+    private MacroBoss _MacroEnemy;
+    private float _throwTimer;
+
+    [SerializeField] private LowerRoom lowerRoom;
+
+    private GlowMesh _glowMesh;
+    [Header("Voice Line Settings")]
+    private bool hasPlayed3HealthLine = false;
+    private bool hasPlayed2HealthLine = false;
+    private bool hasPlayed1HealthLine = false;
+    private bool isPlayingVoiceLine = false;
+    private bool wasInChaseRange = false;
+
     public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
@@ -27,9 +41,21 @@ public class MicroBoss : EnemyBase
      
 
         // ----- get macros components ----- //
-         MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
-         MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
-        MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
+         _MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
+         _MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
+        _MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
+       
+        if (_powerGauge == null)
+            _powerGauge = GetComponent<PowerGauge>();
+
+        lowerRoom = FindFirstObjectByType<LowerRoom>();
+
+        // ----- call glowmesh script on prefab----- //
+           _glowMesh = GetComponent<GlowMesh>();
+        if (_glowMesh == null)
+            {
+                Debug.LogError("GlowMesh component not found on MacroPrefab or its children.");
+        }
     }
     // ------------ auto assign references -------------- //
     void OnValidate()
@@ -51,6 +77,11 @@ public class MicroBoss : EnemyBase
     public override void Update()
     {
        base.Update();
+        if (canChase && !isPlayingVoiceLine)
+        {
+            StartCoroutine(PlayHealthBasedVoiceLine());
+        }
+     
         if (enemyHealth.value <= 0)
         {
             // Disable this boss functionality
@@ -58,46 +89,89 @@ public class MicroBoss : EnemyBase
             canChase = false;
             canPatrol = false;
             agent.enabled = false;
-           
+            _glowMesh.SetGlowColor(); // trigger glow effect on death
+            lowerRoom.EnableArrows();// enable arrows to show path to next area
+            this.gameObject.tag ="Enemy";
             enemyHealthScreen.SetActive(false);
             Destroy(MacroPrefab);
+            _powerGauge.EnableInfiniteMeter();
+            lowerRoom.MoveDown();
         }
+    }
+
+    private IEnumerator PlayHealthBasedVoiceLine()
+    {
+        isPlayingVoiceLine = true;
+        int currentHealth = (int)enemyHealth.value;
+        // Play voice line based on current health (only once per health threshold)
+        if (currentHealth == 3 && !hasPlayed3HealthLine)
+        {
+             yield return new WaitForSeconds(3f); // slight delay before first line
+            AudioManager.PlayMicroEncounterOne();
+            hasPlayed3HealthLine = true;
+        }
+        else if (currentHealth == 2 && !hasPlayed2HealthLine)
+        {
+            AudioManager.PlayMicroTwoHealth();
+            hasPlayed2HealthLine = true;
+        }
+        else if (currentHealth == 1 && !hasPlayed1HealthLine)
+        {
+            AudioManager.PlayMicroOneHealth();
+            hasPlayed1HealthLine = true;
+        }
+        isPlayingVoiceLine = false;
+        yield return null;
     }
 
     public IEnumerator ThrowMacro()
     {
+        // Store original mesh rotation to restore later
+        Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
         AudioManager.PlayMicroPrepareAttack();
         // ----- Position macro prefab at throw origin ----- //
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
         MacroPrefab.transform.position = origin.position;
-        MacroPrefab.transform.rotation = Quaternion.identity;
+        MacroPrefab.transform.rotation = Quaternion.Euler(90f, origin.rotation.eulerAngles.y, 0f);
         MacroPrefab.transform.SetParent(origin);
         
         // ----- Disabling navmesh & kinematics  ----- //
-        MacrosRb.isKinematic = true;
+        _MacrosRb.isKinematic = true;
 
         //---- Disable enemy AI behaviors on thrown MacroEnemy--//
-        MacroEnemy.canAttack = false;
-        MacroEnemy.canPatrol = false;
-        MacroEnemy.canChase = false;
-        MacroEnemy.SetGrabbed(true);
+        _MacroEnemy.canAttack = false;
+        _MacroEnemy.canPatrol = false;
+        _MacroEnemy.canChase = false;
+        _MacroEnemy.SetGrabbed(true);
+        if (_MacroEnemy.CompareTag("Macro"))
+        {
+            _MacroEnemy.gameObject.tag = "DamagePlayer";
+        }
 
         //---- Hold Macro for x seconds--//
-        throwTimer = 0f;
-        while (throwTimer < throwInterval)
+        _throwTimer = 0f;
+        while (_throwTimer < throwInterval)
         {
-            throwTimer += Time.deltaTime;
+            _throwTimer += Time.deltaTime;
             yield return null;
         }
 
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
-        MacrosRb.isKinematic = false; // re-enable physics
-        
-      
+        _MacrosRb.isKinematic = false; // re-enable physics
+
+
         // ----- Calculate throw direction and apply force ----- //
+
+     //  float hieght = 0f;
+     //   float foward = 18f;
         Vector3 dir = (Target.transform.position - MacroPrefab.transform.position).normalized;
-        MacrosRb.AddForce(dir * throwForce, ForceMode.VelocityChange);
-        MacroEnemy.wasThrown = true; // flag macro as thrown
+      //  Vector3 orientThrow = new Vector3(dir.x, 0f, dir.z).normalized;
+      //  Vector3 Upwardforce = hieght *  Vector3.up; // total power to apply to macro
+      //  Vector3 FowardForce = foward * orientThrow; // forward force to apply to macro*/
+
+        _MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
+     
+        _MacroEnemy.wasThrown = true; // flag macro as thrown
         float enableMacroTimer = 0f;
         while(enableMacroTimer < 3f)
         {
@@ -108,13 +182,20 @@ public class MicroBoss : EnemyBase
 
             yield break;
             }
+         
             enableMacroTimer += Time.deltaTime;
             yield return null;
         }
+      /*  while(!_MacroEnemy.IsEnemyGrounded())
+        {
+            Debug.Log("Macro is grounded but not resuming - waiting to resume");
+            macrosmesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
+            yield return null;
+        }*/
         // ----- Re-enable navmesh & kinematics ----- //
       //  Debug.Log("Macro resumed after throw - not grabbed");
-      
-        MacroEnemy.ResumeSequence();
+     // macrosmesh.localRotation = originalMeshRotation; // restore original mesh rotation
+        _MacroEnemy.ResumeSequence();
         
     }
 }
