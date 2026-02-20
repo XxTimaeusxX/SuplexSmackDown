@@ -144,7 +144,7 @@ public class PlayerDash : MonoBehaviour
     // NEW: cancel the current dash (used when auto-grabbing on hit)
     public void CancelDash()
     {
-        Debug.Log("Dash cancelled.");
+       // Debug.Log("Dash cancelled.");
         if (!isDashing) return;
         isDashing = false;
         homingDashActive = false;

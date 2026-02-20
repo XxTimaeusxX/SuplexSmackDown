@@ -144,7 +144,7 @@ public class PlayerSuplex : MonoBehaviour
         // Use grab handler to hold enemy
         if (!grabHandler.IsHoldingEnemy())
        {
-            Debug.Log("Already holding an enemy.");
+        //    Debug.Log("Already holding an enemy.");
             grabHandler.GrabEnemy(enemy);
             
             // Update trajectory visualizer with current gravity scale
