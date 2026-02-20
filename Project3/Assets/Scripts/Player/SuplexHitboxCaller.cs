@@ -23,7 +23,7 @@ public class SuplexHitboxCaller : MonoBehaviour
         // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
         if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") && playerSuplex != null)
         {
-             Debug.Log("hitboxcollider called");
+           //  Debug.Log("hitboxcollider called");
             if (other.CompareTag("Macro"))
             {
                 other.gameObject.tag = "Grabbed";

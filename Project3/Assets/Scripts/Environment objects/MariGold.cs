@@ -1,13 +1,19 @@
 
 using System.Collections;
 using UnityEngine;
+// ~ Ovi. 
 
+
+
+// TODO: spirit dancer: increase attack projectile size, movement speed and projectile speed when colliding with Marigold
+//TODO: make ghost wrestler boss 
+//TODO: 
 public class MariGold : MonoBehaviour
 {
     public float jumpforce = 10f;
     private bool _isSpinning = false;
-    private float speed = 5f; // Speed of floating
-    private float height = 1f; // Height of floating
+    private float _speed = 5f; // Speed of floating
+    private float _height = 1f; // Height of floating
     private Vector3 _StartPos;
 
     public Material highlightMaterial;
@@ -34,7 +40,7 @@ public class MariGold : MonoBehaviour
     }
     public void Floating ()
     {
-        float newY = _StartPos.y + Mathf.Sin(Time.time * speed) * height;
+        float newY = _StartPos.y + Mathf.Sin(Time.time * _speed) * _height;
         transform.position = new Vector3(_StartPos.x, newY, _StartPos.z);
     }
 
@@ -68,7 +74,7 @@ public class MariGold : MonoBehaviour
             {
                 playerMovement.velocity.y = jumpforce;
                 StartCoroutine(SpinandHighlight());
-                Debug.Log("Player hit MariGold, applying jump force.");
+              //  Debug.Log("Player hit MariGold, applying jump force.");
             }
         }
     }

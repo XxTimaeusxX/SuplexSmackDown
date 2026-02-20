@@ -52,8 +52,6 @@ public class EnemyBase : MonoBehaviour
     public GameObject slapbox;          // child trigger collider with AttackHitBox
     [SerializeField] private float slapActiveTime = 0.1f;
 
-    [Header("Animation")]
-    public Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     GameManager gameManager;
@@ -68,7 +66,7 @@ public class EnemyBase : MonoBehaviour
             chargeSlider.value = 0f;
             chargeSlider.gameObject.SetActive(false);
         }
-        if (animator == null) animator = GetComponent<Animator>();
+     
         if (slapbox != null)
         {
             slapbox.SetActive(false);
@@ -242,8 +240,7 @@ public class EnemyBase : MonoBehaviour
         }
 
         // Fully charged -> attack, then reset charge for the next swing
-        Debug.Log($"[{name}] Melee attack!");
-        animator.SetTrigger("EnemySlap");
+        Debug.Log($"[{name}] Melee attack!"); 
         AudioManager.PlayEnemySlap();
         _nextAttackTime = 0f; // restart charge
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);

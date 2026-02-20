@@ -48,7 +48,7 @@ public class EnemyGrabHandler : MonoBehaviour
         GrabbedEnemy = enemy.transform;
         GrabbedEnemy.SetParent(heldEnemyTransform);
         _playerMovement.ChangeAnimtion("GRAB");
-        Debug.Log("Grabbed enemy: " + GrabbedEnemy.name);
+      //  Debug.Log("Grabbed enemy: " + GrabbedEnemy.name);
         GrabbedEnemy.localPosition = Vector3.zero;
 
         //  Check for MacroBoss component 

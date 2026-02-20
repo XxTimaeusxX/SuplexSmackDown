@@ -18,7 +18,6 @@ public class ConstructionEnemy : EnemyBase
         // 2) Core components on this GameObject
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (rb == null) rb = GetComponent<Rigidbody>();
-        if (animator == null) animator = GetComponent<Animator>();
         // Optional: ensure sane defaults (won’t override if already configured)
         if (agent != null)
         {
@@ -82,7 +81,7 @@ public class ConstructionEnemy : EnemyBase
         }
         
     }
-    // Alternatively, if you prefer tying directly to the collision event:
+
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
