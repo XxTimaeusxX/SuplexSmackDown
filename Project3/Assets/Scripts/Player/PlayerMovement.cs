@@ -253,7 +253,7 @@ public class PlayerMovement : MonoBehaviour
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.
             if (direction.magnitude >= 0.1f)
             {
-                Debug.Log("Changing to GRABWALK animation");
+              //  Debug.Log("Changing to GRABWALK animation");
                 ChangeAnimtion("GRABWALK");
                 return;
             }
