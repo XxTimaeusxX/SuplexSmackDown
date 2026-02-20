@@ -40110,6 +40110,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenManager
   _LoadingScreenContainer: {fileID: 0}
   _LoadingBar: {fileID: 0}
+  _LoadLevel: 
   _inGameMenuManager: {fileID: 158926018}
 --- !u!1 &159322568
 GameObject:
@@ -312420,6 +312421,10 @@ PrefabInstance:
     - target: {fileID: 2363168311468643827, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_Name
       value: MainHUDCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 2363168311468643827, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3175567735082858662, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: playerCC
