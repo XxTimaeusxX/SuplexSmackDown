@@ -6,6 +6,7 @@ public class ActivateMicro_Macro : MonoBehaviour
     public GameObject BossColliderTrigger2;
     public GameObject bossFight;
     public GameObject areaTwoEnemies;
+    public GameObject bossArena;
     public float enemySpawnTimer;
     public bool enemySpawn = false;
     public ActivateRespawn respawn;
@@ -34,6 +35,7 @@ public class ActivateMicro_Macro : MonoBehaviour
             if (BossColliderTrigger != null)
             {
                 enemySpawn = true;
+                bossArena.SetActive(true);
                 areaTwoEnemies.SetActive(false);
                 Destroy(BossColliderTrigger);
                 cinema.introPlayed = true;
