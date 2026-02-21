@@ -130,7 +130,7 @@ public class EnemyBase : MonoBehaviour
         ResetChargeUI();
     }
 
-    public void RandomPatrolDestination()
+    public virtual void RandomPatrolDestination()
     {
         if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
@@ -166,7 +166,7 @@ public class EnemyBase : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    public void ChasePlayer()
+    public virtual void ChasePlayer()
     {
         // Behavior guard: only chase when allowed
         if (!canChase) return;
@@ -224,7 +224,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    public void SlapAttack()
+    public virtual void SlapAttack()
     {
         // Behavior guard: only attack when allowed
         if (!canAttack) { ResetSlapState(); return; }// ensure state/UI is cleared if attack disabled mid-charge

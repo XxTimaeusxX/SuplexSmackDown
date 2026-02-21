@@ -6,7 +6,7 @@ using UnityEngine;
 
 
 // TODO: spirit dancer: increase attack projectile size, movement speed and projectile speed when colliding with Marigold
-//TODO: make ghost wrestler boss 
+//TODO: make ghost wrestler boss invunerable for a short time after colliding with Marigold, and play a unique animation to show it.
 //TODO: 
 public class MariGold : MonoBehaviour
 {
@@ -72,7 +72,7 @@ public class MariGold : MonoBehaviour
             PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
             if (playerMovement != null)
             {
-                playerMovement.velocity.y = jumpforce;
+                playerMovement.velocity = transform.up* jumpforce;
                 StartCoroutine(SpinandHighlight());
               //  Debug.Log("Player hit MariGold, applying jump force.");
             }
