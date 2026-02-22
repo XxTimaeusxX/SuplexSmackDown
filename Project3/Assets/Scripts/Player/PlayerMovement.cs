@@ -42,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Animation")]
     public Animator CoheteAnimator;
     private string CurrentAnimation = "";
+    public float RunSpeedThreshold = 2f; // Speed at which to switch from walk to run animation
+    public bool IsPlayingGrabAnimation = false; // Flag to track if we're currently playing a grab animation
+    public bool isPlayingDashAnimation = false; // Flag to track if we're currently playing a dash animation
 
     // --- Freefall timing ---
     [Header("Free fall settings")]
@@ -245,27 +248,35 @@ public class PlayerMovement : MonoBehaviour
         if (playerSuplex.grabHandler.IsHoldingEnemy())
         {
            
+            // Suplex animation 
             if (!isGrounded)
             {
-                ChangeAnimtion("GRABAIR");
+                ChangeAnimtion("LeapGrab");
                 return;
             }
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.
             if (direction.magnitude >= 0.1f)
             {
               //  Debug.Log("Changing to GRABWALK animation");
-                ChangeAnimtion("GRABWALK");
+                ChangeAnimtion("GrabRun");
                 return;
             }
-
+            if (IsPlayingGrabAnimation) return;
+              ChangeAnimtion("GrabIDLE");
             return;
         }
-        // ----- DASHING -----//
-        if (playerDash.isDashing)
+        // ----- DASHING - Check this BEFORE grab handling -----
+        if (isPlayingDashAnimation)
         {
-            ChangeAnimtion("GRABAIR");
-            return;
+            return; // Don't change animation while dash is playing
         }
+
+        // ----- DASHING -----//
+        /*   if (playerDash.isDashing)
+            {
+                ChangeAnimtion("GRABAIR");
+                return;
+            }*/
         //----- jump / freefall / walk / idle settiings -----//
         if (!isGrounded)// Jumping takes priority if not grounded
         {
@@ -282,10 +293,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ----- Grounded movement -----
-        if (direction.magnitude >= 0.1f) ChangeAnimtion("WALK");
+        if (direction.magnitude >= 0.1f)
+        {
+            if(moveSpeed >= RunSpeedThreshold)
+                ChangeAnimtion("RunFAST");
+            else
+                ChangeAnimtion("WALK");
+        } 
         else ChangeAnimtion("IDLE");
 
 
-
-    }
+      
+}
+ 
 }
