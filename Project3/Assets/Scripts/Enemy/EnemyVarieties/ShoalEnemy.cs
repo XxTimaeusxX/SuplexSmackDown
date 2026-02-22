@@ -47,7 +47,7 @@ public class ShoalEnemy : EnemyBase
         {
             pushCooldown = 0;
             isPushed = false;
-            
+            gameObject.SetActive(false);
             enemyHealth.value -= 1;
             AudioManager.PlayShoalDamageHit();
             
@@ -73,9 +73,6 @@ public class ShoalEnemy : EnemyBase
                     }
                 }
             }
-            
-   
-            gameObject.SetActive(false);
         }
         if (!grounded)
         {

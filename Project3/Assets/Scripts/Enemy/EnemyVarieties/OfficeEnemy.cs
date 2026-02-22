@@ -9,7 +9,8 @@ public class OfficeEnemy : EnemyBase
     private bool _OfficeShoalWasInChaseRange = false;
     // Edge trigger to play damage sound once when push starts
     private bool _wasPushed = false;
-
+    [Header("OfficeShoal")]
+    public bool IsKillable = false; // Set false for invulnerable variants   
     [Header("Animation")]
     public Animator ShoalAnimator;
     private string CurrentShoalAnimation = "";
@@ -77,6 +78,11 @@ public class OfficeEnemy : EnemyBase
     public override void Update()
     {
         base.Update();
+
+        if (isPushed && pushCooldown < 0 && IsKillable)
+        {
+            gameObject.SetActive(false);
+        }
 
         if (Target != null)
         {
