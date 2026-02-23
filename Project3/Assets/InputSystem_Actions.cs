@@ -165,54 +165,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Super"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2198d61-9282-42de-9fca-50f2a401ceba"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""LongjumpSuplex"",
-                    ""type"": ""Button"",
-                    ""id"": ""2bc24cb0-bcd3-49d9-ab93-19b53f765036"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RainbowSuplex"",
-                    ""type"": ""Button"",
-                    ""id"": ""9bf16e6b-62cf-4b56-84ea-00c73d4202e3"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SuperSuplex"",
-                    ""type"": ""Button"",
-                    ""id"": ""894aaaf7-8a80-4b5f-867c-187c9ad23de4"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Homing"",
-                    ""type"": ""Button"",
-                    ""id"": ""704337b0-7e6a-4975-ba3e-a6c6cc2d5fbe"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Test"",
-                    ""type"": ""Button"",
-                    ""id"": ""f2023e69-18f9-4488-bb42-4abd54b9de17"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -231,6 +195,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Aim"",
                     ""type"": ""Button"",
                     ""id"": ""e8853e12-e331-45ff-9406-a76747c94ac7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Test"",
+                    ""type"": ""Button"",
+                    ""id"": ""f2023e69-18f9-4488-bb42-4abd54b9de17"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Homing"",
+                    ""type"": ""Button"",
+                    ""id"": ""704337b0-7e6a-4975-ba3e-a6c6cc2d5fbe"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -406,7 +388,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f2e9ba44-c423-42a7-ad56-f20975884794"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
@@ -471,63 +453,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""99490d61-b26e-4771-84f9-7801f0035f7b"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""SuperSuplex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""cb1c9250-5342-4b12-8df0-e2d1dd2520b6"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""RainbowSuplex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f94dadeb-2437-4f18-b924-685f3b938e1f"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""RainbowSuplex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""6ec8311b-d55f-469c-8504-f523931acc28"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""LongjumpSuplex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d3cf1c09-aa49-4732-9241-2632f6cde496"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""LongjumpSuplex"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""df783ae8-7b65-46f6-bf71-0ac262d02c7f"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
@@ -636,6 +563,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""b438b3fd-e00a-4c29-a425-8b059284449b"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""0998bfc3-ded6-4887-99fd-e89f06e9d227"",
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
@@ -675,6 +613,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d484117a-4677-4902-9f4b-44d3498e5c92"",
+                    ""path"": ""<Keyboard>/leftAlt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Super"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1270,14 +1219,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_LB = m_Player.FindAction("LB", throwIfNotFound: true);
         m_Player_RB = m_Player.FindAction("RB", throwIfNotFound: true);
+        m_Player_Super = m_Player.FindAction("Super", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
-        m_Player_LongjumpSuplex = m_Player.FindAction("LongjumpSuplex", throwIfNotFound: true);
-        m_Player_RainbowSuplex = m_Player.FindAction("RainbowSuplex", throwIfNotFound: true);
-        m_Player_SuperSuplex = m_Player.FindAction("SuperSuplex", throwIfNotFound: true);
-        m_Player_Homing = m_Player.FindAction("Homing", throwIfNotFound: true);
-        m_Player_Test = m_Player.FindAction("Test", throwIfNotFound: true);
         m_Player_Throw = m_Player.FindAction("Throw", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+        m_Player_Test = m_Player.FindAction("Test", throwIfNotFound: true);
+        m_Player_Homing = m_Player.FindAction("Homing", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1379,14 +1326,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_LB;
     private readonly InputAction m_Player_RB;
+    private readonly InputAction m_Player_Super;
     private readonly InputAction m_Player_Sprint;
-    private readonly InputAction m_Player_LongjumpSuplex;
-    private readonly InputAction m_Player_RainbowSuplex;
-    private readonly InputAction m_Player_SuperSuplex;
-    private readonly InputAction m_Player_Homing;
-    private readonly InputAction m_Player_Test;
     private readonly InputAction m_Player_Throw;
     private readonly InputAction m_Player_Aim;
+    private readonly InputAction m_Player_Test;
+    private readonly InputAction m_Player_Homing;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1431,29 +1376,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @RB => m_Wrapper.m_Player_RB;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Super".
+        /// </summary>
+        public InputAction @Super => m_Wrapper.m_Player_Super;
+        /// <summary>
         /// Provides access to the underlying input action "Player/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/LongjumpSuplex".
-        /// </summary>
-        public InputAction @LongjumpSuplex => m_Wrapper.m_Player_LongjumpSuplex;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/RainbowSuplex".
-        /// </summary>
-        public InputAction @RainbowSuplex => m_Wrapper.m_Player_RainbowSuplex;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/SuperSuplex".
-        /// </summary>
-        public InputAction @SuperSuplex => m_Wrapper.m_Player_SuperSuplex;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Homing".
-        /// </summary>
-        public InputAction @Homing => m_Wrapper.m_Player_Homing;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Test".
-        /// </summary>
-        public InputAction @Test => m_Wrapper.m_Player_Test;
         /// <summary>
         /// Provides access to the underlying input action "Player/Throw".
         /// </summary>
@@ -1462,6 +1391,14 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Aim".
         /// </summary>
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Test".
+        /// </summary>
+        public InputAction @Test => m_Wrapper.m_Player_Test;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Homing".
+        /// </summary>
+        public InputAction @Homing => m_Wrapper.m_Player_Homing;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1512,30 +1449,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RB.started += instance.OnRB;
             @RB.performed += instance.OnRB;
             @RB.canceled += instance.OnRB;
+            @Super.started += instance.OnSuper;
+            @Super.performed += instance.OnSuper;
+            @Super.canceled += instance.OnSuper;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
-            @LongjumpSuplex.started += instance.OnLongjumpSuplex;
-            @LongjumpSuplex.performed += instance.OnLongjumpSuplex;
-            @LongjumpSuplex.canceled += instance.OnLongjumpSuplex;
-            @RainbowSuplex.started += instance.OnRainbowSuplex;
-            @RainbowSuplex.performed += instance.OnRainbowSuplex;
-            @RainbowSuplex.canceled += instance.OnRainbowSuplex;
-            @SuperSuplex.started += instance.OnSuperSuplex;
-            @SuperSuplex.performed += instance.OnSuperSuplex;
-            @SuperSuplex.canceled += instance.OnSuperSuplex;
-            @Homing.started += instance.OnHoming;
-            @Homing.performed += instance.OnHoming;
-            @Homing.canceled += instance.OnHoming;
-            @Test.started += instance.OnTest;
-            @Test.performed += instance.OnTest;
-            @Test.canceled += instance.OnTest;
             @Throw.started += instance.OnThrow;
             @Throw.performed += instance.OnThrow;
             @Throw.canceled += instance.OnThrow;
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
+            @Test.started += instance.OnTest;
+            @Test.performed += instance.OnTest;
+            @Test.canceled += instance.OnTest;
+            @Homing.started += instance.OnHoming;
+            @Homing.performed += instance.OnHoming;
+            @Homing.canceled += instance.OnHoming;
         }
 
         /// <summary>
@@ -1571,30 +1502,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RB.started -= instance.OnRB;
             @RB.performed -= instance.OnRB;
             @RB.canceled -= instance.OnRB;
+            @Super.started -= instance.OnSuper;
+            @Super.performed -= instance.OnSuper;
+            @Super.canceled -= instance.OnSuper;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
-            @LongjumpSuplex.started -= instance.OnLongjumpSuplex;
-            @LongjumpSuplex.performed -= instance.OnLongjumpSuplex;
-            @LongjumpSuplex.canceled -= instance.OnLongjumpSuplex;
-            @RainbowSuplex.started -= instance.OnRainbowSuplex;
-            @RainbowSuplex.performed -= instance.OnRainbowSuplex;
-            @RainbowSuplex.canceled -= instance.OnRainbowSuplex;
-            @SuperSuplex.started -= instance.OnSuperSuplex;
-            @SuperSuplex.performed -= instance.OnSuperSuplex;
-            @SuperSuplex.canceled -= instance.OnSuperSuplex;
-            @Homing.started -= instance.OnHoming;
-            @Homing.performed -= instance.OnHoming;
-            @Homing.canceled -= instance.OnHoming;
-            @Test.started -= instance.OnTest;
-            @Test.performed -= instance.OnTest;
-            @Test.canceled -= instance.OnTest;
             @Throw.started -= instance.OnThrow;
             @Throw.performed -= instance.OnThrow;
             @Throw.canceled -= instance.OnThrow;
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
+            @Test.started -= instance.OnTest;
+            @Test.performed -= instance.OnTest;
+            @Test.canceled -= instance.OnTest;
+            @Homing.started -= instance.OnHoming;
+            @Homing.performed -= instance.OnHoming;
+            @Homing.canceled -= instance.OnHoming;
         }
 
         /// <summary>
@@ -1952,47 +1877,19 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRB(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "Super" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSuper(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSprint(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "LongjumpSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLongjumpSuplex(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "RainbowSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRainbowSuplex(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "SuperSuplex" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSuperSuplex(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Homing" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnHoming(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Test" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnTest(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Throw" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -2007,6 +1904,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAim(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Test" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTest(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Homing" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHoming(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

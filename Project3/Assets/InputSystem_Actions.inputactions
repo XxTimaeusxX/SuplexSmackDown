@@ -79,54 +79,18 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Super",
+                    "type": "Button",
+                    "id": "b2198d61-9282-42de-9fca-50f2a401ceba",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "Button",
                     "id": "641cd816-40e6-41b4-8c3d-04687c349290",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "LongjumpSuplex",
-                    "type": "Button",
-                    "id": "2bc24cb0-bcd3-49d9-ab93-19b53f765036",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "RainbowSuplex",
-                    "type": "Button",
-                    "id": "9bf16e6b-62cf-4b56-84ea-00c73d4202e3",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "SuperSuplex",
-                    "type": "Button",
-                    "id": "894aaaf7-8a80-4b5f-867c-187c9ad23de4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Homing",
-                    "type": "Button",
-                    "id": "704337b0-7e6a-4975-ba3e-a6c6cc2d5fbe",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Test",
-                    "type": "Button",
-                    "id": "f2023e69-18f9-4488-bb42-4abd54b9de17",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -145,6 +109,24 @@
                     "name": "Aim",
                     "type": "Button",
                     "id": "e8853e12-e331-45ff-9406-a76747c94ac7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test",
+                    "type": "Button",
+                    "id": "f2023e69-18f9-4488-bb42-4abd54b9de17",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Homing",
+                    "type": "Button",
+                    "id": "704337b0-7e6a-4975-ba3e-a6c6cc2d5fbe",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -320,7 +302,7 @@
                 {
                     "name": "",
                     "id": "f2e9ba44-c423-42a7-ad56-f20975884794",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -385,63 +367,8 @@
                 },
                 {
                     "name": "",
-                    "id": "99490d61-b26e-4771-84f9-7801f0035f7b",
-                    "path": "<Keyboard>/2",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "SuperSuplex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "cb1c9250-5342-4b12-8df0-e2d1dd2520b6",
-                    "path": "<Keyboard>/1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "RainbowSuplex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f94dadeb-2437-4f18-b924-685f3b938e1f",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "RainbowSuplex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6ec8311b-d55f-469c-8504-f523931acc28",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard&Mouse",
-                    "action": "LongjumpSuplex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d3cf1c09-aa49-4732-9241-2632f6cde496",
-                    "path": "<Gamepad>/leftTrigger",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "LongjumpSuplex",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "df783ae8-7b65-46f6-bf71-0ac262d02c7f",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -550,6 +477,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b438b3fd-e00a-4c29-a425-8b059284449b",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "0998bfc3-ded6-4887-99fd-e89f06e9d227",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
@@ -589,6 +527,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d484117a-4677-4902-9f4b-44d3498e5c92",
+                    "path": "<Keyboard>/leftAlt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Super",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
