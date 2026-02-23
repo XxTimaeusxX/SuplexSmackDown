@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
@@ -38,6 +39,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     public float attackRange = 2f;
     public float attackCooldown = 0.8f;   // Time between attacks
     public float _nextAttackTime = 0f;
+    public float knockOutTime = 5f; // Time the enemy stays knocked out
 
     [Header("Colliders")]
     public Collider mainCollider;   // Main collider for the enemy
@@ -61,6 +63,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     public bool canPatrol = true;
     public bool canChase = true;
     public bool canAttack = true;
+    //NOTE: make sure behavior toggles are properly working.
 
     [Header("Animation")]
     public Animator animator;
@@ -269,9 +272,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         if (throwForce != Vector3.zero)
             rb.AddForce(throwForce, ForceMode.Impulse);    // Apply throw force
 
-        // Re-enable AI/NavMeshAgent
-        //if (enemyAI != null) enemyAI.enabled = true;
-
         //Debug.Log("ExitCarriedState called on " + gameObject.name);
         //Debug.Log($"Main collider enabled: {mainCollider.enabled}, Proxy: {carryProxy.enabled}");
     }
@@ -282,10 +282,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            hasLanded = true;
-            rb.constraints = originalConstraints;
-            agent.enabled = true;
-            Debug.Log("Agent has landed and is now enabled for " + gameObject.name);
+            StartCoroutine(EnableAgentAfterLanding());
         }
 
         if (collision.gameObject.CompareTag("Shockwave"))
@@ -304,7 +301,14 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     /// ------------------------------- ///
 
     /// Unchanging methods for enemy behaviour
-
+    private IEnumerator EnableAgentAfterLanding()
+    {
+        yield return new WaitForSeconds(knockOutTime); // Small delay to ensure physics has settled after landing
+        hasLanded = true;
+        rb.constraints = originalConstraints;
+        agent.enabled = true;
+        //Debug.Log("Agent has landed and is now enabled for " + gameObject.name);
+    }
     public void FaceTarget()
     {
         var TurnToTarget = agent.steeringTarget;

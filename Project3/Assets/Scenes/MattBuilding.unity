@@ -144482,6 +144482,10 @@ PrefabInstance:
       propertyPath: carryWeightProfile
       value: 
       objectReference: {fileID: 11400000, guid: f28b4bfe052c8fb48ae2d89baa547e8b, type: 2}
+    - target: {fileID: 2737716720350929506, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3904729399684723981, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.061
@@ -191560,6 +191564,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7803343495701552814, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
   m_PrefabInstance: {fileID: 1420640235}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1152671289 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3580422611975499296, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+  m_PrefabInstance: {fileID: 1420640235}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152671265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6e7e593fd4868741a12fd3c75bc42b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SuplexConfig
+--- !u!114 &1152671305 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7335792677525754226, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+  m_PrefabInstance: {fileID: 1420640235}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152671265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f4fd37c1da928749865fe54623c562e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MovementController
+--- !u!114 &1152671308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152671265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8673cb57eae616040a353396b8cd71fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SuplexMotionDebugger
+  suplexConfig: {fileID: 1152671289}
+  movementController: {fileID: 1152671305}
+  suplexToPreview: 1
+  resolution: 60
+  gizmoSize: 0.05
+  pathColor: {r: 0, g: 1, b: 1, a: 1}
+  forwardColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  verticalColor: {r: 1, g: 0, b: 1, a: 1}
+  showDebug: 1
+  drawForwardVectors: 1
+  drawVerticalVectors: 1
+  drawTrajectory: 1
 --- !u!1 &1152681702
 GameObject:
   m_ObjectHideFlags: 0
@@ -243471,7 +243521,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7612831096732095278, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1152671308}
   m_SourcePrefab: {fileID: 100100000, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
 --- !u!1001 &1421765515
 PrefabInstance:
