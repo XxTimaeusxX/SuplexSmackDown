@@ -77,29 +77,41 @@ public class OfficeEnemy : EnemyBase
 
     public override void Update()
     {
-        base.Update();
+        base.Update();  // Let base class handle everything
 
+        // ONLY Office-specific: Death behavior when pushed
         if (isPushed && pushCooldown < 0 && IsKillable)
         {
             gameObject.SetActive(false);
         }
 
-        if (Target != null)
+        // ONLY Office-specific: Animations
+        CheckAnimation();
+    }
+    
+ /*   public override void ChasePlayer()
+    {
+        // Call base implementation (handles all pathfinding)
+        base.ChasePlayer();
+        
+        // ONLY Office-specific: Audio edge trigger
+      /*  if (Target != null)
         {
-            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
             bool inChaseRange = m_Distance <= chaseRange;
+            
             if (inChaseRange && !_OfficeShoalWasInChaseRange)
             {
-                AudioManager.PlayShoalIdle(); // Detected sound (replace per-enemy)
+                AudioManager.PlayShoalIdle();
             }
+            
             _OfficeShoalWasInChaseRange = inChaseRange;
         }
         else
         {
             _OfficeShoalWasInChaseRange = false;
         }
-        CheckAnimation();
-    }
+    } */
+
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
