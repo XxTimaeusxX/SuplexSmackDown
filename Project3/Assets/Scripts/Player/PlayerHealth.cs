@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+	PlayerAnimationController playerAnimationController;
+
 	public int maxHealth;
 	public int currentHealth;
 	public Texture2D[] healthSprites;
@@ -13,6 +15,8 @@ public class PlayerHealth : MonoBehaviour
     private bool isFirstHealthUpdate = true; // Flag to skip initial health sound
     void Start()
     {
+		playerAnimationController = GetComponent<PlayerAnimationController>();
+
         // Start the player with 1 HP (but never exceed maxHealth)
         int startHP = Mathf.Clamp(3, 0, maxHealth);
         UpdateHealth(startHP);
@@ -37,7 +41,10 @@ public class PlayerHealth : MonoBehaviour
     public void TakeDamage()
     {
 		UpdateHealth(--currentHealth);
-		iFrames = true;
+		// Add hurt animation trigger here
+		playerAnimationController.IsHurt = true; // Request HURT animation
+        playerAnimationController.CheckAnimation();
+        iFrames = true;
     }
 	
 	public void UpdateHealth(int newHP)
@@ -63,7 +70,8 @@ public class PlayerHealth : MonoBehaviour
 			case 1: AudioManager.PlayHealth1(); break;
 			//case 0: GameOver(); AudioManager.PlayGameOver(); break;
         }
-			Debug.Log("Current Health: " + currentHealth);
+			//NOTE: Current health is subtracted from after death. (Needs to be cleaned up)
+			//Debug.Log("Current Health: " + currentHealth);
 	}
 	
 	public void GameOver()

@@ -4,10 +4,6 @@ using UnityEngine.AI;
 // Last Edited: 1/19/2026 by Istvan W.
 public class ConstructionEnemy : EnemyBase
 {
-    public override void Death()
-    {
-
-    }
     public override void Attack()
     {
 
@@ -18,11 +14,11 @@ public class ConstructionEnemy : EnemyBase
     private bool _wasPushed = false;
     void OnValidate()
     {
-        // 1) Target: assign Player by tag if not set
-        if (Target == null)
+        // 1) target: assign Player by tag if not set
+        if (target == null)
         {
             var player = GameObject.FindWithTag("Player");
-            if (player != null) Target = player;
+            if (player != null) target = player;
 
         }
         // 2) Core components on this GameObject
@@ -76,9 +72,9 @@ public class ConstructionEnemy : EnemyBase
         base.Update();
       
        
-        if (Target != null)
+        if (target != null)
         {
-            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
+            m_Distance = Vector3.Distance(target.transform.position, transform.position);
             bool inChaseRange = m_Distance <= chaseRange;
             if (inChaseRange && !_WorkerInChaseRange)
             {

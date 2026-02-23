@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 // Contributers: Istvan W.
 
-// Last Modified: 1/19/2026 by Istvan W.
-
 // TODO: Make sure to make a grounded check before enabling NavMeshAgent after being thrown, to prevent weird mid-air pathfinding behavior
 // TODO: Enable constraints when exiting carried state, but only after the enemy has landed on the ground (to prevent weird mid-air behavior)
 
@@ -17,7 +15,7 @@ using UnityEngine.UI;
 public abstract class EnemyBase : MonoBehaviour, ICarriable
 {
     [Header("References")]
-    public GameObject PLAYER; // Reference to the player (Currenly set as so due to no enemy vs enemy interactions)
+    private GameObject PLAYER; // Reference to the player (Currenly set as so due to no enemy vs enemy interactions)
     public Rigidbody Rigidbody => rb; // Public getter for Rigidbody (for ICarriable interface)
     private Rigidbody rb;
     private NavMeshAgent agent;
@@ -25,6 +23,8 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     private Transform originalParent; // To store original parent when carried (e.g. After picking up an enemy that's parented to another object, once released it should go back to that object)
     //private GroundChecker groundChecker;
     private RigidbodyConstraints originalConstraints;
+    private RageMeter rageMeter;
+    private GroundChecker groundChecker;
 
     [Header("Stats")]
     public float health;
@@ -37,7 +37,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     [Header("Combat")]
     public float attackRange = 2f;
     public float attackCooldown = 0.8f;   // Time between attacks
-    private float _nextAttackTime = 0f;
+    public float _nextAttackTime = 0f;
 
     [Header("Colliders")]
     public Collider mainCollider;   // Main collider for the enemy
@@ -45,19 +45,34 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
 
     private bool hasLanded = false;
 
-
     [Header("Patrol Settings")]
+    public GameObject target; // Current target (e.g. player or patrol point)
     public float distanceToTarget;
     public float chaseRange;
     public float patrolWaitDefault;
 
+    [Header("Ground Settings")]
+    public float m_Distance;    // Distance to the target
+    public bool isGrabbed;
+    public bool isPushed = false;
+    public float pushCooldown;
+
+    [Header("Behavior Toggles ")]
+    public bool canPatrol = true;
+    public bool canChase = true;
+    public bool canAttack = true;
+
+    [Header("Animation")]
+    public Animator animator;
+
     // Testing purposes
     [Header("UI")]
     public Slider chargeSlider;
+    public Slider rageBar;
 
     /// Abstract methods for enemy behavior (to be implemented by derived classes)
     public abstract void Attack();
-    public abstract void Death();
+    // public abstract void Death();
 
     /// ------------------------------- ///
 
@@ -68,8 +83,9 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         /// Initialize references
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
-        //groundChecker = GetComponent<GroundChecker>(); // Replace with actual ground checker script type if available
+        animator = GetComponent<Animator>();
         originalConstraints = rb.constraints; // Store original Rigidbody constraints
+        groundChecker = GetComponent<GroundChecker>();
 
         // Test purposes
         if (chargeSlider != null)
@@ -89,10 +105,41 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         }
     }
 
+    public virtual void Update()
+    {
+        if (isPushed)
+        {
+            pushCooldown -= Time.deltaTime;
+        }
+        if (pushCooldown < 0)
+        {
+            if (!isGrabbed && !CompareTag("DontRespawn"))
+            {
+                pushCooldown = 0;
+                isPushed = false;
+                agent.enabled = true;
+                rb.isKinematic = true;
+            }
+        }
+        if (agent.enabled && agent.isOnNavMesh)
+        {
+            if (canChase)
+            {
+                ChasePlayer();
+            }
+            else if (canPatrol)
+            {
+                // Patrol-only mode: request a new patrol destination when there's no path or we've arrived.
+                float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+                if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold)
+                    Patrol();
+            }
+        }
+    }
     // Default = Random Roaming Patrol
     public virtual void Patrol()
     {
-        //if (!canPatrol) return;
+        if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
 
         const float patrolRadius = 20f;
@@ -119,17 +166,17 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     }
     public virtual void ChasePlayer()
     {
-        GameObject Target = PLAYER; // Set target to player (can be modified for other targets)
+        target = PLAYER; // Set target to player (can be modified for other targets)
 
         // Behavior guard: only chase when allowed
         //if (!canChase) return;
-        if (Target == null)
+        if (target == null)
         {
             Patrol();
             return;
         }
 
-        distanceToTarget = Vector3.Distance(Target.transform.position, transform.position);
+        distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
 
         // MARK - Chasing Logic
@@ -142,7 +189,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
             {
                 patrolWaitDefault = 0f;
                 agent.speed = enemySprintSpeed;
-                agent.destination = Target.transform.position;
+                agent.destination = target.transform.position;
 
                 if (distanceToTarget < attackRange)  // When within melee range -> Face -> Attack
                 {
@@ -153,7 +200,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
                 else
                 {
                     if (agent.isStopped) agent.isStopped = false;
-                    agent.destination = Target.transform.position;
+                    agent.destination = target.transform.position;
                     _nextAttackTime = 0f;
                     //ResetChargeUI();
                 }
@@ -238,7 +285,19 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
             hasLanded = true;
             rb.constraints = originalConstraints;
             agent.enabled = true;
-            //Debug.Log("Agent has landed and is now enabled for " + gameObject.name);
+            Debug.Log("Agent has landed and is now enabled for " + gameObject.name);
+        }
+
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            pushCooldown = 3;
+            isPushed = true;
+            agent.enabled = false;
+            rb.isKinematic = false;
+            if (rageMeter.rageIncrease == true)
+            {
+                rageBar.value += 0.01f;
+            }
         }
     }
 
@@ -259,13 +318,11 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         return col.bounds.size.y;
     }
 
-    public virtual void ApplyDownwardForce(float force)
+    public bool IsEnemyGrounded()
     {
-        if (rb == null)
-            return;
-
-        rb.AddForce(Vector3.down * force, ForceMode.Impulse);
+        return groundChecker = GetComponent<GroundChecker>();
     }
+
     /// ------------------------------- ///
 
     /// Testing purposes

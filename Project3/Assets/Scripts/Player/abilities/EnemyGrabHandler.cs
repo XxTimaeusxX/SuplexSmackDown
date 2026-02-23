@@ -101,10 +101,10 @@ public class EnemyGrabHandler : MonoBehaviour
         }
 
         // Re-enable NavMeshAgent AFTER unparenting
-        if (enemyScript != null && enemyScript.agent != null)
-        {
-            enemyScript.agent.enabled = true;
-        }
+        //if (enemyScript != null && enemyScript.agent != null)
+        //{
+        //    enemyScript.agent.enabled = true;
+        //}
 
         // Restore player movement settings
         if (_playerMovement != null)

@@ -17,9 +17,6 @@ public class SuplexConfig : MonoBehaviour
 
     public float longSuplexBuffer = 0.8f;
 
-    public float slamForwardForce = 10f;
-    public float slamDownwardForce = 20f;
-
     public List<SuplexData> suplexes;   // assign in inspector
     private void Awake()
     {

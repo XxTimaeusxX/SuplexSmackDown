@@ -6,7 +6,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-// Last Edited: 2/11/2026 by Istvan W.
+// Istvan W.
+
+// TODO: Add collision checks to prevent suplexing into/through walls/obstacles
 
 /// <summary>
 /// Handles all logic for grabbing, holding, and suplexing enemies.

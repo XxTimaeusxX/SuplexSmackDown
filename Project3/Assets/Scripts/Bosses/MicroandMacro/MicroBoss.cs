@@ -60,7 +60,7 @@ public class MicroBoss : OGEnemyBase
     // ------------ auto assign references -------------- //
     void OnValidate()
     {
-        // 1) Target: find and assign player as target if not assigned
+        // 1) target: find and assign player as target if not assigned
         if (Target == null)
         {
             var player = GameObject.FindWithTag("Player");

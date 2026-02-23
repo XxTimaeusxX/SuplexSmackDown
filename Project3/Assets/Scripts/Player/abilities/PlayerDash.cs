@@ -13,15 +13,17 @@ public class PlayerDash : MonoBehaviour
     private CharacterController controller;
     private MovementConfig movementConfig;
     public SuplexHitboxCaller suplexHitboxCaller;
-    public SuplexController suplexController;
+    private SuplexController suplexController;
+    PlayerAnimationController playerAnimationController;
     //private MovementController movementController;
     //private PlayerInput playerInput;        // Reference to the player's input system
 
     [Header("Dash Settings")]
     //private Vector3 dashDirection;         // Direction the player will dash in
     private float dashTime;                // Time left in the current dash
-    [SerializeField]    private float dashCooldown;
-    [SerializeField]    private int airDashCount = 0;           // Number of dashes a player can perform in air
+    private float dashCooldown;
+    private int airDashCount;           // Number of dashes a player can perform in air
+    public int maxAirDashCount;           // Maximum number of air dashes allowed
     public float dashStartTime;
 
 
@@ -36,6 +38,7 @@ public class PlayerDash : MonoBehaviour
         controller = GetComponent<CharacterController>();
         movementConfig = GetComponent<MovementConfig>();
         suplexController = GetComponent<SuplexController>();
+        playerAnimationController = GetComponent<PlayerAnimationController>();
 
         // Setup
         movementConfig.grabHitbox.SetActive(false); 
@@ -43,7 +46,11 @@ public class PlayerDash : MonoBehaviour
 
     void Update()
     {
-        if (controller.isGrounded  && !isDashing)              { dashCooldown = 0f; } // Reset cooldown on ground
+        if (controller.isGrounded  && !isDashing)              
+        { 
+            dashCooldown = 0f;  // Reset cooldown on ground
+            airDashCount = maxAirDashCount; 
+        } 
 
         if (dashCooldown > 0f && !isDashing)    { dashCooldown -= 0.1f; }
         if (dashCooldown < 0f)                  { dashCooldown = 0f; }
@@ -58,8 +65,10 @@ public class PlayerDash : MonoBehaviour
     {
 
         // Start dash if the dash button was just pressed and not already dashing
-        if (!isDashing && dashCooldown <= 0f)
+        //Debug.Log($"Attempting to dash. isDashing: {isDashing}, dashCooldown: {dashCooldown}, airDashCount: {airDashCount}");
+        if (!isDashing && dashCooldown <= 0f && airDashCount > 0)
         {
+            //Debug.Log("Dash conditions met. Initiating dash.");
             isDashing = true;
             dashStartTime = Time.time;
 
@@ -70,6 +79,11 @@ public class PlayerDash : MonoBehaviour
 
             if (movementConfig.grabHitbox != null && suplexController.carriedObject == null)
                 movementConfig.grabHitbox.SetActive(true);    // Enable hitbox for the dash
+
+            playerAnimationController.CheckAnimation();
+
+
+            if (!controller.isGrounded) airDashCount--; // Consume an air dash if not grounded
             //Debug.Log("Dash initiated!");
         }
     }

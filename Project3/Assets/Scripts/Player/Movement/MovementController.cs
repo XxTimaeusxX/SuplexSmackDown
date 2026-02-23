@@ -3,19 +3,18 @@ using UnityEngine.InputSystem;
 
 // ~Istvan W
 
-// Last Edited: 1/19/2026 by Istvan W.
 
 // TODO: Add rotation locking logic using the isTesting boolean
-// TODO: Prevent dropping enemy whie supexing/fix floating glitch
 // TODO: Make sure carry proxy collider works properly
 
 [RequireComponent(typeof(CharacterController))]
 public class MovementController : MonoBehaviour
 {
     [Header("References")]
-    private MovementConfig movementConfig;
-    private PlayerInput playerInput; 
     public CharacterController controller;
+    private PlayerAnimationController playerAnimationController;
+    private MovementConfig movementConfig;
+    private PlayerInput playerInput;
     private PlayerDash playerDash;
     private SuplexController suplexController;
     private PlayerThrow playerThrow;
@@ -25,8 +24,8 @@ public class MovementController : MonoBehaviour
     // private Vector3 velocity;
 
     [Header("Boolean States")]
+    public bool overrideVerticalMotion = false;
     public bool isGrounded;
-    //private bool isDashing;
     public bool isTemp;
 
     [Header("Movement Actions")]
@@ -43,18 +42,17 @@ public class MovementController : MonoBehaviour
     public InputAction throwAction;
     public InputAction aimAction;
 
-    public bool overrideVerticalMotion = false;
-
+    // Testing
     public InputAction testButton;
 
-    [SerializeField] private Vector3 velocity;          // Player's current velocity
+    public Vector2 InputDirection => moveAction.ReadValue<Vector2>();
+    public Vector3 velocity;          // Player's current velocity
     public Vector3 move;              // Horizontal movement vector
     private float rotationVelocity;     // Keeps track of rotation velocity for smooth damping
 
 
     private void Awake()
     {
-
         /// Reference instances
         movementConfig = GetComponent<MovementConfig>();
         playerInput = GetComponent<PlayerInput>();
@@ -62,6 +60,7 @@ public class MovementController : MonoBehaviour
         playerDash = GetComponent<PlayerDash>();
         suplexController = GetComponent<SuplexController>();
         playerThrow = GetComponent<PlayerThrow>();
+        playerAnimationController = GetComponent<PlayerAnimationController>();
 
         /// Find input actions
         moveAction = playerInput.actions.FindAction("Move");
@@ -91,12 +90,16 @@ public class MovementController : MonoBehaviour
         }
 
         /// Dash input
-        if (dashAction.WasPressedThisFrame())   { playerDash.Dash(); }
+        if (dashAction.WasPressedThisFrame())   
+        { 
+            //Debug.Log("DASH ATTEMPT"); 
+            playerDash.Dash(); 
+        }
 
         /// Drop input
         if (dropAction.WasPressedThisFrame())
         {
-            //Debug.Log("Drop pressed. carriedEnemyBase = " + suplexController.carriedEnemyBase);
+            //Debug.Log("Drop pressed.");
             suplexController.ReleaseEnemy(Vector3.zero);
         }
 
@@ -167,8 +170,8 @@ public class MovementController : MonoBehaviour
             finalMove.y = 0f;
         }
 
-
         controller.Move(finalMove);
+        playerAnimationController.CheckAnimation();
     }
 
     private void HandleMovement()
@@ -185,7 +188,7 @@ public class MovementController : MonoBehaviour
             /// Convert input into world-space movement
             Vector3 moveDir = (CamForward * input.y + camRight * input.x).normalized;
 
-            /// Target angle for rotation
+            /// target angle for rotation
             float targetAngle = Mathf.Atan2(moveDir.x, moveDir.z) * Mathf.Rad2Deg;
 
             /// Smooth rotation

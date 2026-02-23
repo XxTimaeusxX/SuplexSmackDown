@@ -20,10 +20,13 @@ public class MovementConfig : MonoBehaviour
     public float rotationSmoothTime;                    // How long it takes to rotate towards movement direction
 
     [Header("Jump/Air Movement Values")]
+    public float airTime;
+    public float freefallDelay;                         // Time before freefall animation triggers
+    public float freefallVelocityThreshold;             // minimum downward velocity required to be considered freefall
     public float jumpHeight;
     public float customGravity = -9.81f;                // Set to Unity's default gravity and change Unity's gravity to -50f
-    public float airControl;                            // How much control the player has over movement in air (0 = none, 1 = full)
-    public float terminalVelocity;                      // Max downward speed
+    float airControl;                            // How much control the player has over movement in air (0 = none, 1 = full)
+    float terminalVelocity;                      // Max downward speed
 
     [Header("Dash Settings")]
     public GameObject grabHitbox;                       // Hitbox used during dash (for attacks/collisions)

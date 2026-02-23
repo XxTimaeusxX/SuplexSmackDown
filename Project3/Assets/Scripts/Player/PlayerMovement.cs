@@ -200,6 +200,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    // TODO: Refactor this into it's own class (PlayerAnimationController) to clean up PlayerMovement and allow more focused handling of animation logic and state.
     //---------------- Animation ---------------------------//
     public void ChangeAnimtion(string animation, float crossfade = 0.2f)
     {
@@ -226,7 +227,7 @@ public class PlayerMovement : MonoBehaviour
 
             // Clip finished, unlock and fall through to normal selection
             isPlayingHurt = false;
-            CurrentAnimation = ""; // allow next state change this frame
+            CurrentAnimation = string.Empty; // allow next state change this frame
         }
 
         // Enter HURT when health drops; set lock so nothing overrides it
@@ -281,8 +282,5 @@ public class PlayerMovement : MonoBehaviour
         // ----- Grounded movement -----
         if (direction.magnitude >= 0.1f) ChangeAnimtion("WALK");
         else ChangeAnimtion("IDLE");
-
-
-
     }
 }

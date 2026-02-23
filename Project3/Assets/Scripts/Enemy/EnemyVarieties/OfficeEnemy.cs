@@ -1,83 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class OfficeEnemy : OGEnemyBase
+
+//TODO: look into the attack hitbox, seems it always remains active
+public class OfficeEnemy : EnemyBase
 {
+    [Header("Hitbox")]
+    public GameObject slapbox;          // child trigger collider with AttackHitBox
+    [SerializeField] private float slapActiveTime = 0.1f;
+
     private bool _OfficeShoalWasInChaseRange = false;
-    // Edge trigger to play damage sound once when push starts
-    private bool _wasPushed = false;
-    void OnValidate()
-    {
-        // 1) Target: assign Player by tag if not set
-        if (Target == null)
-        {
-            var player = GameObject.FindWithTag("Player");
-            if (player != null) Target = player;
-            
-        }
-
-        // 2) Core components on this GameObject
-        if (agent == null) agent = GetComponent<NavMeshAgent>();
-        if (rb == null) rb = GetComponent<Rigidbody>();
-        if (animator == null) animator = GetComponent<Animator>();
-
-        // Optional: ensure sane defaults (won’t override if already configured)
-        if (agent != null)
-        {
-            if (agent.stoppingDistance < 0.5f) agent.stoppingDistance = 0.75f;
-            if (agent.radius < 0.1f) agent.radius = 0.3f;
-            if (agent.acceleration < 8f) agent.acceleration = 12f;
-        }
-      
-    
-        // 3) Ground check: find child named "GroundCheck"
-        if (groundCheck == null)
-        {
-            var existing = transform.Find("GroundCheck");
-            if (existing != null) groundCheck = existing;
-            else Debug.LogWarning($"[{name}] Missing child 'GroundCheck'. Create one or assign 'groundCheck'.", this);
-        }
-        // Prefer a small ground distance if unset
-        if (groundDistance <= 0f) groundDistance = 0.2f;
-
-        // 4) Hitbox slapbox: find child trigger named "AttackHitBox"
-        if (slapbox == null)
-        {
-            var hitbox = transform.Find("SlapHitBox");
-            if (hitbox != null)
-            {
-                var col = hitbox.GetComponentInChildren<GameObject>();
-                if (col != null) slapbox = col;
-                else Debug.LogWarning($"[{name}] 'SlapHitBox' found but has no Collider.", this);
-            }
-        }
-
-        // 5) UI: try find in children (optional)
-        if (chargeSlider == null)
-        {
-            chargeSlider = GetComponentInChildren<UnityEngine.UI.Slider>(includeInactive: true);
-            // It may find enemyHealth slider; that’s OK—assign explicitly if needed
-        }
-    
-        // 6) Ground mask: if unset, try to infer "Ground" layer
-        if (groundMask.value == 0)
-        {
-            int groundLayer = LayerMask.NameToLayer("Ground");
-            if (groundLayer >= 0) groundMask = 1 << groundLayer;
-            else Debug.LogWarning($"[{name}] Layer 'Ground' not found. Set 'groundMask' in Inspector.", this);
-        }
-    }
 
     public override void Update()
     {
         base.Update();
 
-        if (Target != null)
+        if (target != null)
         {
-            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
+            m_Distance = Vector3.Distance(target.transform.position, transform.position);
             bool inChaseRange = m_Distance <= chaseRange;
             if (inChaseRange && !_OfficeShoalWasInChaseRange)
             {
@@ -90,15 +34,54 @@ public class OfficeEnemy : OGEnemyBase
             _OfficeShoalWasInChaseRange = false;
         }
     }
-    private void OnCollisionEnter(Collision collision)
+    public override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Shockwave"))
-        {
-            // EnemyBase sets isPushed=true here; play immediately
-           
+        {       
             AudioManager.PlayShoalFalling();
-         //   Debug.Log("construction");
         }
+    }
+
+    public override void Attack()
+    {
+        // Behavior guard: only attack when allowed
+        if (!canAttack) { ResetSlapState(); return; }// ensure state/UI is cleared if attack disabled mid-charge
+
+
+        // Charge up while in melee
+        if (_nextAttackTime < attackCooldown)
+        {
+            _nextAttackTime += Time.deltaTime;
+            UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
+            // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
+            return;
+        }
+
+        // Fully charged -> attack, then reset charge for the next swing
+        Debug.Log($"[{name}] Melee attack!");
+        animator.SetTrigger("EnemySlap");
+        AudioManager.PlayEnemySlap();
+        _nextAttackTime = 0f; // restart charge
+        UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
+        StartCoroutine(SlapattackDuration());
+    }
+    public IEnumerator SlapattackDuration()
+    {
+        if (slapbox == null) yield break;
+        yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
+        slapbox.SetActive(true);
+        yield return new WaitForSeconds(.09f);
+        slapbox.SetActive(false);
+    }
+    public void ResetSlapState()
+    {
+        _nextAttackTime = 0f;
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
+        StopCoroutine(SlapattackDuration());
+        ResetChargeUI();
     }
 }
