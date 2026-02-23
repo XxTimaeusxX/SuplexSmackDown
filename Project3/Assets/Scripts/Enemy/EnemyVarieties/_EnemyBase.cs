@@ -6,7 +6,7 @@ using UnityEngine.UI;
 // Contributers: Istvan W.
 
 // TODO: Make sure to make a grounded check before enabling NavMeshAgent after being thrown, to prevent weird mid-air pathfinding behavior
-// TODO: Enable constraints when exiting carried state, but only after the enemy has landed on the ground (to prevent weird mid-air behavior)
+// TODO: Put a cooldown on enemy so they can't immediatly attack on release.
 
 /// <summary>
 /// Abstract base class for enemy characters, providing core behavior such as patrolling, chasing, attacking, and

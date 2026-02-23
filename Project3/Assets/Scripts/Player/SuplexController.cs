@@ -33,9 +33,9 @@ public class SuplexController : MonoBehaviour
     //public MonoBehaviour carriedObjectScript = null;  // The script of the carriable/object being carried (if needed for specific interactions)
 
     private EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried carriable
-    private Transform carriedEnemy;          // The transform of the carriable that's currently being carried
-    private ObjectTest objectTest;
-    private Transform objectTestTransform;
+    //private Transform carriedEnemy;          // The transform of the carriable that's currently being carried
+    private ObjectTest objectTest;              // Testin for suplexable objects
+    //private Transform objectTestTransform;
 
     public Rigidbody lastReleasedRigidbody;
 
@@ -47,7 +47,7 @@ public class SuplexController : MonoBehaviour
 
     private Coroutine suplexRoutine;
 
-    //[Header("Testing")]
+    //[Header("In Testing")]
 
 
     private void Awake()
@@ -99,7 +99,7 @@ public class SuplexController : MonoBehaviour
 
             carriedObject.ExitCarriedState(throwForce);
 
-            carriedEnemy = null;
+            //carriedEnemy = null;
             carriedEnemyBase = null;
             carriedObject = null;
 
