@@ -222,7 +222,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -267,6 +267,61 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &3412840341474063242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5708075209020329167}
+  - component: {fileID: 4110167504685660249}
+  m_Layer: 8
+  m_Name: CarryProxyCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5708075209020329167
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3412840341474063242}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3904729399684723981}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &4110167504685660249
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3412840341474063242}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5490104234042576425
 GameObject:
   m_ObjectHideFlags: 0
@@ -381,6 +436,7 @@ GameObject:
   - component: {fileID: 2737716720350929506}
   - component: {fileID: 8847915130969235865}
   - component: {fileID: -1950444604758302330}
+  - component: {fileID: 1321591621540342714}
   m_Layer: 8
   m_Name: OfficeWorker
   m_TagString: Enemy
@@ -406,6 +462,7 @@ Transform:
   - {fileID: 6054438686179315741}
   - {fileID: 2909269675503378431}
   - {fileID: 2576385201400085661}
+  - {fileID: 5708075209020329167}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6844266013555611000
@@ -588,37 +645,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f5fae52cc3ac347bce915f86503b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OfficeEnemy
-  Target: {fileID: 0}
-  agent: {fileID: 6523892785764805586}
-  rb: {fileID: 8407228978967780538}
-  menuManager: {fileID: 0}
-  groundCheck: {fileID: 8785384517540818139}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  groundDistance: 0.2
+  health: 3
+  enemyWalkSpeed: 4
+  enemySprintSpeed: 14
+  carryWeightProfile: {fileID: 11400000, guid: f28b4bfe052c8fb48ae2d89baa547e8b, type: 2}
+  attackRange: 2
+  attackCooldown: 0.8
+  _nextAttackTime: 0
+  knockOutTime: 5
+  mainCollider: {fileID: 5166477041906415588}
+  carryProxy: {fileID: 4110167504685660249}
+  target: {fileID: 0}
+  distanceToTarget: 0
+  chaseRange: 5
+  patrolWaitDefault: 1
+  m_Distance: 0
+  isGrabbed: 0
+  isPushed: 0
+  pushCooldown: 1.5
   canPatrol: 1
   canChase: 1
   canAttack: 1
-  m_Distance: 0
-  wasGrounded: 0
-  isGrabbed: 0
-  isPushed: 0
-  pushCooldown: 0
+  animator: {fileID: 2737716720350929506}
   chargeSlider: {fileID: 1339772079999740290}
-  enemyHealth: {fileID: 0}
-  enemyHealthScreen: {fileID: 0}
-  chaseRange: 5
-  patrolWalkSpeed: 3
-  patrolWaitTime: 1
-  patrolRunSpeed: 3
-  patrolWaitDefault: 1
-  meleeRange: 1.75
-  attackCooldown: 0.8
-  _nextAttackTime: 0
+  rageBar: {fileID: 0}
   slapbox: {fileID: 6266211601759759052}
   slapActiveTime: 0.1
-  animator: {fileID: 2737716720350929506}
+--- !u!114 &1321591621540342714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321424840813435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a71c97116cae241b894b21fb831982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundChecker
+  groundCheck: {fileID: 8785384517540818139}
+  checkDistance: 0.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1 &7333588606936560562
 GameObject:
   m_ObjectHideFlags: 0

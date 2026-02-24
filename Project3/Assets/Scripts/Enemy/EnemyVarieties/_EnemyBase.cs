@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 // TODO: Make sure to make a grounded check before enabling NavMeshAgent after being thrown, to prevent weird mid-air pathfinding behavior
 // TODO: Put a cooldown on enemy so they can't immediatly attack on release.
-
+// TODO: Add a check to the exit state to make sure the character isn't grabbed when re-enabling AI, etc.
 /// <summary>
 /// Abstract base class for enemy characters, providing core behavior such as patrolling, chasing, attacking, and
 /// handling carried state interactions.
@@ -205,7 +205,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
                     if (agent.isStopped) agent.isStopped = false;
                     agent.destination = target.transform.position;
                     _nextAttackTime = 0f;
-                    //ResetChargeUI();
+                    ResetChargeUI();
                 }
             }
 
