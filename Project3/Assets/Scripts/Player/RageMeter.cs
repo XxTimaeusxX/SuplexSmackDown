@@ -8,15 +8,23 @@ public class RageMeter : MonoBehaviour
     public float rageSpeed;
     public float rageCooldown;
     public bool rageIncrease;
+    public float rageTime;
 
     private void Start()
     {
         rageCooldown = 1;
-        rageIncrease = true;
+        rageIncrease = false;
     }
 
     void Update()
-    {
+    {   if (rageTime > 0)
+        {
+            rageIncrease = true;
+        }
+        if (rageTime <= 0) 
+        {
+            rageIncrease = false;
+        }
         if (rageIncrease == true)
         {
             rageCooldown = 1;
@@ -33,5 +41,13 @@ public class RageMeter : MonoBehaviour
         {
             rageIncrease = true;
         }
+
+
+
+    }
+
+    public void IsEnraged(float mod)
+    {
+        rageTime += mod;
     }
 }

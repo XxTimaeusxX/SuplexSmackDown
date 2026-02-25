@@ -437,6 +437,7 @@ GameObject:
   - component: {fileID: 8847915130969235865}
   - component: {fileID: -1950444604758302330}
   - component: {fileID: 1321591621540342714}
+  - component: {fileID: 8568616347450641815}
   m_Layer: 8
   m_Name: OfficeWorker
   m_TagString: Enemy
@@ -463,6 +464,7 @@ Transform:
   - {fileID: 2909269675503378431}
   - {fileID: 2576385201400085661}
   - {fileID: 5708075209020329167}
+  - {fileID: 4916430653729442948}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6844266013555611000
@@ -648,13 +650,15 @@ MonoBehaviour:
   health: 3
   enemyWalkSpeed: 4
   enemySprintSpeed: 14
+  rageXP: 3
+  rageTime: 5
   carryWeightProfile: {fileID: 11400000, guid: f28b4bfe052c8fb48ae2d89baa547e8b, type: 2}
   attackRange: 2
   attackCooldown: 0.8
   _nextAttackTime: 0
   knockOutTime: 5
   mainCollider: {fileID: 5166477041906415588}
-  carryProxy: {fileID: 4110167504685660249}
+  carryProxy: {fileID: 4402134745827679236}
   target: {fileID: 0}
   distanceToTarget: 0
   chaseRange: 5
@@ -663,15 +667,29 @@ MonoBehaviour:
   isGrabbed: 0
   isPushed: 0
   pushCooldown: 1.5
-  canPatrol: 1
-  canChase: 1
-  canAttack: 1
   animator: {fileID: 2737716720350929506}
   chargeSlider: {fileID: 1339772079999740290}
   rageBar: {fileID: 0}
   slapbox: {fileID: 6266211601759759052}
   slapActiveTime: 0.1
 --- !u!114 &1321591621540342714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7321424840813435074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85a71c97116cae241b894b21fb831982, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundChecker
+  groundCheck: {fileID: 8785384517540818139}
+  checkDistance: 0.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1024
+--- !u!114 &8568616347450641815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -844,6 +862,61 @@ RectTransform:
   m_AnchoredPosition: {x: -0.11999512, y: -1.1999998}
   m_SizeDelta: {x: -9.879978, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &8136710079288339343
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4916430653729442948}
+  - component: {fileID: 4402134745827679236}
+  m_Layer: 8
+  m_Name: CarryProxyCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4916430653729442948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8136710079288339343}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3904729399684723981}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &4402134745827679236
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8136710079288339343}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8447937126030088374
 GameObject:
   m_ObjectHideFlags: 0

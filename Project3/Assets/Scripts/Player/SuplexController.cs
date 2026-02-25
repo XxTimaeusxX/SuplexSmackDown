@@ -16,13 +16,15 @@ using UnityEngine.UI;
 public class SuplexController : MonoBehaviour
 {
     [Header("References")]
+    public CharacterController controller;
     public EnemyGrabHandler grabHandler;
+    public RageMeter rageMeter;
     private PlayerThrow playerThrow;
     private MovementController movementController;
     private MovementConfig movementConfig;
     public SuplexConfig suplexConfig;
     private PlayerDash playerDash;
-
+    
     [Header("Suplex Configurations")]
     private SuplexAbilities currentSuplex = SuplexAbilities.None; // Which suplex is being performed
     private SuplexData activeSuplex;
@@ -52,11 +54,13 @@ public class SuplexController : MonoBehaviour
 
     private void Awake()
     {
+        controller = GetComponent<CharacterController>();
         playerDash = GetComponent<PlayerDash>();
         movementController = GetComponent<MovementController>();
         movementConfig = GetComponent<MovementConfig>();
         suplexConfig = GetComponent<SuplexConfig>();
         playerThrow = GetComponent<PlayerThrow>();
+        rageMeter = GetComponent<RageMeter>();
     }
 
     public void StartSuplex(MonoBehaviour target)   // Allows me to change the suplexable object type by using a simple check
@@ -231,6 +235,22 @@ public class SuplexController : MonoBehaviour
 
         ReleaseEnemy(Vector3.zero);
 
+        CameraShakeManager.Instance.SuplexCameraShake(suplexConfig.impulseSource);
+        if (suplexConfig.shockwave != null)
+        {
+            if (suplexConfig.rageBar.value >= 1)
+            {
+                Instantiate(suplexConfig.rageShockwave, controller.transform.position, controller.transform.rotation, controller.transform);
+                rageMeter.rageIncrease = false;
+                suplexConfig.rageBar.value = 0;
+                suplexConfig.suplexBar.sprite = suplexConfig.suplexImg1;
+            }
+            else
+            {
+                Instantiate(suplexConfig.shockwave, controller.transform.position, controller.transform.rotation, controller.transform);
+            }
+        }
+        AudioManager.PlaySuplexSlam();
     }
 
 

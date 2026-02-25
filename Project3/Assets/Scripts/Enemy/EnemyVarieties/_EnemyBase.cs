@@ -24,13 +24,15 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     private Transform originalParent; // To store original parent when carried (e.g. After picking up an enemy that's parented to another object, once released it should go back to that object)
     //private GroundChecker groundChecker;
     private RigidbodyConstraints originalConstraints;
-    private RageMeter rageMeter;
     private GroundChecker groundChecker;
 
     [Header("Stats")]
     public float health;
     public float enemyWalkSpeed;
     public float enemySprintSpeed;
+
+    public float rageXP; // Amount of rage you get on defeat
+    public float rageTime; // Amount of rage time you get on defeat
 
     [SerializeField] protected CarryWeightProfile carryWeightProfile; // Used to determine how the enemy behaves when being carried (e.g. how much it slows the player down, whether it can be thrown, etc.)
     public CarryWeightProfile CarryWeightProfile => carryWeightProfile; // Public getter for carry weight profile
@@ -89,7 +91,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         animator = GetComponent<Animator>();
         originalConstraints = rb.constraints; // Store original Rigidbody constraints
         groundChecker = GetComponent<GroundChecker>();
-
         // Test purposes
         if (chargeSlider != null)
         {
@@ -282,10 +283,10 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
             isPushed = true;
             agent.enabled = false;
             rb.isKinematic = false;
-            if (rageMeter.rageIncrease == true)
-            {
-                rageBar.value += 0.01f;
-            }
+            rageBar.value += rageXP;
+            RageMeter rageMeter = PLAYER.GetComponent<RageMeter>();
+            rageMeter.IsEnraged(rageTime);
+
         }
     }
 

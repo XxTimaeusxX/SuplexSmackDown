@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Stores configuration for each type of suplex (height, distance, speed, etc). 
@@ -10,8 +11,14 @@ public class SuplexConfig : MonoBehaviour
     public Transform carryPoint;      // Where the grabbed enemy is held
 
     public GameObject shockwave;
+    public GameObject rageShockwave;
 
-    private CinemachineImpulseSource impulseSource;
+    public Slider rageBar;
+
+    public Image suplexBar;
+    public Sprite suplexImg1;
+
+    public CinemachineImpulseSource impulseSource;
 
     public AnimationCurve CameraOffsetCurve; // line graph to control camera offset during suplex
 
