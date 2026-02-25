@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+// NOTE: Cooldown continues to fall once rageIncrease is inactive.
 public class RageMeter : MonoBehaviour
 {
     public Slider rageMeter;
@@ -20,6 +21,8 @@ public class RageMeter : MonoBehaviour
     {   if (rageTime > 0)
         {
             rageIncrease = true;
+            rageMeter.value += rageSpeed * Time.deltaTime;
+            rageTime -= Time.deltaTime;
         }
         if (rageTime <= 0) 
         {
@@ -28,10 +31,6 @@ public class RageMeter : MonoBehaviour
         if (rageIncrease == true)
         {
             rageCooldown = 1;
-        }
-        if (rageMeter != null)
-        {
-            rageMeter.value += rageSpeed * Time.deltaTime;
         }
         if (rageIncrease == false)
         {
