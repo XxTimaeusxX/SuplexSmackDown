@@ -8,7 +8,7 @@ public class AttackHitBox : MonoBehaviour
         {
             //Debug.Log("Enemy attack hitbox triggered on Player");
             // Here you would typically call a method on the Player to apply damage
-             other.GetComponent<PlayerHealth>().TakeDamage();
+            other.GetComponent<PlayerHealth>().TakeDamage();
             other.GetComponent<PlayerHealth>().iFrames = true;
         }
     }

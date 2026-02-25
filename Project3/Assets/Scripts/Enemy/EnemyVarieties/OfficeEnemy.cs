@@ -11,9 +11,14 @@ public class OfficeEnemy : EnemyBase
 {
     [Header("Hitbox")]
     public GameObject slapbox;          // child trigger collider with AttackHitBox
-    [SerializeField] private float slapActiveTime = 0.1f;
+    public float slapActiveTime = 0.1f;
 
     private bool _OfficeShoalWasInChaseRange = false;
+
+    private void Start()
+    {
+        slapbox.SetActive(false);
+    }
 
     public override void Update()
     {
@@ -45,43 +50,27 @@ public class OfficeEnemy : EnemyBase
 
     public override void Attack()
     {
-        // Behavior guard: only attack when allowed
-        if (!canAttack) { ResetSlapState(); return; }// ensure state/UI is cleared if attack disabled mid-charge
-
-
-        // Charge up while in melee
         if (_nextAttackTime < attackCooldown)
         {
             _nextAttackTime += Time.deltaTime;
-            UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
             // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
             return;
         }
 
-        // Fully charged -> attack, then reset charge for the next swing
         Debug.Log($"[{name}] Melee attack!");
+
         animator.SetTrigger("EnemySlap");
         AudioManager.PlayEnemySlap();
-        _nextAttackTime = 0f; // restart charge
+        _nextAttackTime = 0f; 
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
         StartCoroutine(SlapattackDuration());
+        ResetChargeUI();
     }
     public IEnumerator SlapattackDuration()
     {
-        if (slapbox == null) yield break;
         yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
         slapbox.SetActive(true);
-        yield return new WaitForSeconds(.09f);
+        yield return new WaitForSeconds(slapActiveTime);
         slapbox.SetActive(false);
-    }
-    public void ResetSlapState()
-    {
-        _nextAttackTime = 0f;
-        if (slapbox != null)
-        {
-            slapbox.SetActive(false);
-        }
-        StopCoroutine(SlapattackDuration());
-        ResetChargeUI();
     }
 }

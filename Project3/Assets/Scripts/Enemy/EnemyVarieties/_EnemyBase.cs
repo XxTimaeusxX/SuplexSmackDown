@@ -60,9 +60,9 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     public float pushCooldown;
 
     [Header("Behavior Toggles ")]
-    public bool canPatrol = true;
-    public bool canChase = true;
-    public bool canAttack = true;
+    //public bool canPatrol = true;
+    //public bool canChase = true;
+    //public bool canAttack = true;
     //NOTE: make sure behavior toggles are properly working.
 
     [Header("Animation")]
@@ -126,11 +126,11 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         }
         if (agent.enabled && agent.isOnNavMesh)
         {
-            if (canChase)
+            if (Vector3.Distance(PLAYER.transform.position, transform.position) <= chaseRange)
             {
                 ChasePlayer();
             }
-            else if (canPatrol)
+            else 
             {
                 // Patrol-only mode: request a new patrol destination when there's no path or we've arrived.
                 float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
@@ -142,7 +142,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     // Default = Random Roaming Patrol
     public virtual void Patrol()
     {
-        if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
 
         const float patrolRadius = 20f;
@@ -170,14 +169,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     public virtual void ChasePlayer()
     {
         target = PLAYER; // Set target to player (can be modified for other targets)
-
-        // Behavior guard: only chase when allowed
-        //if (!canChase) return;
-        if (target == null)
-        {
-            Patrol();
-            return;
-        }
 
         distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
