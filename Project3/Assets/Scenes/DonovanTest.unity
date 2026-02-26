@@ -321,13 +321,13 @@ GameObject:
   - component: {fileID: 310872077}
   - component: {fileID: 310872076}
   - component: {fileID: 310872079}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: IntangibleBody
   m_TagString: Intangible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &310872075
 Transform:
   m_ObjectHideFlags: 0
@@ -513,27 +513,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f64ed8a7f5d844cbbf8635a2ce9422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level2BossManager
-  moveSpeed: 50
-  timeBetweenAttacks: 0.5
+  moveSpeed: 20
+  timeBetweenAttacks: 10
   walkPointRange: 5
   sightRange: 50
-  attackRange: 12
+  attackRange: 5
   walkPoint: {x: 0, y: 0, z: 0}
+  dashSpeed: 50
+  dashDuration: 5
   player: {fileID: 923066971}
-  intangibleBody: {fileID: 310872074}
-  solidBody: {fileID: 1404019811}
   agent: {fileID: 358572231}
-  whatIsGround:
+  rb: {fileID: 310872079}
+  groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  whatIsPlayer:
+  playerLayer:
     serializedVersion: 2
     m_Bits: 8
+  bossLayer:
+    serializedVersion: 2
+    m_Bits: 4096
   alreadyAttacked: 0
-  walkPointSet: 0
+  walkPointSet: 1
   playerInSightRange: 0
   playerInAttackRange: 0
-  flower: Flower
+  isDashing: 0
 --- !u!195 &358572231
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -696,7 +700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7803343495701552814, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.5
+      value: -20.37
       objectReference: {fileID: 0}
     - target: {fileID: 7803343495701552814, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -704,7 +708,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7803343495701552814, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.95
+      value: -17.258
       objectReference: {fileID: 0}
     - target: {fileID: 7803343495701552814, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1198,7 +1202,7 @@ GameObject:
   - component: {fileID: 1333557325}
   - component: {fileID: 1333557327}
   - component: {fileID: 1333557326}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1328,7 +1332,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1404019812
 Transform:
   m_ObjectHideFlags: 0
@@ -1796,7 +1800,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3211692696901109601, guid: f7cf78d912f42cb49a649eccfd690742, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.6427
+      value: -35.512703
       objectReference: {fileID: 0}
     - target: {fileID: 3211692696901109601, guid: f7cf78d912f42cb49a649eccfd690742, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1804,7 +1808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3211692696901109601, guid: f7cf78d912f42cb49a649eccfd690742, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -44.39972
+      value: -53.707718
       objectReference: {fileID: 0}
     - target: {fileID: 4489818509697371525, guid: f7cf78d912f42cb49a649eccfd690742, type: 3}
       propertyPath: Target.TrackingTarget
@@ -1856,7 +1860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8570106202212378660, guid: f7cf78d912f42cb49a649eccfd690742, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.6427
+      value: -35.512703
       objectReference: {fileID: 0}
     - target: {fileID: 8570106202212378660, guid: f7cf78d912f42cb49a649eccfd690742, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1864,7 +1868,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8570106202212378660, guid: f7cf78d912f42cb49a649eccfd690742, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -44.39972
+      value: -53.707718
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
