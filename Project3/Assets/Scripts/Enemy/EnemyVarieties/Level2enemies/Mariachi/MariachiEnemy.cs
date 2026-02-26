@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,7 +15,8 @@ public class MariachiEnemy : EnemyBase
     public Transform SpawnPoint;
     public float speed;
     public float size;
-
+    [Header("Mariachi Settings")]
+    public bool IsKillable = true;
     public float DefaultWalkSpeed;
     public float DefaultRunMoveSpeed;
     public float DefaultAttackCooldown;
@@ -23,19 +25,25 @@ public class MariachiEnemy : EnemyBase
     public void Start()
     {
         base.Start();
-        DefaultWalkSpeed = patrolWalkSpeed;
-        DefaultRunMoveSpeed = patrolRunSpeed;
+        DefaultWalkSpeed = agent.speed;
+        DefaultRunMoveSpeed = agent.speed;
         DefaultAttackCooldown = attackCooldown;
     }
     public override void Update()
       {
           base.Update();
-      }
+        if (isPushed && pushCooldown < 0 && IsKillable)
+        {
+            Debug.Log("Mariachi is pushed and can be");
+            gameObject.SetActive(false);
+            return;
+        }
+    }
     protected override void CustomAttack()
     {
       //  Debug.Log("Mariachi attack!");
       AudioManager.PlayGuitarNote();
-        Shootmusic();
+       // Shootmusic();
     }
     public void Shootmusic()
     {

@@ -91,6 +91,7 @@ public class MariGold : MonoBehaviour
             if (enemy != null && enemy.activeInHierarchy)
             {
                 alldestroyed = false;
+                RequiredEnemies.RemoveAll(e => e == null);
                 break;
             }
         }
