@@ -95,6 +95,10 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Boss sfx")]
     public AudioClip BossIntro;
     public AudioClip BossPhase;
+
+    [Header("    --------------------------- LEVEL 2 -----------------------------     ")]
+    [Header("Mariachi Sfx")]
+    public AudioClip GuitarNoteClip;
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -317,4 +321,8 @@ public sealed class AudioManager : MonoBehaviour
     // ----Boss SFX----
     public static void PlayBossIntro() => PlayNarration(Instance?.BossIntro, 1f); // Uses narration system for boss intro
     public static void PlayBossPhase() => PlayNarration(Instance?.BossPhase, 1f);
+
+    //-------------------------------------------- LEVEL 2------------------------------------------//
+
+    public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
 }

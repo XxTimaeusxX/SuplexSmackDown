@@ -75,6 +75,7 @@ public class OfficeEnemy : EnemyBase
         }
     }
 
+
     public override void Update()
     {
         base.Update();  // Let base class handle everything
