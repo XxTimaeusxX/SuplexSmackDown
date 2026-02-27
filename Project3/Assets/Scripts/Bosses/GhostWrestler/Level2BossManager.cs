@@ -15,6 +15,7 @@ public class Level2BossManager : MonoBehaviour
     public Vector3 walkPoint;
     public float dashSpeed;
     public float dashDuration;
+    public float dashDistanceMultiplier;
 
     [Header("References")]
     public Transform player;
@@ -85,8 +86,11 @@ public class Level2BossManager : MonoBehaviour
     private void AttackPlayer()
     {
         agent.SetDestination(transform.position);
-        Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, player.position.z);
-        transform.LookAt(targetPosition);
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+        targetPosition.y = transform.position.y;
+        Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+        transform.LookAt(targetLookAt);
         if (!alreadyAttacked)
         {
             StartCoroutine(DashCoroutine(targetPosition));
