@@ -16,12 +16,16 @@ public class Level2BossManager : MonoBehaviour
     public float dashSpeed;
     public float dashDuration;
     public float dashDistanceMultiplier;
+    private float stunnedTimer;
+    public float maxStunnedTimer;
 
     [Header("References")]
     public Transform player;
     public NavMeshAgent agent;
     public Rigidbody rb;
     public LayerMask groundLayer, playerLayer, bossLayer;
+    public Collider bossCollider;
+    public GameObject body;
 
     [Header("Bools")]
     public bool alreadyAttacked;
@@ -29,9 +33,24 @@ public class Level2BossManager : MonoBehaviour
     public bool playerInSightRange;
     public bool playerInAttackRange;
     public bool isDashing;
+    public bool triggerOn;
+    public bool stunned;
+
+    private void Start()
+    {
+        stunnedTimer = maxStunnedTimer;
+    }
 
     private void Update()
     {
+        if (triggerOn)
+        {
+            bossCollider.isTrigger = true;
+        }
+        if (!triggerOn)
+        {
+            bossCollider.isTrigger = false;
+        }
         agent.speed = moveSpeed;
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
@@ -48,6 +67,7 @@ public class Level2BossManager : MonoBehaviour
         {
             AttackPlayer();
         }
+        Stunned();
     }
 
     private void Patroling()
@@ -103,6 +123,7 @@ public class Level2BossManager : MonoBehaviour
     {
         isDashing = true;
         agent.enabled = false;
+        triggerOn = true;
         float startTime = Time.time;
         Vector3 startPos = transform.position;
         while (Time.time < startTime + dashDuration)
@@ -112,10 +133,28 @@ public class Level2BossManager : MonoBehaviour
         }
         agent.enabled = true;
         isDashing = false;
+        triggerOn = false;
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
+    }
+
+    private void Stunned()
+    {
+        if (stunned)
+        {
+            agent.enabled = false;
+            stunnedTimer -= Time.deltaTime;
+            body.tag = "Solid";
+        }  
+        if (stunnedTimer <= 0)
+        {
+            stunned = false;
+            agent.enabled = true;
+            body.tag = "Boss";
+            stunnedTimer = maxStunnedTimer;
+        }
     }
 }
