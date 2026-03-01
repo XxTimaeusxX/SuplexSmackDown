@@ -42,7 +42,9 @@ public class PlayerSuplex : MonoBehaviour
     public Slider rageBar;
     public PowerGauge powerGuage;
     public bool droneDropped;
+    public bool bossDropped;
     private float droneCooldown;
+    private float bossCooldown;
     [SerializeField] Image suplexBar;
     [SerializeField] Sprite suplexImg1;
 
@@ -110,7 +112,9 @@ public class PlayerSuplex : MonoBehaviour
             homingAttack.Initialize(playerDash, controller, homingAction);
 
         droneDropped = false;
+        bossDropped = false;
         droneCooldown = 1f;
+        bossCooldown = 1f;
     }
 
     private void Update()
@@ -126,6 +130,15 @@ public class PlayerSuplex : MonoBehaviour
         {
             droneDropped = false;
             droneCooldown = 1f;
+        }
+        if (bossDropped == true)
+        {
+            bossCooldown -= Time.deltaTime;
+        }
+        if (bossCooldown <= 0)
+        {
+            bossDropped = false;
+            bossCooldown = 1f;
         }
     }
 
@@ -384,6 +397,7 @@ public class PlayerSuplex : MonoBehaviour
                 if (grabHandler != null)
                 {
                     droneDropped = true;
+                    bossDropped = true;
                     grabHandler.ReleaseEnemy(applyDownwardForce: true);
                 }
                     

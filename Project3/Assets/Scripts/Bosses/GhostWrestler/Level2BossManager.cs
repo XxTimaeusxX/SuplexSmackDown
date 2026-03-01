@@ -18,6 +18,7 @@ public class Level2BossManager : MonoBehaviour
     public float dashDistanceMultiplier;
     private float stunnedTimer;
     public float maxStunnedTimer;
+    public float groundDistance;
 
     [Header("References")]
     public Transform player;
@@ -26,6 +27,9 @@ public class Level2BossManager : MonoBehaviour
     public LayerMask groundLayer, playerLayer, bossLayer;
     public Collider bossCollider;
     public GameObject body;
+    [SerializeField] private PlayerSuplex playerSuplex;
+    public Transform groundCheck;
+    public LayerMask groundMask;
 
     [Header("Bools")]
     public bool alreadyAttacked;
@@ -35,14 +39,22 @@ public class Level2BossManager : MonoBehaviour
     public bool isDashing;
     public bool triggerOn;
     public bool stunned;
+    public bool grabbed;
+    public bool wasGrounded;
 
     private void Start()
     {
+        grabbed = false;
         stunnedTimer = maxStunnedTimer;
     }
 
     private void Update()
     {
+        bool grounded = IsEnemyGrounded();
+        if (playerSuplex.bossDropped == true)
+        {
+            grabbed = false;
+        }
         if (triggerOn)
         {
             bossCollider.isTrigger = true;
@@ -55,19 +67,25 @@ public class Level2BossManager : MonoBehaviour
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
         if (isDashing) return;
-        if (!playerInSightRange && !playerInAttackRange)
+        if (!playerInSightRange && !playerInAttackRange && !grabbed)
         {
             Patroling();
         }
-        if (playerInSightRange && !playerInAttackRange)
+        if (playerInSightRange && !playerInAttackRange && !grabbed)
         {
             ChasePlayer();
         }
-        if (playerInSightRange && playerInAttackRange)
+        if (playerInSightRange && playerInAttackRange && !grabbed)
         {
             AttackPlayer();
         }
         Stunned();
+        if (grounded && wasGrounded && !grabbed)
+        {
+            rb.isKinematic = true;
+            agent.enabled = true;
+        }
+        wasGrounded = grounded;
     }
 
     private void Patroling()
@@ -100,22 +118,28 @@ public class Level2BossManager : MonoBehaviour
 
     private void ChasePlayer()
     {
-        agent.SetDestination(player.position);
+        if (agent.enabled == true)
+        {
+            agent.SetDestination(player.position);
+        }
     }
 
     private void AttackPlayer()
     {
-        agent.SetDestination(transform.position);
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
-        targetPosition.y = transform.position.y;
-        Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
-        transform.LookAt(targetLookAt);
-        if (!alreadyAttacked)
+        if (agent.enabled == true)
         {
-            StartCoroutine(DashCoroutine(targetPosition));
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            agent.SetDestination(transform.position);
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+            targetPosition.y = transform.position.y;
+            Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+            transform.LookAt(targetLookAt);
+            if (!alreadyAttacked)
+            {
+                StartCoroutine(DashCoroutine(targetPosition));
+                alreadyAttacked = true;
+                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+            }
         }
     }
 
@@ -156,5 +180,10 @@ public class Level2BossManager : MonoBehaviour
             body.tag = "Boss";
             stunnedTimer = maxStunnedTimer;
         }
+    }
+
+    public bool IsEnemyGrounded()
+    {
+        return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
     }
 }
