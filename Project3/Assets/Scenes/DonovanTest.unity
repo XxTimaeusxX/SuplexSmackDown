@@ -308,6 +308,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f04a13a8de77e294bb9a075ef9a6e95b, type: 3}
+--- !u!23 &264792193 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7391093933928497718, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+  m_PrefabInstance: {fileID: 5894307683871126179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &282085674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,8 +1682,24 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: groundDistance
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: objectRenderer
+      value: 
+      objectReference: {fileID: 264792193}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: opaqueMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c7575905d993a584f9088d08841273ab, type: 2}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxStunnedTimer
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxTriggerTimer
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: pushBackDuration
@@ -1692,6 +1713,10 @@ PrefabInstance:
       propertyPath: timeBetweenAttacks
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: transparentMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 384abbb328a216b47bf9cea38861459e, type: 2}
     - target: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Name
       value: TestBoss

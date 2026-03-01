@@ -19,6 +19,8 @@ public class Level2BossManager : MonoBehaviour
     private float stunnedTimer;
     public float maxStunnedTimer;
     public float groundDistance;
+    private float triggerTimer;
+    public float maxTriggerTimer;
 
     [Header("References")]
     public Transform player;
@@ -30,6 +32,9 @@ public class Level2BossManager : MonoBehaviour
     [SerializeField] private PlayerSuplex playerSuplex;
     public Transform groundCheck;
     public LayerMask groundMask;
+    public Material opaqueMaterial;
+    public Material transparentMaterial;
+    public Renderer objectRenderer;
 
     [Header("Bools")]
     public bool alreadyAttacked;
@@ -46,6 +51,8 @@ public class Level2BossManager : MonoBehaviour
     {
         grabbed = false;
         stunnedTimer = maxStunnedTimer;
+        triggerTimer = maxTriggerTimer;
+
     }
 
     private void Update()
@@ -58,6 +65,12 @@ public class Level2BossManager : MonoBehaviour
         if (triggerOn)
         {
             bossCollider.isTrigger = true;
+            triggerTimer -= Time.deltaTime;
+        }
+        if (triggerTimer <= 0)
+        {
+            triggerOn = false;
+            triggerTimer = maxTriggerTimer;
         }
         if (!triggerOn)
         {
@@ -157,7 +170,6 @@ public class Level2BossManager : MonoBehaviour
         }
         agent.enabled = true;
         isDashing = false;
-        triggerOn = false;
     }
 
     private void ResetAttack()
@@ -172,6 +184,7 @@ public class Level2BossManager : MonoBehaviour
             agent.enabled = false;
             stunnedTimer -= Time.deltaTime;
             body.tag = "Solid";
+            TurnSolid();
         }  
         if (stunnedTimer <= 0)
         {
@@ -179,11 +192,22 @@ public class Level2BossManager : MonoBehaviour
             agent.enabled = true;
             body.tag = "Boss";
             stunnedTimer = maxStunnedTimer;
+            TurnTransparent();
         }
     }
 
     public bool IsEnemyGrounded()
     {
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+    }
+
+    public void TurnSolid()
+    {
+        objectRenderer.material = opaqueMaterial;
+    }
+
+    public void TurnTransparent()
+    {
+        objectRenderer.material = transparentMaterial;
     }
 }
