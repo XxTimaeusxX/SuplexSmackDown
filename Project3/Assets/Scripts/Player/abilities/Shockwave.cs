@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class Shockwave : MonoBehaviour
     public float growSizeX;
     public float growSizeY;
     public float growSizeZ;
+    TravelToLocation ghostBoss;
 
     
 
@@ -22,6 +24,7 @@ public class Shockwave : MonoBehaviour
         targetScale = new Vector3(growSizeX, growSizeY, growSizeZ);
         initialScale = transform.localScale;
         StartCoroutine(ScaleOverTime(growDuration, targetScale));
+        ghostBoss = FindAnyObjectByType<TravelToLocation>();
     }
 
     private void Update()
@@ -41,7 +44,6 @@ public class Shockwave : MonoBehaviour
             Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
             body.AddForce(pushDir * pushForce, ForceMode.Impulse);
         }
-        
     }
 
     IEnumerator ScaleOverTime(float duration, Vector3 endScale)

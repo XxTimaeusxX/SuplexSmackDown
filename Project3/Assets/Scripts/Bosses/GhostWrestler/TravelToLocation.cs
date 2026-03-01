@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TravelToLocation : MonoBehaviour
 {
     [Header("Settings")]
     public float travelSpeed;
+
+    public Collider bossCollider;
+    public NavMeshAgent agent;
 
     [Header("Movement Locations")]
     public Transform waypoint;
@@ -21,6 +25,8 @@ public class TravelToLocation : MonoBehaviour
         if (moveToLocation)
         {
             MoveLocation(waypoint.position);
+            bossCollider.isTrigger = true;
+            agent.enabled = false;
         }
     }
 

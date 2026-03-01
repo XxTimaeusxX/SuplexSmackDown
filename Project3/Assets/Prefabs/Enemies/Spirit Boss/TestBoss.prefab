@@ -11,11 +11,9 @@ GameObject:
   - component: {fileID: 4535027542080451024}
   - component: {fileID: 3491539680468543615}
   - component: {fileID: 7391093933928497718}
-  - component: {fileID: 7114392198733261818}
-  - component: {fileID: 2535312934918656015}
   m_Layer: 12
   m_Name: Body
-  m_TagString: Intangible
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -92,56 +90,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &7114392198733261818
-CapsuleCollider:
+--- !u!1 &770869161062151006
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96171631798351243}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 50709338292256286}
+  m_Layer: 3
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &50709338292256286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770869161062151006}
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &2535312934918656015
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96171631798351243}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.003, y: -1.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2443247511672798558}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4176382162804785164
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,9 +222,11 @@ GameObject:
   - component: {fileID: 6388990256418465860}
   - component: {fileID: 5984417481109625612}
   - component: {fileID: 1120269757513397717}
-  m_Layer: 0
+  - component: {fileID: 9212217876019070925}
+  - component: {fileID: 1629447691092954705}
+  m_Layer: 12
   m_Name: TestBoss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -264,6 +245,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4535027542080451024}
+  - {fileID: 50709338292256286}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6388990256418465860
@@ -293,18 +275,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f64ed8a7f5d844cbbf8635a2ce9422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level2BossManager
-  moveSpeed: 20
-  timeBetweenAttacks: 2
+  moveSpeed: 8
+  timeBetweenAttacks: 5
   walkPointRange: 5
   sightRange: 50
-  attackRange: 5
+  attackRange: 10
   walkPoint: {x: 0, y: 0, z: 0}
-  dashSpeed: 50
+  dashSpeed: 20
   dashDuration: 1
   dashDistanceMultiplier: 2
+  maxStunnedTimer: 4
+  groundDistance: 0.4
+  maxTriggerTimer: 0.6
+  fallSpeed: 5
   player: {fileID: 0}
   agent: {fileID: 1120269757513397717}
-  rb: {fileID: 2535312934918656015}
+  rb: {fileID: 1629447691092954705}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -314,11 +300,25 @@ MonoBehaviour:
   bossLayer:
     serializedVersion: 2
     m_Bits: 4096
+  bossCollider: {fileID: 9212217876019070925}
+  body: {fileID: 6162695457830059003}
+  playerSuplex: {fileID: 0}
+  groundCheck: {fileID: 50709338292256286}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  opaqueMaterial: {fileID: 2100000, guid: c7575905d993a584f9088d08841273ab, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 384abbb328a216b47bf9cea38861459e, type: 2}
+  objectRenderer: {fileID: 7391093933928497718}
   alreadyAttacked: 0
   walkPointSet: 1
   playerInSightRange: 0
   playerInAttackRange: 0
   isDashing: 0
+  triggerOn: 0
+  stunned: 0
+  grabbed: 0
+  isGrounded: 0
 --- !u!195 &1120269757513397717
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -341,3 +341,53 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &9212217876019070925
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162695457830059003}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 6
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.75, z: 0}
+--- !u!54 &1629447691092954705
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162695457830059003}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
