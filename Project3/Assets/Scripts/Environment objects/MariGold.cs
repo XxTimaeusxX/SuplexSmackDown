@@ -31,6 +31,7 @@ public class MariGold : MonoBehaviour
     private Material[] _originalMaterials;
     private Collider _collider;
     public Level2BossManager bossManager;
+    [SerializeField] private GhostDancer ghostDancer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -137,6 +138,11 @@ public class MariGold : MonoBehaviour
         {
             Debug.Log("Collide");
             bossManager.stunned = true;
+        }
+        if(other.CompareTag("GhostDancer"))
+            {
+                Debug.Log("Collide");
+                ghostDancer.IsKillable = false;
         }
     }
 }
