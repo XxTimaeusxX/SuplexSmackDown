@@ -43,7 +43,7 @@ public class MariachiEnemy : EnemyBase
     {
       //  Debug.Log("Mariachi attack!");
       AudioManager.PlayGuitarNote();
-       // Shootmusic();
+        Shootmusic();
     }
     public void Shootmusic()
     {

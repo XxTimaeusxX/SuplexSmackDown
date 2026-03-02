@@ -22,9 +22,11 @@ public class MariachiBuff : MonoBehaviour
     }
     public void ApplyBuff()
     {
-        // Count only active enemies
-        int activeEnemies = mariachiEnemies.Count(m => m != null && m.gameObject.activeInHierarchy);
-        foreach (var mariachi in mariachiEnemies)
+        
+            // Only consider active enemies
+            var activeMariachis = mariachiEnemies.Where(m => m != null && m.gameObject.activeInHierarchy).ToList();
+            int activeEnemies = activeMariachis.Count;
+            foreach (var mariachi in activeMariachis)
         {
             mariachi.patrolWalkSpeed = mariachi.DefaultWalkSpeed;
             mariachi.patrolRunSpeed = mariachi.DefaultRunMoveSpeed;
@@ -42,6 +44,8 @@ public class MariachiBuff : MonoBehaviour
             }
             else if (activeEnemies == 1)
             {
+                mariachi.patrolRunSpeed *= .5f;
+                mariachi.patrolWalkSpeed *= .5f;
                 Debug.Log("buff is normal");
 
             }

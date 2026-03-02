@@ -43,10 +43,10 @@ public class MacroBoss : EnemyBase
    public override void Update()
     {
        base.Update();
-           if( !isGrabbed && IsEnemyGrounded())
+           if(wasThrown && !isGrabbed && IsEnemyGrounded())
         {
-           // wasThrown = false;
-          
+           wasThrown = false;
+         
             ResumeSequence(); 
             if (CompareTag("DamagePlayer"))
             {
@@ -84,13 +84,13 @@ public class MacroBoss : EnemyBase
         canChase = true;
         canAttack = true;
         canPatrol = true;
-      //  SetGrabbed(false);
+        SetGrabbed(false);
         returnDelay = 6f;
        
     }
     private IEnumerator ReturnToMicroPosition()
     {
-      
+       Debug.Log("Returning to micro position");
         AudioManager.PlayMacroRetreatTwo();
         var wait = new WaitForSeconds(.5f);
         MacrosCollider.enabled = false; // disable macro collider while returning to micro position
@@ -117,6 +117,7 @@ public class MacroBoss : EnemyBase
               Debug.Log("Reached micro position");
                 MacrosCollider.enabled = true; // re-enable macro collider so it can be grabbed again
                 damageHitbox.enabled = false; // disable damage hitbox
+     
                 yield break; // exit coroutine
             }
             yield return null;
