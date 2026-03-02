@@ -111,7 +111,6 @@ public class Level2BossManager : MonoBehaviour
         {
             grabbedCooldown = false;
             grabbedTimer = maxGrabbedTimer;
-            travel.moveToLocation = true;
         }
         if (isGrounded && !grabbed && !grabbedCooldown)
         {
@@ -232,5 +231,12 @@ public class Level2BossManager : MonoBehaviour
     public void TurnTransparent()
     {
         objectRenderer.material = transparentMaterial;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            travel.moveToLocation = true;
+        }
     }
 }
