@@ -1,13 +1,13 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class ShoalEnemy : OGEnemyBase
+public class ShoalEnemy : EnemyBase
 {
     public DoorManager doorManager;
-    // Shoal-specific audio edge trigger state
-    private bool _shoalWasInChaseRange = false;
+
     public bool bossShoal;
     public GameObject timer;
     public GameObject player;
@@ -17,32 +17,67 @@ public class ShoalEnemy : OGEnemyBase
     public Animator ShoalAnimator;
     private string CurrentShoalAnimation = "";
 
+    public GameObject slapbox;          // child trigger collider with AttackHitBox
+    public float slapActiveTime = 0.1f;
+    public Slider enemyHealth;
+    public GameObject enemyHealthScreen;
+
+    void Start()
+    {
+        enemyHealth.value += 1;
+    }
+    public override void Death()
+    {
+        StartCoroutine(DeathRoutine());
+    }
+    private IEnumerator DeathRoutine()
+    {
+        yield return new WaitForSeconds(timeTillDeath);   //Time till object disappears
+        this.gameObject.SetActive(false);
+    }
+    public override void Attack()
+    {
+        if (_nextAttackTime < attackCooldown)
+        {
+            _nextAttackTime += Time.deltaTime;
+            // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
+            return;
+        }
+
+        //Debug.Log($"[{name}] Melee attack!");
+
+        animator.SetTrigger("EnemySlap");
+        AudioManager.PlayEnemySlap();
+        _nextAttackTime = 0f;
+        UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
+        StartCoroutine(SlapAttackDuration());
+        ResetChargeUI();
+    }
     public override void Update()
     {
-        base.Update();  
-        bool grounded = IsEnemyGrounded();
-        if (Target != null)
+        if (agent.enabled)
         {
-            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
+                ChasePlayer();
+        }
+
+        bool grounded = IsEnemyGrounded();
+
+        if (target != null)
+        {
+            m_Distance = Vector3.Distance(target.transform.position, transform.position);
             bool inChaseRange = m_Distance <= chaseRange;
 
-            if (inChaseRange && !_shoalWasInChaseRange)
+            if (inChaseRange)
             {
                 // Entered chase range: play Shoal "detected" sound
                 AudioManager.PlayShoalIdle();
             }
-      
-
-            _shoalWasInChaseRange = inChaseRange;
         }
-        else _shoalWasInChaseRange = false;
-
-
-
         if (isPushed)
         {
             pushCooldown -= Time.deltaTime;
         }
+
         if (pushCooldown < 0 && isPushed)
         {
             pushCooldown = 0;
@@ -72,27 +107,36 @@ public class ShoalEnemy : OGEnemyBase
                     }
                 }
             }
-            
-   
             Destroy(gameObject);
         }
         if (!grounded)
         {
             ResetSlapState();
         }
-        if (grounded && wasGrounded && !isGrabbed && !isPushed)
-        {
-            // Debug.Log("Enemy just landed!");
-            rb.isKinematic = true;
-            agent.enabled = true;
-        }
-        wasGrounded = grounded;
         if (agent.enabled && agent.isOnNavMesh)
         {
             ChasePlayer();
         }
 
         CheckAnimation();
+    }
+
+    public void ResetSlapState()
+    {
+        _nextAttackTime = 0f;
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
+        StopCoroutine(SlapAttackDuration());
+        ResetChargeUI();
+    }
+    public IEnumerator SlapAttackDuration()
+    {
+        yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
+        slapbox.SetActive(true);
+        yield return new WaitForSeconds(slapActiveTime);
+        slapbox.SetActive(false);
     }
 
     //---------------- Animation ---------------------------//

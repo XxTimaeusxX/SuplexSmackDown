@@ -119355,15 +119355,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6356730167066412651, guid: 2aea488f014bd4248a7c7410247d0c81, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6356730167066412651, guid: 2aea488f014bd4248a7c7410247d0c81, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6356730167066412651, guid: 2aea488f014bd4248a7c7410247d0c81, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6356730167066412651, guid: 2aea488f014bd4248a7c7410247d0c81, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -161654,21 +161654,9 @@ PrefabInstance:
     m_TransformParent: {fileID: 108359310}
     m_Modifications:
     - target: {fileID: -1950444604758302330, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
-      propertyPath: Target
-      value: 
-      objectReference: {fileID: 1152671265}
-    - target: {fileID: -1950444604758302330, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
-    - target: {fileID: -1950444604758302330, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
-      propertyPath: rageMeter
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: -1950444604758302330, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
-      propertyPath: powerGuage
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3904729399684723981, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
       propertyPath: m_LocalPosition.x
       value: 48.97
@@ -161720,10 +161708,6 @@ PrefabInstance:
     - target: {fileID: 5488155979447178108, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
       propertyPath: m_AnchorMin.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6523892785764805586, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
-      propertyPath: m_AutoTraverseOffMeshLink
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7321424840813435074, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
       propertyPath: m_Name
@@ -243422,6 +243406,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 998491480}
     - target: {fileID: 8562811792415152047, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8562811792415152047, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       propertyPath: doorManager
       value: 
       objectReference: {fileID: 1879840299}
@@ -263465,7 +263453,7 @@ GameObject:
   - component: {fileID: 1586240594}
   m_Layer: 0
   m_Name: Shoal
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -329606,7 +329594,7 @@ GameObject:
   - component: {fileID: 1995748021}
   - component: {fileID: 1995748020}
   m_Layer: 0
-  m_Name: Clouuds
+  m_Name: Clouds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -349390,70 +349378,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1586240594}
     m_Modifications:
-    - target: {fileID: 461110300938288247, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461110300938288247, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461110300938288247, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.411
-      objectReference: {fileID: 0}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn
-      value: 
-      objectReference: {fileID: 1596394703}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: respawnPoint
-      value: 
-      objectReference: {fileID: 1624380687}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn2
-      value: 
-      objectReference: {fileID: 674921433}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn3
-      value: 
-      objectReference: {fileID: 161514461}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn4
-      value: 
-      objectReference: {fileID: 2052429815}
-    - target: {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: enemyRespawn5
-      value: 
-      objectReference: {fileID: 1202670971}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: door
-      value: 
-      objectReference: {fileID: 1879840297}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: Target
-      value: 
-      objectReference: {fileID: 1152671265}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: rageBar
       value: 
       objectReference: {fileID: 1827894049}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: canPatrol
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: rageMeter
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: chaseRange
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: powerGuage
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: doorManager
       value: 
@@ -349462,10 +349390,6 @@ PrefabInstance:
       propertyPath: enemyHealth
       value: 
       objectReference: {fileID: 1817389612}
-    - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      propertyPath: menuManager
-      value: 
-      objectReference: {fileID: 158926018}
     - target: {fileID: 2427514088501719867, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
       propertyPath: enemyHealthScreen
       value: 
@@ -349514,8 +349438,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

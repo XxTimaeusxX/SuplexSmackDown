@@ -20,9 +20,10 @@ public class ActivateRespawn : MonoBehaviour
     public bool respawn3;
     public bool respawn4;
     public bool respawn5;
-    private PlayerMovement playerMovement;
+    private MovementController movementController;
     private CharacterController PlayerCC;
     private PlayerHealth playerHealth;
+    private SuplexController suplexController;
     private bool isRespawning = false;
     public bool falling;
     public float fallTime;
@@ -31,8 +32,9 @@ public class ActivateRespawn : MonoBehaviour
     private void Start()
     {
         PlayerCC = GetComponent<CharacterController>();
-        playerMovement = GetComponentInParent<PlayerMovement>();
+        movementController = GetComponent<MovementController>();
         playerHealth = GetComponentInParent<PlayerHealth>();
+        suplexController = GetComponent<SuplexController>();
         falling = false;
         fallTime = maxFallTime;
         respawn1 = true;
@@ -41,11 +43,11 @@ public class ActivateRespawn : MonoBehaviour
     }
     private void Update()
     {
-        if (playerMovement.isGrounded == false)
+        if (movementController.isGrounded == false)
         {
             falling = true;
         }
-        if (playerMovement.isGrounded)
+        if (movementController.isGrounded)
         {
             falling = false;
             fallTime = maxFallTime;
@@ -122,9 +124,9 @@ public class ActivateRespawn : MonoBehaviour
     {
         PlayerCC.enabled = false;
         yield return new WaitForSeconds(.1f);
-        playerMovement.velocity.x = 0f;
-        playerMovement.velocity.z = 0f;
-        playerMovement.velocity.y = -2f;
+        movementController.velocity.x = 0f;
+        movementController.velocity.z = 0f;
+        movementController.velocity.y = -2f;
         transform.position = newTransform.position;
         isRespawning = false;
         PlayerCC.enabled = true;

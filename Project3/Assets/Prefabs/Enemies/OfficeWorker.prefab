@@ -437,7 +437,6 @@ GameObject:
   - component: {fileID: 8847915130969235865}
   - component: {fileID: -1950444604758302330}
   - component: {fileID: 1321591621540342714}
-  - component: {fileID: 8568616347450641815}
   m_Layer: 8
   m_Name: OfficeWorker
   m_TagString: Enemy
@@ -559,7 +558,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 1200
   m_StoppingDistance: 0.75
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -647,22 +646,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f5fae52cc3ac347bce915f86503b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OfficeEnemy
-  health: 3
+  agent: {fileID: 0}
+  health: 1
   enemyWalkSpeed: 4
-  enemySprintSpeed: 14
+  enemySprintSpeed: 10
   rageXP: 0.03
   rageTime: 5
+  timeTillDeath: 2
   carryWeightProfile: {fileID: 11400000, guid: f28b4bfe052c8fb48ae2d89baa547e8b, type: 2}
   attackRange: 2
   attackCooldown: 0.8
   _nextAttackTime: 0
-  knockOutTime: 5
+  knockOutTime: 3
   mainCollider: {fileID: 5166477041906415588}
   carryProxy: {fileID: 4402134745827679236}
   target: {fileID: 0}
   distanceToTarget: 0
-  chaseRange: 5
-  patrolWaitDefault: 1
+  chaseRange: 15
+  patrolWaitDefault: 3
   m_Distance: 0
   isGrabbed: 0
   isPushed: 0
@@ -673,23 +674,6 @@ MonoBehaviour:
   slapbox: {fileID: 6266211601759759052}
   slapActiveTime: 0.1
 --- !u!114 &1321591621540342714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7321424840813435074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85a71c97116cae241b894b21fb831982, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GroundChecker
-  groundCheck: {fileID: 8785384517540818139}
-  checkDistance: 0.2
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 1024
---- !u!114 &8568616347450641815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -19,7 +19,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     private GameObject PLAYER; // Reference to the player (Currenly set as so due to no enemy vs enemy interactions)
     public Rigidbody Rigidbody => rb; // Public getter for Rigidbody (for ICarriable interface)
     private Rigidbody rb;
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     //public MonoBehaviour enemyAI; // whatever AI script used
     private Transform originalParent; // To store original parent when carried (e.g. After picking up an enemy that's parented to another object, once released it should go back to that object)
     //private GroundChecker groundChecker;
@@ -27,12 +27,13 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     private GroundChecker groundChecker;
 
     [Header("Stats")]
-    public float health;
+    public int health;
     public float enemyWalkSpeed;
     public float enemySprintSpeed;
 
     public float rageXP; // Amount of rage you get on defeat
     public float rageTime; // Amount of rage time you get on defeat
+    public float timeTillDeath; // Time from when the enemy is knocked out to when it dies (for enemies that can be knocked out but not killed immediately, e.g. construction workers)
 
     [SerializeField] protected CarryWeightProfile carryWeightProfile; // Used to determine how the enemy behaves when being carried (e.g. how much it slows the player down, whether it can be thrown, etc.)
     public CarryWeightProfile CarryWeightProfile => carryWeightProfile; // Public getter for carry weight profile
@@ -42,6 +43,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     public float attackCooldown = 0.8f;   // Time between attacks
     public float _nextAttackTime = 0f;
     public float knockOutTime = 5f; // Time the enemy stays knocked out
+
 
     [Header("Colliders")]
     public Collider mainCollider;   // Main collider for the enemy
@@ -77,7 +79,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
 
     /// Abstract methods for enemy behavior (to be implemented by derived classes)
     public abstract void Attack();
-    // public abstract void Death();
+    public abstract void Death();
 
     /// ------------------------------- ///
 
@@ -114,16 +116,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         if (isPushed)
         {
             pushCooldown -= Time.deltaTime;
-        }
-        if (pushCooldown < 0)
-        {
-            if (!isGrabbed && !CompareTag("DontRespawn"))
-            {
-                pushCooldown = 0;
-                isPushed = false;
-                agent.enabled = true;
-                rb.isKinematic = true;
-            }
         }
         if (agent.enabled && agent.isOnNavMesh)
         {
@@ -178,7 +170,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         // NOTE: Look into changing this into vision cone logic later on
         if (agent.isOnNavMesh)
         {
-            bool inChaseRange = distanceToTarget <= chaseRange;
+            bool inChaseRange = (distanceToTarget <= chaseRange);
 
             if (inChaseRange)
             {
@@ -190,11 +182,14 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
                 {
                     agent.isStopped = true;
                     FaceTarget();
+                    WaitForSeconds wait = new WaitForSeconds(0.5f);
                     Attack();
                 }
                 else
                 {
-                    if (agent.isStopped) agent.isStopped = false;
+                    if (agent.isStopped) 
+                        agent.isStopped = false;
+
                     agent.destination = target.transform.position;
                     _nextAttackTime = 0f;
                     ResetChargeUI();

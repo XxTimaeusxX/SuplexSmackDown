@@ -8,6 +8,10 @@ public class ConstructionEnemy : EnemyBase
     {
 
     }
+    public override void Death()
+    {
+        this.gameObject.SetActive(false);
+    }
     /*
  private bool _WorkerInChaseRange = false;
     // Edge trigger to play damage sound once when push starts

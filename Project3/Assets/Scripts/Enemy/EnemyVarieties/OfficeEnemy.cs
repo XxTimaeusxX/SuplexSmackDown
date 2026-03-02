@@ -38,6 +38,10 @@ public class OfficeEnemy : EnemyBase
         {
             _OfficeShoalWasInChaseRange = false;
         }
+        if (health <= 0)
+        {
+            Death();
+        }
     }
     public override void OnCollisionEnter(Collision collision)
     {
@@ -45,6 +49,7 @@ public class OfficeEnemy : EnemyBase
         if (collision.gameObject.CompareTag("Shockwave"))
         {       
             AudioManager.PlayShoalFalling();
+            health -= 1;
         }
     }
 
@@ -57,16 +62,25 @@ public class OfficeEnemy : EnemyBase
             return;
         }
 
-        Debug.Log($"[{name}] Melee attack!");
+        //Debug.Log($"[{name}] Melee attack!");
 
         animator.SetTrigger("EnemySlap");
         AudioManager.PlayEnemySlap();
         _nextAttackTime = 0f; 
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
-        StartCoroutine(SlapattackDuration());
+        StartCoroutine(SlapAttackDuration());
         ResetChargeUI();
     }
-    public IEnumerator SlapattackDuration()
+    public override void Death()
+    {
+        StartCoroutine(DeathRoutine());
+    }
+    private IEnumerator DeathRoutine()
+    {
+        yield return new WaitForSeconds(timeTillDeath);   //Time till object disappears
+        this.gameObject.SetActive(false);
+    }
+    public IEnumerator SlapAttackDuration()
     {
         yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
         slapbox.SetActive(true);
