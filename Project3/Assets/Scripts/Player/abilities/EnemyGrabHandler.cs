@@ -117,7 +117,7 @@ public class EnemyGrabHandler : MonoBehaviour
         }
 
         // Re-enable NavMeshAgent AFTER unparenting
-        if (enemyScript != null && enemyScript.agent != null)
+        if (enemyScript != null && enemyScript.agent != null&& enemyScript.IsEnemyGrounded())
         {
             enemyScript.agent.enabled = true;
         }

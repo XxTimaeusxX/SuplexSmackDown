@@ -24,10 +24,6 @@ public class SuplexHitboxCaller : MonoBehaviour
         if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") && playerSuplex != null)
         {
            //  Debug.Log("hitboxcollider called");
-            if (other.CompareTag("Macro"))
-            {
-                other.gameObject.tag = "Grabbed";
-            }
             if (other.CompareTag("Drone"))
             {
                 other.gameObject.GetComponent<FlyingAI>().grabbed = true;

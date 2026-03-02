@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.2516775, y: 189.1, z: -5.5}
-  m_LocalScale: {x: 15.2, y: 15.2, z: 15.2}
+  m_LocalScale: {x: 13, y: 13, z: 13}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2335708681676518476}
@@ -119,7 +119,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.03
-  m_Height: 0.12
+  m_Height: 0.18
   m_Direction: 1
   m_Center: {x: 0, y: -0.03, z: 0}
 --- !u!54 &94331698028440693
@@ -158,7 +158,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 815463349756047240}
   m_Enabled: 1
   m_AgentTypeID: -1372625422
-  m_Radius: 0.03
+  m_Radius: 0.06
   m_Speed: 1
   m_Acceleration: 24
   avoidancePriority: 50
@@ -214,7 +214,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  groundDistance: 0.31
+  groundDistance: 0.46
   rageBar: {fileID: 0}
   canPatrol: 1
   canChase: 1
@@ -238,7 +238,6 @@ MonoBehaviour:
   _nextAttackTime: 0
   slapbox: {fileID: 6012653439748319867}
   slapActiveTime: 0.1
-  animator: {fileID: 0}
   MicroPosition: {fileID: 0}
   returnDelay: 6
   damageHitbox: {fileID: 8486778903386653615}
@@ -251,17 +250,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815463349756047240}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00b004953d76a564da71f90395b76795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRespawn
   enemyRespawn: {fileID: 0}
-  enemyRespawn2: {fileID: 0}
-  enemyRespawn3: {fileID: 0}
-  enemyRespawn4: {fileID: 0}
-  enemyRespawn5: {fileID: 0}
   respawnPoint: {fileID: 0}
+  outside: 0
+  maxTimer: 0
+  timer: 0
 --- !u!1 &845245145641101098
 GameObject:
   m_ObjectHideFlags: 0
@@ -665,8 +663,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4694010831073307490}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.411, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: -9.5}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -888,7 +886,7 @@ Transform:
   m_GameObject: {fileID: 7896541908001303180}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0947, z: 0}
+  m_LocalPosition: {x: 0, y: -0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

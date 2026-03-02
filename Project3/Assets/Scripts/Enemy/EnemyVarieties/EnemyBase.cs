@@ -176,10 +176,10 @@ public class EnemyBase : MonoBehaviour
             return;
         }
 
-        if (CompareTag("Grabbed"))
+     /*   if (CompareTag("Grabbed"))
         {
             this.gameObject.tag = "Macro";
-        }
+        }*/
 
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);

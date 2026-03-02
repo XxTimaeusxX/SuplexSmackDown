@@ -43,9 +43,10 @@ public class MacroBoss : EnemyBase
    public override void Update()
     {
        base.Update();
-           if(wasThrown && !isGrabbed && IsEnemyGrounded())
+           if( !isGrabbed && IsEnemyGrounded())
         {
-            wasThrown = false;
+           // wasThrown = false;
+          
             ResumeSequence(); 
             if (CompareTag("DamagePlayer"))
             {
@@ -83,7 +84,7 @@ public class MacroBoss : EnemyBase
         canChase = true;
         canAttack = true;
         canPatrol = true;
-        SetGrabbed(false);
+      //  SetGrabbed(false);
         returnDelay = 6f;
        
     }
