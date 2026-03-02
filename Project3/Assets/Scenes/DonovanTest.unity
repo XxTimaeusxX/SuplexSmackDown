@@ -946,6 +946,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac834ce56ad2dc4dab786717345f244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TravelToLocation
+--- !u!4 &1508916589 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2443247511672798558, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+  m_PrefabInstance: {fileID: 5894307683871126179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1512851609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1522,6 +1527,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
+    - target: {fileID: 1629447691092954705, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 2443247511672798558, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.43
@@ -1571,6 +1580,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1508916581}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: boss
+      value: 
+      objectReference: {fileID: 1508916589}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 923066971}
@@ -1584,7 +1597,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: fallSpeed
-      value: 5
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: jumpForce
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Enabled
@@ -1595,6 +1612,14 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: shockwave
+      value: 
+      objectReference: {fileID: 6776234784039089348, guid: 529e3d2b33e5a354f9d56192a7817cd3, type: 3}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: jumpHeight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: attackRange
       value: 10
       objectReference: {fileID: 0}
@@ -1602,6 +1627,10 @@ PrefabInstance:
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 282085675}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxJumpTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: bossCollider
       value: 
