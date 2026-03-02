@@ -4,10 +4,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Shockwave : MonoBehaviour
+public class BossShockwave : MonoBehaviour
 {
-    public float pushForce;
-    public Slider rageMeter;
     public float growDuration = 2f;
     public float activeDuration = 2f;
     private Vector3 targetScale;
@@ -16,31 +14,19 @@ public class Shockwave : MonoBehaviour
     public float growSizeY;
     public float growSizeZ;
 
-    
-
-    private void Start()
+    void Start()
     {
         targetScale = new Vector3(growSizeX, growSizeY, growSizeZ);
         initialScale = transform.localScale;
         StartCoroutine(ScaleOverTime(growDuration, targetScale));
     }
 
-    private void Update()
+    void Update()
     {
         activeDuration -= Time.deltaTime;
         if (activeDuration <= 0)
         {
             Destroy(gameObject);
-        }
-    }
-
-    void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        Rigidbody body = hit.collider.attachedRigidbody;
-        if (hit.gameObject.CompareTag("Enemy"))
-        {
-            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-            body.AddForce(pushDir * pushForce, ForceMode.Impulse);
         }
     }
 

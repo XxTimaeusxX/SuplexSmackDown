@@ -212,6 +212,7 @@ MonoBehaviour:
   falling: 0
   fallTime: 0
   maxFallTime: 5
+  turnOffFallDamage: 0
 --- !u!114 &4355799152470144973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +255,9 @@ MonoBehaviour:
   CinemachineCamera: {fileID: 0}
   isMoving: 0
   CoheteAnimator: {fileID: 6092677605225765789}
+  RunSpeedThreshold: 2
+  IsPlayingGrabAnimation: 0
+  isPlayingDashAnimation: 0
   freefallDelay: 1.5
   freefallVelocityThreshold: -0.5
 --- !u!114 &1503019039891862977
@@ -355,6 +359,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
   controller: {fileID: 5799758933028956056}
+  dashAction:
+    m_Name: Dash
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 42caeaf0-d3b2-41b9-9c06-22d9819935e3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   PlayerInput: {fileID: 1503019039891862977}
   suplexhitbox: {fileID: 1771932381029750810}
   dashSpeed: 10
@@ -385,6 +398,7 @@ MonoBehaviour:
   rageBar: {fileID: 0}
   powerGuage: {fileID: 2331021945259332844}
   droneDropped: 0
+  bossDropped: 0
   suplexBar: {fileID: 0}
   suplexImg1: {fileID: 21300000, guid: c6e37812ac206ac42a9843cfcad3d775, type: 3}
   trajectoryVisualizer: {fileID: 1846027077025782231}
@@ -593,8 +607,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerPause
   playerInput: {fileID: 1503019039891862977}
   menuManager: {fileID: 0}
-  _PauseMenuContainer: {fileID: 0}
-  _DefaultPauseButton: {fileID: 0}
 --- !u!114 &5198306680872701079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,10 +642,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63523155a74a7de41b07240786e2c8ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ActivateEnemies
-  hoardEnemies: {fileID: 0}
   enemyHealth: {fileID: 0}
   targetGameObject: {fileID: 0}
   window: {fileID: 0}
+  areaOneEnemies: {fileID: 0}
+  wave1: {fileID: 0}
+  wave2: {fileID: 0}
+  wave3: {fileID: 0}
+  start: 0
+  maxSpawnTimer: 0
 --- !u!114 &8165873043437005133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,6 +809,10 @@ MonoBehaviour:
   BossColliderTrigger: {fileID: 0}
   BossColliderTrigger2: {fileID: 0}
   bossFight: {fileID: 0}
+  areaTwoEnemies: {fileID: 0}
+  bossArena: {fileID: 0}
+  enemySpawnTimer: 0
+  enemySpawn: 0
   respawn: {fileID: 8562811792415152047}
   menu: {fileID: 0}
   cinema: {fileID: 0}

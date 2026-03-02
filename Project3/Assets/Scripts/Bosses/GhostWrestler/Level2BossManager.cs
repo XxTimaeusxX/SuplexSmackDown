@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,9 +25,13 @@ public class Level2BossManager : MonoBehaviour
     public float fallSpeed;
     private float grabbedTimer;
     public float maxGrabbedTimer;
+    public float jumpForce;
+    private float jumpTime;
+    public float maxJumpTime;
 
     [Header("References")]
     public Transform player;
+    public Transform boss;
     public NavMeshAgent agent;
     public Rigidbody rb;
     public LayerMask groundLayer, playerLayer, bossLayer;
@@ -39,6 +44,7 @@ public class Level2BossManager : MonoBehaviour
     public Material transparentMaterial;
     public Renderer objectRenderer;
     public TravelToLocation travel;
+    public GameObject shockwave;
 
     [Header("Bools")]
     public bool alreadyAttacked;
@@ -51,6 +57,7 @@ public class Level2BossManager : MonoBehaviour
     public bool grabbed;
     public bool isGrounded;
     public bool grabbedCooldown;
+    public bool jump;
 
     private void Start()
     {
@@ -58,6 +65,7 @@ public class Level2BossManager : MonoBehaviour
         stunnedTimer = maxStunnedTimer;
         triggerTimer = maxTriggerTimer;
         grabbedTimer = maxGrabbedTimer;
+        jumpTime = maxJumpTime;
 
     }
 
@@ -68,59 +76,15 @@ public class Level2BossManager : MonoBehaviour
         {
             grabbed = false;
         }
-        if (triggerOn)
-        {
-            bossCollider.isTrigger = true;
-            triggerTimer -= Time.deltaTime;
-        }
-        if (triggerTimer <= 0)
-        {
-            triggerOn = false;
-            triggerTimer = maxTriggerTimer;
-        }
-        if (!triggerOn && travel.moveToLocation == false)
-        {
-            bossCollider.isTrigger = false;
-        }
+        TriggerOn();
         agent.speed = moveSpeed;
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
         if (isDashing) return;
-        if (!playerInSightRange && !playerInAttackRange && !grabbed && travel.moveToLocation == false)
-        {
-            Patroling();
-        }
-        if (playerInSightRange && !playerInAttackRange && !grabbed && travel.moveToLocation == false)
-        {
-            ChasePlayer();
-        }
-        if (playerInSightRange && playerInAttackRange && !grabbed && travel.moveToLocation == false)
-        {
-            AttackPlayer();
-        }
+        States();
         Stunned();
-        if (grabbed && stunnedTimer != maxStunnedTimer)
-        {
-            grabbedCooldown = true;
-        }
-        if (grabbedCooldown)
-        {
-            grabbedTimer -= Time.deltaTime;
-        }
-        if (grabbedTimer <= 0)
-        {
-            grabbedCooldown = false;
-            grabbedTimer = maxGrabbedTimer;
-            travel.moveToLocation = true;
-        }
-        if (isGrounded && !grabbed && !grabbedCooldown)
-        {
-            agent.enabled = true;
-        }
-        if (!isGrounded && !grabbed && travel.moveToLocation == false)
-        {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, -fallSpeed, rb.linearVelocity.z);
-        }
+        Grounded();
+        HighJump();
     }
 
     private void Patroling()
@@ -187,11 +151,13 @@ public class Level2BossManager : MonoBehaviour
             triggerOn = true;
             float startTime = Time.time;
             Vector3 startPos = transform.position;
+            rb.constraints = RigidbodyConstraints.FreezePosition;
             while (Time.time < startTime + dashDuration)
             {
                 transform.position = Vector3.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
                 yield return null;
             }
+            rb.constraints = ~RigidbodyConstraints.FreezePosition;
             agent.enabled = true;
             isDashing = false;
         }
@@ -224,6 +190,85 @@ public class Level2BossManager : MonoBehaviour
         }
     }
 
+    public void Grounded()
+    {
+        if (grabbed && stunnedTimer != maxStunnedTimer)
+        {
+            grabbedCooldown = true;
+        }
+        if (grabbedCooldown)
+        {
+            grabbedTimer -= Time.deltaTime;
+        }
+        if (grabbedTimer <= 0)
+        {
+            grabbedCooldown = false;
+            grabbedTimer = maxGrabbedTimer;
+        }
+        if (isGrounded && !grabbed && !grabbedCooldown)
+        {
+            agent.enabled = true;
+        }
+        if (!isGrounded && !grabbed && travel.moveToLocation == false)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, -fallSpeed, rb.linearVelocity.z);
+        }
+    }
+
+    public void TriggerOn()
+    {
+        if (triggerOn)
+        {
+            bossCollider.isTrigger = true;
+            triggerTimer -= Time.deltaTime;
+        }
+        if (triggerTimer <= 0)
+        {
+            triggerOn = false;
+            triggerTimer = maxTriggerTimer;
+        }
+        if (!triggerOn && travel.moveToLocation == false)
+        {
+            bossCollider.isTrigger = false;
+        }
+    }
+
+    public void States()
+    {
+        if (!playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
+        {
+            Patroling();
+        }
+        if (playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
+        {
+            ChasePlayer();
+        }
+        if (playerInSightRange && playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
+        {
+            AttackPlayer();
+        }
+    }
+
+    public void HighJump()
+    {
+        if (jump)
+        {
+            agent.enabled = false;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            isGrounded = false;
+            jumpTime -= Time.deltaTime;
+        }
+        if (jumpTime <= 0)
+        {
+            jump = false;
+            if (isGrounded)
+            {
+                Instantiate(shockwave, boss.position, boss.rotation, boss);
+                jumpTime = maxJumpTime;
+            }
+        }
+    }
+
     public void TurnSolid()
     {
         objectRenderer.material = opaqueMaterial;
@@ -232,5 +277,13 @@ public class Level2BossManager : MonoBehaviour
     public void TurnTransparent()
     {
         objectRenderer.material = transparentMaterial;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            travel.moveToLocation = true;
+        }
     }
 }
