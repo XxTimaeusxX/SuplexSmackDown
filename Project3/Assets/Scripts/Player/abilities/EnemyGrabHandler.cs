@@ -96,11 +96,16 @@ public class EnemyGrabHandler : MonoBehaviour
 
         var rb = GrabbedEnemy.GetComponent<Rigidbody>();
         var enemyScript = GrabbedEnemy.GetComponent<EnemyBase>();
+        var ghostBoss = GrabbedEnemy.GetComponent<Level2BossManager>();
         
         // Re-enable enemy ground detection FIRST
         if (enemyScript != null)
         {
             enemyScript.SetGrabbed(false);
+        }
+        if (ghostBoss != null)
+        {
+            ghostBoss.grabbed = false;
         }
 
         // Unparent and re-enable physics
