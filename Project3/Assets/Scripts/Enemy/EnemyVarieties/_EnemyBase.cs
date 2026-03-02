@@ -16,7 +16,7 @@ using UnityEngine.UI;
 public abstract class EnemyBase : MonoBehaviour, ICarriable
 {
     [Header("References")]
-    private GameObject PLAYER; // Reference to the player (Currenly set as so due to no enemy vs enemy interactions)
+    public GameObject PLAYER; // Reference to the player (Currently set as so due to no enemy vs enemy interactions)
     public Rigidbody Rigidbody => rb; // Public getter for Rigidbody (for ICarriable interface)
     private Rigidbody rb;
     public NavMeshAgent agent;

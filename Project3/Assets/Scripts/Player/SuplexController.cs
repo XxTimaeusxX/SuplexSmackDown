@@ -17,7 +17,6 @@ public class SuplexController : MonoBehaviour
 {
     [Header("References")]
     public CharacterController controller;
-    public EnemyGrabHandler grabHandler;
     public RageMeter rageMeter;
     private PlayerThrow playerThrow;
     private MovementController movementController;
@@ -62,6 +61,7 @@ public class SuplexController : MonoBehaviour
         playerThrow = GetComponent<PlayerThrow>();
         rageMeter = GetComponent<RageMeter>();
     }
+
 
     public void StartSuplex(MonoBehaviour target)   // Allows me to change the suplexable object type by using a simple check
     {

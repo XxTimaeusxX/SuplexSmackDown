@@ -17,8 +17,9 @@ public class ShoalEnemy : EnemyBase
     public Animator ShoalAnimator;
     private string CurrentShoalAnimation = "";
 
+    bool IsAlive = true;
     public GameObject slapbox;          // child trigger collider with AttackHitBox
-    public float slapActiveTime = 0.1f;
+    public float slapActiveTime = 0.2f;
     public Slider enemyHealth;
     public GameObject enemyHealthScreen;
 
@@ -32,8 +33,9 @@ public class ShoalEnemy : EnemyBase
     }
     private IEnumerator DeathRoutine()
     {
+        gameObject.tag = "Untagged";  // prevents grabbing a 'dead' enemy
         yield return new WaitForSeconds(timeTillDeath);   //Time till object disappears
-        this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
     }
     public override void Attack()
     {
@@ -57,7 +59,7 @@ public class ShoalEnemy : EnemyBase
     {
         if (agent.enabled)
         {
-                ChasePlayer();
+            ChasePlayer();
         }
 
         bool grounded = IsEnemyGrounded();
@@ -65,6 +67,7 @@ public class ShoalEnemy : EnemyBase
         if (target != null)
         {
             m_Distance = Vector3.Distance(target.transform.position, transform.position);
+            
             bool inChaseRange = m_Distance <= chaseRange;
 
             if (inChaseRange)
@@ -83,41 +86,41 @@ public class ShoalEnemy : EnemyBase
             pushCooldown = 0;
             isPushed = false;
             
-            enemyHealth.value -= 1;
             AudioManager.PlayShoalDamageHit();
             
-            
-            if (enemyHealth.value <= 0)
-            {
-                enemyHealthScreen.SetActive(false);
-                if (bossShoal == false)
-                {
-                    doorManager.open = true;
-                }
-                if (bossShoal == true)
-                {
-                    if (bossTrigger2 != null)
-                    {
-                        bossTrigger2.SetActive(true);
-                    }  
-                    timer.SetActive(true);
-                    if (CinemaScript != null)
-                    {
-                        CinemaScript.isPhase2Intro = true;
-                    }
-                }
-            }
-            Destroy(gameObject);
+
+            //Destroy(gameObject);
         }
         if (!grounded)
         {
             ResetSlapState();
         }
-        if (agent.enabled && agent.isOnNavMesh)
+        if (enemyHealth.value <= 0)
         {
-            ChasePlayer();
+            enemyHealthScreen.SetActive(false);
+            if (bossShoal == false)
+            {
+                doorManager.open = true;
+            }
+            if (bossShoal == true)
+            {
+                if (bossTrigger2 != null)
+                {
+                    bossTrigger2.SetActive(true);
+                }  
+                timer.SetActive(true);
+                if (CinemaScript != null)
+                {
+                    CinemaScript.isPhase2Intro = true;
+                }
+            }
         }
-
+        if (health <= 0 && IsAlive)
+        {
+            enemyHealth.value -= 1;
+            IsAlive = false;    // prevents rapid depeletion of boss bar
+            Death();
+        }
         CheckAnimation();
     }
 
@@ -138,7 +141,51 @@ public class ShoalEnemy : EnemyBase
         yield return new WaitForSeconds(slapActiveTime);
         slapbox.SetActive(false);
     }
+    public override void OnCollisionEnter(Collision collision)
+    {
+        base.OnCollisionEnter(collision);
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            health -= 1;
+        }
+    }
 
+    public override void ChasePlayer()
+    {
+        target = PLAYER; // Set target to player (can be modified for other targets)
+
+        distanceToTarget = Vector3.Distance(target.transform.position, transform.position);
+        float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+
+        if (agent.isOnNavMesh)
+        {
+            bool inChaseRange = (distanceToTarget <= chaseRange);
+
+            if (inChaseRange)
+            {
+                patrolWaitDefault = 0f;
+                agent.speed = enemySprintSpeed;
+                agent.destination = target.transform.position;
+
+                if (distanceToTarget < attackRange)  // When within melee range -> Face -> Attack
+                {
+                    agent.isStopped = true;
+                    FaceTarget();
+                    WaitForSeconds wait = new WaitForSeconds(0.5f);
+                    Attack();
+                }
+                else
+                {
+                    if (agent.isStopped)
+                        agent.isStopped = false;
+
+                    agent.destination = target.transform.position;
+                    _nextAttackTime = 0f;
+                    ResetChargeUI();
+                }
+            }
+        }
+    }
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {

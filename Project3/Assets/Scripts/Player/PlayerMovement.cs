@@ -33,7 +33,6 @@ public class PlayerMovement : MonoBehaviour
     public CinemachineCamera CinemachineCamera;
     [SerializeField] private bool isMoving;
 
-    PlayerSuplex playerSuplex;
     PlayerDash playerDash;
     [Header("Player health")]
     private PlayerHealth _playerhealth;
@@ -62,7 +61,6 @@ public class PlayerMovement : MonoBehaviour
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
         isMoving = false;
-        playerSuplex = GetComponent<PlayerSuplex>();
         playerDash = GetComponent<PlayerDash>();
         moveSpeed = startingMoveSpeed;
         ChangeAnimtion("IDLE");
@@ -162,8 +160,7 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
     {
 
-        bool isHoldingEnemy = playerSuplex.grabHandler.IsHoldingEnemy();
-        if (isGrounded && !isHoldingEnemy)
+        if (isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
@@ -171,12 +168,7 @@ public class PlayerMovement : MonoBehaviour
             AudioManager.PlayJumping();
             // Debug.Log("Jumped!");
         }
-      
-        else if (isHoldingEnemy && !playerSuplex.isSuplexing)
-        {
-            //StartCoroutine(playerSuplex.WaitForSuplexInput());
-            // Debug.Log("Waiting for suplex input!");
-        }
+
     }
 
     /// <summary>
@@ -240,9 +232,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ----- GRAB / GRABAIR / GRABWALK -----
-        if (playerSuplex.grabHandler.IsHoldingEnemy())
-        {
-           
+
             if (!isGrounded)
             {
                 ChangeAnimtion("GRABAIR");
@@ -256,8 +246,6 @@ public class PlayerMovement : MonoBehaviour
                 return;
             }
 
-            return;
-        }
         // ----- DASHING -----//
         if (playerDash.isDashing)
         {

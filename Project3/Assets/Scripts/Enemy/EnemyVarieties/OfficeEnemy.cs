@@ -77,6 +77,7 @@ public class OfficeEnemy : EnemyBase
     }
     private IEnumerator DeathRoutine()
     {
+        gameObject.tag = "Untagged";  // prevents grabbing a 'dead' enemy
         yield return new WaitForSeconds(timeTillDeath);   //Time till object disappears
         this.gameObject.SetActive(false);
     }

@@ -14,6 +14,7 @@ public class SuplexHitboxCaller : MonoBehaviour
     private SuplexConfig suplexConfig;
 
     public bool hitTarget = false;
+    public bool hasGrabbed = false; // Prevents grabbing multiple objects at once
 
 
     private void Awake()
@@ -22,6 +23,13 @@ public class SuplexHitboxCaller : MonoBehaviour
         suplexConfig = GetComponentInParent<SuplexConfig>();
     }
 
+    private void Update()
+    {
+        if (suplexController.carriedObject == null)
+        {
+            hasGrabbed = false;
+        }
+    }
     /// <summary>
     /// When hitbox is active from the dash ability it detects thisEnemy tag and starts the suplex sequence.
     /// </summary>
@@ -29,6 +37,10 @@ public class SuplexHitboxCaller : MonoBehaviour
     //MARK: Trigger Detection
     private void OnTriggerEnter(Collider other)
     {
+        // Stop immediately if we already grabbed something
+        if (hasGrabbed)
+            return;
+
         // Only react if the collider is tagged as "Enemy" and we have a OGPlayerSuplex reference
         if (other.CompareTag("canGrab") || other.CompareTag("Enemy"))
         {
@@ -36,6 +48,7 @@ public class SuplexHitboxCaller : MonoBehaviour
             if (other.CompareTag("Enemy"))
             {
                 //Debug.Log("Enemy tag detected");
+                hasGrabbed = true;
 
                 EnemyBase thisEnemy = other.GetComponentInParent<EnemyBase>();      // Get the enemy script from the object we hit
 
@@ -53,21 +66,9 @@ public class SuplexHitboxCaller : MonoBehaviour
             else if (other.CompareTag("canGrab"))
             {
                 Debug.Log("canGrab tag detected");
+                hasGrabbed = true;
             }
             hitTarget = true;
-
-        //// Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
-        //if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") && playerSuplex != null)
-        //{
-        //     Debug.Log("hitboxcollider called");
-        //    if (other.CompareTag("Macro"))
-        //    {
-        //        other.gameObject.tag = "Grabbed";
-        //    }
-        //    if (other.CompareTag("Drone"))
-        //    {
-        //        other.gameObject.GetComponent<FlyingAI>().grabbed = true;
-        //    }
             gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
         }
     }

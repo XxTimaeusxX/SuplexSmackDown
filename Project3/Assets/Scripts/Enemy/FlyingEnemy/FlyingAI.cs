@@ -6,7 +6,6 @@ public class FlyingAI : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform player;
     [SerializeField] private WaypointHolder waypointHolder;
-    [SerializeField] private PlayerSuplex playerSuplex;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
     public bool grabbed;
