@@ -32,25 +32,27 @@ public class MariachiBuff : MonoBehaviour
             mariachi.patrolRunSpeed = mariachi.DefaultRunMoveSpeed;
             if(activeEnemies == 3)
             {
-                mariachi.patrolWalkSpeed *= 2f; 
-                mariachi.patrolRunSpeed *= 2f;
-                
+                mariachi.patrolWalkSpeed *= 10f; 
+                mariachi.patrolRunSpeed *= 10;
+                mariachi.Projectilesize = 2.5f;
+                 Debug.Log("buff is 3x");
             }
             else if (activeEnemies == 2)
             {
                 Debug.Log("buff is 1.5x");
-                mariachi.patrolRunSpeed *= 15f;
-                mariachi.patrolWalkSpeed *= 15f;
+                mariachi.patrolRunSpeed *= 5;
+                mariachi.patrolWalkSpeed *= 5f;
+                mariachi.Projectilesize = 1f;
             }
             else if (activeEnemies == 1)
             {
+                Debug.Log("buff is normal");
                 mariachi.patrolRunSpeed *= .5f;
                 mariachi.patrolWalkSpeed *= .5f;
-                Debug.Log("buff is normal");
-
+                mariachi.Projectilesize = .3f;
             }
             //  mariachi.speed *= ProjectileSpeedMultiplier;
-            //  mariachi.size *= ProjectileSize;
+              
         }
     }
 }
