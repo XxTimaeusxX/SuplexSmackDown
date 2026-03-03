@@ -329,11 +329,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f64ed8a7f5d844cbbf8635a2ce9422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level2BossManager
---- !u!1 &535332481 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3631010225786184978, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
-  m_PrefabInstance: {fileID: 1758826272}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &923066970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1418,7 +1413,7 @@ PrefabInstance:
     - target: {fileID: 1959777578656107485, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: ObjectToEnable
       value: 
-      objectReference: {fileID: 535332481}
+      objectReference: {fileID: 0}
     - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.35
@@ -1593,7 +1588,7 @@ PrefabInstance:
       objectReference: {fileID: 1508916588}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: dashSpeed
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: fallSpeed
@@ -1620,6 +1615,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: movingBoss
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: attackRange
       value: 10
       objectReference: {fileID: 0}
@@ -1627,6 +1626,10 @@ PrefabInstance:
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 282085675}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxFallTime
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxJumpTime
       value: 1
@@ -1665,11 +1668,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxTriggerTimer
-      value: 0.6
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: groundMask.m_Bits
       value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxAttackCooldown
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: timeBetweenAttacks
