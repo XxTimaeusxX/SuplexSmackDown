@@ -29,6 +29,8 @@ public class Level2BossManager : MonoBehaviour
     public float maxJumpTime;
     private float attackCooldown;
     public float maxAttackCooldown;
+    private float jumpCooldownTimer;
+    public float maxJumpCooldownTimer;
 
     [Header("References")]
     public Transform player;
@@ -60,6 +62,7 @@ public class Level2BossManager : MonoBehaviour
     private bool grabbedCooldown;
     private bool jump;
     public bool movingBoss;
+    public bool jumpCooldown;
 
     private void Start()
     {
@@ -69,6 +72,7 @@ public class Level2BossManager : MonoBehaviour
         grabbedTimer = maxGrabbedTimer;
         jumpTime = maxJumpTime;
         attackCooldown = maxAttackCooldown;
+        jumpCooldownTimer = maxJumpCooldownTimer;
     }
 
     private void Update()
@@ -88,6 +92,8 @@ public class Level2BossManager : MonoBehaviour
         Grounded();
         HighJump();
         AttackCooldown();
+        JumpCooldown();
+
     }
 
     private void Patroling()
@@ -248,25 +254,28 @@ public class Level2BossManager : MonoBehaviour
 
     public void States()
     {
-        if (!playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
+        if (!jumpCooldown)
         {
-            Patroling();
-        }
-        if (playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
-        {
-            ChasePlayer();
-        }
-        if (playerInSightRange && playerInAttackRange && !grabbed && !alreadyAttacked && !jump && travel.moveToLocation == false)
-        {
-            int randomAttackIndex = Random.Range(0, 2);
-            switch (randomAttackIndex)
+            if (!playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
             {
-                case 0:
-                    AttackPlayer();
-                    break;
-                case 1:
-                    Jump();
-                    break;
+                Patroling();
+            }
+            if (playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
+            {
+                ChasePlayer();
+            }
+            if (playerInSightRange && playerInAttackRange && !grabbed && !alreadyAttacked && !jump && travel.moveToLocation == false)
+            {
+                int randomAttackIndex = Random.Range(0, 2);
+                switch (randomAttackIndex)
+                {
+                    case 0:
+                        AttackPlayer();
+                        break;
+                    case 1:
+                        Jump();
+                        break;
+                }
             }
         }
     }
@@ -296,7 +305,21 @@ public class Level2BossManager : MonoBehaviour
             {
                 Instantiate(shockwave, boss.position, boss.rotation, boss);
                 jumpTime = maxJumpTime;
+                jumpCooldown = true;
             }
+        }
+    }
+
+    private void JumpCooldown()
+    {
+        if (jumpCooldown)
+        {
+            jumpCooldownTimer -= Time.deltaTime;
+        }
+        if (jumpCooldownTimer <= 0)
+        {
+            jumpCooldown = false;
+            jumpCooldownTimer = maxJumpCooldownTimer;
         }
     }
 
