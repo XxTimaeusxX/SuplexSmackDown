@@ -41,4 +41,13 @@ public class BossShockwave : MonoBehaviour
         }
         transform.localScale = endScale;
     }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage();
+            collision.gameObject.GetComponent<PlayerHealth>().iFrames = true;
+        }
+    }
 }
