@@ -27,6 +27,8 @@ public class Level2BossManager : MonoBehaviour
     public float jumpForce;
     private float jumpTime;
     public float maxJumpTime;
+    private float jumpCooldown;
+    public float maxJumpCooldown;
 
     [Header("References")]
     public Transform player;
@@ -57,6 +59,7 @@ public class Level2BossManager : MonoBehaviour
     public bool isGrounded;
     public bool grabbedCooldown;
     public bool jump;
+    public bool alreadyJumped;
 
     private void Start()
     {
@@ -65,6 +68,7 @@ public class Level2BossManager : MonoBehaviour
         triggerTimer = maxTriggerTimer;
         grabbedTimer = maxGrabbedTimer;
         jumpTime = maxJumpTime;
+        jumpCooldown = maxJumpCooldown;
 
     }
 
@@ -84,6 +88,7 @@ public class Level2BossManager : MonoBehaviour
         Stunned();
         Grounded();
         HighJump();
+        JumpCooldown();
     }
 
     private void Patroling()
@@ -244,7 +249,38 @@ public class Level2BossManager : MonoBehaviour
         }
         if (playerInSightRange && playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
         {
-            AttackPlayer();
+            int randomAttackIndex = Random.Range(0, 2);
+            switch (randomAttackIndex)
+            {
+                case 0:
+                    AttackPlayer();
+                    break;
+                case 1:
+                    Jump();
+                    break;
+            }
+        }
+    }
+
+    private void Jump()
+    {
+        if (!alreadyJumped)
+        {
+            jump = true;
+            alreadyJumped = true;
+        }
+    }
+
+    private void JumpCooldown()
+    {
+        if (alreadyJumped)
+        {
+            jumpCooldown -= Time.deltaTime;
+        }
+        if (jumpCooldown <= 0)
+        {
+            alreadyJumped = false;
+            jumpCooldown = maxJumpCooldown;
         }
     }
 
@@ -283,6 +319,13 @@ public class Level2BossManager : MonoBehaviour
         if (collision.gameObject.CompareTag("Shockwave"))
         {
             travel.moveToLocation = true;
+        }
+        if (collision.gameObject.CompareTag("Flower"))
+        {
+            if (isDashing)
+            {
+                stunned = true;
+            }
         }
     }
 }
