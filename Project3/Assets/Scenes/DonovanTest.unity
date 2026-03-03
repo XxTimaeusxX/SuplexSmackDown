@@ -900,10 +900,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Boss2Interaction
   playerMovement: {fileID: 1339317863}
+  bossShockwave: {fileID: 2528843459941322308, guid: 529e3d2b33e5a354f9d56192a7817cd3, type: 3}
+  health: {fileID: 1339317886}
   boss: Boss
   slowMoveSpeed: 2
   maxSlowTimer: 3
+  maxCollideTimer: 5
   slow: 0
+  collided: 0
 --- !u!114 &1339317877 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7164221845572415674, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
@@ -915,6 +919,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90add32a628a4de4fa17006164a63e9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerSuplex
+--- !u!114 &1339317886 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5198306680872701079, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+  m_PrefabInstance: {fileID: 923066970}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339317848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7497962857289ad42a1a86ea51eae329, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1508916581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
@@ -1618,7 +1633,7 @@ PrefabInstance:
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: shockwave
       value: 
-      objectReference: {fileID: 6776234784039089348, guid: 529e3d2b33e5a354f9d56192a7817cd3, type: 3}
+      objectReference: {fileID: 2528843459941322308, guid: 529e3d2b33e5a354f9d56192a7817cd3, type: 3}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: jumpHeight
       value: 5
@@ -1695,6 +1710,10 @@ PrefabInstance:
       propertyPath: transparentMaterial
       value: 
       objectReference: {fileID: 2100000, guid: 384abbb328a216b47bf9cea38861459e, type: 2}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxJumpCooldownTimer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Name
       value: TestBoss
