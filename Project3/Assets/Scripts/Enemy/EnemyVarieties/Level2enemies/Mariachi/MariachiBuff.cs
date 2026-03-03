@@ -32,8 +32,8 @@ public class MariachiBuff : MonoBehaviour
             mariachi.patrolRunSpeed = mariachi.DefaultRunMoveSpeed;
             if(activeEnemies == 3)
             {
-                mariachi.patrolWalkSpeed *= 10f; 
-                mariachi.patrolRunSpeed *= 10;
+                mariachi.patrolWalkSpeed *= 2f; 
+                mariachi.patrolRunSpeed *= 2;
                 mariachi.Projectilesize = 2.5f;
                  Debug.Log("buff is 3x");
             }

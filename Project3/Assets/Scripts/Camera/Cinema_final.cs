@@ -44,6 +44,15 @@ public class Cinema_final : MonoBehaviour
     public GameObject shoalHealth;
     public GameObject bossTrigger2;
 
+
+    //----------- Level3 settings-----------//
+    [Header("RockyRhodes Camera Settings")]
+    public bool Boss3Intro;
+    public bool IsRockyPhase1;
+    public bool IsRockyPhase2;
+    public bool IsRockyPhase3;
+    public CinemachineCamera Boss3ClashCloseUp;
+    public float CameraTransitionDuration = 7f;
     private void Start()
     {
         playerMovementScript = player.GetComponent<PlayerMovement>();
@@ -54,7 +63,7 @@ public class Cinema_final : MonoBehaviour
             introCameraObj.SetActive(false);
 
         lastActiveCamera = freeLookCamera.Priority > towerCamera.Priority ? freeLookCamera : towerCamera;
-        isPhase1Intro = true;
+       // isPhase1Intro = true;
     }
 
     private void Update()
@@ -62,6 +71,10 @@ public class Cinema_final : MonoBehaviour
         if (introPlayed)
         {
             StartCoroutine(StartIntro());
+        }
+        if (Boss3Intro)
+        {
+            StartCoroutine(StartBoss3PanIn());
         }
     }
 
@@ -101,7 +114,31 @@ public class Cinema_final : MonoBehaviour
         yield return new WaitForSeconds(4f);
         EndIntro();
     }
+    private IEnumerator StartBoss3PanIn()
+    {
+        Boss3Intro = false;
+        playerMovementScript.enabled = false;
+        lastActiveCamera = freeLookCamera.Priority > towerCamera.Priority ? freeLookCamera : towerCamera;
+        introCameraObj.SetActive(true);
+        introCamera.Priority = 100;
+        yield return new WaitForSeconds(0.5f);
+        while (!IsCameraInPosition(introCameraTransform))
+        {
+            yield return null;
+        }
+    //    yield return new WaitForSeconds(CameraTransitionDuration);
+      //  EndRockyPanIn();
+    }
 
+    public void EndRockyPanIn()
+    {
+        introCameraObj.SetActive(false);
+        IsRockyPhase1 = false;
+        IsRockyPhase2 = false;
+        IsRockyPhase3 = false;
+        introCamera.Priority = 1;
+        playerMovementScript.enabled = true;
+    }
     private void EndIntro()
     {
         //introUI.SetActive(false);

@@ -44,11 +44,20 @@ public class RockyRhodes : EnemyBase
     private float _abilityTimer = 0f;
     private Coroutine _currentStateCoroutine;
     [SerializeField]private Transform PlayerTarget;
+
+    [Header("QTE trigger")]
+    [SerializeField] QTESystem QTESystemScript;
+    public Collider QTETriggerCollider;
+    private string _playerTag = "Player";
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-  new  void Start()
+    new  void Start()
     {
         base.Start();
         // default orientation of mesh, used to reset rotation after abilities
+        QTETriggerCollider.isTrigger = true; // make QTE a triggerenter type 
+        if (QTESystemScript == null) QTESystemScript = GetComponent<QTESystem>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
         CheckState(RockyRhodesStates.Regular);
     }
@@ -201,5 +210,23 @@ public class RockyRhodes : EnemyBase
         // Disable NavMesh
         agent.enabled = IsEnabled;
         rb.isKinematic = IsEnabled;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag(_playerTag) )
+        {
+            Debug.Log("Player hit by Boulder Eruption!");
+            QTESystemScript.EnableQuickTimeEvent = true;
+
+            // Implement damage logic here
+        }
+    }
+    private void OnTriggerExit(Collider other) {
+        if(other.CompareTag(_playerTag) )
+        {
+            Debug.Log("Player exited Boulder Eruption area.");
+            QTESystemScript.EnableQuickTimeEvent = false;
+        }
     }
 }

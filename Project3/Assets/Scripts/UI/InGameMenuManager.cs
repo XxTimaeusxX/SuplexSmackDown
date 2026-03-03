@@ -164,9 +164,9 @@ public class InGameMenuManager : MonoBehaviour
 	public void RestartButtonClicked()
 	{
 		ResumeButtonClicked();
-		PlaySceneMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
-	}
+    //    PlaySceneMusic();
+    }
 	
 	//unpause and return to main menu
 	public void QuitButtonClicked()
@@ -181,9 +181,9 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		PlaySceneMusic();
         SceneManager.LoadScene(_Stage2Scene);
-	}
+     //   PlaySceneMusic();
+    }
 	
 	public void CheatsMenuActivate()
 	{
@@ -237,10 +237,26 @@ public class InGameMenuManager : MonoBehaviour
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
 	}
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlaySceneMusic();
+    }
     //plays the appropriate music based on the current scene
     void PlaySceneMusic()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log("Current Scene: " + currentSceneName); // Add this line
         if (currentSceneName == _MainMenuScene)
         {
             AudioManager.PlayMainMenuBGM();
@@ -251,7 +267,7 @@ public class InGameMenuManager : MonoBehaviour
         }
         else if (currentSceneName == _Stage2Scene)
 		{
-			AudioManager.PlayConstructionBGM();
+			AudioManager.PlayFestivalBGM();
 		}     
     }
 }

@@ -39,7 +39,7 @@ public class MainMenuManager : MonoBehaviour
 	public void StartButtonClicked(){
 		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-		AudioManager.PlayConstructionBGM();// Play construction music (clip assigned on AudioManager)
+	//	AudioManager.PlayConstructionBGM();// Play construction music (clip assigned on AudioManager)
         _loadingScreenManager.StartLoadingScene(_GameplaySceneInt);
 	}
 	
