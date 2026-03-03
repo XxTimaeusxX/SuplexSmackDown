@@ -33,30 +33,14 @@ public class QTESystem : MonoBehaviour
         if(CinemaComponent == null) CinemaComponent = GetComponent<Cinema_final>();
         if(PlayerHealth == null) PlayerHealth = GetComponent<PlayerHealth>();
         _initialCountDownTimer = CountDownTimer; // Store the initial timer value
-    }
-    void Start()
-    {
-    //  buttonMashAction.performed += ctx => StartCoroutine(ButtonMashQTE());
-    
+        DisableButtonMashUI(); 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (EnableQuickTimeEvent)
-        {
-            StartQTE();
-        }
-        if(!EnableQuickTimeEvent)
-        {
-            StopQTE();
-        }
-    }
     private void UpdateTimerUI()
     {
         if (timerText == null) return;
         // show seconds with one decimal place
-        timerText.text =  CountDownTimer.ToString();
+        timerText.text = "Timer:" + CountDownTimer.ToString("F0");
     }
     private void UpdateButtonMashBarfill()
     {
@@ -69,6 +53,7 @@ public class QTESystem : MonoBehaviour
         CountDownTimer = _initialCountDownTimer; // Reset timer to initial value
         UpdateTimerUI();
         UpdateButtonMashBarfill();
+        EnableButtonMashUI();
         CinemaComponent.Boss3Intro = true;
         _currentQTECoroutine = StartCoroutine(ButtonMashQTE());
         EnableQuickTimeEvent = true; // Prevent multiple triggers
@@ -81,6 +66,7 @@ public class QTESystem : MonoBehaviour
             StopCoroutine(_currentQTECoroutine);
             _currentQTECoroutine = null;
         }
+        DisableButtonMashUI();
         CinemaComponent.Boss3Intro = false;
         CurrentButtonClicks = 0;
         CountDownTimer = _initialCountDownTimer; // Reset timer to initial value
@@ -89,6 +75,16 @@ public class QTESystem : MonoBehaviour
         EnableQuickTimeEvent = false;
 
 
+    }
+    private void EnableButtonMashUI()
+    {
+        timerText.gameObject.SetActive(true);
+        ButtonMashbarSlider.gameObject.SetActive(true);
+    }
+    private void DisableButtonMashUI()
+    {
+        timerText.gameObject.SetActive(false);
+        ButtonMashbarSlider.gameObject.SetActive(false);
     }
     private IEnumerator ButtonMashQTE()
     {
@@ -108,6 +104,7 @@ public class QTESystem : MonoBehaviour
                     CinemaComponent.EndRockyPanIn();
                     _currentQTECoroutine = null; // Clear the coroutine reference
                     EnableQuickTimeEvent = false; // Prevent further triggers
+                    DisableButtonMashUI();
                     yield break; // Exit the coroutine
                 }
             }
@@ -123,5 +120,6 @@ public class QTESystem : MonoBehaviour
         CinemaComponent.EndRockyPanIn();
         EnableQuickTimeEvent = false; // Prevent further triggers
         _currentQTECoroutine = null;
+        DisableButtonMashUI();
     }
 }

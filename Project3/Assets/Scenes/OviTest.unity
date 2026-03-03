@@ -3704,6 +3704,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7968779603832368370, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4894,9 +4898,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05e836fe2817713478e6cb54029e0f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QTESystem
-  EnableQuickTimeEvent: 1
+  EnableQuickTimeEvent: 0
   NumberOfButtonClicksRequired: 25
-  CountDownTimer: 10
+  CountDownTimer: 55
   CurrentButtonClicks: 0
   playerInput: {fileID: 1746245446}
   timerText: {fileID: 794970106}
@@ -5426,6 +5430,59 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1989905577
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989905578}
+  - component: {fileID: 1989905579}
+  m_Layer: 8
+  m_Name: CinemaTriggerCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1989905578
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989905577}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5785751019512489216}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1989905579
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989905577}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.821413, y: 1.82, z: 3.4839141}
+  m_Center: {x: 0.020472037, y: -0.11999997, z: 0.46166706}
 --- !u!1001 &1991245741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7943,6 +8000,7 @@ Transform:
   - {fileID: 3246343412263479969}
   - {fileID: 1759614389551954220}
   - {fileID: 6791112011824442642}
+  - {fileID: 1989905578}
   - {fileID: 1811997902}
   - {fileID: 927522606}
   m_Father: {fileID: 0}
@@ -8998,6 +9056,8 @@ MonoBehaviour:
   AbilityCooldown: 2
   IsPerformingAbility: 0
   PlayerTarget: {fileID: 471682383}
+  QTESystemScript: {fileID: 1782493006}
+  QTETriggerCollider: {fileID: 1989905579}
 --- !u!1 &9207498249536304586
 GameObject:
   m_ObjectHideFlags: 0

@@ -217,8 +217,8 @@ public class RockyRhodes : EnemyBase
         if(other.CompareTag(_playerTag) )
         {
             Debug.Log("Player hit by Boulder Eruption!");
-            QTESystemScript.EnableQuickTimeEvent = true;
-
+        //    QTESystemScript.EnableQuickTimeEvent = true;
+                QTESystemScript.StartQTE();
             // Implement damage logic here
         }
     }
@@ -226,7 +226,9 @@ public class RockyRhodes : EnemyBase
         if(other.CompareTag(_playerTag) )
         {
             Debug.Log("Player exited Boulder Eruption area.");
-            QTESystemScript.EnableQuickTimeEvent = false;
+         //   QTESystemScript.EnableQuickTimeEvent = false;
+         QTESystemScript.StopQTE();
+            // Implement logic for exiting QTE area if needed
         }
     }
 }
