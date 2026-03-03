@@ -329,6 +329,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f64ed8a7f5d844cbbf8635a2ce9422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level2BossManager
+--- !u!1 &410060789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3691937461682135192, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+  m_PrefabInstance: {fileID: 1758826272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &923066970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1413,7 +1418,7 @@ PrefabInstance:
     - target: {fileID: 1959777578656107485, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: ObjectToEnable
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 410060789}
     - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.35
@@ -1462,6 +1467,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Flower
       objectReference: {fileID: 0}
+    - target: {fileID: 3691937461682135192, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_TagString
+      value: Flower
+      objectReference: {fileID: 0}
     - target: {fileID: 4850445882809098457, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_TagString
       value: Flower
@@ -1484,7 +1493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_TagString
@@ -1668,7 +1677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxTriggerTimer
-      value: 0.9
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: groundMask.m_Bits

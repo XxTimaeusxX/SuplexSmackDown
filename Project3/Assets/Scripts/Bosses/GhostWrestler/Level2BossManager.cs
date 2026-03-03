@@ -52,7 +52,7 @@ public class Level2BossManager : MonoBehaviour
     private bool walkPointSet;
     private bool playerInSightRange;
     private bool playerInAttackRange;
-    private bool isDashing;
+    public bool isDashing;
     private bool triggerOn;
     public bool stunned;
     public bool grabbed;
@@ -319,11 +319,15 @@ public class Level2BossManager : MonoBehaviour
                 travel.moveToLocation = true;
             }
         }
-        if (collision.gameObject.CompareTag("Flower"))
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Flower"))
         {
-            if (isDashing)
+            if(isDashing)
             {
                 stunned = true;
+                Debug.Log("Stunned");
             }
         }
     }
