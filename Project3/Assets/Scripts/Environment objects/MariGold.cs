@@ -30,7 +30,6 @@ public class MariGold : MonoBehaviour
     private Renderer[] _MariGoldrenderers;
     private Material[] _originalMaterials;
     private Collider _collider;
-    public Level2BossManager bossManager;
     [SerializeField] private GhostDancer ghostDancer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -133,11 +132,6 @@ public class MariGold : MonoBehaviour
                 StartCoroutine(SpinandHighlight());
                 //  Debug.Log("Player hit MariGold, applying jump force.");
             }
-        }
-        if (other.CompareTag("Boss"))
-        {
-            Debug.Log("Collide");
-            bossManager.stunned = true;
         }
         if(other.CompareTag("GhostDancer"))
             {
