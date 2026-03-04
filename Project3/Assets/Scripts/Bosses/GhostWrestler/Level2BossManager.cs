@@ -32,7 +32,7 @@ public class Level2BossManager : MonoBehaviour
     private float jumpCooldownTimer;
     public float maxJumpCooldownTimer;
     public float maxAttacks;
-    public float attackCounter = 0;
+    private float attackCounter = 0;
     public float maxBreakCooldown;
     private float breakCooldownTimer;
 
@@ -52,6 +52,7 @@ public class Level2BossManager : MonoBehaviour
     public Renderer objectRenderer;
     public TravelToLocation travel;
     public GameObject shockwave;
+    public Boss2Interaction interaction;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -68,6 +69,7 @@ public class Level2BossManager : MonoBehaviour
     public bool movingBoss;
     public bool jumpCooldown;
     public bool breakCooldown;
+    public bool finalArea;
 
     private void Start()
     {
@@ -195,6 +197,23 @@ public class Level2BossManager : MonoBehaviour
     private IEnumerator DashCoroutine(Vector3 target)
     {
         if (!grabbedCooldown)
+        {
+            isDashing = true;
+            agent.enabled = false;
+            triggerOn = true;
+            float startTime = Time.time;
+            Vector3 startPos = transform.position;
+            rb.constraints = RigidbodyConstraints.FreezePosition;
+            while (Time.time < startTime + dashDuration)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
+                yield return null;
+            }
+            rb.constraints = ~RigidbodyConstraints.FreezePosition;
+            agent.enabled = true;
+            isDashing = false;
+        }
+        if (finalArea && interaction.slow)
         {
             isDashing = true;
             agent.enabled = false;

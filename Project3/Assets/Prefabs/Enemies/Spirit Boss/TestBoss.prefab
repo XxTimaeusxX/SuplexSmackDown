@@ -32,6 +32,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5069166862896626507}
+  - {fileID: 5712967026895366014}
+  - {fileID: 1019257235660327638}
   m_Father: {fileID: 2443247511672798558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3491539680468543615
@@ -219,6 +221,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2443247511672798558}
+  - component: {fileID: 4540635354008044812}
   - component: {fileID: 5984417481109625612}
   - component: {fileID: 6388990256418465860}
   - component: {fileID: 1120269757513397717}
@@ -248,6 +251,19 @@ Transform:
   - {fileID: 50709338292256286}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4540635354008044812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162695457830059003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ead4d26bc1b5124c8727a1f9db8ebaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossGrabHandler
+  grabbed: 0
 --- !u!114 &5984417481109625612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,22 +276,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f64ed8a7f5d844cbbf8635a2ce9422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level2BossManager
-  moveSpeed: 8
-  timeBetweenAttacks: 5
+  moveSpeed: 10
+  timeBetweenAttacks: 2
   walkPointRange: 5
   sightRange: 50
   attackRange: 10
-  walkPoint: {x: 0, y: 0, z: 0}
-  dashSpeed: 20
+  dashSpeed: 15
   dashDuration: 1
   dashDistanceMultiplier: 2
   maxStunnedTimer: 4
   groundDistance: 0.4
   maxTriggerTimer: 0.6
-  fallSpeed: 5
-  maxGrabbedTimer: 0
-  jumpForce: 0
+  fallSpeed: 20
+  maxGrabbedTimer: 7
+  jumpForce: 30
+  maxJumpTime: 0.5
+  maxAttackCooldown: 2
+  maxJumpCooldownTimer: 2
+  maxAttacks: 10
+  maxBreakCooldown: 5
   player: {fileID: 0}
+  boss: {fileID: 2443247511672798558}
   agent: {fileID: 1120269757513397717}
   rb: {fileID: 1629447691092954705}
   groundLayer:
@@ -294,21 +315,20 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
-  opaqueMaterial: {fileID: 2100000, guid: c7575905d993a584f9088d08841273ab, type: 2}
+  solidMaterial: {fileID: 2100000, guid: c7575905d993a584f9088d08841273ab, type: 2}
   transparentMaterial: {fileID: 2100000, guid: 384abbb328a216b47bf9cea38861459e, type: 2}
   objectRenderer: {fileID: 7391093933928497718}
-  travel: {fileID: 0}
-  alreadyAttacked: 0
-  walkPointSet: 1
-  playerInSightRange: 0
-  playerInAttackRange: 0
+  travel: {fileID: 6388990256418465860}
+  shockwave: {fileID: 2528843459941322308, guid: 529e3d2b33e5a354f9d56192a7817cd3, type: 3}
+  interaction: {fileID: 0}
   isDashing: 0
-  triggerOn: 0
   stunned: 0
   grabbed: 0
   isGrounded: 0
-  grabbedCooldown: 0
-  jump: 0
+  movingBoss: 1
+  jumpCooldown: 0
+  breakCooldown: 0
+  finalArea: 1
 --- !u!114 &6388990256418465860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,8 +342,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TravelToLocation
   travelSpeed: 15
-  bossCollider: {fileID: 0}
-  agent: {fileID: 0}
+  bossCollider: {fileID: 9212217876019070925}
+  agent: {fileID: 1120269757513397717}
   waypoint: {fileID: 0}
   moveToLocation: 0
 --- !u!195 &1120269757513397717
@@ -396,5 +416,103 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!1 &6227800745977023845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1019257235660327638}
+  m_Layer: 3
+  m_Name: HoldPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1019257235660327638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227800745977023845}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.051, y: 0.058, z: 0.854}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4535027542080451024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6397953111104092831
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5712967026895366014}
+  - component: {fileID: 225065365206902591}
+  - component: {fileID: 6047424404994112672}
+  m_Layer: 0
+  m_Name: GrabBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &5712967026895366014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397953111104092831}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.886}
+  m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4535027542080451024}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &225065365206902591
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397953111104092831}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.4, y: 1.7, z: 1.63}
+  m_Center: {x: 0.03, y: 0, z: 0}
+--- !u!114 &6047424404994112672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397953111104092831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4eb7e7014de32a47a170e84a43f215b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossGrabBox
+  grab: {fileID: 4540635354008044812}
