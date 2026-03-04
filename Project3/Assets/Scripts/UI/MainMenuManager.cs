@@ -40,6 +40,7 @@ public class MainMenuManager : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 	//	AudioManager.PlayConstructionBGM();// Play construction music (clip assigned on AudioManager)
+		StarTracker.ResetStars();
         _loadingScreenManager.StartLoadingScene(_GameplaySceneInt);
 	}
 	
