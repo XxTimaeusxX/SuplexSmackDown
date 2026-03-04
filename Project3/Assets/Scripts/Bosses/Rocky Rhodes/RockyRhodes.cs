@@ -1,7 +1,8 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 // ~ Ovi. 
 
 
@@ -34,10 +35,13 @@ public class RockyRhodes : EnemyBase
         RockyRhodesStates.BoulderEruption,
         RockyRhodesStates.BullRock,
     };
+    private float _lastHealthValue;
 
     [Header("Visual References")]
     public Transform RockyRhodesMesh;
     private Quaternion originalMeshRotation;
+    public GameObject RockyRhodesHealthBarUI;
+    public Slider slider;
 
     [Header ("Launch Settings")]
     public float jumpForce = 55f;
@@ -47,21 +51,20 @@ public class RockyRhodes : EnemyBase
     private float _abilityTimer = 0f;
     private Coroutine _currentStateCoroutine;
     [SerializeField]private Transform PlayerTarget;
-    public List<Transform> JumpPoints = new List<Transform>();
+
 
     [Header("Jump Patrol Settings")]
     public float jumpPatrolForce = 40f;
     public float jumpPatrolHorizontalForce = 15f;
     public float jumpPatrolCooldown = 3f;
     private int _currentJumpIndex = 0;
-    private bool _isJumping = false;
-
+    public bool isJumping = false;
+    public List<Transform> JumpPoints = new List<Transform>();
 
     [Header("QTE trigger")]
     [SerializeField] QTESystem QTESystemScript;
     public Collider QTETriggerCollider;
     private string _playerTag = "Player";
-
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     new  void Start()
@@ -71,7 +74,10 @@ public class RockyRhodes : EnemyBase
         QTETriggerCollider.isTrigger = true; // make QTE a triggerenter type 
         if (QTESystemScript == null) QTESystemScript = GetComponent<QTESystem>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
-       // CheckState(RockyRhodesStates.Regular);
+        // CheckState(RockyRhodesStates.Regular);
+        //   StartCoroutine(JumpToPlatform());
+        _lastHealthValue = slider.value;
+        CheckHealthState();
     }
 
     // Update is called once per frame
@@ -85,13 +91,48 @@ public class RockyRhodes : EnemyBase
              _currentStateCoroutine = null;
              Debug.Log("Ability interrupted by grab/push. Stopping ability and waiting for release.");
         }
-       
+        if (slider.value != _lastHealthValue)
+        {
+            _lastHealthValue = slider.value;
+            CheckHealthState();
+        }
+
     }
 
     public override void BaseAttack()
     {
         if (abilitiesEnabled) {CheckState(CurrentRockyState); }
         
+    }
+    public void CheckHealthState()
+    {
+        switch (_lastHealthValue)
+        {
+            case 6:
+                Debug.Log("regular");
+                QTESystemScript.SetDifficulty(20, 20f,500f);
+                QTESystemScript.TimerRate = 1f;
+                break;
+            case 4:
+                Debug.Log("getting challenging");
+                QTESystemScript.SetDifficulty(30, 20f, 1500f );
+                QTESystemScript.TimerRate = 2f;
+                break;
+            case 2:
+                Debug.Log("getting challenging");
+              QTESystemScript.SetDifficulty(30, 20f, 2000f);
+               QTESystemScript.TimerRate = 2.5f;
+                break;
+            case 1:
+                Debug.Log("maximum difficulty");
+                QTESystemScript.SetDifficulty(30, 20f,3000f);
+                QTESystemScript.TimerRate = 3.5f;
+                break;
+            case 0:
+                RockyRhodesHealthBarUI.SetActive(false);
+                this.gameObject.SetActive(false);
+                break;
+        }
     }
     public void CheckState(RockyRhodesStates states)
     {
@@ -231,7 +272,7 @@ public class RockyRhodes : EnemyBase
 
     public IEnumerator JumpToPlatform()
     {
-        _isJumping = true;
+        isJumping = true;
 
         // Pick the next point in the list, wrapping around
         Transform targetPoint = JumpPoints[_currentJumpIndex];
@@ -251,10 +292,10 @@ public class RockyRhodes : EnemyBase
         // Scale flight time with distance so short hops are quick and long ones arc higher
         float flightTime = Mathf.Clamp(horizontalDist / 10f, 0.6f, 2f);
 
-        // v_y = (?y + 0.5 * g * t²) / t  — needed vertical speed to arrive at target height
+        // v_y = (y + 0.5 * g * tÂ²) / t  â€” needed vertical speed to arrive at target height
         float velocityY = (verticalDist + 0.5f * gravity * flightTime * flightTime) / flightTime;
 
-        // v_xz = ?xz / t — needed horizontal speed to cover the ground distance
+        // v_xz = xz / t â€” needed horizontal speed to cover the ground distance
         Vector3 horizontalDir = new Vector3(displacement.x, 0f, displacement.z).normalized;
         float velocityXZ = horizontalDist / flightTime;
 
@@ -292,31 +333,42 @@ public class RockyRhodes : EnemyBase
         // Cooldown before the next jump
         yield return new WaitForSeconds(jumpPatrolCooldown);
 
-        _isJumping = false;
+        isJumping = false;
     }
     public override void RandomPatrolDestination()
     {
-        if (_isJumping) return; // already mid-jump or in cooldown, wait
+        if (isJumping) return; // already mid-jump or in cooldown, wait
         if (JumpPoints == null || JumpPoints.Count == 0) return;
+        if (QTESystemScript.EnableQuickTimeEvent) return; // QTE is active, don't jump away
         StartCoroutine(JumpToPlatform());    
+    }
+
+    public void JumpAway()
+    {
+        isJumping = false;
+        StopCoroutine(nameof(JumpToPlatform)); // kill any lingering jump coroutine
+        StartCoroutine(JumpToPlatform());
     }
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag(_playerTag) )
         {
             Debug.Log("Player hit by Boulder Eruption!");
-        //    QTESystemScript.EnableQuickTimeEvent = true;
+           QTESystemScript.EnableQuickTimeEvent = true;
                 QTESystemScript.StartQTE();
-            // Implement damage logic here
+            
+         
         }
     }
-    private void OnTriggerExit(Collider other) {
+    private void OnTriggerExit(Collider other)
+    {
         if(other.CompareTag(_playerTag) )
         {
             Debug.Log("Player exited Boulder Eruption area.");
-         //   QTESystemScript.EnableQuickTimeEvent = false;
+         QTESystemScript.EnableQuickTimeEvent = false;
          QTESystemScript.StopQTE();
-            // Implement logic for exiting QTE area if needed
+          
+          
         }
     }
 }
