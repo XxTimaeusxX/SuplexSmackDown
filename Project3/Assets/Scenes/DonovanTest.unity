@@ -917,7 +917,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   boss: Boss
   slowMoveSpeed: 0
-  maxSlowTimer: 3
+  maxSlowTimer: 2
   maxCollideTimer: 5
   normalAniamtionSpeed: 1.2
   slowAnimationSpeed: 0
@@ -1658,6 +1658,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxAttacks
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: movingBoss
       value: 1
       objectReference: {fileID: 0}
@@ -1718,16 +1722,20 @@ PrefabInstance:
       value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxBreakCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: groundMask.m_Bits
       value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxAttackCooldown
-      value: 3.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: timeBetweenAttacks
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: transparentMaterial
@@ -1735,7 +1743,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 384abbb328a216b47bf9cea38861459e, type: 2}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxJumpCooldownTimer
-      value: 3.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Name

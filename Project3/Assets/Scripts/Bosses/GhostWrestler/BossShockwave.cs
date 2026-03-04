@@ -10,6 +10,7 @@ public class BossShockwave : MonoBehaviour
 
     void Start()
     {
+        transform.parent = null;
     }
 
     void Update()

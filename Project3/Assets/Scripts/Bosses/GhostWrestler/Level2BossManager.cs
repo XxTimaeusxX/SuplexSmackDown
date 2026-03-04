@@ -31,6 +31,10 @@ public class Level2BossManager : MonoBehaviour
     public float maxAttackCooldown;
     private float jumpCooldownTimer;
     public float maxJumpCooldownTimer;
+    public float maxAttacks;
+    public float attackCounter = 0;
+    public float maxBreakCooldown;
+    private float breakCooldownTimer;
 
     [Header("References")]
     public Transform player;
@@ -63,6 +67,7 @@ public class Level2BossManager : MonoBehaviour
     private bool jump;
     public bool movingBoss;
     public bool jumpCooldown;
+    public bool breakCooldown;
 
     private void Start()
     {
@@ -73,43 +78,70 @@ public class Level2BossManager : MonoBehaviour
         jumpTime = maxJumpTime;
         attackCooldown = maxAttackCooldown;
         jumpCooldownTimer = maxJumpCooldownTimer;
+        breakCooldownTimer = maxBreakCooldown;
     }
 
     private void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (playerSuplex.bossDropped == true)
+        if (travel.moveToLocation == false)
         {
-            grabbed = false;
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            if (playerSuplex.bossDropped == true)
+            {
+                grabbed = false;
+            }
+            TriggerOn();
+            agent.speed = moveSpeed;
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+            if (isDashing) return;
+            if (!breakCooldown)
+            {
+                States();
+            }
+            Stunned();
+            Grounded();
+            HighJump();
+            AttackCooldown();
+            JumpCooldown();
+            AttackBreak();
         }
-        TriggerOn();
-        agent.speed = moveSpeed;
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-        if (isDashing) return;
-        States();
-        Stunned();
-        Grounded();
-        HighJump();
-        AttackCooldown();
-        JumpCooldown();
+    }
 
+    public void AttackBreak()
+    {
+        if (attackCounter == maxAttacks)
+        {
+            breakCooldown = true;
+        }
+        if (breakCooldown)
+        {
+            breakCooldownTimer -= Time.deltaTime;
+        }
+        if (breakCooldownTimer <= 0)
+        {
+            breakCooldown = false;
+            breakCooldownTimer = maxBreakCooldown;
+        }
     }
 
     private void Patroling()
     {
-        if (!walkPointSet)
+        if (!stunned)
         {
-            SearchWalkPoint();
-        }
-        if (walkPointSet)
-        {
-            agent.SetDestination(walkPoint);
-        }
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-        if (distanceToWalkPoint.magnitude < 1f)
-        {
-            walkPointSet = false;
+            if (!walkPointSet)
+            {
+                SearchWalkPoint();
+            }
+            if (walkPointSet)
+            {
+                agent.SetDestination(walkPoint);
+            }
+            Vector3 distanceToWalkPoint = transform.position - walkPoint;
+            if (distanceToWalkPoint.magnitude < 1f)
+            {
+                walkPointSet = false;
+            }
         }
     }
 
@@ -126,28 +158,35 @@ public class Level2BossManager : MonoBehaviour
 
     private void ChasePlayer()
     {
-        if (agent.enabled == true)
+        if (!stunned)
         {
-            agent.SetDestination(player.position);
+            if (agent.enabled == true)
+            {
+                agent.SetDestination(player.position);
+            }
         }
     }
 
     private void AttackPlayer()
     {
-        if (!alreadyAttacked)
+        if (!stunned)
         {
-            if (agent.enabled == true)
+            if (!alreadyAttacked)
             {
-                agent.SetDestination(transform.position);
-                Vector3 directionToPlayer = (player.position - transform.position).normalized;
-                Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
-                targetPosition.y = transform.position.y;
-                Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
-                transform.LookAt(targetLookAt);
-                if (!alreadyAttacked)
+                if (agent.enabled == true)
                 {
-                    StartCoroutine(DashCoroutine(targetPosition));
-                    alreadyAttacked = true;
+                    agent.SetDestination(transform.position);
+                    Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                    Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+                    targetPosition.y = transform.position.y;
+                    Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+                    transform.LookAt(targetLookAt);
+                    if (!alreadyAttacked)
+                    {
+                        StartCoroutine(DashCoroutine(targetPosition));
+                        alreadyAttacked = true;
+                        attackCounter++;
+                    }
                 }
             }
         }
@@ -305,6 +344,7 @@ public class Level2BossManager : MonoBehaviour
             {
                 Instantiate(shockwave, boss.position, boss.rotation, boss);
                 jumpTime = maxJumpTime;
+                attackCounter++;
                 jumpCooldown = true;
             }
         }
