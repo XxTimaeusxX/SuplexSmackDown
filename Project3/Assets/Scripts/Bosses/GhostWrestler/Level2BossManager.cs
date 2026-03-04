@@ -12,7 +12,7 @@ public class Level2BossManager : MonoBehaviour
     public float walkPointRange;
     public float sightRange;
     public float attackRange;
-    public Vector3 walkPoint;
+    private Vector3 walkPoint;
     public float dashSpeed;
     public float dashDuration;
     public float dashDistanceMultiplier;
@@ -27,8 +27,10 @@ public class Level2BossManager : MonoBehaviour
     public float jumpForce;
     private float jumpTime;
     public float maxJumpTime;
-    private float jumpCooldown;
-    public float maxJumpCooldown;
+    private float attackCooldown;
+    public float maxAttackCooldown;
+    private float jumpCooldownTimer;
+    public float maxJumpCooldownTimer;
 
     [Header("References")]
     public Transform player;
@@ -48,18 +50,19 @@ public class Level2BossManager : MonoBehaviour
     public GameObject shockwave;
 
     [Header("Bools")]
-    public bool alreadyAttacked;
-    public bool walkPointSet;
-    public bool playerInSightRange;
-    public bool playerInAttackRange;
+    private bool alreadyAttacked;
+    private bool walkPointSet;
+    private bool playerInSightRange;
+    private bool playerInAttackRange;
     public bool isDashing;
-    public bool triggerOn;
+    private bool triggerOn;
     public bool stunned;
     public bool grabbed;
     public bool isGrounded;
-    public bool grabbedCooldown;
-    public bool jump;
-    public bool alreadyJumped;
+    private bool grabbedCooldown;
+    private bool jump;
+    public bool movingBoss;
+    public bool jumpCooldown;
 
     private void Start()
     {
@@ -68,8 +71,8 @@ public class Level2BossManager : MonoBehaviour
         triggerTimer = maxTriggerTimer;
         grabbedTimer = maxGrabbedTimer;
         jumpTime = maxJumpTime;
-        jumpCooldown = maxJumpCooldown;
-
+        attackCooldown = maxAttackCooldown;
+        jumpCooldownTimer = maxJumpCooldownTimer;
     }
 
     private void Update()
@@ -88,7 +91,9 @@ public class Level2BossManager : MonoBehaviour
         Stunned();
         Grounded();
         HighJump();
+        AttackCooldown();
         JumpCooldown();
+
     }
 
     private void Patroling()
@@ -129,19 +134,21 @@ public class Level2BossManager : MonoBehaviour
 
     private void AttackPlayer()
     {
-        if (agent.enabled == true)
+        if (!alreadyAttacked)
         {
-            agent.SetDestination(transform.position);
-            Vector3 directionToPlayer = (player.position - transform.position).normalized;
-            Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
-            targetPosition.y = transform.position.y;
-            Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
-            transform.LookAt(targetLookAt);
-            if (!alreadyAttacked)
+            if (agent.enabled == true)
             {
-                StartCoroutine(DashCoroutine(targetPosition));
-                alreadyAttacked = true;
-                Invoke(nameof(ResetAttack), timeBetweenAttacks);
+                agent.SetDestination(transform.position);
+                Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+                targetPosition.y = transform.position.y;
+                Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+                transform.LookAt(targetLookAt);
+                if (!alreadyAttacked)
+                {
+                    StartCoroutine(DashCoroutine(targetPosition));
+                    alreadyAttacked = true;
+                }
             }
         }
     }
@@ -167,9 +174,17 @@ public class Level2BossManager : MonoBehaviour
         }
     }
 
-    private void ResetAttack()
+    private void AttackCooldown()
     {
-        alreadyAttacked = false;
+        if (alreadyAttacked)
+        {
+            attackCooldown -= Time.deltaTime;
+        }
+        if (attackCooldown <= 0)
+        {
+            alreadyAttacked = false;
+            attackCooldown = maxAttackCooldown;
+        }
     }
 
     private void Stunned()
@@ -239,48 +254,38 @@ public class Level2BossManager : MonoBehaviour
 
     public void States()
     {
-        if (!playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
+        if (!jumpCooldown)
         {
-            Patroling();
-        }
-        if (playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
-        {
-            ChasePlayer();
-        }
-        if (playerInSightRange && playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
-        {
-            int randomAttackIndex = Random.Range(0, 2);
-            switch (randomAttackIndex)
+            if (!playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
             {
-                case 0:
-                    AttackPlayer();
-                    break;
-                case 1:
-                    Jump();
-                    break;
+                Patroling();
+            }
+            if (playerInSightRange && !playerInAttackRange && !grabbed && !jump && travel.moveToLocation == false)
+            {
+                ChasePlayer();
+            }
+            if (playerInSightRange && playerInAttackRange && !grabbed && !alreadyAttacked && !jump && travel.moveToLocation == false)
+            {
+                int randomAttackIndex = Random.Range(0, 2);
+                switch (randomAttackIndex)
+                {
+                    case 0:
+                        AttackPlayer();
+                        break;
+                    case 1:
+                        Jump();
+                        break;
+                }
             }
         }
     }
 
     private void Jump()
     {
-        if (!alreadyJumped)
+        if (!alreadyAttacked)
         {
             jump = true;
-            alreadyJumped = true;
-        }
-    }
-
-    private void JumpCooldown()
-    {
-        if (alreadyJumped)
-        {
-            jumpCooldown -= Time.deltaTime;
-        }
-        if (jumpCooldown <= 0)
-        {
-            alreadyJumped = false;
-            jumpCooldown = maxJumpCooldown;
+            alreadyAttacked = true;
         }
     }
 
@@ -300,7 +305,21 @@ public class Level2BossManager : MonoBehaviour
             {
                 Instantiate(shockwave, boss.position, boss.rotation, boss);
                 jumpTime = maxJumpTime;
+                jumpCooldown = true;
             }
+        }
+    }
+
+    private void JumpCooldown()
+    {
+        if (jumpCooldown)
+        {
+            jumpCooldownTimer -= Time.deltaTime;
+        }
+        if (jumpCooldownTimer <= 0)
+        {
+            jumpCooldown = false;
+            jumpCooldownTimer = maxJumpCooldownTimer;
         }
     }
 
@@ -318,13 +337,20 @@ public class Level2BossManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-            travel.moveToLocation = true;
+            if (movingBoss)
+            {
+                travel.moveToLocation = true;
+            }
         }
-        if (collision.gameObject.CompareTag("Flower"))
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Flower"))
         {
-            if (isDashing)
+            if(isDashing)
             {
                 stunned = true;
+                Debug.Log("Stunned");
             }
         }
     }
