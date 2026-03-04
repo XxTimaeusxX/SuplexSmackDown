@@ -39,6 +39,10 @@ public class InGameMenuManager : MonoBehaviour
 	InputAction cheatsAction3;
 	bool canInputCheats;
 
+	[SerializeField] GameObject star1;
+	[SerializeField] GameObject star2;
+	[SerializeField] GameObject star3;
+
 	//[SerializeField] GameObject _PausePoster;
 	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
 	float pause_t = 0;
@@ -164,9 +168,9 @@ public class InGameMenuManager : MonoBehaviour
 	public void RestartButtonClicked()
 	{
 		ResumeButtonClicked();
-		PlaySceneMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
-	}
+    //    PlaySceneMusic();
+    }
 	
 	//unpause and return to main menu
 	public void QuitButtonClicked()
@@ -181,9 +185,9 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		PlaySceneMusic();
         SceneManager.LoadScene(_Stage2Scene);
-	}
+     //   PlaySceneMusic();
+    }
 	
 	public void CheatsMenuActivate()
 	{
@@ -215,18 +219,30 @@ public class InGameMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_DefaultGameOverButton);
 	}
 	
-	//show cursor, pause, and show win screen
 	public void WinScreen()
 	{
+		//show cursor, pause, and show win screen
 		canPause = false;
 		Cursor.lockState = CursorLockMode.Confined;
 		Cursor.visible = true;
 		Time.timeScale = 0.0f;
 		_WinMenuContainer.SetActive(true);
+		
+		//stop music and play victory sound
 		AudioManager.StopMusic();
 		AudioManager.PLayVictory();
-        // Set default selected button for navigation
+        
+		//show stars if obtained
+		if(StarTracker.star1get)
+			star1.SetActive(true);
+		if(StarTracker.star2get)
+			star2.SetActive(true);
+		if(StarTracker.star3get)
+			star3.SetActive(true);
+		
+		// Set default selected button for navigation
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
+		
 	}
 	
 	//hides all UI - used in loading screen
@@ -237,10 +253,26 @@ public class InGameMenuManager : MonoBehaviour
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
 	}
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlaySceneMusic();
+    }
     //plays the appropriate music based on the current scene
     void PlaySceneMusic()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log("Current Scene: " + currentSceneName); // Add this line
         if (currentSceneName == _MainMenuScene)
         {
             AudioManager.PlayMainMenuBGM();
@@ -251,7 +283,7 @@ public class InGameMenuManager : MonoBehaviour
         }
         else if (currentSceneName == _Stage2Scene)
 		{
-			AudioManager.PlayConstructionBGM();
+			AudioManager.PlayFestivalBGM();
 		}     
     }
 }

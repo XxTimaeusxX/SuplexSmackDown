@@ -39,6 +39,7 @@ public class ActivateMicro_Macro : MonoBehaviour
                 areaTwoEnemies.SetActive(false);
                 Destroy(BossColliderTrigger);
                 cinema.introPlayed = true;
+                cinema.isPhase1Intro = true;
             }
         }
         if (other.CompareTag("BossTrigger"))

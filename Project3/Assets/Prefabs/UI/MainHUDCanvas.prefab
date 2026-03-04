@@ -693,6 +693,9 @@ MonoBehaviour:
   _DefaultGameOverButton: {fileID: 392918544635764176}
   _DefaultCheatsButton: {fileID: 1304329817845810226}
   _HealthUI: {fileID: 1571871321709041239}
+  star1: {fileID: 7893789051564091637}
+  star2: {fileID: 2549506633292747590}
+  star3: {fileID: 3593602777539062884}
   canPause: 1
   pause_anim: {fileID: 1300087702612475836}
 --- !u!114 &1397358056899210102
@@ -709,7 +712,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LoadingScreenManager
   _LoadingScreenContainer: {fileID: 3221962237340599148}
   _LoadingBar: {fileID: 2809738573347616875}
-  _LoadLevel: 
   _inGameMenuManager: {fileID: 3175567735082858662}
 --- !u!1 &2446833740438422618
 GameObject:
@@ -1537,6 +1539,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2450698257175808379, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_Name
+      value: Star 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2450698257175808379, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511683447038555737, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_Name
+      value: Star 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3511683447038555737, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4922786175495706724, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1669,6 +1687,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: WinMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 7849585598440469192, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_Name
+      value: Star 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7849585598440469192, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8772471000646053451, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1726,6 +1752,16 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1 &2549506633292747590 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2450698257175808379, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+  m_PrefabInstance: {fileID: 99936617384942141}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3593602777539062884 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3511683447038555737, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+  m_PrefabInstance: {fileID: 99936617384942141}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &5151711639194751028 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5052341288552778249, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
@@ -1768,6 +1804,11 @@ MonoBehaviour:
 --- !u!1 &7715200445471664910 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7670455071058866483, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+  m_PrefabInstance: {fileID: 99936617384942141}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7893789051564091637 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7849585598440469192, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
   m_PrefabInstance: {fileID: 99936617384942141}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2909715248347847897
