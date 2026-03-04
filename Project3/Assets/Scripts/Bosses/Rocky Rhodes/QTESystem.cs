@@ -54,7 +54,7 @@ public class QTESystem : MonoBehaviour
         UpdateTimerUI();
         UpdateButtonMashBarfill();
         EnableButtonMashUI();
-        CinemaComponent.Boss3Intro = true;
+        StartCoroutine(CinemaComponent.StartBoss3PanIn());
         _currentQTECoroutine = StartCoroutine(ButtonMashQTE());
         EnableQuickTimeEvent = true; // Prevent multiple triggers
     }
@@ -67,7 +67,7 @@ public class QTESystem : MonoBehaviour
             _currentQTECoroutine = null;
         }
         DisableButtonMashUI();
-        CinemaComponent.Boss3Intro = false;
+        CinemaComponent.EndRockyPanIn();
         CurrentButtonClicks = 0;
         CountDownTimer = _initialCountDownTimer; // Reset timer to initial value
         timerText.text = "";

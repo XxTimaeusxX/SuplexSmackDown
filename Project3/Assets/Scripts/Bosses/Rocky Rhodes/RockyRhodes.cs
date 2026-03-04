@@ -26,12 +26,15 @@ public enum RockyRhodesStates
 public class RockyRhodes : EnemyBase
 {
     [Header("Rocky Rhodes Settings")]
+    // runtime toggles
+    private bool abilitiesEnabled = false; // when true the state machine runs
     public RockyRhodesStates CurrentRockyState;
     private List<RockyRhodesStates> _RandomSelection= new List<RockyRhodesStates>
     {
         RockyRhodesStates.BoulderEruption,
         RockyRhodesStates.BullRock,
     };
+
     [Header("Visual References")]
     public Transform RockyRhodesMesh;
     private Quaternion originalMeshRotation;
@@ -44,6 +47,15 @@ public class RockyRhodes : EnemyBase
     private float _abilityTimer = 0f;
     private Coroutine _currentStateCoroutine;
     [SerializeField]private Transform PlayerTarget;
+    public List<Transform> JumpPoints = new List<Transform>();
+
+    [Header("Jump Patrol Settings")]
+    public float jumpPatrolForce = 40f;
+    public float jumpPatrolHorizontalForce = 15f;
+    public float jumpPatrolCooldown = 3f;
+    private int _currentJumpIndex = 0;
+    private bool _isJumping = false;
+
 
     [Header("QTE trigger")]
     [SerializeField] QTESystem QTESystemScript;
@@ -59,7 +71,7 @@ public class RockyRhodes : EnemyBase
         QTETriggerCollider.isTrigger = true; // make QTE a triggerenter type 
         if (QTESystemScript == null) QTESystemScript = GetComponent<QTESystem>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
-        CheckState(RockyRhodesStates.Regular);
+       // CheckState(RockyRhodesStates.Regular);
     }
 
     // Update is called once per frame
@@ -76,6 +88,11 @@ public class RockyRhodes : EnemyBase
        
     }
 
+    public override void BaseAttack()
+    {
+        if (abilitiesEnabled) {CheckState(CurrentRockyState); }
+        
+    }
     public void CheckState(RockyRhodesStates states)
     {
         if (_currentStateCoroutine != null)
@@ -212,6 +229,77 @@ public class RockyRhodes : EnemyBase
         rb.isKinematic = IsEnabled;
     }
 
+    public IEnumerator JumpToPlatform()
+    {
+        _isJumping = true;
+
+        // Pick the next point in the list, wrapping around
+        Transform targetPoint = JumpPoints[_currentJumpIndex];
+        _currentJumpIndex = (_currentJumpIndex + 1) % JumpPoints.Count;
+
+        // Disable NavMesh so physics can drive movement
+        agent.enabled = false;
+        rb.isKinematic = false;
+        IgnoreGroundCheck = true;
+
+        // Calculate required velocity to reach target point
+        Vector3 displacement = targetPoint.position - transform.position;
+        float gravity = Physics.gravity.magnitude;
+        float horizontalDist = new Vector3(displacement.x, 0f, displacement.z).magnitude;
+        float verticalDist = displacement.y;
+
+        // Scale flight time with distance so short hops are quick and long ones arc higher
+        float flightTime = Mathf.Clamp(horizontalDist / 10f, 0.6f, 2f);
+
+        // v_y = (?y + 0.5 * g * t²) / t  — needed vertical speed to arrive at target height
+        float velocityY = (verticalDist + 0.5f * gravity * flightTime * flightTime) / flightTime;
+
+        // v_xz = ?xz / t — needed horizontal speed to cover the ground distance
+        Vector3 horizontalDir = new Vector3(displacement.x, 0f, displacement.z).normalized;
+        float velocityXZ = horizontalDist / flightTime;
+
+        Vector3 launchVelocity = (horizontalDir * velocityXZ) + (Vector3.up * velocityY);
+
+        rb.linearVelocity = Vector3.zero; // clear any existing velocity
+        rb.AddForce(launchVelocity, ForceMode.VelocityChange);
+        Debug.Log("JumpToPlatform - jumping to point " + (_currentJumpIndex) + " | flight time: " + flightTime);
+
+        yield return new WaitForSeconds(0.5f); // let Rocky leave the ground before checking landing
+        IgnoreGroundCheck = false;
+
+        // Wait until landed
+        while (!IsEnemyGrounded())
+        {
+            if (!isGrabbed && !isPushed)
+            {
+                RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+            }
+            yield return null;
+        }
+
+        RockyRhodesMesh.localRotation = originalMeshRotation;
+
+        // Wait while grabbed or pushed before re-enabling
+        while (isGrabbed || isPushed)
+        {
+            yield return null;
+        }
+
+        // Re-enable NavMesh after landing
+        rb.isKinematic = true;
+        agent.enabled = true;
+
+        // Cooldown before the next jump
+        yield return new WaitForSeconds(jumpPatrolCooldown);
+
+        _isJumping = false;
+    }
+    public override void RandomPatrolDestination()
+    {
+        if (_isJumping) return; // already mid-jump or in cooldown, wait
+        if (JumpPoints == null || JumpPoints.Count == 0) return;
+        StartCoroutine(JumpToPlatform());    
+    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag(_playerTag) )

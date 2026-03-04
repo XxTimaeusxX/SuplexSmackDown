@@ -72,10 +72,10 @@ public class Cinema_final : MonoBehaviour
         {
             StartCoroutine(StartIntro());
         }
-        if (Boss3Intro)
+      /*  if (Boss3Intro)
         {
             StartCoroutine(StartBoss3PanIn());
-        }
+        }*/
     }
 
     private IEnumerator StartIntro()
@@ -114,7 +114,7 @@ public class Cinema_final : MonoBehaviour
         yield return new WaitForSeconds(4f);
         EndIntro();
     }
-    private IEnumerator StartBoss3PanIn()
+    public IEnumerator StartBoss3PanIn()
     {
         Boss3Intro = false;
         playerMovementScript.enabled = false;
