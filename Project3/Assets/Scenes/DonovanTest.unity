@@ -334,6 +334,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3691937461682135192, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
   m_PrefabInstance: {fileID: 1758826272}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &837301452 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2517913487020669951, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+  m_PrefabInstance: {fileID: 923066970}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &923066970
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -350,6 +355,10 @@ PrefabInstance:
       propertyPath: powerSlider
       value: 
       objectReference: {fileID: 1512851611}
+    - target: {fileID: 2517913487020669951, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 06f640a7e06f84d4f81c0c6ad7ed1fa6, type: 2}
     - target: {fileID: 4355799152470144973, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       propertyPath: CinemachineCamera
       value: 
@@ -902,10 +911,16 @@ MonoBehaviour:
   playerMovement: {fileID: 1339317863}
   bossShockwave: {fileID: 2528843459941322308, guid: 529e3d2b33e5a354f9d56192a7817cd3, type: 3}
   health: {fileID: 1339317886}
+  playerMaterial: {fileID: 2100000, guid: 06f640a7e06f84d4f81c0c6ad7ed1fa6, type: 2}
+  slowMaterial: {fileID: 2100000, guid: 5256d0655d9f7f548a0c3f9333cd00e0, type: 2}
+  objectRenderer: {fileID: 837301452}
+  animator: {fileID: 0}
   boss: Boss
-  slowMoveSpeed: 2
+  slowMoveSpeed: 0
   maxSlowTimer: 3
   maxCollideTimer: 5
+  normalAniamtionSpeed: 1.2
+  slowAnimationSpeed: 0
   slow: 0
   collided: 0
 --- !u!114 &1339317877 stripped
@@ -992,6 +1007,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4167950853530998420, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5018433338472157327, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6494104471031518904, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
@@ -1628,7 +1647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: moveSpeed
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: shockwave
@@ -1656,7 +1675,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxJumpTime
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: bossCollider
@@ -1666,6 +1685,10 @@ PrefabInstance:
       propertyPath: playerSuplex
       value: 
       objectReference: {fileID: 1339317877}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: solidMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: c7575905d993a584f9088d08841273ab, type: 2}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: groundDistance
       value: 0.4
@@ -1700,11 +1723,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxAttackCooldown
-      value: 5
+      value: 3.2
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: timeBetweenAttacks
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: transparentMaterial
@@ -1712,7 +1735,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 384abbb328a216b47bf9cea38861459e, type: 2}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: maxJumpCooldownTimer
-      value: 5
+      value: 3.2
       objectReference: {fileID: 0}
     - target: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Name

@@ -43,7 +43,7 @@ public class Level2BossManager : MonoBehaviour
     [SerializeField] private PlayerSuplex playerSuplex;
     public Transform groundCheck;
     public LayerMask groundMask;
-    public Material opaqueMaterial;
+    public Material solidMaterial;
     public Material transparentMaterial;
     public Renderer objectRenderer;
     public TravelToLocation travel;
@@ -325,7 +325,7 @@ public class Level2BossManager : MonoBehaviour
 
     public void TurnSolid()
     {
-        objectRenderer.material = opaqueMaterial;
+        objectRenderer.material = solidMaterial;
     }
 
     public void TurnTransparent()
