@@ -39,6 +39,10 @@ public class InGameMenuManager : MonoBehaviour
 	InputAction cheatsAction3;
 	bool canInputCheats;
 
+	[SerializeField] GameObject star1;
+	[SerializeField] GameObject star2;
+	[SerializeField] GameObject star3;
+
 	//[SerializeField] GameObject _PausePoster;
 	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
 	float pause_t = 0;
@@ -215,18 +219,30 @@ public class InGameMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_DefaultGameOverButton);
 	}
 	
-	//show cursor, pause, and show win screen
 	public void WinScreen()
 	{
+		//show cursor, pause, and show win screen
 		canPause = false;
 		Cursor.lockState = CursorLockMode.Confined;
 		Cursor.visible = true;
 		Time.timeScale = 0.0f;
 		_WinMenuContainer.SetActive(true);
+		
+		//stop music and play victory sound
 		AudioManager.StopMusic();
 		AudioManager.PLayVictory();
-        // Set default selected button for navigation
+        
+		//show stars if obtained
+		if(StarTracker.star1get)
+			star1.SetActive(true);
+		if(StarTracker.star2get)
+			star2.SetActive(true);
+		if(StarTracker.star3get)
+			star3.SetActive(true);
+		
+		// Set default selected button for navigation
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
+		
 	}
 	
 	//hides all UI - used in loading screen
