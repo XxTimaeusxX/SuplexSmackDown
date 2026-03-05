@@ -41,12 +41,11 @@ public class Level2BossManager : MonoBehaviour
     public Transform boss;
     public NavMeshAgent agent;
     public Rigidbody rb;
-    public LayerMask groundLayer, playerLayer, bossLayer;
+    public LayerMask groundLayer, playerLayer, bossLayer; // -
     public Collider bossCollider;
     public GameObject body;
     [SerializeField] private PlayerSuplex playerSuplex;
     public Transform groundCheck;
-    public LayerMask groundMask;
     public Material solidMaterial;
     public Material transparentMaterial;
     public Renderer objectRenderer;
@@ -94,7 +93,7 @@ public class Level2BossManager : MonoBehaviour
     {
         if (travel.moveToLocation == false)
         {
-            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
             if (playerSuplex.bossDropped == true)
             {
                 grabbed = false;
@@ -135,7 +134,7 @@ public class Level2BossManager : MonoBehaviour
         }
     }
 
-    private void Patroling()
+    private void Patroling() // -
     {
         if (!stunned)
         {
@@ -336,7 +335,7 @@ public class Level2BossManager : MonoBehaviour
             }
             if (playerInSightRange && playerInAttackRange && !grabbed && !alreadyAttacked && !jump && travel.moveToLocation == false)
             {
-                int randomAttackIndex = Random.Range(0, 2);
+                int randomAttackIndex = Random.Range(0, 6);
                 switch (randomAttackIndex)
                 {
                     case 0:
@@ -344,6 +343,18 @@ public class Level2BossManager : MonoBehaviour
                         break;
                     case 1:
                         Jump();
+                        break;
+                    case 2:
+                        AttackPlayer();
+                        break;
+                    case 3:
+                        AttackPlayer();
+                        break;
+                    case 4:
+                        AttackPlayer();
+                        break;
+                    case 5:
+                        AttackPlayer();
                         break;
                 }
             }
