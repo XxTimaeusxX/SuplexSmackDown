@@ -14,6 +14,8 @@ public class Boss2Interaction : MonoBehaviour
     public Material slowMaterial;
     public Renderer objectRenderer;
     public Animator animator;
+    public Level2BossManager level2BossManager;
+    public PlayerDash playerDash;
 
     [Header("Strings")]
     public string boss;
@@ -42,6 +44,7 @@ public class Boss2Interaction : MonoBehaviour
     {
         if (slow)
         {
+            level2BossManager.slow = true;
             objectRenderer.material = slowMaterial;
             animator.speed = slowMoveSpeed;
             playerMovement.enabled = false;
@@ -50,6 +53,7 @@ public class Boss2Interaction : MonoBehaviour
         if (slowTimer <= 0)
         {
             slow = false;
+            level2BossManager.slow = false;
             slowTimer = maxSlowTimer;
             playerMovement.enabled = true;
             animator.speed = normalAniamtionSpeed;

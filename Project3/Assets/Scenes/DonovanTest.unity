@@ -440,6 +440,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7803343495701552814, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
   m_PrefabInstance: {fileID: 923066970}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &969885914 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6397953111104092831, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+  m_PrefabInstance: {fileID: 5894307683871126179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &996395479
 GameObject:
   m_ObjectHideFlags: 0
@@ -759,6 +764,11 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
+--- !u!4 &1085413928 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1019257235660327638, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+  m_PrefabInstance: {fileID: 5894307683871126179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1178738276
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,10 +915,12 @@ MonoBehaviour:
   slowMaterial: {fileID: 2100000, guid: 5256d0655d9f7f548a0c3f9333cd00e0, type: 2}
   objectRenderer: {fileID: 837301452}
   animator: {fileID: 0}
+  level2BossManager: {fileID: 358572230}
+  playerDash: {fileID: 0}
   boss: Boss
   slowMoveSpeed: 0
-  maxSlowTimer: 2
-  maxCollideTimer: 5
+  maxSlowTimer: 3
+  maxCollideTimer: 4
   normalAniamtionSpeed: 1.2
   slowAnimationSpeed: 0
   slow: 0
@@ -1515,6 +1527,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1019257235660327638, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 1019257235660327638, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.51
+      objectReference: {fileID: 0}
     - target: {fileID: 2443247511672798558, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.43
@@ -1560,6 +1580,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 923066971}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: grabBox
+      value: 
+      objectReference: {fileID: 969885914}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: holdPoint
+      value: 
+      objectReference: {fileID: 1085413928}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: playerBody
+      value: 
+      objectReference: {fileID: 1339317848}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: grabHandler
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: interaction
       value: 
       objectReference: {fileID: 1339317865}
@@ -1567,6 +1603,14 @@ PrefabInstance:
       propertyPath: playerSuplex
       value: 
       objectReference: {fileID: 1339317877}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 1339317863}
+    - target: {fileID: 6047424404994112672, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: grab
+      value: 
+      objectReference: {fileID: 358572230}
     - target: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Name
       value: TestBoss
@@ -1579,7 +1623,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4540635354008044812, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

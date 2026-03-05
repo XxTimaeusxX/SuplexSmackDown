@@ -52,7 +52,11 @@ public class Level2BossManager : MonoBehaviour
     public Renderer objectRenderer;
     public TravelToLocation travel;
     public GameObject shockwave;
-    public Boss2Interaction interaction;
+    public BossGrabHandler grabHandler;
+    public GameObject grabBox;
+    public Transform holdPoint;
+    public GameObject playerBody;
+    public PlayerMovement playerMovement;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -70,6 +74,9 @@ public class Level2BossManager : MonoBehaviour
     public bool jumpCooldown;
     public bool breakCooldown;
     public bool finalArea;
+    public bool slow;
+    public bool grabBoxGrab;
+    public bool suplex;
 
     private void Start()
     {
@@ -107,6 +114,7 @@ public class Level2BossManager : MonoBehaviour
             AttackCooldown();
             JumpCooldown();
             AttackBreak();
+            SuplexPlayer();
         }
     }
 
@@ -194,6 +202,25 @@ public class Level2BossManager : MonoBehaviour
         }
     }
 
+    private void GrabPlayer()
+    {
+        if (finalArea && slow && !grabBoxGrab)
+        {
+            Debug.Log("Activate");
+            grabBox.SetActive(true);
+            agent.SetDestination(transform.position);
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+            targetPosition.y = transform.position.y;
+            Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+            transform.LookAt(targetLookAt);
+            if (!alreadyAttacked)
+            {
+                StartCoroutine(DashCoroutine(targetPosition));
+            }
+        }
+    }
+
     private IEnumerator DashCoroutine(Vector3 target)
     {
         if (!grabbedCooldown)
@@ -212,23 +239,8 @@ public class Level2BossManager : MonoBehaviour
             rb.constraints = ~RigidbodyConstraints.FreezePosition;
             agent.enabled = true;
             isDashing = false;
-        }
-        if (finalArea && interaction.slow)
-        {
-            isDashing = true;
-            agent.enabled = false;
-            triggerOn = true;
-            float startTime = Time.time;
-            Vector3 startPos = transform.position;
-            rb.constraints = RigidbodyConstraints.FreezePosition;
-            while (Time.time < startTime + dashDuration)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
-                yield return null;
-            }
-            rb.constraints = ~RigidbodyConstraints.FreezePosition;
-            agent.enabled = true;
-            isDashing = false;
+            yield return new WaitForSeconds(0.5f);
+            GrabPlayer();
         }
     }
 
@@ -390,6 +402,37 @@ public class Level2BossManager : MonoBehaviour
     public void TurnTransparent()
     {
         objectRenderer.material = transparentMaterial;
+    }
+
+    public void SuplexPlayer()
+    {
+        if (grabBoxGrab)
+        {
+            playerMovement.enabled = false;
+            playerBody.transform.SetParent(holdPoint);
+            playerBody.transform.localPosition = Vector3.zero;
+            suplex = true;
+        }
+        if (suplex)
+        {
+            agent.enabled = false;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            isGrounded = false;
+            jumpTime -= Time.deltaTime;
+        }
+        if (jumpTime <= 0)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, -fallSpeed, rb.linearVelocity.z);
+            suplex = false;
+            if (isGrounded)
+            {
+                playerMovement.enabled = true;
+                playerBody.transform.SetParent(null);
+                Instantiate(shockwave, boss.position, boss.rotation, boss);
+                grabBoxGrab = false;
+                jumpTime = maxJumpTime;
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
