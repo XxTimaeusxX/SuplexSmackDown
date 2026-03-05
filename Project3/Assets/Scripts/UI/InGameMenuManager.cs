@@ -42,6 +42,16 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject star1;
 	[SerializeField] GameObject star2;
 	[SerializeField] GameObject star3;
+	
+	float levelTimer = 0;
+	float roundedTimer = 0;
+	float minutes = 0;
+	float seconds = 0;
+	string formattedMinutes;
+	string formattedSeconds;
+	string formattedTimer = "00:00.0";
+	[SerializeField] Text timerText;
+	[SerializeField] Text winLevelTime;
 
 	//[SerializeField] GameObject _PausePoster;
 	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
@@ -72,8 +82,33 @@ public class InGameMenuManager : MonoBehaviour
         {
 			CheatsMenuActivate();
         }
+		
+		UpdateTimer();
 	}
 	
+	
+	public void UpdateTimer(){		
+		if(seconds >= 5999.9){
+			formattedTimer = "99:59.9"; //cap out timer if the player leaves it on or something
+		}
+		else{
+			//update timer
+			//increment levelTimer with deltaTime
+			levelTimer += Time.deltaTime;
+			roundedTimer = (Mathf.Round(levelTimer*10f)*0.1f);
+			minutes = Mathf.Floor(roundedTimer/60);
+			seconds = roundedTimer%60;
+			//if at least 10 minutes, minutes to string, else add "0"
+			formattedMinutes = minutes >= 10 ? minutes.ToString() : "0" + minutes.ToString();
+			//same for seconds
+			formattedSeconds = seconds >= 10 ? seconds.ToString() : "0" + seconds.ToString();
+			formattedSeconds = seconds % 1 > 0 ? formattedSeconds : formattedSeconds + ".0";
+			//format: 65.2 > 01:05.2
+			formattedTimer = formattedMinutes.ToString() + ":" + formattedSeconds.ToString();
+			//formattedTimer = roundedTimer.ToString();
+			timerText.text = formattedTimer;
+		}
+	}
 	
 	//pause and show pause menu
 	public void Pause()
@@ -239,6 +274,9 @@ public class InGameMenuManager : MonoBehaviour
 			star2.SetActive(true);
 		if(StarTracker.star3get)
 			star3.SetActive(true);
+		
+		//show final time
+		winLevelTime.text = "Final Time: " + formattedTimer;
 		
 		// Set default selected button for navigation
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
