@@ -8,6 +8,8 @@ public class TravelToLocation : MonoBehaviour
 
     public Collider bossCollider;
     public NavMeshAgent agent;
+    public Level2BossManager boss;
+    public Rigidbody rb;
 
     [Header("Movement Locations")]
     public Transform waypoint;
@@ -24,15 +26,17 @@ public class TravelToLocation : MonoBehaviour
     {
         if (moveToLocation)
         {
-            MoveLocation(waypoint.position);
+            rb.useGravity = false;
+            MoveLocation();
             bossCollider.isTrigger = true;
             agent.enabled = false;
+            boss.enabled = false;
         }
     }
 
-    private void MoveLocation(Vector3 targetPos)
+    private void MoveLocation()
     {
-        Vector3 dir = targetPos - transform.position;
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, travelSpeed * Time.deltaTime);
+        float step = travelSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, waypoint.position, step);
     }
 }

@@ -319,6 +319,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f64ed8a7f5d844cbbf8635a2ce9422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level2BossManager
+--- !u!54 &358572233 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 1629447691092954705, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+  m_PrefabInstance: {fileID: 5894307683871126179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410060789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3691937461682135192, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
@@ -916,7 +921,7 @@ MonoBehaviour:
   objectRenderer: {fileID: 837301452}
   animator: {fileID: 0}
   level2BossManager: {fileID: 358572230}
-  playerDash: {fileID: 0}
+  playerDash: {fileID: 1339317898}
   boss: Boss
   slowMoveSpeed: 0
   maxSlowTimer: 3
@@ -947,6 +952,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7497962857289ad42a1a86ea51eae329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+--- !u!114 &1339317898 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6127479867538549095, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+  m_PrefabInstance: {fileID: 923066970}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1339317848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0569abfb25e281446bf8ba2c821b7fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerDash
 --- !u!1001 &1512851609
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1584,6 +1600,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 969885914}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: dashSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: holdPoint
       value: 
       objectReference: {fileID: 1085413928}
@@ -1591,6 +1611,14 @@ PrefabInstance:
       propertyPath: playerBody
       value: 
       objectReference: {fileID: 1339317848}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: playerDash
+      value: 
+      objectReference: {fileID: 1339317898}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: attackRange
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: grabHandler
       value: 
@@ -1604,9 +1632,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1339317877}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: groundDistance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxSuplexTimer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 1339317863}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxTriggerTimer
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 6047424404994112672, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: grab
       value: 
@@ -1615,6 +1655,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestBoss
       objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 358572233}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: boss
+      value: 
+      objectReference: {fileID: 358572230}
     - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: waypoint
       value: 

@@ -48,6 +48,7 @@ public class Boss2Interaction : MonoBehaviour
             objectRenderer.material = slowMaterial;
             animator.speed = slowMoveSpeed;
             playerMovement.enabled = false;
+            playerDash.enabled = false;
             slowTimer -= Time.deltaTime;
         }
         if (slowTimer <= 0)
@@ -56,6 +57,7 @@ public class Boss2Interaction : MonoBehaviour
             level2BossManager.slow = false;
             slowTimer = maxSlowTimer;
             playerMovement.enabled = true;
+            playerDash.enabled = true;
             animator.speed = normalAniamtionSpeed;
             objectRenderer.material = playerMaterial;
         }
