@@ -18,7 +18,6 @@ public class Level2BossManager : MonoBehaviour
     public float dashDistanceMultiplier;
     private float stunnedTimer;
     public float maxStunnedTimer;
-    public float groundDistance;
     private float triggerTimer;
     public float maxTriggerTimer;
     public float fallSpeed;
@@ -31,23 +30,33 @@ public class Level2BossManager : MonoBehaviour
     public float maxAttackCooldown;
     private float jumpCooldownTimer;
     public float maxJumpCooldownTimer;
+    public float maxAttacks;
+    private float attackCounter = 0;
+    public float maxBreakCooldown;
+    private float breakCooldownTimer;
+    private float suplexTimer;
+    public float maxSuplexTimer;
 
     [Header("References")]
     public Transform player;
     public Transform boss;
     public NavMeshAgent agent;
     public Rigidbody rb;
-    public LayerMask groundLayer, playerLayer, bossLayer;
+    public LayerMask groundLayer, playerLayer, bossLayer; // -
     public Collider bossCollider;
     public GameObject body;
     [SerializeField] private PlayerSuplex playerSuplex;
     public Transform groundCheck;
-    public LayerMask groundMask;
-    public Material opaqueMaterial;
+    public Material solidMaterial;
     public Material transparentMaterial;
     public Renderer objectRenderer;
     public TravelToLocation travel;
     public GameObject shockwave;
+    public GameObject grabBox;
+    public Transform holdPoint;
+    public GameObject playerBody;
+    public PlayerMovement playerMovement;
+    public PlayerDash playerDash;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -62,7 +71,12 @@ public class Level2BossManager : MonoBehaviour
     private bool grabbedCooldown;
     private bool jump;
     public bool movingBoss;
-    public bool jumpCooldown;
+    private bool jumpCooldown;
+    private bool breakCooldown;
+    public bool finalArea;
+    public bool slow;
+    public bool grabBoxGrab;
+    private bool suplex;
 
     private void Start()
     {
@@ -73,43 +87,71 @@ public class Level2BossManager : MonoBehaviour
         jumpTime = maxJumpTime;
         attackCooldown = maxAttackCooldown;
         jumpCooldownTimer = maxJumpCooldownTimer;
+        breakCooldownTimer = maxBreakCooldown;
+        suplexTimer = maxSuplexTimer;
     }
 
     private void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (playerSuplex.bossDropped == true)
+        if (travel.moveToLocation == false)
         {
-            grabbed = false;
+            if (playerSuplex.bossDropped == true)
+            {
+                grabbed = false;
+            }
+            TriggerOn();
+            agent.speed = moveSpeed;
+            playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+            if (isDashing) return;
+            if (!breakCooldown)
+            {
+                States();
+            }
+            Stunned();
+            Grounded();
+            HighJump();
+            AttackCooldown();
+            JumpCooldown();
+            AttackBreak();
+            SuplexPlayer();
         }
-        TriggerOn();
-        agent.speed = moveSpeed;
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
-        if (isDashing) return;
-        States();
-        Stunned();
-        Grounded();
-        HighJump();
-        AttackCooldown();
-        JumpCooldown();
-
     }
 
-    private void Patroling()
+    public void AttackBreak()
     {
-        if (!walkPointSet)
+        if (attackCounter == maxAttacks)
         {
-            SearchWalkPoint();
+            breakCooldown = true;
         }
-        if (walkPointSet)
+        if (breakCooldown)
         {
-            agent.SetDestination(walkPoint);
+            breakCooldownTimer -= Time.deltaTime;
         }
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (breakCooldownTimer <= 0)
         {
-            walkPointSet = false;
+            breakCooldown = false;
+            breakCooldownTimer = maxBreakCooldown;
+        }
+    }
+
+    private void Patroling() // -
+    {
+        if (!stunned)
+        {
+            if (!walkPointSet)
+            {
+                SearchWalkPoint();
+            }
+            if (walkPointSet)
+            {
+                agent.SetDestination(walkPoint);
+            }
+            Vector3 distanceToWalkPoint = transform.position - walkPoint;
+            if (distanceToWalkPoint.magnitude < 1f)
+            {
+                walkPointSet = false;
+            }
         }
     }
 
@@ -126,29 +168,55 @@ public class Level2BossManager : MonoBehaviour
 
     private void ChasePlayer()
     {
-        if (agent.enabled == true)
+        if (!stunned)
         {
-            agent.SetDestination(player.position);
+            if (agent.enabled == true)
+            {
+                agent.SetDestination(player.position);
+            }
         }
     }
 
     private void AttackPlayer()
     {
-        if (!alreadyAttacked)
+        if (!stunned)
         {
-            if (agent.enabled == true)
+            if (!alreadyAttacked)
             {
-                agent.SetDestination(transform.position);
-                Vector3 directionToPlayer = (player.position - transform.position).normalized;
-                Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
-                targetPosition.y = transform.position.y;
-                Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
-                transform.LookAt(targetLookAt);
-                if (!alreadyAttacked)
+                if (agent.enabled == true)
                 {
-                    StartCoroutine(DashCoroutine(targetPosition));
-                    alreadyAttacked = true;
+                    agent.SetDestination(transform.position);
+                    Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                    Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+                    targetPosition.y = transform.position.y;
+                    Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+                    transform.LookAt(targetLookAt);
+                    if (!alreadyAttacked)
+                    {
+                        StartCoroutine(DashCoroutine(targetPosition));
+                        alreadyAttacked = true;
+                        attackCounter++;
+                    }
                 }
+            }
+        }
+    }
+
+    private void GrabPlayer()
+    {
+        if (finalArea && slow && !grabBoxGrab)
+        {
+            Debug.Log("Activate");
+            grabBox.SetActive(true);
+            agent.SetDestination(transform.position);
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+            targetPosition.y = transform.position.y;
+            Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+            transform.LookAt(targetLookAt);
+            if (!alreadyAttacked)
+            {
+                StartCoroutine(DashCoroutine(targetPosition));
             }
         }
     }
@@ -171,6 +239,8 @@ public class Level2BossManager : MonoBehaviour
             rb.constraints = ~RigidbodyConstraints.FreezePosition;
             agent.enabled = true;
             isDashing = false;
+            yield return new WaitForSeconds(0.5f);
+            GrabPlayer();
         }
     }
 
@@ -264,9 +334,9 @@ public class Level2BossManager : MonoBehaviour
             {
                 ChasePlayer();
             }
-            if (playerInSightRange && playerInAttackRange && !grabbed && !alreadyAttacked && !jump && travel.moveToLocation == false)
+            if (playerInSightRange && playerInAttackRange && !grabbed && !alreadyAttacked && !jump && !grabBoxGrab && travel.moveToLocation == false)
             {
-                int randomAttackIndex = Random.Range(0, 2);
+                int randomAttackIndex = Random.Range(0, 6);
                 switch (randomAttackIndex)
                 {
                     case 0:
@@ -274,6 +344,18 @@ public class Level2BossManager : MonoBehaviour
                         break;
                     case 1:
                         Jump();
+                        break;
+                    case 2:
+                        AttackPlayer();
+                        break;
+                    case 3:
+                        AttackPlayer();
+                        break;
+                    case 4:
+                        AttackPlayer();
+                        break;
+                    case 5:
+                        AttackPlayer();
                         break;
                 }
             }
@@ -291,21 +373,24 @@ public class Level2BossManager : MonoBehaviour
 
     public void HighJump()
     {
-        if (jump)
+        if (!stunned)
         {
-            agent.enabled = false;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            isGrounded = false;
-            jumpTime -= Time.deltaTime;
-        }
-        if (jumpTime <= 0)
-        {
-            jump = false;
-            if (isGrounded)
+            if (jump)
             {
-                Instantiate(shockwave, boss.position, boss.rotation, boss);
-                jumpTime = maxJumpTime;
-                jumpCooldown = true;
+                agent.enabled = false;
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                jumpTime -= Time.deltaTime;
+            }
+            if (jumpTime <= 0)
+            {
+                jump = false;
+                if (isGrounded)
+                {
+                    Instantiate(shockwave, boss.position, boss.rotation, boss);
+                    jumpTime = maxJumpTime;
+                    attackCounter++;
+                    jumpCooldown = true;
+                }
             }
         }
     }
@@ -325,12 +410,45 @@ public class Level2BossManager : MonoBehaviour
 
     public void TurnSolid()
     {
-        objectRenderer.material = opaqueMaterial;
+        objectRenderer.material = solidMaterial;
     }
 
     public void TurnTransparent()
     {
         objectRenderer.material = transparentMaterial;
+    }
+
+    public void SuplexPlayer()
+    {
+        if (grabBoxGrab)
+        {
+            playerMovement.enabled = false;
+            playerDash.enabled = false;
+            playerBody.transform.SetParent(holdPoint);
+            playerBody.transform.localPosition = Vector3.zero;
+            suplex = true;
+        }
+        if (suplex)
+        {
+            agent.enabled = false;
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            suplexTimer -= Time.deltaTime;
+        }
+        if (suplexTimer <= 0)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, -fallSpeed, rb.linearVelocity.z);
+            suplex = false;
+            if (isGrounded)
+            {
+                jumpCooldown = true;
+                playerMovement.enabled = true;
+                playerDash.enabled = true;
+                playerBody.transform.SetParent(null);
+                grabBoxGrab = false;
+                suplexTimer = maxSuplexTimer;
+                Instantiate(shockwave, boss.position, boss.rotation, boss);
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -352,6 +470,29 @@ public class Level2BossManager : MonoBehaviour
                 stunned = true;
                 Debug.Log("Stunned");
             }
+        }
+        if (other.gameObject.CompareTag("Shockwave"))
+        {
+            if (movingBoss)
+            {
+                travel.moveToLocation = true;
+            }
+        }
+    }
+
+    void OnCollisionStay(Collision collisionInfo)
+    {
+        if ((groundLayer.value & (1 << collisionInfo.gameObject.layer)) > 0)
+        {
+            isGrounded = true;
+        }
+    }
+
+    void OnCollisionExit(Collision collisionInfo)
+    {
+        if ((groundLayer.value & (1 << collisionInfo.gameObject.layer)) > 0)
+        {
+            isGrounded = false;
         }
     }
 }
