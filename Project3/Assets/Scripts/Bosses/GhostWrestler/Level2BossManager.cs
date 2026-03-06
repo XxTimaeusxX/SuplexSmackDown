@@ -63,9 +63,9 @@ public class Level2BossManager : MonoBehaviour
     private bool walkPointSet;
     private bool playerInSightRange;
     private bool playerInAttackRange;
-    private bool isDashing;
+    public bool isDashing;
     private bool triggerOn;
-    private bool stunned;
+    public bool stunned;
     public bool grabbed;
     public bool isGrounded;
     private bool grabbedCooldown;
@@ -373,21 +373,24 @@ public class Level2BossManager : MonoBehaviour
 
     public void HighJump()
     {
-        if (jump)
+        if (!stunned)
         {
-            agent.enabled = false;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            jumpTime -= Time.deltaTime;
-        }
-        if (jumpTime <= 0)
-        {
-            jump = false;
-            if (isGrounded)
+            if (jump)
             {
-                Instantiate(shockwave, boss.position, boss.rotation, boss);
-                jumpTime = maxJumpTime;
-                attackCounter++;
-                jumpCooldown = true;
+                agent.enabled = false;
+                rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+                jumpTime -= Time.deltaTime;
+            }
+            if (jumpTime <= 0)
+            {
+                jump = false;
+                if (isGrounded)
+                {
+                    Instantiate(shockwave, boss.position, boss.rotation, boss);
+                    jumpTime = maxJumpTime;
+                    attackCounter++;
+                    jumpCooldown = true;
+                }
             }
         }
     }
@@ -466,6 +469,13 @@ public class Level2BossManager : MonoBehaviour
             {
                 stunned = true;
                 Debug.Log("Stunned");
+            }
+        }
+        if (other.gameObject.CompareTag("Shockwave"))
+        {
+            if (movingBoss)
+            {
+                travel.moveToLocation = true;
             }
         }
     }

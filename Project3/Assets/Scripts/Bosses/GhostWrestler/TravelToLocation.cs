@@ -7,7 +7,8 @@ public class TravelToLocation : MonoBehaviour
     [Header("Settings")]
     public float travelSpeed;
     public float minDistanceThreshold;
-    private int currentWaypointIndex = 0;
+    public int currentWaypointIndex;
+    public float groundLevel;
 
     public Collider bossCollider;
     public NavMeshAgent agent;
@@ -39,6 +40,10 @@ public class TravelToLocation : MonoBehaviour
         {
             Restart();
         }
+        if (transform.position.y < groundLevel)
+        {
+            moveToLocation = true;
+        }
     }
 
     private void MoveLocation()
@@ -55,5 +60,6 @@ public class TravelToLocation : MonoBehaviour
         bossCollider.isTrigger = false;
         agent.enabled = true;
         boss.enabled = true;
+        currentWaypointIndex++;
     }
 }
