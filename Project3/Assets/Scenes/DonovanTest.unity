@@ -319,11 +319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f64ed8a7f5d844cbbf8635a2ce9422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Level2BossManager
---- !u!54 &358572233 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 1629447691092954705, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-  m_PrefabInstance: {fileID: 5894307683871126179}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410060789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3691937461682135192, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
@@ -444,11 +439,6 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 7803343495701552814, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
   m_PrefabInstance: {fileID: 923066970}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &969885914 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6397953111104092831, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-  m_PrefabInstance: {fileID: 5894307683871126179}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &996395479
 GameObject:
@@ -769,11 +759,6 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
---- !u!4 &1085413928 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1019257235660327638, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-  m_PrefabInstance: {fileID: 5894307683871126179}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1178738276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,7 +1267,7 @@ GameObject:
   - component: {fileID: 1694793349}
   m_Layer: 0
   m_Name: Waypoint
-  m_TagString: Untagged
+  m_TagString: Waypoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1296,7 +1281,7 @@ Transform:
   m_GameObject: {fileID: 1694793348}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 21.13, y: 16.1, z: 0}
+  m_LocalPosition: {x: 21.13, y: 7.387, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1543,14 +1528,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1019257235660327638, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 1019257235660327638, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.51
-      objectReference: {fileID: 0}
     - target: {fileID: 2443247511672798558, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.43
@@ -1596,18 +1573,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 923066971}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: grabBox
-      value: 
-      objectReference: {fileID: 969885914}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: dashSpeed
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: holdPoint
-      value: 
-      objectReference: {fileID: 1085413928}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: playerBody
       value: 
       objectReference: {fileID: 1339317848}
@@ -1616,63 +1581,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1339317898}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: attackRange
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: grabHandler
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: interaction
-      value: 
-      objectReference: {fileID: 1339317865}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: playerSuplex
       value: 
       objectReference: {fileID: 1339317877}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: groundDistance
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: maxSuplexTimer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 1339317863}
-    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: maxTriggerTimer
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6047424404994112672, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: grab
-      value: 
-      objectReference: {fileID: 358572230}
     - target: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Name
       value: TestBoss
       objectReference: {fileID: 0}
     - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: rb
-      value: 
-      objectReference: {fileID: 358572233}
-    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: boss
-      value: 
-      objectReference: {fileID: 358572230}
-    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: waypoint
-      value: 
-      objectReference: {fileID: 1694793349}
-    - target: {fileID: 6397953111104092831, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
-      propertyPath: m_Layer
+      propertyPath: waypoints.Array.size
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4540635354008044812, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
