@@ -8,9 +8,9 @@ public class PlayerPause : MonoBehaviour
 	InputAction pauseAction;
 	[SerializeField] InGameMenuManager menuManager;
 	
-	[SerializeField] GameObject _PauseMenuContainer;
+	//[SerializeField] GameObject _PauseMenuContainer;
 
-	[SerializeField] GameObject _DefaultPauseButton;
+	//[SerializeField] GameObject _DefaultPauseButton;
 	
 	
     void Start()
