@@ -13,6 +13,8 @@ public class TravelToLocation : MonoBehaviour
     public float minDistanceThreshold;
     public int currentWaypointIndex;
     public float groundLevel;
+    private float groundTimer;
+    public float maxGroundTimer;
 
     public Collider bossCollider;
     public NavMeshAgent agent;
@@ -28,6 +30,7 @@ public class TravelToLocation : MonoBehaviour
     void Start()
     {
         moveToLocation = false;
+        groundTimer = maxGroundTimer;
     }
 
     void Update()
@@ -39,6 +42,7 @@ public class TravelToLocation : MonoBehaviour
             bossCollider.isTrigger = true;
             agent.enabled = false;
             boss.enabled = false;
+            groundTimer -= Time.deltaTime;
         }
         if (transform.position == waypoints[currentWaypointIndex].position)
         {
@@ -48,13 +52,20 @@ public class TravelToLocation : MonoBehaviour
         {
             moveToLocation = true;
         }
+        if (groundTimer <= 0)
+        {
+            transform.position = waypoints[currentWaypointIndex].position;
+        }
     }
 
     private void MoveLocation()
     {
         float step = travelSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, step);
-        flowers[currentFlowerIndex].SetActive(true);
+        if (flowers != null)
+        {
+            flowers[currentFlowerIndex].SetActive(true);
+        }
     }
 
     public void Restart()
@@ -67,5 +78,6 @@ public class TravelToLocation : MonoBehaviour
         boss.enabled = true;
         currentWaypointIndex++;
         currentFlowerIndex++;
+        groundTimer = maxGroundTimer;
     }
 }

@@ -119,6 +119,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &286769253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+  m_PrefabInstance: {fileID: 1758826272}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &358572230 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
@@ -135,6 +140,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3691937461682135192, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
   m_PrefabInstance: {fileID: 1758826272}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &788422983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2903075482262599981, guid: ad1d0cd0847ba0241a758c437b252227, type: 3}
+  m_PrefabInstance: {fileID: 2811581450253047127}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &806385900
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +377,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1048208123 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 505890557924717113, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+  m_PrefabInstance: {fileID: 5894307683871126179}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1050661599
 GameObject:
   m_ObjectHideFlags: 0
@@ -743,6 +764,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &1210759453 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5212656888367739148, guid: ad1d0cd0847ba0241a758c437b252227, type: 3}
+  m_PrefabInstance: {fileID: 2811581450253047127}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1339317848 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7612831096732095278, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
@@ -1590,9 +1616,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: aura
+      value: 
+      objectReference: {fileID: 1048208123}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 923066971}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1210759453}
     - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: playerBody
       value: 
@@ -1613,14 +1647,38 @@ PrefabInstance:
       propertyPath: maxStunnedTimer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5984417481109625612, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: bossHealthSlider
+      value: 
+      objectReference: {fileID: 788422983}
     - target: {fileID: 6162695457830059003, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: m_Name
       value: TestBoss
       objectReference: {fileID: 0}
     - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: groundLevel
+      value: -5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: travelSpeed
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: maxGroundTimer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: flowers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: waypoints.Array.size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: 'flowers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 286769253}
     - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 

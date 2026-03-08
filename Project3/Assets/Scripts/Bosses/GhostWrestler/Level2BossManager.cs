@@ -17,7 +17,7 @@ public class Level2BossManager : MonoBehaviour
     public float dashSpeed;
     public float dashDuration;
     public float dashDistanceMultiplier;
-    private float stunnedTimer;
+    public float stunnedTimer;
     public float maxStunnedTimer;
     private float triggerTimer;
     public float maxTriggerTimer;
@@ -60,6 +60,7 @@ public class Level2BossManager : MonoBehaviour
     public PlayerDash playerDash;
     public GameObject healthBar;
     public Slider bossHealthSlider;
+    public GameObject aura;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -119,10 +120,17 @@ public class Level2BossManager : MonoBehaviour
             AttackBreak();
             SuplexPlayer();
         }
-        if (bossHealthSlider.value <= 0)
+        if (bossHealthSlider != null)
         {
-            healthBar.SetActive(false);
-            gameObject.SetActive(false);
+            if (bossHealthSlider.value <= 0)
+            {
+                healthBar.SetActive(false);
+                gameObject.SetActive(false);
+            }
+        }
+        if (grabbed)
+        {
+            aura.SetActive(false);
         }
     }
 
@@ -272,6 +280,7 @@ public class Level2BossManager : MonoBehaviour
             agent.enabled = false;
             stunnedTimer -= Time.deltaTime;
             body.tag = "Solid";
+            aura.SetActive(true);
             TurnSolid();
         }  
         if (!grabbed && !grabbedCooldown)
@@ -282,6 +291,7 @@ public class Level2BossManager : MonoBehaviour
                 agent.enabled = true;
                 body.tag = "Boss";
                 stunnedTimer = maxStunnedTimer;
+                aura.SetActive(false);
                 TurnTransparent();
             }
         }
@@ -468,6 +478,8 @@ public class Level2BossManager : MonoBehaviour
                 travel.moveToLocation = true;
                 bossHealthSlider.value -= 1;
             }
+            aura.SetActive(false);
+            stunnedTimer = 0;
         }
     }
     private void OnTriggerEnter(Collider other)
