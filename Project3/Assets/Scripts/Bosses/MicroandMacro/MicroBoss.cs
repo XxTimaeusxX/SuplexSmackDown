@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(Collider))]
 public class MicroBoss : EnemyBase
 {
+    public Boss1Arena bossArena;
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
     [SerializeField] private GameObject macroPrefab;   // prefab For MicroBoss
@@ -85,6 +86,7 @@ public class MicroBoss : EnemyBase
         if (enemyHealth.value <= 0)
         {
             // Disable this boss functionality
+            bossArena.moveDown = true;
             canAttack = false;
             canChase = false;
             canPatrol = false;

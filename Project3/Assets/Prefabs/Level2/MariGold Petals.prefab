@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7628872413022130178
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2380750131732626114}
+  - component: {fileID: 2068294859549338275}
+  - component: {fileID: 1959777578656107485}
+  m_Layer: 0
+  m_Name: MariGold Petals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2380750131732626114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7628872413022130178}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8.82, z: 4.31}
+  m_LocalScale: {x: 2.043, y: 2.043, z: 2.043}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4068919950586493474}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &2068294859549338275
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7628872413022130178}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2.35
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1959777578656107485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7628872413022130178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f26dd3ba5b6a57498fef219e6f1f8e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MariGold
+  jumpforce: 40
+  RequiredKills: 0
+  DisableObject: 0
+  ObjectToEnable: {fileID: 3691937461682135192}
+  RequiredEnemies: []
+  highlightMaterial: {fileID: 2100000, guid: 349457e59fca1f34d83658c625ee9bb8, type: 2}
+  bossManager: {fileID: 0}
+  ghostDancer: {fileID: 0}
+--- !u!1001 &4610855193184591305
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2380750131732626114}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.39896
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.39896
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.39896
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0436466
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.7773909
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.13978471
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+      propertyPath: m_Name
+      value: FlowerPlatform
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+--- !u!1 &3691937461682135192 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+  m_PrefabInstance: {fileID: 4610855193184591305}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4068919950586493474 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c4db9176064f0d947ab82dcb37feda59, type: 3}
+  m_PrefabInstance: {fileID: 4610855193184591305}
+  m_PrefabAsset: {fileID: 0}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +42,6 @@ public class Shockwave : MonoBehaviour
             Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
             body.AddForce(pushDir * pushForce, ForceMode.Impulse);
         }
-        
     }
 
     IEnumerator ScaleOverTime(float duration, Vector3 endScale)

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using System.Collections;
 /// <summary>
 /// Handles the player's dash ability, including input, movement, and hitbox activation.
 /// </summary>
@@ -8,9 +8,10 @@ public class PlayerDash : MonoBehaviour
 {
     [Header("References")]
     public CharacterController controller; // Controls player movement and collision
-    InputAction dashAction;                // Input action for dashing
+   public InputAction dashAction;                // Input action for dashing
     public PlayerInput PlayerInput;        // Reference to the player's input system
     public GameObject suplexhitbox;        // Hitbox used during dash (for attacks/collisions)
+    private PlayerMovement _playerMovement;     // Reference to the player's movement script (for checking grounded state, etc.)
 
     [Header("Dash Settings")]
     public float dashSpeed = 5f;           // How fast the player dashes
@@ -37,6 +38,7 @@ public class PlayerDash : MonoBehaviour
     /// </summary>
     void Start()
     {
+        _playerMovement = GetComponent<PlayerMovement>();
         // Find the dash action from the player's input actions
         dashAction = PlayerInput.actions.FindAction("Dash");
         // Make sure the hitbox is off at the start
@@ -73,13 +75,14 @@ public class PlayerDash : MonoBehaviour
         { 
             dashCoolDown = targetDashCoolDown; // Reset cooldown
             airDashCount--;                    // Iterate the amount of air dashes by 1
-
+          
             dashDirection = transform.forward; // Dash in the direction the player is facing
             isDashing = true;
             homingDashActive = false; // input dash by default is not a homing dash
             dashTime = dashDuration;
             if (suplexhitbox != null)
                 suplexhitbox.SetActive(true);    // Enable hitbox for the dash
+            StartCoroutine(PlayDashAnimation()); // Play dash animation
             // Debug.Log("Dash initiated!");
         }
        
@@ -138,17 +141,28 @@ public class PlayerDash : MonoBehaviour
         dashTime = Mathf.Max(dashDuration, (dist / speed) + 0.1f); // small buffer
 
         if (suplexhitbox != null) suplexhitbox.SetActive(true);
+        StartCoroutine(PlayDashAnimation());
         return true;
     }
 
     // NEW: cancel the current dash (used when auto-grabbing on hit)
     public void CancelDash()
     {
-        Debug.Log("Dash cancelled.");
+       // Debug.Log("Dash cancelled.");
         if (!isDashing) return;
         isDashing = false;
         homingDashActive = false;
         dashTime = 0f;
         suplexhitbox.SetActive(false);
+    }
+
+    public IEnumerator PlayDashAnimation()
+    {
+        _playerMovement.isPlayingDashAnimation = true;
+  
+        _playerMovement.ChangeAnimtion("GRABAIR"); // or whatever your dash animation is named                 
+        yield return new WaitForSeconds(1f); // Change this to match your dash animation length
+
+      _playerMovement.isPlayingDashAnimation = false;
     }
 }

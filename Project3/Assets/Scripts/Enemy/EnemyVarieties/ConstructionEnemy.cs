@@ -18,7 +18,6 @@ public class ConstructionEnemy : EnemyBase
         // 2) Core components on this GameObject
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (rb == null) rb = GetComponent<Rigidbody>();
-        if (animator == null) animator = GetComponent<Animator>();
         // Optional: ensure sane defaults (won’t override if already configured)
         if (agent != null)
         {
@@ -63,35 +62,38 @@ public class ConstructionEnemy : EnemyBase
     }
     public override void Update()
     {
-        base.Update();
-      
-       
+        base.Update();  // Let base class handle everything
+    }
+
+ /*   public override void ChasePlayer()
+    {
+        // Call base implementation (handles all pathfinding)
+        base.ChasePlayer();
+        
+        // ONLY Construction-specific: Audio edge trigger
         if (Target != null)
         {
-            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
             bool inChaseRange = m_Distance <= chaseRange;
+            
             if (inChaseRange && !_WorkerInChaseRange)
             {
-                AudioManager.PlayConstructionSeenOne(); // Detected sound (replace per-enemy)
+                AudioManager.PlayConstructionSeenOne();
             }
+            
             _WorkerInChaseRange = inChaseRange;
         }
         else
         {
             _WorkerInChaseRange = false;
         }
-        
-    }
-    // Alternatively, if you prefer tying directly to the collision event:
+    }*/
+
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-            // EnemyBase sets isPushed=true here; play immediately
-            // AudioManager.PlayConstructionDamageHitTwo();
             AudioManager.PlayConstructionFalling();
-         //   Debug.Log("construction");
         }
     }
 }

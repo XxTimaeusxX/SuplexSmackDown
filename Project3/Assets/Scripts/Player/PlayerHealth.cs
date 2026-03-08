@@ -86,6 +86,7 @@ public class PlayerHealth : MonoBehaviour
 		{
             TakeDamage();
         }
+		
     }
 	
 	public bool ToggleInvincibility(){

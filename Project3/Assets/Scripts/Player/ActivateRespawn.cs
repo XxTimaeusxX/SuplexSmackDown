@@ -27,6 +27,7 @@ public class ActivateRespawn : MonoBehaviour
     public bool falling;
     public float fallTime;
     public float maxFallTime;
+    public bool turnOffFallDamage;
 
     private void Start()
     {
@@ -41,45 +42,48 @@ public class ActivateRespawn : MonoBehaviour
     }
     private void Update()
     {
-        if (playerMovement.isGrounded == false)
+        if (!turnOffFallDamage)
         {
-            falling = true;
-        }
-        if (playerMovement.isGrounded)
-        {
-            falling = false;
-            fallTime = maxFallTime;
-        }
-        if (falling)
-        {
-            fallTime -= Time.deltaTime;
-        }
-        if (fallTime <= 0)
-        {
-            if (respawn1)
+            if (playerMovement.isGrounded == false)
             {
-                RespawnPlayer(playerRespawnPoint1);
+                falling = true;
+            }
+            if (playerMovement.isGrounded)
+            {
+                falling = false;
                 fallTime = maxFallTime;
             }
-            if (respawn2)
+            if (falling)
             {
-                RespawnPlayer(playerRespawnPoint2);
-                fallTime = maxFallTime;
+                fallTime -= Time.deltaTime;
             }
-            if (respawn3)
+            if (fallTime <= 0)
             {
-                RespawnPlayer(playerRespawnPoint3);
-                fallTime = maxFallTime;
-            }
-            if (respawn4)
-            {
-                RespawnPlayer(playerRespawnPoint4);
-                fallTime = maxFallTime;
-            }
-            if (respawn5)
-            {
-                RespawnPlayer(playerRespawnPoint5);
-                fallTime = maxFallTime;
+                if (respawn1)
+                {
+                    RespawnPlayer(playerRespawnPoint1);
+                    fallTime = maxFallTime;
+                }
+                if (respawn2)
+                {
+                    RespawnPlayer(playerRespawnPoint2);
+                    fallTime = maxFallTime;
+                }
+                if (respawn3)
+                {
+                    RespawnPlayer(playerRespawnPoint3);
+                    fallTime = maxFallTime;
+                }
+                if (respawn4)
+                {
+                    RespawnPlayer(playerRespawnPoint4);
+                    fallTime = maxFallTime;
+                }
+                if (respawn5)
+                {
+                    RespawnPlayer(playerRespawnPoint5);
+                    fallTime = maxFallTime;
+                }
             }
         }
     }

@@ -16,4 +16,5 @@ public class GlowMesh : MonoBehaviour
         foreach (Renderer renderer in _CollectRenderers) { renderer.material = glowMaterial; }
        //     Debug.Log($"Material replaced on {_CollectRenderers.Length} renderers.");  
     }
+
 }
