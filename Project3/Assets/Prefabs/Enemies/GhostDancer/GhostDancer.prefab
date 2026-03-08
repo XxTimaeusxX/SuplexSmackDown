@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.781}
+  m_AnchoredPosition: {x: 0, y: 2.324}
   m_SizeDelta: {x: 1442.585, y: 789.927}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2986560612836984832
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 7640965393503273508}
   - component: {fileID: 4504338054670464350}
   - component: {fileID: 4293367165289377284}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemyChargeBarLayerMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -402,7 +402,7 @@ GameObject:
   - component: {fileID: 5605405104675070289}
   m_Layer: 8
   m_Name: GhostDancer
-  m_TagString: Enemy
+  m_TagString: gg
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,9 +472,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 8
   m_CollisionDetection: 0
 --- !u!195 &1495627596220015993
 NavMeshAgent:
@@ -495,7 +495,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1.99
-  m_BaseOffset: 2
+  m_BaseOffset: 1.14
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!114 &5605405104675070289
@@ -533,20 +533,20 @@ MonoBehaviour:
   chargeSlider: {fileID: 8843653463164136608}
   enemyHealth: {fileID: 0}
   enemyHealthScreen: {fileID: 0}
-  chaseRange: 14.87
+  chaseRange: 18.5
   patrolWalkSpeed: 3
   patrolWaitTime: 1
   patrolRunSpeed: 3
   patrolWaitDefault: 0
-  meleeRange: 11
+  meleeRange: 15.44
   attackCooldown: 0.8
   _nextAttackTime: 0
   slapbox: {fileID: 0}
   slapActiveTime: 0.1
-  WindGustProjectilePrefab: {fileID: 5964546583777336880, guid: e6f80eeee3c29b34caded2d86e98cf8b, type: 3}
+  WindGustProjectilePrefab: {fileID: 5964546583777336880, guid: d762fa5cccd19d54da6d81d9ec5d3b35, type: 3}
   SpawnPoint: {fileID: 6145834978699827901}
-  Projectilespeed: 4
-  Projectilesize: 0
+  Projectilespeed: 55
+  Projectilesize: 55
   IsKillable: 1
   DefaultWalkSpeed: 0
   DefaultRunMoveSpeed: 0
@@ -612,7 +612,7 @@ Transform:
   m_GameObject: {fileID: 8040977764294214967}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.97, z: 0}
+  m_LocalPosition: {x: 0, y: -1.261, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
