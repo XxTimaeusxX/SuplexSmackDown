@@ -46,7 +46,7 @@ public class MariachiBuff : MonoBehaviour
             }
             else if (activeEnemies == 1)
             {
-                Debug.Log("buff is normal");
+               // Debug.Log("buff is normal");
                 mariachi.patrolRunSpeed *= .5f;
                 mariachi.patrolWalkSpeed *= .5f;
                 mariachi.Projectilesize = .3f;

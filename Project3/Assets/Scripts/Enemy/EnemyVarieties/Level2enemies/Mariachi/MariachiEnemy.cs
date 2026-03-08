@@ -48,13 +48,14 @@ public class MariachiEnemy : EnemyBase
     protected override void CustomAttack()
     {
       //  Debug.Log("Mariachi attack!");
-      AudioManager.PlayGuitarNote();
+      
         Shootmusic();
     }
     public void Shootmusic()
     {
-       //  Debug.Log("Mariachi shoots music!");
-         Transform spawnPoint = SpawnPoint != null ? SpawnPoint : transform;
+        //  Debug.Log("Mariachi shoots music!");
+       // AudioManager.PlayGuitarNote();
+        Transform spawnPoint = SpawnPoint != null ? SpawnPoint : transform;
       
         GameObject projectile = Instantiate(MusicalProjectilePrefab, spawnPoint.position, spawnPoint.rotation);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();

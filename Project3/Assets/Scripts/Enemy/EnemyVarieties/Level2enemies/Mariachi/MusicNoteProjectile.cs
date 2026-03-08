@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class MusicNoteProjectile : MonoBehaviour
@@ -12,27 +13,19 @@ public class MusicNoteProjectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
-    private void OnCollisionEnter(Collision collision)
-    {
- 
-        Destroy(gameObject); // Destroy the projectile on collision
-    }
-   /* private void OnTriggerEnter(Collider other)
+
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            AudioManager.PlayGuitarNote();
             Debug.Log("Music note hit the player!");
-            // Handle collision with player, e.g., apply damage
-            PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(); // Example damage value
-            }
+            // Destroy the projectile after collision
+            Destroy(gameObject);
         }
-        
-        // Destroy the projectile after collision
-        Destroy(gameObject);
-    }   */
+
+
+    }
 }

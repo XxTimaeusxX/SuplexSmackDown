@@ -4,6 +4,10 @@ using UnityEngine.AI;
 
 public class TravelToLocation : MonoBehaviour
 {
+    [Header("Activate Flowers")]
+    public List<GameObject> flowers;
+    public int currentFlowerIndex;
+
     [Header("Settings")]
     public float travelSpeed;
     public float minDistanceThreshold;
@@ -50,6 +54,7 @@ public class TravelToLocation : MonoBehaviour
     {
         float step = travelSpeed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, step);
+        flowers[currentFlowerIndex].SetActive(true);
     }
 
     public void Restart()
@@ -61,5 +66,6 @@ public class TravelToLocation : MonoBehaviour
         agent.enabled = true;
         boss.enabled = true;
         currentWaypointIndex++;
+        currentFlowerIndex++;
     }
 }

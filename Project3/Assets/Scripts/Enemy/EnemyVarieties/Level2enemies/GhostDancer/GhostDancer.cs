@@ -1,27 +1,48 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.ProBuilder;
+using UnityEngine.Rendering;
 
+[DisallowMultipleComponent]
+[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Collider))]
 public class GhostDancer : EnemyBase
 {
-    [SerializeField] private GameObject WindGustProjectilePrefab;
+    
     [Header("Projectile")]
+    [SerializeField] private GameObject WindGustProjectilePrefab;
     public Transform SpawnPoint;
-    public float Projectilespeed = 4f;
+    public float Projectilespeed;
     public float Projectilesize;
     [Header("Ghost Dancer Settings")]
     public bool IsKillable = true;
     public float DefaultWalkSpeed;
     public float DefaultRunMoveSpeed;
     public float DefaultAttackCooldown;
+    Vector3 _StartPos;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void Start()
     {
+        base.Start();
+        _StartPos = transform.position;
+
+        DefaultWalkSpeed = patrolWalkSpeed;
+        DefaultRunMoveSpeed = patrolRunSpeed;
+        DefaultAttackCooldown = attackCooldown;
+
+        Projectilesize = 1f;
+        Projectilespeed = 10f;
         
+    
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        
+        base.Update();
+       // Floating();
     }
     protected override void CustomAttack()
     {
@@ -29,10 +50,42 @@ public class GhostDancer : EnemyBase
         ShootWindGust();
 
     }
+    public void Floating()
+    {
+        // Implement floating behavior here (e.g., using a sine wave for vertical movement)
+        float floatHeight = _StartPos.y + Mathf.Sin(Time.time* 5f) * 1f; // Adjust amplitude as needed
+        transform.position = new Vector3(transform.position.x,  floatHeight, transform.position.z);
 
+    }
     public void ShootWindGust()
     {
-               // Implement the logic to shoot a wind gust projectile here
-        Debug.Log("Ghost Dancer shoots a wind gust!");
+        Debug.Log("Ghost Dancer shoots wind gust!");
+        Transform spawnPoint = SpawnPoint != null ? SpawnPoint : transform;
+        GameObject windprojectile = Instantiate(WindGustProjectilePrefab, spawnPoint.position, spawnPoint.rotation);
+        Rigidbody rb = windprojectile.GetComponent<Rigidbody>();
+        rb.linearVelocity = spawnPoint.forward * Projectilespeed;
+        windprojectile.transform.localScale = Vector3.one * Projectilesize;
+
+    }
+    public IEnumerator SpeedBuff()
+    {
+
+        Projectilesize = 2f;
+        Projectilespeed = 20f;
+        patrolWalkSpeed *= 20f;
+        patrolRunSpeed *= 20f;
+        attackCooldown *= .4f;
+        float elapsedTime = 0f;
+        float Duration = 7f;
+        while (elapsedTime < Duration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+         Projectilesize = 1f;
+         Projectilespeed = 10f;
+         patrolWalkSpeed = DefaultWalkSpeed;
+         patrolRunSpeed = DefaultRunMoveSpeed;
+        attackCooldown = DefaultAttackCooldown;
     }
 }
