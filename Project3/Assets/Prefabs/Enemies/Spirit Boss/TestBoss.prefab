@@ -221,8 +221,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2443247511672798558}
-  - component: {fileID: 5984417481109625612}
   - component: {fileID: 6388990256418465860}
+  - component: {fileID: 5984417481109625612}
   - component: {fileID: 1120269757513397717}
   - component: {fileID: 9212217876019070925}
   - component: {fileID: 1629447691092954705}
@@ -250,6 +250,29 @@ Transform:
   - {fileID: 50709338292256286}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6388990256418465860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162695457830059003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ac834ce56ad2dc4dab786717345f244, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TravelToLocation
+  flowers: []
+  travelSpeed: 15
+  minDistanceThreshold: 0.5
+  currentWaypointIndex: 0
+  groundLevel: 0
+  bossCollider: {fileID: 9212217876019070925}
+  agent: {fileID: 1120269757513397717}
+  boss: {fileID: 5984417481109625612}
+  rb: {fileID: 1629447691092954705}
+  waypoints: []
+  moveToLocation: 0
 --- !u!114 &5984417481109625612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,32 +331,14 @@ MonoBehaviour:
   playerBody: {fileID: 0}
   playerMovement: {fileID: 0}
   playerDash: {fileID: 0}
+  isDashing: 0
+  stunned: 0
   grabbed: 0
   isGrounded: 0
   movingBoss: 1
   finalArea: 1
   slow: 0
   grabBoxGrab: 0
---- !u!114 &6388990256418465860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6162695457830059003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ac834ce56ad2dc4dab786717345f244, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TravelToLocation
-  travelSpeed: 15
-  minDistanceThreshold: 0.5
-  bossCollider: {fileID: 9212217876019070925}
-  agent: {fileID: 1120269757513397717}
-  boss: {fileID: 5984417481109625612}
-  rb: {fileID: 1629447691092954705}
-  waypoints: []
-  moveToLocation: 0
 --- !u!195 &1120269757513397717
 NavMeshAgent:
   m_ObjectHideFlags: 0
