@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Level2BossManager : MonoBehaviour
 {
@@ -57,6 +58,8 @@ public class Level2BossManager : MonoBehaviour
     public GameObject playerBody;
     public PlayerMovement playerMovement;
     public PlayerDash playerDash;
+    public GameObject healthBar;
+    public Slider bossHealthSlider;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -115,6 +118,11 @@ public class Level2BossManager : MonoBehaviour
             JumpCooldown();
             AttackBreak();
             SuplexPlayer();
+        }
+        if (bossHealthSlider.value <= 0)
+        {
+            healthBar.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 
@@ -458,6 +466,7 @@ public class Level2BossManager : MonoBehaviour
             if (movingBoss)
             {
                 travel.moveToLocation = true;
+                bossHealthSlider.value -= 1;
             }
         }
     }
@@ -469,13 +478,6 @@ public class Level2BossManager : MonoBehaviour
             {
                 stunned = true;
                 Debug.Log("Stunned");
-            }
-        }
-        if (other.gameObject.CompareTag("Shockwave"))
-        {
-            if (movingBoss)
-            {
-                travel.moveToLocation = true;
             }
         }
     }
