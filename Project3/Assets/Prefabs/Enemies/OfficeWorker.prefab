@@ -571,11 +571,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyRespawn
   enemyRespawn: {fileID: 0}
-  enemyRespawn2: {fileID: 0}
-  enemyRespawn3: {fileID: 0}
-  enemyRespawn4: {fileID: 0}
-  enemyRespawn5: {fileID: 0}
   respawnPoint: {fileID: 0}
+  outside: 0
+  maxTimer: 0
+  timer: 0
 --- !u!114 &-1950444604758302330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,6 +620,7 @@ MonoBehaviour:
   _nextAttackTime: 0
   slapbox: {fileID: 6266211601759759052}
   slapActiveTime: 0.1
+  IsKillable: 0
   ShoalAnimator: {fileID: 2737716720350929506}
 --- !u!1 &7333588606936560562
 GameObject:
