@@ -3178,6 +3178,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
+--- !u!114 &1042164631 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5605405104675070289, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
+  m_PrefabInstance: {fileID: 6151080034777459315}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 766384116aab42d419c9f326886aa520, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GhostDancer
 --- !u!114 &1043670526 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8853137720765316471, guid: b488d15a538894d4a817ea86f48880d7, type: 3}
@@ -3704,6 +3715,75 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1296500006
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1959777578656107485, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: ghostDancer
+      value: 
+      objectReference: {fileID: 1042164631}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -25.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 36.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 84.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_Name
+      value: MariGold Petals (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_TagString
+      value: Flower
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
 --- !u!1 &1306542329
 GameObject:
   m_ObjectHideFlags: 0
@@ -4285,7 +4365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7968779603832368370, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6263,6 +6343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MenuManager
       objectReference: {fileID: 0}
+    - target: {fileID: 9089036943608662845, guid: 940a57fadb88d3f4f9f9181e64acff7d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7729,6 +7813,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1959777578656107485, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: ghostDancer
+      value: 
+      objectReference: {fileID: 1042164631}
     - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.7
@@ -8823,15 +8911,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2923448552900489323, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.52
+      value: -39.3
       objectReference: {fileID: 0}
     - target: {fileID: 2923448552900489323, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.72
+      value: 36.9
       objectReference: {fileID: 0}
     - target: {fileID: 2923448552900489323, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -19.89
+      value: 89.2
       objectReference: {fileID: 0}
     - target: {fileID: 2923448552900489323, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8867,7 +8955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3598891505152411757, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: GhostDancer
       objectReference: {fileID: 0}
     - target: {fileID: 3794603387056876652, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -8878,6 +8966,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1746245445}
     - target: {fileID: 5605405104675070289, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
+      propertyPath: chaseRange
+      value: 18.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605405104675070289, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
+      propertyPath: meleeRange
+      value: 15.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605405104675070289, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: powerGuage
       value: 
       objectReference: {fileID: 1746245468}
@@ -8887,11 +8983,11 @@ PrefabInstance:
       objectReference: {fileID: 72086809}
     - target: {fileID: 5605405104675070289, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: Projectilesize
-      value: 2
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 5605405104675070289, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: Projectilespeed
-      value: 10
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 5605405104675070289, guid: 258fac41faf60ee41bba55aa34f449de, type: 3}
       propertyPath: WindGustProjectilePrefab
@@ -9905,6 +10001,7 @@ SceneRoots:
   - {fileID: 1658044560}
   - {fileID: 1991245741}
   - {fileID: 2862059971777482167}
+  - {fileID: 1296500006}
   - {fileID: 1252590374}
   - {fileID: 742507591156339546}
   - {fileID: 1782493007}

@@ -1,5 +1,8 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.ProBuilder;
+using UnityEngine.Rendering;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -11,7 +14,7 @@ public class GhostDancer : EnemyBase
     [Header("Projectile")]
     [SerializeField] private GameObject WindGustProjectilePrefab;
     public Transform SpawnPoint;
-    public float Projectilespeed = 4f;
+    public float Projectilespeed;
     public float Projectilesize;
     [Header("Ghost Dancer Settings")]
     public bool IsKillable = true;
@@ -24,10 +27,14 @@ public class GhostDancer : EnemyBase
     {
         base.Start();
         _StartPos = transform.position;
-        DefaultWalkSpeed = agent.speed;
-        DefaultRunMoveSpeed = agent.speed;
+
+        DefaultWalkSpeed = patrolWalkSpeed;
+        DefaultRunMoveSpeed = patrolRunSpeed;
         DefaultAttackCooldown = attackCooldown;
-        agent.stoppingDistance = meleeRange - 1f;
+
+        Projectilesize = 1f;
+        Projectilespeed = 10f;
+        
     
     }
 
@@ -52,13 +59,33 @@ public class GhostDancer : EnemyBase
     }
     public void ShootWindGust()
     {
-
-
         Debug.Log("Ghost Dancer shoots wind gust!");
         Transform spawnPoint = SpawnPoint != null ? SpawnPoint : transform;
         GameObject windprojectile = Instantiate(WindGustProjectilePrefab, spawnPoint.position, spawnPoint.rotation);
         Rigidbody rb = windprojectile.GetComponent<Rigidbody>();
         rb.linearVelocity = spawnPoint.forward * Projectilespeed;
+        windprojectile.transform.localScale = Vector3.one * Projectilesize;
 
+    }
+    public IEnumerator SpeedBuff()
+    {
+
+        Projectilesize = 2f;
+        Projectilespeed = 20f;
+        patrolWalkSpeed *= 20f;
+        patrolRunSpeed *= 20f;
+        attackCooldown *= .4f;
+        float elapsedTime = 0f;
+        float Duration = 7f;
+        while (elapsedTime < Duration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+         Projectilesize = 1f;
+         Projectilespeed = 10f;
+         patrolWalkSpeed = DefaultWalkSpeed;
+         patrolRunSpeed = DefaultRunMoveSpeed;
+        attackCooldown = DefaultAttackCooldown;
     }
 }

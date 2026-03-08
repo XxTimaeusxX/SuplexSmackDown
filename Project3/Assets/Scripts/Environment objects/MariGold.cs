@@ -135,8 +135,9 @@ public class MariGold : MonoBehaviour
         }
         if(other.CompareTag("GhostDancer"))
             {
-                Debug.Log("Collide");
-                ghostDancer.IsKillable = false;
+                //Debug.Log("Collide");
+            StartCoroutine(ghostDancer.SpeedBuff());
+            StartCoroutine(SpinandHighlight());
         }
     }
 }
