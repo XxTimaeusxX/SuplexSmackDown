@@ -16,7 +16,7 @@ public class Enable_boss : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             RockyRhodes.SetActive(true);
-            
+            Destroy(gameObject);
         }
 
 
