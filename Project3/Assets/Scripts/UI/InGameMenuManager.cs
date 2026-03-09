@@ -225,7 +225,7 @@ public class InGameMenuManager : MonoBehaviour
      //   PlaySceneMusic();
     }
 	
-	//unpause and go to stage 2
+	//unpause and go to stage 3
 	public void Stage3ButtonClicked()
 	{
 		isPaused = false;
