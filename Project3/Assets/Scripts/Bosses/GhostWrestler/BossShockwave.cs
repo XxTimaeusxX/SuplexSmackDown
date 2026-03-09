@@ -17,7 +17,7 @@ public class BossShockwave : MonoBehaviour
     void Update()
     {
         activeDuration -= Time.deltaTime;
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 27.62802f, transform.position.z);
         if (activeDuration <= 0)
         {
             Destroy(gameObject);
