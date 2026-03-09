@@ -221,7 +221,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene(_Stage2Scene);
+        SceneManager.LoadScene("FestivalLevel");
      //   PlaySceneMusic();
     }
 	
@@ -230,7 +230,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene(_Stage3Scene);
+        SceneManager.LoadScene("StadiumBlockout");
      //   PlaySceneMusic();
     }
 	

@@ -31195,6 +31195,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MariGold Petals
       objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_TagString
+      value: Flower
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -172416,9 +172420,21 @@ PrefabInstance:
       value: TestBoss
       objectReference: {fileID: 0}
     - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: flowers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: waypoints.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: 'flowers.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1552271267}
+    - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
+      propertyPath: 'flowers.Array.data[1]'
+      value: 
+      objectReference: {fileID: 738853876}
     - target: {fileID: 6388990256418465860, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       propertyPath: 'waypoints.Array.data[0]'
       value: 
@@ -172432,7 +172448,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4176382162804785164, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4535027542080451024, guid: 1a9c6b14b70f29f4f8981a893c474f26, type: 3}
       insertIndex: -1
@@ -195010,6 +195027,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+--- !u!1 &738853876 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+  m_PrefabInstance: {fileID: 738853875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &739568363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -240666,6 +240688,10 @@ PrefabInstance:
     - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_Name
       value: MariGold Petals (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_TagString
+      value: Flower
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -411461,6 +411487,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+--- !u!1 &1552271267 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+  m_PrefabInstance: {fileID: 1552271266}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1552345157
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -435921,6 +435952,10 @@ PrefabInstance:
     - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
       propertyPath: m_Name
       value: MariGold Petals (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_TagString
+      value: Flower
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
