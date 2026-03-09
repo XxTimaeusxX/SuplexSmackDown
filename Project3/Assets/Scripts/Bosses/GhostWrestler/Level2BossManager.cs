@@ -61,6 +61,7 @@ public class Level2BossManager : MonoBehaviour
     public GameObject healthBar;
     public Slider bossHealthSlider;
     public GameObject aura;
+    public InGameMenuManager menuManager;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -124,6 +125,7 @@ public class Level2BossManager : MonoBehaviour
         {
             if (bossHealthSlider.value <= 0)
             {
+                menuManager.WinScreen();
                 healthBar.SetActive(false);
                 gameObject.SetActive(false);
             }
@@ -188,6 +190,7 @@ public class Level2BossManager : MonoBehaviour
         {
             if (agent.enabled == true)
             {
+                healthBar.SetActive(true);
                 agent.SetDestination(player.position);
             }
         }
