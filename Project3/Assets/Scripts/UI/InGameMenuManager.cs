@@ -16,6 +16,7 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] string _MainMenuScene;
     [SerializeField] string _Stage1Scene;
     [SerializeField] string _Stage2Scene;
+    [SerializeField] string _Stage3Scene;
 	
     [SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _HowToPlayPanel;
@@ -221,6 +222,15 @@ public class InGameMenuManager : MonoBehaviour
 		isPaused = false;
 		Time.timeScale = 1.0f;
         SceneManager.LoadScene(_Stage2Scene);
+     //   PlaySceneMusic();
+    }
+	
+	//unpause and go to stage 3
+	public void Stage3ButtonClicked()
+	{
+		isPaused = false;
+		Time.timeScale = 1.0f;
+        SceneManager.LoadScene(_Stage3Scene);
      //   PlaySceneMusic();
     }
 	
