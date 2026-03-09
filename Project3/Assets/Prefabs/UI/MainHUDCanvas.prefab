@@ -752,6 +752,7 @@ MonoBehaviour:
   _MainMenuScene: MainMenuTest
   _Stage1Scene: MattBuilding
   _Stage2Scene: FestivalBlockTest
+  _Stage3Scene: StadiumBlockout
   _PauseMenuContainer: {fileID: 8321384536991751280}
   _HowToPlayPanel: {fileID: 6501687545640653679}
   _SettingsPanel: {fileID: 4091711253857577333}
@@ -1850,6 +1851,18 @@ PrefabInstance:
     - target: {fileID: 2450698257175808379, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439318590627346865, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3175567735082858662}
+    - target: {fileID: 3439318590627346865, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Stage3ButtonClicked
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439318590627346865, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InGameMenuManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3511683447038555737, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
       propertyPath: m_Name
