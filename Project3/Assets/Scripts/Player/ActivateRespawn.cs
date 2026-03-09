@@ -1,25 +1,30 @@
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ActivateRespawn : MonoBehaviour
 {
+    private float groundLevel;
     public GameObject player;
     public GameObject respawnTrigger1;
     public GameObject respawnTrigger2;
     public GameObject respawnTrigger3;
     public GameObject respawnTrigger4;
-    public DoorManager doorManager;
+    public GameObject respawnTrigger5;
+    public List<GameObject> respawnTriggers;
+    public List<Transform> respawnPoints;
     public Transform playerRespawnPoint1;
     public Transform playerRespawnPoint2;
     public Transform playerRespawnPoint3;
     public Transform playerRespawnPoint4;
     public Transform playerRespawnPoint5;
+    public Transform playerRespawnPoint6;
     public bool respawn1;
     public bool respawn2;
     public bool respawn3;
     public bool respawn4;
     public bool respawn5;
+    public bool respawn6;
     private PlayerMovement playerMovement;
     private CharacterController PlayerCC;
     private PlayerHealth playerHealth;
@@ -42,6 +47,9 @@ public class ActivateRespawn : MonoBehaviour
     }
     private void Update()
     {
+        if (transform.position.y < groundLevel)
+        {
+        }
         if (!turnOffFallDamage)
         {
             if (playerMovement.isGrounded == false)
@@ -84,6 +92,11 @@ public class ActivateRespawn : MonoBehaviour
                     RespawnPlayer(playerRespawnPoint5);
                     fallTime = maxFallTime;
                 }
+                if (respawn6)
+                {
+                    RespawnPlayer(playerRespawnPoint6);
+                    fallTime = maxFallTime;
+                }
             }
         }
     }
@@ -111,8 +124,14 @@ public class ActivateRespawn : MonoBehaviour
         if (other.CompareTag("Collider4"))
         {
             Destroy(respawnTrigger4);
-            respawn3 = false;
-            respawn4 = true;
+            respawn4 = false;
+            respawn5 = true;
+        }
+        if (other.CompareTag("Collider5"))
+        {
+            Destroy(respawnTrigger5);
+            respawn5 = false;
+            respawn6 = true;
         }
     }
 
