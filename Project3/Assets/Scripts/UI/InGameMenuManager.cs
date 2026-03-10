@@ -151,15 +151,15 @@ public class InGameMenuManager : MonoBehaviour
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
 				_PauseButtonContainer.SetActive(true);
-				Debug.Log(_PauseMenuContainer.active);
+				//Debug.Log(_PauseMenuContainer.active);
 				_SuperSuplexUI.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
 					//pause_anim.Play("PauseMenuAnim");
-					Debug.Log("-- play anim --");
+					//Debug.Log("-- play anim --");
 				}
 				else 
-					Debug.Log("no anim!");
+					//Debug.Log("no anim!");
 				//_PauseMenuContainer.transform.localScale = pauseMaxScale;
 				//pause_t = 0f;
 				//StartCoroutine("PauseAnimation");

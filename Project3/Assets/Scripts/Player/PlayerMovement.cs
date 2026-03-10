@@ -188,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
         if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0 && velocity.y > 0f)
         {
             velocity.y = -2f; // cancel upward momentum if we hit ceiling
-            Debug.Log("Hit ceiling while jumping off enemy, cancelling upward momentum.");
+            //Debug.Log("Hit ceiling while jumping off enemy, cancelling upward momentum.");
         }
     }
 
@@ -241,7 +241,7 @@ public class PlayerMovement : MonoBehaviour
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.
             if (direction.magnitude >= 0.1f)
             {
-                Debug.Log("Changing to GRABWALK animation");
+                //Debug.Log("Changing to GRABWALK animation");
                 ChangeAnimtion("GRABWALK");
                 return;
             }

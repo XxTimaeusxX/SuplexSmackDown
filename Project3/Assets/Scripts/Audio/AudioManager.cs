@@ -74,7 +74,7 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip ConstructionDamageHitOneClip;
     public AudioClip ConstructionDamageHitTwoClip;
 
-    [Header("Macro Enemy SFX")]
+    [Header("macro Enemy SFX")]
     public AudioClip MacroIdleClip;
     public AudioClip MacroRetreatOneClip;
     public AudioClip MacroRetreatTwoClip;
@@ -295,7 +295,7 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayConstructionFalling() => PlaySFX(Instance?.ConstructionFallingClip, 1f);
     public static void PlayConstructionDamageHitOne() => PlaySFX(Instance?.ConstructionDamageHitOneClip, 1f);
     public static void PlayConstructionDamageHitTwo() => PlaySFX(Instance?.ConstructionDamageHitTwoClip, 1f);
-    // ----Macro Enemy SFX----
+    // ----macro Enemy SFX----
     public static void PlayMacroIdle() => PlaySFX(Instance?.MacroIdleClip, 1f);
     public static void PlayMacroRetreatOne() => PlaySFX(Instance?.MacroRetreatOneClip, 1f);
     public static void PlayMacroRetreatTwo() => PlaySFX(Instance?.MacroRetreatTwoClip, 1f);

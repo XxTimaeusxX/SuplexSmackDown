@@ -646,6 +646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f5fae52cc3ac347bce915f86503b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OfficeEnemy
+  PLAYER: {fileID: 0}
   agent: {fileID: 0}
   health: 1
   enemyWalkSpeed: 4
@@ -666,8 +667,6 @@ MonoBehaviour:
   patrolWaitDefault: 3
   m_Distance: 0
   isGrabbed: 0
-  isPushed: 0
-  pushCooldown: 1.5
   animator: {fileID: 2737716720350929506}
   chargeSlider: {fileID: 1339772079999740290}
   rageBar: {fileID: 0}
@@ -690,6 +689,9 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 1024
+  enviromentMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &7333588606936560562
 GameObject:
   m_ObjectHideFlags: 0

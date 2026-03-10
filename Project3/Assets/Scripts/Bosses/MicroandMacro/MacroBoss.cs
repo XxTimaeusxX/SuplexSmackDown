@@ -1,108 +1,142 @@
+using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class MacroBoss : OGEnemyBase
+
+// MARK - Currently broken
+public class MacroBoss : MonoBehaviour, ICarriable
 {
-    [Header("Macro Settings")]
-    [SerializeField] private Transform MicroPosition;
-    [SerializeField] private float returnDelay = 6f;
-    public Collider damageHitbox;
-    public Collider MacrosCollider;
+    [Header("References")]
+    public NavMeshAgent agent;
+    public Rigidbody Rigidbody => rb;
+    private Rigidbody rb;
+    [SerializeField] private Animator animator;
+    public MicroBoss microBoss;
+    private Coroutine enableAgentRoutine;
 
+    private Transform originalParent;
+    private RigidbodyConstraints originalConstraints;
+
+    [SerializeField] protected CarryWeightProfile carryWeightProfile;
+    public CarryWeightProfile CarryWeightProfile => carryWeightProfile;
+
+    public GameObject RespawnPoint;
+
+    [Header("Combat")]
+    public float attackRange = 2f;
+    public float attackCooldown = 0.8f;   // Time between attacks
+    public float _nextAttackTime = 0f;
+    public float distanceToTarget;
+    public GameObject damageHitbox;          // child trigger collider with AttackHitBox
+    public float slapActiveTime = 0.2f;
+    public float knockOutTime = 5f; // Time the enemy stays knocked out
+
+    [Header("UI")]
+    public Slider enemyHealth;
+
+    [Header("Carrying")]
+    private Collider mainCollider;
+    public Collider carryProxy;
+
+    [Header("Bools")]
     public bool wasThrown = false;
-    private void Awake()
-    {
-        canAttack = true; // little guy can attack
-        canChase = true;
-        canPatrol = true;
-        damageHitbox.enabled = false;
-    }
-    // ------------ auto assign references -------------- //
-    void OnValidate()
-    {
-        // 1) target: find and assign player as target if not assigned
-        if (Target == null)
-        {
-            var player = GameObject.FindWithTag("Player");
-            if (player != null) Target = player;
-        }
+    private bool isReturning = false;
+    public bool isChasing = false;
 
-        // 2) Ground check: find and assign ground check transform if not assigned
-        if (groundCheck == null)
-        {
-            var existing = transform.Find("GroundCheck");
-            if (existing != null) groundCheck = existing;
-           
-        }
-    }
-   public override void Update()
+    public void Awake()
     {
-       base.Update();
-           if(wasThrown && !isGrabbed && IsEnemyGrounded())
-        {
-            wasThrown = false;
-            ResumeSequence(); 
-            if (CompareTag("DamagePlayer"))
-            {
-                this.gameObject.tag = "Macro";
-            }
-            return; 
-        }
-        
-        if (returnDelay >0)
-        {
-            // If boss is being pushed/grabbed, pause progress until stable
-            if (isPushed || isGrabbed)
-            {
-                return;
-      
-            }
-            if (!isGrabbed && !isPushed)
-            {
-                returnDelay -= Time.deltaTime;
-                if (returnDelay < 0)
-                {
-                    returnDelay = 0;
-                    StartCoroutine(ReturnToMicroPosition());
-                }
-            }
-            
-        }
+        agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
+        mainCollider = GetComponent<CapsuleCollider>();
+
+        originalConstraints = rb.constraints;
+        damageHitbox.SetActive(false);
+        isChasing = true;
     }
 
-    public void ResumeSequence()
+    public void Attack()
     {
-        //Resume normal behavior: EnemyBases
-        MacrosCollider.enabled = true;
-        agent.enabled = true;
-        canChase = true;
-        canAttack = true;
-        canPatrol = true;
-        SetGrabbed(false);
-        returnDelay = 6f;
-       
+        if (_nextAttackTime < attackCooldown)
+        {
+            _nextAttackTime += Time.deltaTime;
+            // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
+            return;
+        }
+
+        //Debug.Log($"[{name}] Melee attack!");
+
+        animator.SetTrigger("EnemySlap");
+        AudioManager.PlayEnemySlap();
+        _nextAttackTime = 0f;
+        StartCoroutine(SlapAttackDuration());
     }
+    public IEnumerator SlapAttackDuration()
+    {
+        yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
+        damageHitbox.SetActive(true);
+        yield return new WaitForSeconds(slapActiveTime);
+        damageHitbox.SetActive(false);
+    }
+    public void Update()
+    {
+        //Debug.Log($"MacroBoss Update - throwingMacro: {microBoss.throwingMacro}, agent enabled: {agent.enabled}");
+        if (!microBoss.throwingMacro && isChasing && agent.enabled)
+        {
+            Debug.Log("Chasing player");
+            ChasePlayer();
+        }
+        if (microBoss.throwingMacro && !wasThrown && agent.enabled && !isReturning)
+        {
+            isReturning = true;
+            isChasing = false;
+            StartCoroutine(ReturnToMicroPosition());
+        }
+
+        if (Vector3.Distance(microBoss.transform.position, transform.position) > 100)
+        {
+            transform.position = RespawnPoint.transform.position;
+        }
+    }
+    public void ChasePlayer()
+    {
+
+        distanceToTarget = Vector3.Distance(microBoss.PLAYER.transform.position, transform.position);
+        float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+
+        agent.destination = microBoss.PLAYER.transform.position;
+
+        if (distanceToTarget < attackRange)  // When within melee range -> Face -> Attack
+        {
+            agent.isStopped = true;
+            FaceTarget();
+            WaitForSeconds wait = new WaitForSeconds(0.5f);
+            Attack();
+        }
+        else
+        {
+            if (agent.isStopped)
+                agent.isStopped = false;
+
+            agent.destination = microBoss.PLAYER.transform.position;
+            _nextAttackTime = 0f;
+        }
+    }
+
     private IEnumerator ReturnToMicroPosition()
     {
-      
+        Debug.Log("Returning to micro position");
         AudioManager.PlayMacroRetreatTwo();
-        var wait = new WaitForSeconds(.5f);
-        MacrosCollider.enabled = false; // disable macro collider while returning to micro position
-        canChase = false; // disable chasing while returning to micro position
-        canAttack = false; // disable attacking while returning to micro position
-        canPatrol = false; // disable patrolling while returning to micro position
-        agent.isStopped = false; // ensure agent is not stopped
-        agent.enabled = true; // ensure agent is enabled
-   
-     
+
         while (true)
         {
-            agent.SetDestination(MicroPosition.position);
+            agent.SetDestination(microBoss.transform.position);
 
             if (agent.pathPending)
             {
@@ -113,14 +147,88 @@ public class MacroBoss : OGEnemyBase
 
             if (agent.remainingDistance <= Mathf.Max(agent.stoppingDistance, 5f))// get near the destination but not exactly on it
             {
-              Debug.Log("Reached micro position");
-                MacrosCollider.enabled = true; // re-enable macro collider so it can be grabbed again
-                damageHitbox.enabled = false; // disable damage hitbox
-                yield break; // exit coroutine
+                Debug.Log("Reached micro position");
+                damageHitbox.SetActive(false); // disable damage hitbox
+                break; // exit coroutine
             }
             yield return null;
         }
+        isReturning = false;
+        yield return new WaitUntil(() => wasThrown);
     }
-  
-   
+    public void FaceTarget()
+    {
+        var TurnToTarget = agent.steeringTarget;
+        Vector3 direction = (TurnToTarget - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+    }
+
+    public void EnterCarriedState(Transform carryPoint)
+    {
+        //Debug.Log("Enemy picked up");
+
+        originalParent = transform.parent;  // Store original parent
+
+        if (enableAgentRoutine != null)
+        {
+            StopCoroutine(enableAgentRoutine); // Stop any pending re-enabling of the agent if we're picked up again mid-air
+            enableAgentRoutine = null;
+        }
+
+
+        // Disable physics
+        rb.isKinematic = true;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        //mainCollider.enabled = false;   // Disable colliders that should not interact
+
+        // Disable AI/NavMeshAgent
+        agent.enabled = false;
+
+        if (carryProxy != null) carryProxy.enabled = true;  // Enable proxy collider (prevents clipping)
+
+        // Parent to carry point
+        transform.SetParent(carryPoint);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+
+        //Debug.Log("EnterCarriedState called on " + gameObject.name);
+    }
+
+    public void ExitCarriedState(Vector3 throwForce)
+    {
+
+        transform.SetParent(originalParent);    // Unparent
+
+        rb.isKinematic = false;     // Re-enable physics
+
+        rb.constraints = RigidbodyConstraints.None;
+
+        //mainCollider.enabled = true;    //  Re-enable colliders
+
+        if (carryProxy != null) carryProxy.enabled = false;     //  Disable proxy collider
+
+        if (throwForce != Vector3.zero)
+            rb.AddForce(throwForce, ForceMode.Impulse);    // Apply throw force
+
+        enableAgentRoutine = StartCoroutine(EnableAgentAfterLanding());
+
+        //Debug.Log("ExitCarriedState called on " + gameObject.name);
+        //Debug.Log($"Main collider enabled: {mainCollider.enabled}, Proxy: {carryProxy.enabled}");
+    }
+
+    private IEnumerator EnableAgentAfterLanding()
+    {
+        tag = "canGrab";
+        yield return new WaitForSeconds(knockOutTime); // Small delay to ensure physics has settled after landing
+        tag = "Macro";
+        rb.constraints = originalConstraints;
+        agent.enabled = true;
+        enableAgentRoutine = null;
+        isChasing = true;
+        ChasePlayer();
+        //Debug.Log($"{microBoss.throwingMacro} {agent.enabled}");
+    }
 }

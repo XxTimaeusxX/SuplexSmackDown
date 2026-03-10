@@ -9,12 +9,14 @@ public class GroundChecker : MonoBehaviour
 {
     public Transform groundCheck;
     [SerializeField] private float checkDistance = 0.2f;
-    [SerializeField] private LayerMask groundMask;
+    [SerializeField] private LayerMask groundMask , enviromentMask;
 
     public bool IsGrounded()
     {
-        Debug.DrawRay(transform.position, Vector3.down * 2.0f, Color.red, checkDistance);
-        return Physics.Raycast(groundCheck.position, Vector3.down, checkDistance, groundMask);
+        int combinedMask = groundMask | enviromentMask;
+
+        Debug.DrawRay(groundCheck.position, Vector3.down * checkDistance, Color.red);
+        return Physics.Raycast(groundCheck.position, Vector3.down, checkDistance, combinedMask);
     }
 
 }

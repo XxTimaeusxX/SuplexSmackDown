@@ -60,8 +60,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     [Header("Ground Settings")]
     public float m_Distance;    // Distance to the target
     public bool isGrabbed;
-    public bool isPushed = false;
-    public float pushCooldown;
 
     [Header("Behavior Toggles ")]
     //public bool canPatrol = true;
@@ -113,10 +111,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
 
     public virtual void Update()
     {
-        if (isPushed)
-        {
-            pushCooldown -= Time.deltaTime;
-        }
         if (agent.enabled && agent.isOnNavMesh)
         {
             if (Vector3.Distance(PLAYER.transform.position, transform.position) <= chaseRange)
@@ -144,7 +138,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
         for (int i = 0; i < maxTries; i++)
         {
             Vector2 r = Random.insideUnitCircle * patrolRadius;
-            Vector3 candidate = new Vector3(origin.x + r.x, origin.y, origin.z + r.y);
+            Vector3 candidate = new(origin.x + r.x, origin.y, origin.z + r.y);
 
             if (NavMesh.SamplePosition(candidate, out var hit, 2f, agent.areaMask))
             {
@@ -182,7 +176,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
                 {
                     agent.isStopped = true;
                     FaceTarget();
-                    WaitForSeconds wait = new WaitForSeconds(0.5f);
                     Attack();
                 }
                 else
@@ -191,8 +184,8 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
                         agent.isStopped = false;
 
                     agent.destination = target.transform.position;
-                    _nextAttackTime = 0f;
-                    ResetChargeUI();
+                    //_nextAttackTime = 0f;
+                    //ResetChargeUI();
                 }
             }
 
@@ -236,8 +229,7 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
 
         // Parent to player carry point
         transform.SetParent(carryPoint);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
+        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
 
         //Debug.Log("EnterCarriedState called on " + gameObject.name);
     }
@@ -274,8 +266,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
 
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-            pushCooldown = 3;
-            isPushed = true;
             agent.enabled = false;
             rb.isKinematic = false;
             rageBar.value += rageXP;
@@ -311,8 +301,23 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
 
     public bool IsEnemyGrounded()
     {
-        return groundChecker = GetComponent<GroundChecker>();
+        return groundChecker != null && groundChecker.IsGrounded();
     }
+    public bool SetGrabbed()
+    {
+        if (transform.parent != null && transform.parent.CompareTag("Player") &&
+            transform.parent.TryGetComponent<SuplexController>(out var parentComponent))
+        {
+            isGrabbed = parentComponent.isSuplexing;
+        }
+        else
+        {
+            isGrabbed = false;
+        }
+
+        return isGrabbed;
+    }
+
 
     /// ------------------------------- ///
 

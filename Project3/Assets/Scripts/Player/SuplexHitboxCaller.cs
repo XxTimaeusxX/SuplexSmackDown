@@ -66,7 +66,28 @@ public class SuplexHitboxCaller : MonoBehaviour
             else if (other.CompareTag("canGrab"))
             {
                 Debug.Log("canGrab tag detected");
+
                 hasGrabbed = true;
+
+                MonoBehaviour[] components = other.GetComponentsInParent<MonoBehaviour>();
+                MonoBehaviour carriableMono = null;
+
+                foreach (var comp in components)
+                {
+                    if (comp is ICarriable)
+                    {
+                        carriableMono = comp;
+                        break;
+                    }
+                }
+
+                if (carriableMono == null)
+                {
+                    Debug.LogError($"Object '{other.name}' is tagged canGrab but has no ICarriable component!");
+                    return;
+                }
+                carriableMono.GetComponent<ICarriable>().EnterCarriedState(suplexConfig.carryPoint);
+                suplexController.StartSuplex(carriableMono);
             }
             hitTarget = true;
             gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls

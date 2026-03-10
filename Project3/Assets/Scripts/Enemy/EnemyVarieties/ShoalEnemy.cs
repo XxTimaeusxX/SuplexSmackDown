@@ -76,21 +76,6 @@ public class ShoalEnemy : EnemyBase
                 AudioManager.PlayShoalIdle();
             }
         }
-        if (isPushed)
-        {
-            pushCooldown -= Time.deltaTime;
-        }
-
-        if (pushCooldown < 0 && isPushed)
-        {
-            pushCooldown = 0;
-            isPushed = false;
-            
-            AudioManager.PlayShoalDamageHit();
-            
-
-            //Destroy(gameObject);
-        }
         if (!grounded)
         {
             ResetSlapState();
@@ -147,6 +132,7 @@ public class ShoalEnemy : EnemyBase
         if (collision.gameObject.CompareTag("Shockwave"))
         {
             health -= 1;
+            AudioManager.PlayShoalDamageHit();
         }
     }
 

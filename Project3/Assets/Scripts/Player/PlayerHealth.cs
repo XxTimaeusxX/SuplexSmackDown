@@ -84,7 +84,7 @@ public class PlayerHealth : MonoBehaviour
         if (collision.gameObject.CompareTag("DamagePlayer") && iFrames == false)
 		{
 			TakeDamage();
-			collision.gameObject.tag = "Macro";
+			collision.gameObject.tag = "macro";
 		}
 		if (collision.gameObject.CompareTag("Projectile") && iFrames == false)
 		{
