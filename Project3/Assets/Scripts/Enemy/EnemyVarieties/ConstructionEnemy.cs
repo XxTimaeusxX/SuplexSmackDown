@@ -6,6 +6,9 @@ public class ConstructionEnemy : EnemyBase
     private bool _WorkerInChaseRange = false;
     // Edge trigger to play damage sound once when push starts
     private bool _wasPushed = false;
+    [Header("Animation")]
+    public Animator WorkerAnimator;
+    private string CurrentWorkerAnimation = "";
     void OnValidate()
     {
         // 1) Target: assign Player by tag if not set
@@ -63,31 +66,67 @@ public class ConstructionEnemy : EnemyBase
     public override void Update()
     {
         base.Update();  // Let base class handle everything
+        CheckAnimation();
     }
 
- /*   public override void ChasePlayer()
-    {
-        // Call base implementation (handles all pathfinding)
-        base.ChasePlayer();
-        
-        // ONLY Construction-specific: Audio edge trigger
-        if (Target != null)
-        {
-            bool inChaseRange = m_Distance <= chaseRange;
-            
-            if (inChaseRange && !_WorkerInChaseRange)
-            {
-                AudioManager.PlayConstructionSeenOne();
-            }
-            
-            _WorkerInChaseRange = inChaseRange;
-        }
-        else
-        {
-            _WorkerInChaseRange = false;
-        }
-    }*/
+    /*   public override void ChasePlayer()
+       {
+           // Call base implementation (handles all pathfinding)
+           base.ChasePlayer();
 
+           // ONLY Construction-specific: Audio edge trigger
+           if (Target != null)
+           {
+               bool inChaseRange = m_Distance <= chaseRange;
+
+               if (inChaseRange && !_WorkerInChaseRange)
+               {
+                   AudioManager.PlayConstructionSeenOne();
+               }
+
+               _WorkerInChaseRange = inChaseRange;
+           }
+           else
+           {
+               _WorkerInChaseRange = false;
+           }
+       }*/
+    //---------------- Animation ---------------------------//
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (CurrentWorkerAnimation != animation)
+        {
+            CurrentWorkerAnimation = animation;
+            WorkerAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+    private void CheckAnimation()
+    {
+        // Attack animation call
+       /* if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
+        {
+            ChangeAnimation("");
+            return;
+        }*/
+
+        // Check if moving (has a path and is actively navigating)
+        //Walk Animation call
+        if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        {
+            ChangeAnimation("WorkerWalk");
+            return;
+        }
+
+        // Default to idle
+        ChangeAnimation("WorkerIdle");
+
+        // call grab animation if grabbed
+        if (isGrabbed)
+        {
+            ChangeAnimation("WorkerGrabbed");
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
