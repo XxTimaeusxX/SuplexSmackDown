@@ -41,6 +41,10 @@ public class GhostDancer : EnemyBase
     // Update is called once per frame
     public override void Update()
     {
+        if (isPushed && pushCooldown < 0 && IsKillable)
+        {
+            gameObject.SetActive(false);
+        }
         base.Update();
        // Floating();
     }
