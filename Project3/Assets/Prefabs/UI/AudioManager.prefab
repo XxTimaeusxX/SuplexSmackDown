@@ -46,9 +46,62 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   musicSource: {fileID: 0}
   sfxSource: {fileID: 0}
+  narratorSource: {fileID: 0}
+  masterVolume: 1
   musicVolume: 1
   sfxVolume: 1
-  footstepClip: {fileID: 0}
-  suplexStartClip: {fileID: 0}
-  suplexSlamClip: {fileID: 0}
-  enemySlapClip: {fileID: 0}
+  duckVolume: 0.039
+  duckSpeed: 3
+  mainMenuBGM: {fileID: 8300000, guid: f10b08c5174da3b44a81c6a411c0054f, type: 3}
+  constructionBGM: {fileID: 8300000, guid: 28b8c1b4ed0c14c41bf37102cc3e9f56, type: 3}
+  boss1BGM: {fileID: 0}
+  VictoryBGM: {fileID: 8300000, guid: 5efca8750ecf7324ba693e9997397d12, type: 3}
+  DefeatBGM: {fileID: 8300000, guid: d7a764fe85cc33643ab4a70f8e288095, type: 3}
+  FestivalBGM: {fileID: 8300000, guid: 5e3f8fa84562b4e44a6f5c29e10b6d43, type: 3}
+  footstepClip: {fileID: 8300000, guid: 17cd9b45fad62a347901b152060e8260, type: 3}
+  jumpingClip: {fileID: 8300000, guid: 1e834564441248e46abe897dde234473, type: 3}
+  health3Clip: {fileID: 8300000, guid: 239c904c93eb1d8468c70a6aecf51c4f, type: 3}
+  health2Clip: {fileID: 8300000, guid: 500b7ee3b53f3394299f7713c4547f5c, type: 3}
+  health1Clip: {fileID: 8300000, guid: 0b54168a0e4be884a94da5cc15c3fca5, type: 3}
+  GameOverClip: {fileID: 8300000, guid: 90b1086c8a8409542b68390f86982048, type: 3}
+  GrabClip: {fileID: 0}
+  CohettePhraseOneclip: {fileID: 8300000, guid: b7b5bca41271beb4face7216faf895a3, type: 3}
+  LaunchSoundClip: {fileID: 8300000, guid: 9790b4ca0afa1d34496566d0490da94d, type: 3}
+  suplexSlamClip: {fileID: 8300000, guid: 755b2c781fcce96498e98a11147cf4b1, type: 3}
+  SuperSuplexSlam: {fileID: 8300000, guid: 9790b4ca0afa1d34496566d0490da94d, type: 3}
+  smallHealthPackClip: {fileID: 8300000, guid: b7b5bca41271beb4face7216faf895a3, type: 3}
+  enemySlapClip: {fileID: 8300000, guid: e6acb1e3f53e33043938c805cf3db8bf, type: 3}
+  enemyDieclip: {fileID: 0}
+  shoalPhraseClip: {fileID: 0}
+  AngryShoalClip: {fileID: 0}
+  shoalFallingClip: {fileID: 8300000, guid: 8613a64bbc885bb47b37cf296947728b, type: 3}
+  shoalIdleclip: {fileID: 8300000, guid: d9fd3db3e28871341b71a4365bd0d9f6, type: 3}
+  shoalDamageHitClip: {fileID: 8300000, guid: a3dd7105ab9567048b1260ae8a110830, type: 3}
+  ShoalPhrase1Clip: {fileID: 8300000, guid: 946f80a6f1e85aa4293994016117d303, type: 3}
+  DroneDetectionClip: {fileID: 0}
+  DroneIdleClip: {fileID: 0}
+  DroneGrabbedClip: {fileID: 0}
+  DroneDieClip: {fileID: 0}
+  ConstructionIdleClip: {fileID: 8300000, guid: 4de3367c5f93df546a6b041482e50617, type: 3}
+  ConstructionSeenOneClip: {fileID: 8300000, guid: 90dbe2f1e9e38d144bdaeef6597f3d0b, type: 3}
+  ConstructionSeentwoClip: {fileID: 8300000, guid: f8265cfbc3636964da0334ba20250c55, type: 3}
+  ConstructionFallingClip: {fileID: 8300000, guid: be2537730294cfe4aa63464bdf3c9cd7, type: 3}
+  ConstructionDamageHitOneClip: {fileID: 8300000, guid: 18aa7a468aa8df4408dca23b6f593753, type: 3}
+  ConstructionDamageHitTwoClip: {fileID: 0}
+  MacroIdleClip: {fileID: 0}
+  MacroRetreatOneClip: {fileID: 8300000, guid: 2c2b1aa08b03f23408b44ccdcac8508a, type: 3}
+  MacroRetreatTwoClip: {fileID: 8300000, guid: 842a067aac29b9643a82353165588575, type: 3}
+  MacroDamageHitOneClip: {fileID: 8300000, guid: fa540c0aca33de748a1de9c1a53c4562, type: 3}
+  MacroDamageHitTwoClip: {fileID: 8300000, guid: 2c3813eecc1e98a44833669a27728afa, type: 3}
+  MicroChaseOneClip: {fileID: 8300000, guid: 472aaad54b5a3b64e8433baa16702b36, type: 3}
+  MicroPrepareAttackClip: {fileID: 8300000, guid: b8ec4b253013c1f4da5bd1593d71357a, type: 3}
+  MicroAttackClip: {fileID: 0}
+  MicroDamageHitOneClip: {fileID: 8300000, guid: 3368c531807cb2847bb6af26ff7c5031, type: 3}
+  MicroDamageHitTwoClip: {fileID: 8300000, guid: 85a7d768a8045ad4cabd0a5ab0867bba, type: 3}
+  MicroDieClip: {fileID: 0}
+  MicroEncounterClip: {fileID: 8300000, guid: da807677f7693c7469f5cceedd25ebef, type: 3}
+  MicroTwoHealthClip: {fileID: 8300000, guid: b74b830a367e3e848badae4860b1b649, type: 3}
+  MicroOneHealthClip: {fileID: 8300000, guid: a17f4c22baa7397439cbebd923a57d8a, type: 3}
+  BossIntro: {fileID: 8300000, guid: 2c08cd54da8a61a418577881b8977ed8, type: 3}
+  BossPhase: {fileID: 8300000, guid: c96c1574c3d0c4d4ca6e6b9d15265777, type: 3}
+  GuitarNoteClip: {fileID: 8300000, guid: e304cee931676b447bc4e60db9044d9b, type: 3}

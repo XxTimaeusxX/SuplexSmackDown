@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class ShoalEnemy : EnemyBase
@@ -20,38 +18,16 @@ public class ShoalEnemy : EnemyBase
 
     public override void Update()
     {
-        base.Update();  
-        bool grounded = IsEnemyGrounded();
-        if (Target != null)
-        {
-            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
-            bool inChaseRange = m_Distance <= chaseRange;
+        base.Update();  // Let base class handle everything
 
-            if (inChaseRange && !_shoalWasInChaseRange)
-            {
-                // Entered chase range: play Shoal "detected" sound
-                AudioManager.PlayShoalIdle();
-            }
-      
-
-            _shoalWasInChaseRange = inChaseRange;
-        }
-        else _shoalWasInChaseRange = false;
-
-
-
-        if (isPushed)
-        {
-            pushCooldown -= Time.deltaTime;
-        }
+        // ONLY Shoal-specific: Boss death behavior
         if (pushCooldown < 0 && isPushed)
         {
             pushCooldown = 0;
             isPushed = false;
-            
+            gameObject.SetActive(false);
             enemyHealth.value -= 1;
             AudioManager.PlayShoalDamageHit();
-            
             
             if (enemyHealth.value <= 0)
             {
@@ -74,29 +50,32 @@ public class ShoalEnemy : EnemyBase
                     }
                 }
             }
-            
-   
-            gameObject.SetActive(false);
-        }
-        if (!grounded)
-        {
-            ResetSlapState();
-        }
-        if (grounded && wasGrounded && !isGrabbed && !isPushed)
-        {
-            // Debug.Log("Enemy just landed!");
-            rb.isKinematic = true;
-            agent.enabled = true;
-        }
-        wasGrounded = grounded;
-        if (agent.enabled && agent.isOnNavMesh)
-        {
-            ChasePlayer();
         }
 
+        // ONLY Shoal-specific: Animations
         CheckAnimation();
     }
+  /*  public override void ChasePlayer()
+    {
+        // Call base implementation (handles all pathfinding)
+        base.ChasePlayer();
 
+        // ONLY Shoal-specific: Audio edge trigger
+        if (Target != null)
+        {
+   
+            if (m_Distance <= chaseRange && !_shoalWasInChaseRange)
+            {
+                AudioManager.PlayShoalIdle();
+            }
+
+            _shoalWasInChaseRange = true;
+        }
+        else
+        {
+            _shoalWasInChaseRange = false;
+        }
+    }*/
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {

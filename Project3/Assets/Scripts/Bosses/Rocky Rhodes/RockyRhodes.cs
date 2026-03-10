@@ -1,8 +1,8 @@
-using JetBrains.Annotations;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 // ~ Ovi. 
 
 
@@ -27,15 +27,22 @@ public enum RockyRhodesStates
 public class RockyRhodes : EnemyBase
 {
     [Header("Rocky Rhodes Settings")]
+    // runtime toggles
+    [SerializeField] private InGameMenuManager inGameMenuManager;
+    private bool abilitiesEnabled = false; // when true the state machine runs
     public RockyRhodesStates CurrentRockyState;
     private List<RockyRhodesStates> _RandomSelection= new List<RockyRhodesStates>
     {
         RockyRhodesStates.BoulderEruption,
         RockyRhodesStates.BullRock,
     };
+    private float _lastHealthValue;
+
     [Header("Visual References")]
     public Transform RockyRhodesMesh;
     private Quaternion originalMeshRotation;
+    public GameObject RockyRhodesHealthBarUI;
+    public Slider slider;
 
     [Header ("Launch Settings")]
     public float jumpForce = 55f;
@@ -45,20 +52,90 @@ public class RockyRhodes : EnemyBase
     private float _abilityTimer = 0f;
     private Coroutine _currentStateCoroutine;
     [SerializeField]private Transform PlayerTarget;
+
+
+    [Header("Jump Patrol Settings")]
+    public float jumpPatrolForce = 40f;
+    public float jumpPatrolHorizontalForce = 15f;
+    public float jumpPatrolCooldown = 3f;
+    private int _currentJumpIndex = 0;
+    public bool isJumping = false;
+    public List<Transform> JumpPoints = new List<Transform>();
+
+    [Header("QTE trigger")]
+    [SerializeField] QTESystem QTESystemScript;
+    public Collider QTETriggerCollider;
+    private string _playerTag = "Player";
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-  new  void Start()
+    new  void Start()
     {
+        base.Start();
         // default orientation of mesh, used to reset rotation after abilities
+        QTETriggerCollider.isTrigger = true; // make QTE a triggerenter type 
+        if (QTESystemScript == null) QTESystemScript = GetComponent<QTESystem>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
-        CheckState(RockyRhodesStates.Regular);
+        // CheckState(RockyRhodesStates.Regular);
+        //   StartCoroutine(JumpToPlatform());
+        _lastHealthValue = slider.value;
+        CheckHealthState();
     }
 
     // Update is called once per frame
     public override void  Update()
     {
         base.Update();
+        if(IsPerformingAbility &&(isGrabbed || isPushed))
+        {
+            ToggleBehaviors(false); // Ensure behaviors remain disabled while performing ability and being grabbed/pushed
+            StopAllCoroutines(); // Stop current ability coroutine to prevent conflicts
+             _currentStateCoroutine = null;
+             Debug.Log("Ability interrupted by grab/push. Stopping ability and waiting for release.");
+        }
+        if (slider.value != _lastHealthValue)
+        {
+            _lastHealthValue = slider.value;
+            CheckHealthState();
+        }
+
     }
 
+    public override void BaseAttack()
+    {
+        if (abilitiesEnabled) {CheckState(CurrentRockyState); }
+        
+    }
+    public void CheckHealthState()
+    {
+        switch (_lastHealthValue)
+        {
+            case 6:
+                Debug.Log("regular");
+                QTESystemScript.SetDifficulty(20, 20f,500f);
+                QTESystemScript.TimerRate = 1f;
+                break;
+            case 4:
+                Debug.Log("getting challenging");
+                QTESystemScript.SetDifficulty(30, 20f, 1500f );
+                QTESystemScript.TimerRate = 2f;
+                break;
+            case 2:
+                Debug.Log("getting challenging");
+              QTESystemScript.SetDifficulty(30, 20f, 2000f);
+               QTESystemScript.TimerRate = 2.5f;
+                break;
+            case 1:
+                Debug.Log("maximum difficulty");
+                QTESystemScript.SetDifficulty(30, 20f,3000f);
+                QTESystemScript.TimerRate = 3.5f;
+                break;
+            case 0:
+                RockyRhodesHealthBarUI.SetActive(false);
+                this.gameObject.SetActive(false);
+                inGameMenuManager.WinScreen();
+                break;
+        }
+    }
     public void CheckState(RockyRhodesStates states)
     {
         if (_currentStateCoroutine != null)
@@ -113,19 +190,29 @@ public class RockyRhodes : EnemyBase
         IgnoreGroundCheck = false; // enable ground check after initial jump to allow proper landing detection
         while ( !IsEnemyGrounded() && IsPerformingAbility)
         {
-            Debug.Log("Boulder Eruption -in motion.");
-            // Rotate mesh continuously
-            RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+            // PAUSE: Wait while grabbed or pushed
+            if (!isGrabbed && !isPushed)
+            {
+                Debug.Log("Boulder Eruption -in motion.");
+                RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+
+            }
+            
             yield return null;
         }
       
         RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
+        while (isGrabbed && isPushed)
+        {
+            yield return null;
+        }
         yield return new WaitForSeconds(AbilityCooldown);
 
 
-        if (isGrabbed || isPushed) yield break;
+       
 
         // Re-enable everything
+        Debug.Log("TOGGLING ---------------- BEHAVIORS-------------.");
         ToggleBehaviors(true);
         IsPerformingAbility = false; // Allow EnemyBase to control agent again
         CheckState(RockyRhodesStates.Regular);
@@ -145,16 +232,25 @@ public class RockyRhodes : EnemyBase
 
         while (!IsEnemyGrounded() && IsPerformingAbility)
         {
-            Debug.Log("Bull rock -in motion.");
-            // Rotate mesh continuously
-            RockyRhodesMesh.Rotate(Vector3.up *1400f * Time.deltaTime, Space.World);
+            // PAUSE: Wait while grabbed or pushed
+            if (!isGrabbed && !isPushed)
+            {
+                Debug.Log("Bull rock -in motion.");
+                RockyRhodesMesh.Rotate(Vector3.up * 1400f * Time.deltaTime, Space.World);
+
+            }
+            
             yield return null;
         }
 
         RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
+        while (isGrabbed && isPushed)
+        {
+            yield return null;
+        }
         yield return new WaitForSeconds(AbilityCooldown);
-        if (isGrabbed || isPushed) yield break;
-
+ 
+        Debug.Log("TOGGLING ---------------- BEHAVIORS-------------.");
         ToggleBehaviors(true);
         IsPerformingAbility = false;
         CheckState(RockyRhodesStates.Regular);
@@ -167,12 +263,114 @@ public class RockyRhodes : EnemyBase
     public void ToggleBehaviors( bool IsEnabled)
     {
         // Disable AI behaviors
-        canAttack = IsEnabled;
+       // canAttack = IsEnabled;
         canChase = IsEnabled;
-        canPatrol = IsEnabled;
+       // canPatrol = IsEnabled;
 
         // Disable NavMesh
         agent.enabled = IsEnabled;
         rb.isKinematic = IsEnabled;
+    }
+
+    public IEnumerator JumpToPlatform()
+    {
+        isJumping = true;
+
+        // Pick the next point in the list, wrapping around
+        Transform targetPoint = JumpPoints[_currentJumpIndex];
+        _currentJumpIndex = (_currentJumpIndex + 1) % JumpPoints.Count;
+
+        // Disable NavMesh so physics can drive movement
+        agent.enabled = false;
+        rb.isKinematic = false;
+        IgnoreGroundCheck = true;
+
+        // Calculate required velocity to reach target point
+        Vector3 displacement = targetPoint.position - transform.position;
+        float gravity = Physics.gravity.magnitude;
+        float horizontalDist = new Vector3(displacement.x, 0f, displacement.z).magnitude;
+        float verticalDist = displacement.y;
+
+        // Scale flight time with distance so short hops are quick and long ones arc higher
+        float flightTime = Mathf.Clamp(horizontalDist / 10f, 0.6f, 2f);
+
+        // v_y = (y + 0.5 * g * t²) / t  — needed vertical speed to arrive at target height
+        float velocityY = (verticalDist + 0.5f * gravity * flightTime * flightTime) / flightTime;
+
+        // v_xz = xz / t — needed horizontal speed to cover the ground distance
+        Vector3 horizontalDir = new Vector3(displacement.x, 0f, displacement.z).normalized;
+        float velocityXZ = horizontalDist / flightTime;
+
+        Vector3 launchVelocity = (horizontalDir * velocityXZ) + (Vector3.up * velocityY);
+
+        rb.linearVelocity = Vector3.zero; // clear any existing velocity
+        rb.AddForce(launchVelocity, ForceMode.VelocityChange);
+        Debug.Log("JumpToPlatform - jumping to point " + (_currentJumpIndex) + " | flight time: " + flightTime);
+
+        yield return new WaitForSeconds(0.5f); // let Rocky leave the ground before checking landing
+        IgnoreGroundCheck = false;
+
+        // Wait until landed
+        while (!IsEnemyGrounded())
+        {
+            if (!isGrabbed && !isPushed)
+            {
+                RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
+            }
+            yield return null;
+        }
+
+        RockyRhodesMesh.localRotation = originalMeshRotation;
+
+        // Wait while grabbed or pushed before re-enabling
+        while (isGrabbed || isPushed)
+        {
+            yield return null;
+        }
+
+        // Re-enable NavMesh after landing
+        rb.isKinematic = true;
+        agent.enabled = true;
+
+        // Cooldown before the next jump
+        yield return new WaitForSeconds(jumpPatrolCooldown);
+
+        isJumping = false;
+    }
+    public override void RandomPatrolDestination()
+    {
+        if (isJumping) return; // already mid-jump or in cooldown, wait
+        if (JumpPoints == null || JumpPoints.Count == 0) return;
+        if (QTESystemScript.EnableQuickTimeEvent) return; // QTE is active, don't jump away
+        StartCoroutine(JumpToPlatform());    
+    }
+
+    public void JumpAway()
+    {
+        isJumping = false;
+        StopCoroutine(nameof(JumpToPlatform)); // kill any lingering jump coroutine
+        StartCoroutine(JumpToPlatform());
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag(_playerTag) )
+        {
+            Debug.Log("Player hit by Boulder Eruption!");
+           QTESystemScript.EnableQuickTimeEvent = true;
+                QTESystemScript.StartQTE();
+            
+         
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.CompareTag(_playerTag) )
+        {
+            Debug.Log("Player exited Boulder Eruption area.");
+         QTESystemScript.EnableQuickTimeEvent = false;
+         QTESystemScript.StopQTE();
+          
+          
+        }
     }
 }

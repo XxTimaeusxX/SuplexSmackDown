@@ -6,6 +6,9 @@ public class ConstructionEnemy : EnemyBase
     private bool _WorkerInChaseRange = false;
     // Edge trigger to play damage sound once when push starts
     private bool _wasPushed = false;
+    [Header("Animation")]
+    public Animator WorkerAnimator;
+    private string CurrentWorkerAnimation = "";
     void OnValidate()
     {
         // 1) Target: assign Player by tag if not set
@@ -18,7 +21,6 @@ public class ConstructionEnemy : EnemyBase
         // 2) Core components on this GameObject
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         if (rb == null) rb = GetComponent<Rigidbody>();
-        if (animator == null) animator = GetComponent<Animator>();
         // Optional: ensure sane defaults (won’t override if already configured)
         if (agent != null)
         {
@@ -63,35 +65,76 @@ public class ConstructionEnemy : EnemyBase
     }
     public override void Update()
     {
-        base.Update();
-      
-       
-        if (Target != null)
-        {
-            m_Distance = Vector3.Distance(Target.transform.position, transform.position);
-            bool inChaseRange = m_Distance <= chaseRange;
-            if (inChaseRange && !_WorkerInChaseRange)
-            {
-                AudioManager.PlayConstructionSeenOne(); // Detected sound (replace per-enemy)
-            }
-            _WorkerInChaseRange = inChaseRange;
-        }
-        else
-        {
-            _WorkerInChaseRange = false;
-        }
-        
+        base.Update();  // Let base class handle everything
+        CheckAnimation();
     }
-    // Alternatively, if you prefer tying directly to the collision event:
+
+    /*   public override void ChasePlayer()
+       {
+           // Call base implementation (handles all pathfinding)
+           base.ChasePlayer();
+
+           // ONLY Construction-specific: Audio edge trigger
+           if (Target != null)
+           {
+               bool inChaseRange = m_Distance <= chaseRange;
+
+               if (inChaseRange && !_WorkerInChaseRange)
+               {
+                   AudioManager.PlayConstructionSeenOne();
+               }
+
+               _WorkerInChaseRange = inChaseRange;
+           }
+           else
+           {
+               _WorkerInChaseRange = false;
+           }
+       }*/
+    //---------------- Animation ---------------------------//
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (CurrentWorkerAnimation != animation)
+        {
+            CurrentWorkerAnimation = animation;
+            WorkerAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+    private void CheckAnimation()
+    {
+        // Attack animation call
+        /* if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
+         {
+             ChangeAnimation("");
+             return;
+         }*/
+
+        // Check if moving (has a path and is actively navigating)
+        // call grab animation if grabbed
+        if (isGrabbed)
+        {
+            ChangeAnimation("WorkerGrabbed");
+            return;
+        }
+        //Walk Animation call
+        if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        {
+            ChangeAnimation("WorkerWalk");
+            return;
+        }
+
+        // Default to idle
+        ChangeAnimation("WorkerIdle");
+
+       
+    }
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-            // EnemyBase sets isPushed=true here; play immediately
-            // AudioManager.PlayConstructionDamageHitTwo();
             AudioManager.PlayConstructionFalling();
-         //   Debug.Log("construction");
         }
     }
 }

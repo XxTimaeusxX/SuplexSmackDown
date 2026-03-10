@@ -9,6 +9,8 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(Collider))]
 public class MicroBoss : EnemyBase
 {
+    [Header("-------------------------Micro Settings ------------------------------")]
+    public Boss1Arena bossArena;
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
     [SerializeField] private GameObject macroPrefab;   // prefab For MicroBoss
@@ -21,7 +23,7 @@ public class MicroBoss : EnemyBase
     private Rigidbody _MacrosRb;
     private MacroBoss _MacroEnemy;
     private float _throwTimer;
-
+   
     [SerializeField] private LowerRoom lowerRoom;
 
     private GlowMesh _glowMesh;
@@ -32,6 +34,9 @@ public class MicroBoss : EnemyBase
     private bool isPlayingVoiceLine = false;
     private bool wasInChaseRange = false;
 
+    [Header("Animation")]
+    public Animator WorkerAnimator;
+    private string CurrentWorkerAnimation = "";
     public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
@@ -85,6 +90,7 @@ public class MicroBoss : EnemyBase
         if (enemyHealth.value <= 0)
         {
             // Disable this boss functionality
+            bossArena.moveDown = true;
             canAttack = false;
             canChase = false;
             canPatrol = false;
@@ -126,13 +132,14 @@ public class MicroBoss : EnemyBase
 
     public IEnumerator ThrowMacro()
     {
+        _MacroEnemy.IsGrabbedByMicro = true;
         // Store original mesh rotation to restore later
         Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
         AudioManager.PlayMicroPrepareAttack();
         // ----- Position macro prefab at throw origin ----- //
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
         MacroPrefab.transform.position = origin.position;
-        MacroPrefab.transform.rotation = Quaternion.Euler(90f, origin.rotation.eulerAngles.y, 0f);
+      //  MacroPrefab.transform.rotation = Quaternion.Euler(90f, origin.rotation.eulerAngles.y, 0f); // orient collider to face like a torpedo
         MacroPrefab.transform.SetParent(origin);
         
         // ----- Disabling navmesh & kinematics  ----- //
@@ -157,6 +164,7 @@ public class MicroBoss : EnemyBase
         }
 
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
+        _MacroEnemy.IsGrabbedByMicro = false;// set out of grab ball state
         _MacrosRb.isKinematic = false; // re-enable physics
 
 
@@ -171,7 +179,7 @@ public class MicroBoss : EnemyBase
 
         _MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
      
-        _MacroEnemy.wasThrown = true; // flag macro as thrown
+        _MacroEnemy.IsThrownByMicro = true; // flag macro as thrown
         float enableMacroTimer = 0f;
         while(enableMacroTimer < 3f)
         {
@@ -186,16 +194,52 @@ public class MicroBoss : EnemyBase
             enableMacroTimer += Time.deltaTime;
             yield return null;
         }
-      /*  while(!_MacroEnemy.IsEnemyGrounded())
-        {
-            Debug.Log("Macro is grounded but not resuming - waiting to resume");
-            macrosmesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
-            yield return null;
-        }*/
+        /*  while(!_MacroEnemy.IsEnemyGrounded())
+          {
+              Debug.Log("Macro is grounded but not resuming - waiting to resume");
+              macrosmesh.Rotate(Vector3.left, 1000f * Time.deltaTime, Space.World);
+              yield return null;
+          }*/
         // ----- Re-enable navmesh & kinematics ----- //
-      //  Debug.Log("Macro resumed after throw - not grabbed");
-     // macrosmesh.localRotation = originalMeshRotation; // restore original mesh rotation
+        //  Debug.Log("Macro resumed after throw - not grabbed");
+        // macrosmesh.localRotation = originalMeshRotation; // restore original mesh rotation
+     //   _MacroEnemy.IsThrownByMicro = false;
         _MacroEnemy.ResumeSequence();
         
+    }
+
+    //---------------- Animation ---------------------------//
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (CurrentWorkerAnimation != animation)
+        {
+            CurrentWorkerAnimation = animation;
+            WorkerAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+    private void CheckAnimation()
+    {
+        // Attack animation call
+        /* if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
+         {
+             ChangeAnimation("");
+             return;
+         }*/
+
+        // Check if moving (has a path and is actively navigating)
+        // call grab animation if grabbed
+        
+        //Walk Animation call
+        if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        {
+            ChangeAnimation("MicroRun");
+            return;
+        }
+
+        // Default to idle
+        ChangeAnimation("MicroIdle");
+
+
     }
 }

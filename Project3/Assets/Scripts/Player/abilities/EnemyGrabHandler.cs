@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -47,8 +48,10 @@ public class EnemyGrabHandler : MonoBehaviour
         //  Grab Enemy & play animation 
         GrabbedEnemy = enemy.transform;
         GrabbedEnemy.SetParent(heldEnemyTransform);
-        _playerMovement.ChangeAnimtion("GRAB");
-        Debug.Log("Grabbed enemy: " + GrabbedEnemy.name);
+        StartCoroutine(GrabAnimationSequence());
+        //  _playerMovement.ChangeAnimtion("GRAB");
+
+        //  Debug.Log("Grabbed enemy: " + GrabbedEnemy.name);
         GrabbedEnemy.localPosition = Vector3.zero;
 
         //  Check for MacroBoss component 
@@ -72,19 +75,37 @@ public class EnemyGrabHandler : MonoBehaviour
         // Disable enemy AI and physics
         DisableEnemyComponents(enemy);
     }
-
+    public IEnumerator GrabAnimationSequence()
+    {
+        _playerMovement.IsPlayingGrabAnimation = true;
+        if (_playerMovement.isGrounded)
+            _playerMovement.ChangeAnimtion("GRAB");
+        else
+            _playerMovement.ChangeAnimtion("LeapGrab");
+        yield return new WaitForSeconds(1f); // Wait for grab animation to play (adjust timing as needed)
+        _playerMovement.IsPlayingGrabAnimation = false;
+        //  _playerMovement.ChangeAnimtion("GrabIDLE");
+    }
     public void ReleaseEnemy(bool applyDownwardForce)
     {
         if (GrabbedEnemy == null)
             return;
 
+        StopCoroutine(GrabAnimationSequence());
+        _playerMovement.IsPlayingGrabAnimation = false;
+
         var rb = GrabbedEnemy.GetComponent<Rigidbody>();
         var enemyScript = GrabbedEnemy.GetComponent<EnemyBase>();
+        var ghostBoss = GrabbedEnemy.GetComponent<Level2BossManager>();
         
         // Re-enable enemy ground detection FIRST
         if (enemyScript != null)
         {
             enemyScript.SetGrabbed(false);
+        }
+        if (ghostBoss != null)
+        {
+            ghostBoss.grabbed = false;
         }
 
         // Unparent and re-enable physics
@@ -101,7 +122,7 @@ public class EnemyGrabHandler : MonoBehaviour
         }
 
         // Re-enable NavMeshAgent AFTER unparenting
-        if (enemyScript != null && enemyScript.agent != null)
+        if (enemyScript != null && enemyScript.agent != null&& enemyScript.IsEnemyGrounded())
         {
             enemyScript.agent.enabled = true;
         }

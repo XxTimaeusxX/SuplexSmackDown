@@ -15,7 +15,8 @@ public class InGameMenuManager : MonoBehaviour
 
 	[SerializeField] string _MainMenuScene;
     [SerializeField] string _Stage1Scene;
-    [SerializeField] string _Stage2Scene;
+    private string _Stage2Scene = "FestivalLevel";
+    private string _Stage3Scene = "StadiumBlockout";
 	
     [SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _HowToPlayPanel;
@@ -38,6 +39,20 @@ public class InGameMenuManager : MonoBehaviour
 	InputAction cheatsAction2;
 	InputAction cheatsAction3;
 	bool canInputCheats;
+
+	[SerializeField] GameObject star1;
+	[SerializeField] GameObject star2;
+	[SerializeField] GameObject star3;
+	
+	float levelTimer = 0;
+	float roundedTimer = 0;
+	float minutes = 0;
+	float seconds = 0;
+	string formattedMinutes;
+	string formattedSeconds;
+	string formattedTimer = "00:00.0";
+	[SerializeField] Text timerText;
+	[SerializeField] Text winLevelTime;
 
 	//[SerializeField] GameObject _PausePoster;
 	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
@@ -68,8 +83,33 @@ public class InGameMenuManager : MonoBehaviour
         {
 			CheatsMenuActivate();
         }
+		
+		UpdateTimer();
 	}
 	
+	
+	public void UpdateTimer(){		
+		if(seconds >= 5999.9){
+			formattedTimer = "99:59.9"; //cap out timer if the player leaves it on or something
+		}
+		else{
+			//update timer
+			//increment levelTimer with deltaTime
+			levelTimer += Time.deltaTime;
+			roundedTimer = (Mathf.Round(levelTimer*10f)*0.1f);
+			minutes = Mathf.Floor(roundedTimer/60);
+			seconds = roundedTimer%60;
+			//if at least 10 minutes, minutes to string, else add "0"
+			formattedMinutes = minutes >= 10 ? minutes.ToString() : "0" + minutes.ToString();
+			//same for seconds
+			formattedSeconds = seconds >= 10 ? seconds.ToString() : "0" + seconds.ToString();
+			formattedSeconds = seconds % 1 > 0 ? formattedSeconds : formattedSeconds + ".0";
+			//format: 65.2 > 01:05.2
+			formattedTimer = formattedMinutes.ToString() + ":" + formattedSeconds.ToString();
+			//formattedTimer = roundedTimer.ToString();
+			timerText.text = formattedTimer;
+		}
+	}
 	
 	//pause and show pause menu
 	public void Pause()
@@ -164,9 +204,9 @@ public class InGameMenuManager : MonoBehaviour
 	public void RestartButtonClicked()
 	{
 		ResumeButtonClicked();
-		PlaySceneMusic();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
-	}
+    //    PlaySceneMusic();
+    }
 	
 	//unpause and return to main menu
 	public void QuitButtonClicked()
@@ -175,15 +215,32 @@ public class InGameMenuManager : MonoBehaviour
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(_MainMenuScene);
 	}
-	
-	//unpause and go to stage 2
-	public void Stage2ButtonClicked()
+
+    //unpause and go to stage 1
+	public void Stage1ButtonClicked()
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		PlaySceneMusic();
-        SceneManager.LoadScene(_Stage2Scene);
-	}
+		SceneManager.LoadScene(_Stage1Scene);
+    }
+
+    //unpause and go to stage 2
+    public void Stage2ButtonClicked()
+	{
+		isPaused = false;
+		Time.timeScale = 1.0f;
+        SceneManager.LoadScene("FestivalLevel");
+     //   PlaySceneMusic();
+    }
+	
+	//unpause and go to stage 3
+	public void Stage3ButtonClicked()
+	{
+		isPaused = false;
+		Time.timeScale = 1.0f;
+        SceneManager.LoadScene("StadiumBlockout");
+     //   PlaySceneMusic();
+    }
 	
 	public void CheatsMenuActivate()
 	{
@@ -215,18 +272,33 @@ public class InGameMenuManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(_DefaultGameOverButton);
 	}
 	
-	//show cursor, pause, and show win screen
 	public void WinScreen()
 	{
+		//show cursor, pause, and show win screen
 		canPause = false;
 		Cursor.lockState = CursorLockMode.Confined;
 		Cursor.visible = true;
 		Time.timeScale = 0.0f;
 		_WinMenuContainer.SetActive(true);
+		
+		//stop music and play victory sound
 		AudioManager.StopMusic();
 		AudioManager.PLayVictory();
-        // Set default selected button for navigation
+        
+		//show stars if obtained
+		if(StarTracker.star1get)
+			star1.SetActive(true);
+		if(StarTracker.star2get)
+			star2.SetActive(true);
+		if(StarTracker.star3get)
+			star3.SetActive(true);
+		
+		//show final time
+		winLevelTime.text = "Final Time: " + formattedTimer;
+		
+		// Set default selected button for navigation
         EventSystem.current.SetSelectedGameObject(_DefaultWinButton);
+		
 	}
 	
 	//hides all UI - used in loading screen
@@ -237,10 +309,26 @@ public class InGameMenuManager : MonoBehaviour
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
 	}
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlaySceneMusic();
+    }
     //plays the appropriate music based on the current scene
     void PlaySceneMusic()
     {
         string currentSceneName = SceneManager.GetActiveScene().name;
+        Debug.Log("Current Scene: " + currentSceneName); // Add this line
         if (currentSceneName == _MainMenuScene)
         {
             AudioManager.PlayMainMenuBGM();
@@ -251,7 +339,12 @@ public class InGameMenuManager : MonoBehaviour
         }
         else if (currentSceneName == _Stage2Scene)
 		{
-			AudioManager.PlayConstructionBGM();
-		}     
+			AudioManager.PlayFestivalBGM();
+		}
+		else if (currentSceneName == _Stage3Scene)
+		{
+			AudioManager.PlayArenaBossBGM();
+        }
+			
     }
 }
