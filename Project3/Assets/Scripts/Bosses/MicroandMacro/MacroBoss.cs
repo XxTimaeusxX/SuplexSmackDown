@@ -152,11 +152,11 @@ public class MacroBoss : EnemyBase
 
         // Checks if its currently grabbed by Micro or Player
         // call grab animation if grabbed
-     /*   if (IsThrownByMicro) // checks when thrown by micro
+        if (IsThrownByMicro) // checks when thrown by micro
         {
             ChangeAnimation("MacroLaunched");
             return;
-        }*/
+        }
          if (isGrabbed && !agent.enabled)
         {
            

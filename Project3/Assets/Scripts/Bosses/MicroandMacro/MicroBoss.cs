@@ -103,6 +103,7 @@ public class MicroBoss : EnemyBase
             _powerGauge.EnableInfiniteMeter();
             lowerRoom.MoveDown();
         }
+        
     }
 
     private IEnumerator PlayHealthBasedVoiceLine()
@@ -162,7 +163,7 @@ public class MicroBoss : EnemyBase
             _throwTimer += Time.deltaTime;
             yield return null;
         }
-
+        ChangeAnimation("MicroThrow"); // play throw animation
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
         _MacroEnemy.IsGrabbedByMicro = false;// set out of grab ball state
         _MacrosRb.isKinematic = false; // re-enable physics
@@ -206,6 +207,13 @@ public class MicroBoss : EnemyBase
      //   _MacroEnemy.IsThrownByMicro = false;
         _MacroEnemy.ResumeSequence();
         
+    }
+    public IEnumerator TakeDamage()
+    {
+        enemyHealth.value -= 1;
+        ChangeAnimation("MicroHurt");
+        yield return new WaitForSeconds(2f); // wait for hurt animation to play
+        CheckAnimation();
     }
 
     //---------------- Animation ---------------------------//
