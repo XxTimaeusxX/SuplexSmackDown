@@ -8,13 +8,18 @@ using UnityEngine.AI;
 [RequireComponent(typeof(Collider))]
 public class MacroBoss : EnemyBase
 {
-    [Header("Macro Settings")]
+    [Header("---------------Macro Settings------------------------")]
     [SerializeField] private Transform MicroPosition;
     [SerializeField] private float returnDelay = 6f;
     public Collider damageHitbox;
     public Collider MacrosCollider;
-
     public bool wasThrown = false;
+
+    [Header("Animation")]
+    public Animator WorkerAnimator;
+    private string CurrentWorkerAnimation = "";
+    public bool IsGrabbedByMicro;
+    public bool IsThrownByMicro;
     private void Awake()
     {
         canAttack = true; // little guy can attack
@@ -43,9 +48,9 @@ public class MacroBoss : EnemyBase
    public override void Update()
     {
        base.Update();
-           if(wasThrown && !isGrabbed && IsEnemyGrounded())
+           if(IsThrownByMicro && !isGrabbed && IsEnemyGrounded())
         {
-           wasThrown = false;
+           IsThrownByMicro = false;
          
             ResumeSequence(); 
             if (CompareTag("DamagePlayer"))
@@ -60,6 +65,7 @@ public class MacroBoss : EnemyBase
             // If boss is being pushed/grabbed, pause progress until stable
             if (isPushed || isGrabbed)
             {
+                CheckAnimation();
                 return;
       
             }
@@ -74,6 +80,7 @@ public class MacroBoss : EnemyBase
             }
             
         }
+        CheckAnimation();
     }
 
     public void ResumeSequence()
@@ -123,6 +130,51 @@ public class MacroBoss : EnemyBase
             yield return null;
         }
     }
-  
-   
+
+    //---------------- Animation ---------------------------//
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (CurrentWorkerAnimation != animation)
+        {
+            CurrentWorkerAnimation = animation;
+            WorkerAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+    private void CheckAnimation()
+    {
+        // Attack animation call
+        /* if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
+         {
+             ChangeAnimation("");
+             return;
+         }*/
+
+        // Checks if its currently grabbed by Micro or Player
+        // call grab animation if grabbed
+     /*   if (IsThrownByMicro) // checks when thrown by micro
+        {
+            ChangeAnimation("MacroLaunched");
+            return;
+        }*/
+         if (isGrabbed && !agent.enabled)
+        {
+           
+           ChangeAnimation(IsGrabbedByMicro ? "MacroBall" : "MacroGrabbed");
+            return;
+        }
+     
+        //Walk Animation call
+        if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        {
+            ChangeAnimation("MacroRun");
+            return;
+        }
+
+        // Default to idle
+        ChangeAnimation("MacroIdle");
+
+
+    }
+
 }

@@ -104,13 +104,19 @@ public class ConstructionEnemy : EnemyBase
     private void CheckAnimation()
     {
         // Attack animation call
-       /* if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
-        {
-            ChangeAnimation("");
-            return;
-        }*/
+        /* if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
+         {
+             ChangeAnimation("");
+             return;
+         }*/
 
         // Check if moving (has a path and is actively navigating)
+        // call grab animation if grabbed
+        if (isGrabbed)
+        {
+            ChangeAnimation("WorkerGrabbed");
+            return;
+        }
         //Walk Animation call
         if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
         {
@@ -121,11 +127,7 @@ public class ConstructionEnemy : EnemyBase
         // Default to idle
         ChangeAnimation("WorkerIdle");
 
-        // call grab animation if grabbed
-        if (isGrabbed)
-        {
-            ChangeAnimation("WorkerGrabbed");
-        }
+       
     }
     private void OnCollisionEnter(Collision collision)
     {

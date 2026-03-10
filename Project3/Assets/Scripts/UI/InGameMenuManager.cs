@@ -215,9 +215,17 @@ public class InGameMenuManager : MonoBehaviour
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(_MainMenuScene);
 	}
-	
-	//unpause and go to stage 2
-	public void Stage2ButtonClicked()
+
+    //unpause and go to stage 1
+	public void Stage1ButtonClicked()
+	{
+		isPaused = false;
+		Time.timeScale = 1.0f;
+		SceneManager.LoadScene(_Stage1Scene);
+    }
+
+    //unpause and go to stage 2
+    public void Stage2ButtonClicked()
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;

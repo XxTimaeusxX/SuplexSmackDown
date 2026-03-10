@@ -28,6 +28,7 @@ public class RockyRhodes : EnemyBase
 {
     [Header("Rocky Rhodes Settings")]
     // runtime toggles
+    [SerializeField] private InGameMenuManager inGameMenuManager;
     private bool abilitiesEnabled = false; // when true the state machine runs
     public RockyRhodesStates CurrentRockyState;
     private List<RockyRhodesStates> _RandomSelection= new List<RockyRhodesStates>
@@ -131,6 +132,7 @@ public class RockyRhodes : EnemyBase
             case 0:
                 RockyRhodesHealthBarUI.SetActive(false);
                 this.gameObject.SetActive(false);
+                inGameMenuManager.WinScreen();
                 break;
         }
     }

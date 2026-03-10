@@ -180792,6 +180792,7 @@ MonoBehaviour:
   _nextAttackTime: 0
   slapbox: {fileID: 0}
   slapActiveTime: 0.1
+  inGameMenuManager: {fileID: 1970712135}
   CurrentRockyState: 0
   RockyRhodesMesh: {fileID: 229884541}
   RockyRhodesHealthBarUI: {fileID: 1577831931}
@@ -265944,6 +265945,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainHUDCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2363168311468643827, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2518757816899199888, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -266023,6 +266028,10 @@ PrefabInstance:
     - target: {fileID: 3339294175656128117, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -190.45999
+      objectReference: {fileID: 0}
+    - target: {fileID: 3375977730112086924, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Stage1ButtonClicked
       objectReference: {fileID: 0}
     - target: {fileID: 3481318194773094257, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: m_AnchorMax.y
