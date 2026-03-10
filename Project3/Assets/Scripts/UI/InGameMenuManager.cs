@@ -15,8 +15,8 @@ public class InGameMenuManager : MonoBehaviour
 
 	[SerializeField] string _MainMenuScene;
     [SerializeField] string _Stage1Scene;
-    [SerializeField] string _Stage2Scene;
-    [SerializeField] string _Stage3Scene;
+    private string _Stage2Scene = "FestivalLevel";
+    private string _Stage3Scene = "StadiumBlockout";
 	
     [SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _HowToPlayPanel;
@@ -332,6 +332,11 @@ public class InGameMenuManager : MonoBehaviour
         else if (currentSceneName == _Stage2Scene)
 		{
 			AudioManager.PlayFestivalBGM();
-		}     
+		}
+		else if (currentSceneName == _Stage3Scene)
+		{
+			AudioManager.PlayArenaBossBGM();
+        }
+			
     }
 }

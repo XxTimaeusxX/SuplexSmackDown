@@ -25718,10 +25718,7 @@ PrefabInstance:
     - {fileID: 2176299889275031634, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7557898954643461021, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-      insertIndex: 3
-      addedObject: {fileID: 149926232}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
 --- !u!1001 &75119446
 PrefabInstance:
@@ -38349,28 +38346,11 @@ Transform:
   - {fileID: 1002815803}
   m_Father: {fileID: 147484607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &149926224 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7557898954643461021, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
-  m_PrefabInstance: {fileID: 75045894}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &149926225 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7635487898892356940, guid: f0256f9d520dd35448f63a7578b390e6, type: 3}
   m_PrefabInstance: {fileID: 75045894}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &149926232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149926224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a24105e1610d3e942b52918cbdaed880, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SingleRespawnPoint
 --- !u!1 &150989611
 GameObject:
   m_ObjectHideFlags: 0
@@ -40552,8 +40532,6 @@ MonoBehaviour:
   _SuperSuplexUI: {fileID: 7320028099363092639}
   _MainMenuScene: MainMenuTest
   _Stage1Scene: MattBuilding
-  _Stage2Scene: FestivalBlockTest
-  _Stage3Scene: 
   _PauseMenuContainer: {fileID: 1258977866}
   _HowToPlayPanel: {fileID: 0}
   _SettingsPanel: {fileID: 2130239830}
@@ -381699,6 +381677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 906d019cd3b2d6f4e85776138b6dc8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FrameTimeLogger
+  csvPath: 
 --- !u!1 &1768341519 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8c91b10a4bed0ee44aa3f79bd2713421, type: 3}

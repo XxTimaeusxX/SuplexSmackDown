@@ -31,7 +31,7 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip VictoryBGM;
     public AudioClip DefeatBGM;
     public AudioClip FestivalBGM;
-
+    public AudioClip ArenaBossBGM;
     [Header("Player SFX")]
     public AudioClip footstepClip;
     public AudioClip jumpingClip;
@@ -328,4 +328,7 @@ public sealed class AudioManager : MonoBehaviour
 
     public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
     public static void PlayFestivalBGM() => PlayMusic(Instance?.FestivalBGM);
+
+    //-------------------------------------------- LEVEL 3------------------------------------------//
+    public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);
 }

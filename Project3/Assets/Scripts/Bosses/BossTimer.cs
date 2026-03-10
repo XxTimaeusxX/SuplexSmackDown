@@ -14,6 +14,8 @@ public class BossTimer : MonoBehaviour
         {
             microMacroBoss.SetActive(true);
             microMacroHealth.SetActive(true);
+            AudioManager.PlayBoss1BGM();
+            enabled = false; // disable this script after activating the boss and health UI
         }
     }
 }
