@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(Collider))]
 public class MicroBoss : EnemyBase
 {
+    [Header("-------------------------Micro Settings ------------------------------")]
     public Boss1Arena bossArena;
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
@@ -33,6 +34,9 @@ public class MicroBoss : EnemyBase
     private bool isPlayingVoiceLine = false;
     private bool wasInChaseRange = false;
 
+    [Header("Animation")]
+    public Animator WorkerAnimator;
+    private string CurrentWorkerAnimation = "";
     public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
@@ -202,5 +206,40 @@ public class MicroBoss : EnemyBase
      //   _MacroEnemy.IsThrownByMicro = false;
         _MacroEnemy.ResumeSequence();
         
+    }
+
+    //---------------- Animation ---------------------------//
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (CurrentWorkerAnimation != animation)
+        {
+            CurrentWorkerAnimation = animation;
+            WorkerAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+    private void CheckAnimation()
+    {
+        // Attack animation call
+        /* if (_nextAttackTime > 0f && _nextAttackTime < attackCooldown)
+         {
+             ChangeAnimation("");
+             return;
+         }*/
+
+        // Check if moving (has a path and is actively navigating)
+        // call grab animation if grabbed
+        
+        //Walk Animation call
+        if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        {
+            ChangeAnimation("MicroRun");
+            return;
+        }
+
+        // Default to idle
+        ChangeAnimation("MicroIdle");
+
+
     }
 }
