@@ -103,6 +103,7 @@ public class MicroBoss : EnemyBase
             _powerGauge.EnableInfiniteMeter();
             lowerRoom.MoveDown();
         }
+   //    if (!_MacroEnemy.IsGrabbedByMicro){ CheckAnimation(); }
         
     }
 
@@ -133,6 +134,7 @@ public class MicroBoss : EnemyBase
 
     public IEnumerator ThrowMacro()
     {
+        ChangeAnimation("MicroThrow"); // play throw animation
         _MacroEnemy.IsGrabbedByMicro = true;
         // Store original mesh rotation to restore later
         Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
@@ -163,7 +165,7 @@ public class MicroBoss : EnemyBase
             _throwTimer += Time.deltaTime;
             yield return null;
         }
-        ChangeAnimation("MicroThrow"); // play throw animation
+       ResumeAnimation(); // resume throw animation after hold
         MacroPrefab.transform.SetParent(null); // unparent macro before throw
         _MacroEnemy.IsGrabbedByMicro = false;// set out of grab ball state
         _MacrosRb.isKinematic = false; // re-enable physics
@@ -178,6 +180,7 @@ public class MicroBoss : EnemyBase
       //  Vector3 Upwardforce = hieght *  Vector3.up; // total power to apply to macro
       //  Vector3 FowardForce = foward * orientThrow; // forward force to apply to macro*/
 
+    
         _MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
      
         _MacroEnemy.IsThrownByMicro = true; // flag macro as thrown
@@ -225,6 +228,15 @@ public class MicroBoss : EnemyBase
             WorkerAnimator.CrossFade(animation, crossfade);
 
         }
+    }
+    // Pauses animation frame, but frame is set to paused at  0.5f set in the animation controller event system.
+    public void PauseAnimation()
+    {
+        WorkerAnimator.speed = 0f;
+    }
+    public void ResumeAnimation()
+    {
+        WorkerAnimator.speed = 1f;
     }
     private void CheckAnimation()
     {
