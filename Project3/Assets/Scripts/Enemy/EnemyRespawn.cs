@@ -3,59 +3,48 @@ using UnityEngine;
 public class EnemyRespawn : MonoBehaviour
 {
     public GameObject enemyRespawn;
-    public GameObject enemyRespawn2;
-    public GameObject enemyRespawn3;
-    public GameObject enemyRespawn4;
-    public GameObject enemyRespawn5;
     public Transform respawnPoint;
+    public bool outside;
+    public float maxTimer;
+    [SerializeField] private float timer;
 
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        if (other.gameObject == enemyRespawn)
+        outside = false;
+        timer = maxTimer;
+    }
+
+    private void Update()
+    {
+        if (outside)
+        {
+            timer -= Time.deltaTime;
+        }
+        if (timer <= 0)
         {
             if (respawnPoint != null)
             {
                 transform.position = respawnPoint.position;
             }
         }
-        if (enemyRespawn2 != null)
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == enemyRespawn)
         {
-            if (other.gameObject == enemyRespawn2 && this.gameObject.tag == "DontRespawn")
-            {
-                if (respawnPoint != null)
-                {
-                    transform.position = respawnPoint.position;
-                }
-            }
+            outside = false;
+            timer = maxTimer;
         }
-        if (enemyRespawn3 != null)
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == enemyRespawn)
         {
-            if (other.gameObject == enemyRespawn3 && this.gameObject.tag == "DontRespawn")
+            if (respawnPoint != null)
             {
-                if (respawnPoint != null)
-                {
-                    transform.position = respawnPoint.position;
-                }
-            }
-        }
-        if (enemyRespawn4 != null)
-        {
-            if (other.gameObject == enemyRespawn4 && this.gameObject.tag == "DontRespawn")
-            {
-                if (respawnPoint != null)
-                {
-                    transform.position = respawnPoint.position;
-                }
-            }
-        }
-        if (enemyRespawn4 != null)
-        {
-            if (other.gameObject == enemyRespawn4 && this.gameObject.tag == "DontRespawn")
-            {
-                if (respawnPoint != null)
-                {
-                    transform.position = respawnPoint.position;
-                }
+                outside = true;
             }
         }
     }

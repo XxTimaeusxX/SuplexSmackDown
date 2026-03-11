@@ -25,10 +25,13 @@ public class SettingsManager : MonoBehaviour
 		}
 		ca = color_adjust;
 		
-		am = GameObject.Find("AudioManager").GetComponent<AudioManager>();
-		SFX_Slider.value = am.sfxVolume;
-		BGM_Slider.value = am.musicVolume;
-		Master_Slider.value = am.masterVolume;
+		if (AudioManager.Instance != null)
+		{
+            am = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+            SFX_Slider.value = am.sfxVolume;
+            BGM_Slider.value = am.musicVolume;
+            Master_Slider.value = am.masterVolume;
+        }
 		
 		//set gamma to player prefs if it's been set already
 		if(PlayerPrefs.GetFloat("gamma") != 0)
@@ -76,9 +79,8 @@ public class SettingsManager : MonoBehaviour
 		if(!vol.profile.TryGet<ColorAdjustments>(out var color_adjust)){
 			color_adjust = SkyVolume.profile.Add<ColorAdjustments>(false);
 		}
-		else Debug.Log("nope");
+		else Debug.Log("SkyVolume not found");
 		ca = color_adjust;
 		ca.postExposure.value = 2*ExposureMultiplier*(PlayerPrefs.GetFloat("gamma")-0.5f);
-		Debug.Log("Gamma Init");
 	}
 }

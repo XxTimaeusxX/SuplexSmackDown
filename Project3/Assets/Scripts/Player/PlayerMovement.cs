@@ -26,13 +26,13 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f; // Set to Unity's default gravity and change Unity's gravity to -50f
     public float groundDistance;
     public float jumpHeight;
-
     public float turnSmoothTime;
     float turnSmoothVelocity;
     
     public CinemachineCamera CinemachineCamera;
     [SerializeField] private bool isMoving;
 
+    PlayerSuplex playerSuplex;
     PlayerDash playerDash;
     [Header("Player health")]
     private PlayerHealth _playerhealth;
@@ -42,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Animation")]
     public Animator CoheteAnimator;
     private string CurrentAnimation = "";
+    public float RunSpeedThreshold = 2f; // Speed at which to switch from walk to run animation
+    public bool IsPlayingGrabAnimation = false; // Flag to track if we're currently playing a grab animation
+    public bool isPlayingDashAnimation = false; // Flag to track if we're currently playing a dash animation
 
     // --- Freefall timing ---
     [Header("Free fall settings")]
@@ -61,6 +64,7 @@ public class PlayerMovement : MonoBehaviour
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
         isMoving = false;
+        playerSuplex = GetComponent<PlayerSuplex>();
         playerDash = GetComponent<PlayerDash>();
         moveSpeed = startingMoveSpeed;
         ChangeAnimtion("IDLE");
@@ -76,8 +80,12 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = 0; 
         }
- 
-        controller.Move(velocity * Time.deltaTime);
+
+        if (controller != null)
+        {
+            controller.Move(velocity * Time.deltaTime);
+        }
+        
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
         if (isGrounded && velocity.y < 0)
@@ -86,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         //  Reset horizontal momentum
             velocity.x = 0f; 
             velocity.z = 0f;
-            //playerDash.airDashCount = 2;
+            playerDash.airDashCount = 2;
         }
 
         if (velocity.y < velocityCap)
@@ -160,7 +168,8 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
     {
 
-        if (isGrounded)
+        bool isHoldingEnemy = playerSuplex.grabHandler.IsHoldingEnemy();
+        if (isGrounded && !isHoldingEnemy)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
@@ -168,7 +177,12 @@ public class PlayerMovement : MonoBehaviour
             AudioManager.PlayJumping();
             // Debug.Log("Jumped!");
         }
-
+      
+        else if (isHoldingEnemy && !playerSuplex.isSuplexing)
+        {
+            StartCoroutine(playerSuplex.WaitForSuplexInput());
+            // Debug.Log("Waiting for suplex input!");
+        }
     }
 
     /// <summary>
@@ -188,11 +202,10 @@ public class PlayerMovement : MonoBehaviour
         if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0 && velocity.y > 0f)
         {
             velocity.y = -2f; // cancel upward momentum if we hit ceiling
-            //Debug.Log("Hit ceiling while jumping off enemy, cancelling upward momentum.");
+            Debug.Log("Hit ceiling while jumping off enemy, cancelling upward momentum.");
         }
     }
 
-    // TODO: Refactor this into it's own class (PlayerAnimationController) to clean up PlayerMovement and allow more focused handling of animation logic and state.
     //---------------- Animation ---------------------------//
     public void ChangeAnimtion(string animation, float crossfade = 0.2f)
     {
@@ -219,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
 
             // Clip finished, unlock and fall through to normal selection
             isPlayingHurt = false;
-            CurrentAnimation = string.Empty; // allow next state change this frame
+            CurrentAnimation = ""; // allow next state change this frame
         }
 
         // Enter HURT when health drops; set lock so nothing overrides it
@@ -232,26 +245,38 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ----- GRAB / GRABAIR / GRABWALK -----
-
+        if (playerSuplex.grabHandler.IsHoldingEnemy())
+        {
+           
+            // Suplex animation 
             if (!isGrounded)
             {
-                ChangeAnimtion("GRABAIR");
+                ChangeAnimtion("LeapGrab");
                 return;
             }
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.
             if (direction.magnitude >= 0.1f)
             {
-                //Debug.Log("Changing to GRABWALK animation");
-                ChangeAnimtion("GRABWALK");
+              //  Debug.Log("Changing to GRABWALK animation");
+                ChangeAnimtion("GrabRun");
                 return;
             }
-
-        // ----- DASHING -----//
-        if (playerDash.isDashing)
-        {
-            ChangeAnimtion("GRABAIR");
+            if (IsPlayingGrabAnimation) return;
+              ChangeAnimtion("GrabIDLE");
             return;
         }
+        // ----- DASHING - Check this BEFORE grab handling -----
+        if (isPlayingDashAnimation)
+        {
+            return; // Don't change animation while dash is playing
+        }
+
+        // ----- DASHING -----//
+        /*   if (playerDash.isDashing)
+            {
+                ChangeAnimtion("GRABAIR");
+                return;
+            }*/
         //----- jump / freefall / walk / idle settiings -----//
         if (!isGrounded)// Jumping takes priority if not grounded
         {
@@ -268,7 +293,17 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // ----- Grounded movement -----
-        if (direction.magnitude >= 0.1f) ChangeAnimtion("WALK");
+        if (direction.magnitude >= 0.1f)
+        {
+            if(moveSpeed >= RunSpeedThreshold)
+                ChangeAnimtion("RunFAST");
+            else
+                ChangeAnimtion("WALK");
+        } 
         else ChangeAnimtion("IDLE");
-    }
+
+
+      
+}
+ 
 }

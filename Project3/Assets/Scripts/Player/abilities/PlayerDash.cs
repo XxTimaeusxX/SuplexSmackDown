@@ -1,9 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-
-// Last Edited: 1 / 19 / 2026 by Istvan W.
-
+using System.Collections;
 /// <summary>
 /// Handles the player's dash ability, including input, movement, and hitbox activation.
 /// </summary>
@@ -58,6 +55,51 @@ public class PlayerDash : MonoBehaviour
         if (dashTime <= 0f || suplexHitboxCaller.hitTarget == true)
         {
             CancelDash();
+            /*
+            dashCoolDown = targetDashCoolDown; // Reset cooldown
+            airDashCount--;                    // Iterate the amount of air dashes by 1
+          
+            dashDirection = transform.forward; // Dash in the direction the player is facing
+            isDashing = true;
+            homingDashActive = false; // input dash by default is not a homing dash
+            dashTime = dashDuration;
+            if (suplexhitbox != null)
+                suplexhitbox.SetActive(true);    // Enable hitbox for the dash
+            StartCoroutine(PlayDashAnimation()); // Play dash animation
+            // Debug.Log("Dash initiated!");
+            */
+        }
+       /*
+        // If currently dashing, move the player and count down the dash timer
+         if (isDashing)
+         {
+            // Re-aim while homing
+            if (homingDashActive && _homingTarget != null)
+            {
+                Vector3 toTarget = _homingTarget.position - transform.position; // include vertical
+                if (toTarget.sqrMagnitude > 0.0001f)
+                {
+                    dashDirection = toTarget.normalized;
+
+                    Vector3 face = new Vector3(dashDirection.x, dashDirection.y, dashDirection.z);
+                    if (face.sqrMagnitude > 0.000001f)
+                        transform.forward = face.normalized;
+                }
+            }
+
+            float speed = homingDashActive ? dashSpeed * homingSpeedMultiplier : dashSpeed;
+
+            // single Move per frame
+            controller.Move(dashDirection * speed * Time.deltaTime);
+
+            dashTime -= Time.deltaTime;
+            if (dashTime <= 0f)
+            {
+                isDashing = false;
+                homingDashActive = false;
+                if (suplexhitbox != null) suplexhitbox.SetActive(false);
+            }
+            */
         }
     }
 
@@ -87,6 +129,11 @@ public class PlayerDash : MonoBehaviour
             if (!controller.isGrounded) airDashCount--; // Consume an air dash if not grounded
             //Debug.Log("Dash initiated!");
         }
+        /*
+        if (suplexhitbox != null) suplexhitbox.SetActive(true);
+        StartCoroutine(PlayDashAnimation());
+        return true;
+        */
     }
     public void CancelDash()
     {
@@ -95,5 +142,15 @@ public class PlayerDash : MonoBehaviour
         dashCooldown = 0f;
         suplexHitboxCaller.hitTarget = false;
         if (movementConfig.grabHitbox != null) movementConfig.grabHitbox.SetActive(false);
+    }
+
+    public IEnumerator PlayDashAnimation()
+    {
+        _playerMovement.isPlayingDashAnimation = true;
+  
+        _playerMovement.ChangeAnimtion("GRABAIR"); // or whatever your dash animation is named                 
+        yield return new WaitForSeconds(1f); // Change this to match your dash animation length
+
+      _playerMovement.isPlayingDashAnimation = false;
     }
 }

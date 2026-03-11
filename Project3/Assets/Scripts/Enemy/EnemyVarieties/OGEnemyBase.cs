@@ -2,21 +2,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-// Contributers: Istvan W., Donovan, Ovido
-
-// Last Modified: 1/15/2026 
-// Modified By:  Istvan W.
-
-public class OGEnemyBase : MonoBehaviour
+public class EnemyBase : MonoBehaviour
 {
     [Header("References")]
     public GameObject Target;
     public NavMeshAgent agent;
     public Rigidbody rb;
     public InGameMenuManager menuManager;
-    public RageMeter rageMeter;
+    public PowerGauge powerGuage;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
@@ -28,8 +22,9 @@ public class OGEnemyBase : MonoBehaviour
     public bool canAttack = true;
 
     [Header("Ground Settings")]
-    public float m_Distance;    // Distance to the target
+    public float m_Distance;
     public bool wasGrounded = false;
+    public bool IgnoreGroundCheck = false;
     public bool isGrabbed;
     public bool isPushed = false;
     public float pushCooldown;
@@ -57,8 +52,6 @@ public class OGEnemyBase : MonoBehaviour
     public GameObject slapbox;          // child trigger collider with AttackHitBox
     [SerializeField] private float slapActiveTime = 0.1f;
 
-    [Header("Animation")]
-    public Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     GameManager gameManager;
@@ -73,8 +66,11 @@ public class OGEnemyBase : MonoBehaviour
             chargeSlider.value = 0f;
             chargeSlider.gameObject.SetActive(false);
         }
-        if (animator == null) animator = GetComponent<Animator>();
-        slapbox.SetActive(false);
+     
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -121,7 +117,8 @@ public class OGEnemyBase : MonoBehaviour
         }
     }
 
-    //MARK - Function needs to go into 'Shoal' enemy script 
+
+
     public void ResetSlapState()
     {
         _nextAttackTime = 0f;
@@ -133,7 +130,7 @@ public class OGEnemyBase : MonoBehaviour
         ResetChargeUI();
     }
 
-    public void RandomPatrolDestination()
+    public virtual void RandomPatrolDestination()
     {
         if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
@@ -163,13 +160,13 @@ public class OGEnemyBase : MonoBehaviour
 
     public void FaceTarget()
     {
-        var TurnToTarget = agent.steeringTarget;
-        Vector3 direction = (TurnToTarget - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        Vector3 direction = Target.transform.position - transform.position;
+        direction.y = 0;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    public void ChasePlayer()
+    public virtual void ChasePlayer()
     {
         // Behavior guard: only chase when allowed
         if (!canChase) return;
@@ -179,24 +176,27 @@ public class OGEnemyBase : MonoBehaviour
             return;
         }
 
+     /*   if (CompareTag("Grabbed"))
+        {
+            this.gameObject.tag = "Macro";
+        }*/
+
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
 
         if (agent.isOnNavMesh)
         {
-            bool inChaseRange = m_Distance <= chaseRange;
+          //  bool inChaseRange = m_Distance <= chaseRange;
 
-            if (inChaseRange)
+            if (m_Distance <= chaseRange)
             {
                 patrolWaitDefault = 0f;
                 agent.speed = patrolRunSpeed;
-                agent.destination = Target.transform.position;
-
+                FaceTarget();
                 if (m_Distance < meleeRange)
                 {
                     agent.isStopped = true;
-                    FaceTarget();
-                    SlapAttack();
+                    BaseAttack();
                 }
                 else
                 {
@@ -222,8 +222,7 @@ public class OGEnemyBase : MonoBehaviour
         }
     }
 
-    //MARK - Function needs to go into 'Office' enemy script 
-    public void SlapAttack()
+    public virtual void BaseAttack()
     {
         // Behavior guard: only attack when allowed
         if (!canAttack) { ResetSlapState(); return; }// ensure state/UI is cleared if attack disabled mid-charge
@@ -237,16 +236,19 @@ public class OGEnemyBase : MonoBehaviour
             // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
             return;
         }
-
+        CustomAttack();
         // Fully charged -> attack, then reset charge for the next swing
-        Debug.Log($"[{name}] Melee attack!");
-        animator.SetTrigger("EnemySlap");
-        AudioManager.PlayEnemySlap();
+
         _nextAttackTime = 0f; // restart charge
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
-        StartCoroutine(SlapattackDuration());
+        
     }
-    //MARK - Function needs to go into 'Shoal' enemy script 
+    protected virtual void CustomAttack()
+    {
+        Debug.Log($"[{name}] Melee attack!");
+        AudioManager.PlayEnemySlap();
+        StartCoroutine(SlapattackDuration());
+    }    
     public IEnumerator SlapattackDuration()
     {
         if (slapbox == null) yield break;
@@ -282,14 +284,16 @@ public class OGEnemyBase : MonoBehaviour
         isGrabbed = grabbed;
         if (grabbed)
         {
+            
             agent.enabled = false;
         }
 
     }
     public bool IsEnemyGrounded()
     {
+        if (IgnoreGroundCheck) return false;
         // Use a raycast or other method to check if the enemy is on the ground
-        Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
+     //    Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
     }
@@ -319,7 +323,7 @@ public class OGEnemyBase : MonoBehaviour
             isPushed = true;
             agent.enabled = false;
             rb.isKinematic = false;
-            if (rageMeter.rageIncrease == true)
+            if (powerGuage.rageIncrease == true)
             {
                 rageBar.value += 0.01f;
             }

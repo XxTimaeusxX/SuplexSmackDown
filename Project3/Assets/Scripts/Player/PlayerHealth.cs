@@ -13,6 +13,8 @@ public class PlayerHealth : MonoBehaviour
 	private float iFrameCooldown;
 	[SerializeField] InGameMenuManager menuManager;
     private bool isFirstHealthUpdate = true; // Flag to skip initial health sound
+	[SerializeField] bool isInvincible;
+	
     void Start()
     {
 		playerAnimationController = GetComponent<PlayerAnimationController>();
@@ -40,11 +42,13 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage()
     {
-		UpdateHealth(--currentHealth);
 		// Add hurt animation trigger here
-		playerAnimationController.IsHurt = true; // Request HURT animation
-        playerAnimationController.CheckAnimation();
-        iFrames = true;
+		if(!isInvincible){
+			playerAnimationController.IsHurt = true; // Request HURT animation
+			playerAnimationController.CheckAnimation();
+			UpdateHealth(--currentHealth);
+			iFrames = true;
+		}
     }
 	
 	public void UpdateHealth(int newHP)
@@ -90,5 +94,14 @@ public class PlayerHealth : MonoBehaviour
 		{
             TakeDamage();
         }
+		
     }
+	
+	public bool ToggleInvincibility(){
+		if (!isInvincible)
+			isInvincible = true;
+		else
+			isInvincible = false;
+		return isInvincible;
+	}
 }

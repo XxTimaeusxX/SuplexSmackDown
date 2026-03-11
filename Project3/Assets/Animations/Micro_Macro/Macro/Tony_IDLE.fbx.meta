@@ -1,0 +1,1010 @@
+fileFormatVersion: 2
+guid: 4aa4e9dcdc156a948aaa22c9a09211e5
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tony_standardSurface2
+    second: {fileID: 2100000, guid: ec0a938da1c74a34697a20cae55a6fb7, type: 2}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths:
+    - Tony:Tony/Tony:face
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: IDLE
+      takeName: IDLE
+      internalID: 2126459665172807778
+      firstFrame: 0
+      lastFrame: 24
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Tony_IDLE(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Tony
+      parentName: Tony_IDLE(Clone)
+      position: {x: -0, y: 0.09422019, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:tie
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:body
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 1.3877787e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:coat
+      parentName: Tony:Tony
+      position: {x: -0, y: 0.0014128101, z: -0.03699529}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:neck
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:face
+      parentName: Tony:Tony
+      position: {x: 0.00025243868, y: -0.002766094, z: 0.040509004}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:polySurface1
+      parentName: Tony:face
+      position: {x: -0.00025243868, y: 0.002766094, z: -0.040509004}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:transform2
+      parentName: Tony:polySurface1
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:polySurface2
+      parentName: Tony:face
+      position: {x: -0.00025243868, y: 0.002766094, z: -0.040509004}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:transform1
+      parentName: Tony:face
+      position: {x: -0.00025243868, y: 0.002766094, z: -0.040509004}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:mustache
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:ears
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:belt
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:hat
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:hands
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:outter_folds
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:shoes
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:legs
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:inner_sleeves
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: -0.09422019}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:inner_folds
+      parentName: Tony:Tony
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:COG_grp
+      parentName: Tony_IDLE(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:COG_ctrl
+      parentName: Tony:COG_grp
+      position: {x: -0.000066570734, y: 0, z: 0.050455306}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Chest_grp
+      parentName: Tony:COG_ctrl
+      position: {x: 0.00013516574, y: 0.09099677, z: 0.037739053}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Chest_ctrl
+      parentName: Tony:Chest_grp
+      position: {x: -0, y: -0.09099677, z: -1.9539925e-16}
+      rotation: {x: 0.20987538, y: -0, z: -0, w: 0.9777282}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Head_grp
+      parentName: Tony:Chest_ctrl
+      position: {x: 0.00016388578, y: 0, z: 0.03506882}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Head_ctrl
+      parentName: Tony:Head_grp
+      position: {x: -0.00016388578, y: 0, z: -0.017284874}
+      rotation: {x: -0.23527679, y: 0, z: -0, w: 0.9719284}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Hat_grp
+      parentName: Tony:Head_ctrl
+      position: {x: 0.017093597, y: 0, z: 0.08884553}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Hat_ctrl
+      parentName: Tony:Hat_grp
+      position: {x: -0.017093597, y: 0, z: -0.033556823}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Eye_ctrl_grp
+      parentName: Tony:Head_ctrl
+      position: {x: -0.093764685, y: -0.01, z: 0.051250696}
+      rotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+      scale: {x: 4.124844, y: 4.124844, z: 1}
+    - name: Tony:Eye_Slider
+      parentName: Tony:Eye_ctrl_grp
+      position: {x: 0.01, y: 0, z: 4.440892e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Eye_Box_Slider
+      parentName: Tony:Eye_ctrl_grp
+      position: {x: -0, y: 0, z: 4.440892e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Ctrlr_Box
+      parentName: Tony:Eye_ctrl_grp
+      position: {x: -7.6169e-18, y: -0.0018325949, z: -2.220446e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1.1434491, y: 3.3667116, z: 1}
+    - name: Tony:Mouth_Slider
+      parentName: Tony:Eye_ctrl_grp
+      position: {x: 0.00009213661, y: -0.0035437157, z: -2.220446e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Mouth_Box_Slider
+      parentName: Tony:Eye_ctrl_grp
+      position: {x: -2.220446e-18, y: -0.0035437157, z: 2.220446e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Clav_grp
+      parentName: Tony:Chest_ctrl
+      position: {x: 0.01117095, y: -0.058774967, z: 0.0038648031}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Clav_ctrl
+      parentName: Tony:R_Clav_grp
+      position: {x: -1.5321078e-16, y: 0.058774967, z: -1.1368684e-15}
+      rotation: {x: -0.21428365, y: 0.042062562, z: 0.19406529, w: 0.9563744}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Arm_grp
+      parentName: Tony:R_Clav_ctrl
+      position: {x: 0.017528879, y: 0, z: 0.017130485}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Arm_ctrl
+      parentName: Tony:R_Arm_grp
+      position: {x: -0.0056378995, y: 4.063416e-16, z: -0.012827086}
+      rotation: {x: 0.16521335, y: 0.42545977, z: 0.019828787, w: 0.8895478}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Elbow_grp
+      parentName: Tony:R_Arm_ctrl
+      position: {x: 0.016769677, y: 0.079479046, z: -0.0023844051}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Elbow_ctrl
+      parentName: Tony:R_Elbow_grp
+      position: {x: -1.5543122e-16, y: -0.079479046, z: -3.907985e-16}
+      rotation: {x: 0.041960843, y: 0.39360946, z: -0.57541686, w: 0.71568596}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Wrist_grp
+      parentName: Tony:R_Elbow_ctrl
+      position: {x: 0.017665194, y: -2.6718135e-34, z: -0.00015715598}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Wrist_ctrl
+      parentName: Tony:R_Wrist_grp
+      position: {x: -0.00013720035, y: -3.5527136e-17, z: -0.0015396536}
+      rotation: {x: -0.227234, y: 0.08340028, z: -0.13442697, w: 0.9609051}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Hand_grp
+      parentName: Tony:R_Wrist_ctrl
+      position: {x: 0.008410296, y: 3.5527136e-17, z: 0.0028758182}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Hand_ctrl
+      parentName: Tony:R_Hand_grp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: 0.112947814, z: -0, w: 0.99360096}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Pinky_a_grp
+      parentName: Tony:R_Hand_ctrl
+      position: {x: 0.005205636, y: 0.007024769, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Pinky_a_ctrl
+      parentName: Tony:R_Pinky_a_grp
+      position: {x: -1.7763568e-17, y: -4.440892e-18, z: -0.0039811055}
+      rotation: {x: -0.28554398, y: 0.74648154, z: -0.26661083, w: 0.53865445}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Pinky_b_grp
+      parentName: Tony:R_Pinky_a_ctrl
+      position: {x: 0.0041044853, y: 0.0005118209, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Pinky_b_ctrl
+      parentName: Tony:R_Pinky_b_grp
+      position: {x: -1.7763568e-17, y: 0, z: -0.0039811055}
+      rotation: {x: 0, y: 0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Ring_a_grp
+      parentName: Tony:R_Hand_ctrl
+      position: {x: 0.007902049, y: 0.0026793187, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Ring_a_ctrl
+      parentName: Tony:R_Ring_a_grp
+      position: {x: 2.6645352e-17, y: -1.7763568e-17, z: -0.0039811055}
+      rotation: {x: -0.09848527, y: 0.845449, z: -0.14425376, w: 0.5046857}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Ring_b_grp
+      parentName: Tony:R_Ring_a_ctrl
+      position: {x: 0.0059444187, y: 0.00035383433, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Ring_b_ctrl
+      parentName: Tony:R_Ring_b_grp
+      position: {x: 1.7763568e-17, y: 0, z: -0.0039811055}
+      rotation: {x: 0, y: 0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Middle_a_grp
+      parentName: Tony:R_Hand_ctrl
+      position: {x: 0.0092011355, y: -0.0020494289, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Middle_a_ctrl
+      parentName: Tony:R_Middle_a_grp
+      position: {x: 1.5987211e-16, y: -1.0658141e-16, z: -0.0039811055}
+      rotation: {x: 8.4667613e-17, y: 0.839743, z: -8.4667613e-17, w: 0.54298407}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Middle_b_grp
+      parentName: Tony:R_Middle_a_ctrl
+      position: {x: 0.0069686268, y: -0.00027689917, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Middle_b_ctrl
+      parentName: Tony:R_Middle_b_grp
+      position: {x: -7.105427e-17, y: -3.5527136e-17, z: -0.0039811055}
+      rotation: {x: 0, y: 0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Index_a_grp
+      parentName: Tony:R_Hand_ctrl
+      position: {x: 0.007632041, y: -0.0063875155, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Index_a_ctrl
+      parentName: Tony:R_Index_a_grp
+      position: {x: -1.0658141e-16, y: -7.105427e-17, z: -0.0039811055}
+      rotation: {x: 0.12127714, y: 0.753812, z: 0.08630869, w: 0.6400079}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Index_b_grp
+      parentName: Tony:R_Index_a_ctrl
+      position: {x: 0.005399532, y: -0.00092299696, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Index_b_ctrl
+      parentName: Tony:R_Index_b_grp
+      position: {x: -8.881784e-18, y: 8.881784e-18, z: -0.0039811055}
+      rotation: {x: 0, y: 0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Thumb_a_grp
+      parentName: Tony:R_Hand_ctrl
+      position: {x: 0.0043092538, y: -0.0067567145, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Thumb_a_ctrl
+      parentName: Tony:R_Thumb_a_grp
+      position: {x: 2.2026825e-15, y: 1.2267965e-15, z: -0.0039811055}
+      rotation: {x: 0.2794487, y: -0.122530475, z: 0.076766394, w: 0.94921106}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Thumb_b_grp
+      parentName: Tony:R_Thumb_a_ctrl
+      position: {x: -0.0044303895, y: -0.0023997927, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Thumb_b_ctrl
+      parentName: Tony:R_Thumb_b_grp
+      position: {x: 2.3092638e-16, y: -3.5527136e-17, z: -0.0039811055}
+      rotation: {x: 0.16797242, y: 0.1258644, z: 0.17466246, w: 0.9619961}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Thumb_c_grp
+      parentName: Tony:R_Thumb_b_ctrl
+      position: {x: 0.0033689402, y: -0.004015037, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Thumb_c_ctrl
+      parentName: Tony:R_Thumb_c_grp
+      position: {x: 4.6185276e-16, y: 7.283063e-16, z: -0.0039811055}
+      rotation: {x: 0.33609456, y: -0.050305557, z: 0.1493005, w: 0.9285576}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Clav_grp
+      parentName: Tony:Chest_ctrl
+      position: {x: -0.01130814, y: -0.058774967, z: 0.0038648031}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Clav_ctrl
+      parentName: Tony:L_Clav_grp
+      position: {x: 2.3092638e-16, y: 0.058774967, z: -4.973799e-16}
+      rotation: {x: -0.32062748, y: -0.050200224, z: 0.0580206, w: 0.944093}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Arm_grp
+      parentName: Tony:L_Clav_ctrl
+      position: {x: -0.017528879, y: 0, z: 0.017130485}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Arm_ctrl
+      parentName: Tony:L_Arm_grp
+      position: {x: 0.0056378995, y: -1.5543122e-16, z: -0.012827086}
+      rotation: {x: -0.08124397, y: -0.44474503, z: 0.17141606, w: 0.87533873}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Elbow_grp
+      parentName: Tony:L_Arm_ctrl
+      position: {x: -0.016769677, y: 0.079479046, z: -0.0023844051}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Elbow_ctrl
+      parentName: Tony:L_Elbow_grp
+      position: {x: 1.2434498e-16, y: -0.079479046, z: -6.0396133e-16}
+      rotation: {x: -0.28609943, y: -0.27326673, z: 0.36827496, w: 0.8413359}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Wrist_grp
+      parentName: Tony:L_Elbow_ctrl
+      position: {x: -0.017527996, y: -3.5527136e-17, z: -0.0016968097}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Wrist_ctrl
+      parentName: Tony:L_Wrist_grp
+      position: {x: 3.5527136e-17, y: 2.2204459e-17, z: -1.2434498e-16}
+      rotation: {x: -0.227234, y: -0.08340028, z: 0.13442697, w: 0.9609051}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Hand_grp
+      parentName: Tony:L_Wrist_ctrl
+      position: {x: -0.008410296, y: 3.5527136e-17, z: 0.0028758182}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Hand_ctrl
+      parentName: Tony:L_Hand_grp
+      position: {x: -0, y: 0, z: -7.105427e-17}
+      rotation: {x: 0, y: -0.112947814, z: -0, w: 0.99360096}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Pinky_a_grp
+      parentName: Tony:L_Hand_ctrl
+      position: {x: -0.005205636, y: 0.007024769, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Pinky_a_ctrl
+      parentName: Tony:L_Pinky_a_grp
+      position: {x: 1.1368684e-15, y: -7.771561e-16, z: -0.0039811055}
+      rotation: {x: -0.28554398, y: -0.74648154, z: 0.26661083, w: 0.53865445}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Pinky_b_grp
+      parentName: Tony:L_Pinky_a_ctrl
+      position: {x: -0.0041044853, y: 0.0005118209, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Pinky_b_ctrl
+      parentName: Tony:L_Pinky_b_grp
+      position: {x: 6.3948843e-16, y: 0, z: -0.0039811055}
+      rotation: {x: 0, y: -0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Ring_a_grp
+      parentName: Tony:L_Hand_ctrl
+      position: {x: -0.007902049, y: 0.0026793187, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Ring_a_ctrl
+      parentName: Tony:L_Ring_a_grp
+      position: {x: 8.0824233e-16, y: -9.7699626e-17, z: -0.0039811055}
+      rotation: {x: -0.09848527, y: -0.845449, z: 0.14425376, w: 0.5046857}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Ring_b_grp
+      parentName: Tony:L_Ring_a_ctrl
+      position: {x: -0.0059444187, y: 0.00035383433, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Ring_b_ctrl
+      parentName: Tony:L_Ring_b_grp
+      position: {x: 6.3948843e-16, y: 0, z: -0.0039811055}
+      rotation: {x: 0, y: -0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Middle_a_grp
+      parentName: Tony:L_Hand_ctrl
+      position: {x: -0.0092011355, y: -0.0020494289, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Middle_a_ctrl
+      parentName: Tony:L_Middle_a_grp
+      position: {x: 1.2434498e-16, y: -1.0658141e-16, z: -0.0039811055}
+      rotation: {x: -1.8171244e-17, y: -0.839743, z: 1.8171244e-17, w: 0.54298407}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Middle_b_grp
+      parentName: Tony:L_Middle_a_ctrl
+      position: {x: -0.0069686268, y: -0.00027689917, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Middle_b_ctrl
+      parentName: Tony:L_Middle_b_grp
+      position: {x: 6.9277914e-16, y: -3.5527136e-17, z: -0.0039811055}
+      rotation: {x: 0, y: -0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Index_a_grp
+      parentName: Tony:L_Hand_ctrl
+      position: {x: -0.007632041, y: -0.0063875155, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Index_a_ctrl
+      parentName: Tony:L_Index_a_grp
+      position: {x: 7.4606985e-16, y: -3.7747583e-17, z: -0.0039811055}
+      rotation: {x: 0.12127714, y: -0.753812, z: -0.08630869, w: 0.6400079}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Index_b_grp
+      parentName: Tony:L_Index_a_ctrl
+      position: {x: -0.005399532, y: -0.00092299696, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Index_b_ctrl
+      parentName: Tony:L_Index_b_grp
+      position: {x: 8.6153304e-16, y: 8.881784e-18, z: -0.0039811055}
+      rotation: {x: 0, y: -0.61686623, z: -0, w: 0.787068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Thumb_a_grp
+      parentName: Tony:L_Hand_ctrl
+      position: {x: -0.0043092538, y: -0.0067567145, z: 0.0026395528}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Thumb_a_ctrl
+      parentName: Tony:L_Thumb_a_grp
+      position: {x: -2.2915003e-15, y: 1.1912693e-15, z: -0.0039811055}
+      rotation: {x: 0.2794487, y: 0.122530475, z: -0.076766394, w: 0.94921106}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Thumb_b_grp
+      parentName: Tony:L_Thumb_a_ctrl
+      position: {x: 0.0044303895, y: -0.0023997927, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Thumb_b_ctrl
+      parentName: Tony:L_Thumb_b_grp
+      position: {x: -2.3092638e-16, y: 1.3322676e-17, z: -0.0039811055}
+      rotation: {x: 0.16797242, y: -0.1258644, z: -0.17466246, w: 0.9619961}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Thumb_c_grp
+      parentName: Tony:L_Thumb_b_ctrl
+      position: {x: -0.0033689402, y: -0.004015037, z: 0.0039811055}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Thumb_c_ctrl
+      parentName: Tony:L_Thumb_c_grp
+      position: {x: -4.2632563e-16, y: 6.705747e-16, z: -0.0039811055}
+      rotation: {x: 0.33609456, y: 0.050305557, z: -0.1493005, w: 0.9285576}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Leg_grp
+      parentName: Tony:COG_ctrl
+      position: {x: 0.013709907, y: -0.00099538, z: -0.00039276134}
+      rotation: {x: 6.123234e-17, y: 1, z: -6.123234e-17, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: -1}
+    - name: Tony:R_Leg_ctrl
+      parentName: Tony:R_Leg_grp
+      position: {x: 0.0021701183, y: 0.00099538, z: 0.0047746426}
+      rotation: {x: -0.23045951, y: 0.0056323092, z: 0.0013613708, w: 0.97306466}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Knee_grp
+      parentName: Tony:R_Leg_ctrl
+      position: {x: -0.0003809428, y: 0, z: -0.023618467}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Knee_ctrl
+      parentName: Tony:R_Knee_grp
+      position: {x: 0.0004350201, y: -0.00099538, z: -0.00011380776}
+      rotation: {x: 0.22191541, y: -0.0054234955, z: -0.0013108989, w: 0.97505}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Ankle_grp
+      parentName: Tony:R_Knee_ctrl
+      position: {x: -0.0005428144, y: 0.00099538, z: -0.013600138}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Ankle_ctrl
+      parentName: Tony:R_Ankle_grp
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Foot_grp
+      parentName: Tony:R_Ankle_ctrl
+      position: {x: -0.0077650263, y: 0, z: -0.017015453}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:R_Foot_ctrl
+      parentName: Tony:R_Foot_grp
+      position: {x: -0, y: 0, z: 2.0816681e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Leg_grp
+      parentName: Tony:COG_ctrl
+      position: {x: -0.013576766, y: -0.00099538, z: -0.00039276134}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Leg_ctrl
+      parentName: Tony:L_Leg_grp
+      position: {x: 0.0021701183, y: 0.00099538, z: 0.0047746426}
+      rotation: {x: 0.11735826, y: 0.06597359, z: -0.23612453, w: 0.96235114}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Knee_grp
+      parentName: Tony:L_Leg_ctrl
+      position: {x: -0.0003809428, y: 0, z: -0.023618467}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Knee_ctrl
+      parentName: Tony:L_Knee_grp
+      position: {x: 0.0004350201, y: -0.00099538, z: -0.00011380776}
+      rotation: {x: 0.019860078, y: -0.01882322, z: 0.007850799, w: 0.99959475}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Ankle_grp
+      parentName: Tony:L_Knee_ctrl
+      position: {x: -0.0005428144, y: 0.00099538, z: -0.013600138}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Ankle_ctrl
+      parentName: Tony:L_Ankle_grp
+      position: {x: -8.881784e-18, y: -1.9984014e-17, z: -4.4408918e-17}
+      rotation: {x: -0.11066965, y: -0.05701368, z: -0.0024678006, w: 0.99221754}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Foot_grp
+      parentName: Tony:L_Ankle_ctrl
+      position: {x: -0.0077650263, y: 0, z: -0.017015453}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:L_Foot_ctrl
+      parentName: Tony:L_Foot_grp
+      position: {x: -0, y: 0, z: 2.0816681e-19}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Hips
+      parentName: Tony_IDLE(Clone)
+      position: {x: 0.0002446737, y: 0.039094567, z: 0}
+      rotation: {x: 0.4976582, y: -0.5023309, z: 0.502331, w: -0.49765813}
+      scale: {x: 1.0000017, y: 1.0000002, z: 1.0000019}
+    - name: Tony:Leg_L
+      parentName: Tony:Hips
+      position: {x: -0.0029814749, y: 0, z: -0.011746267}
+      rotation: {x: 0.000000029802322, y: 0.99999434, z: 0.000000029802322, w: -0.0033909976}
+      scale: {x: 1, y: 1.0000015, z: 1}
+    - name: Tony:Knee_L
+      parentName: Tony:Leg_L
+      position: {x: -0.023621535, y: 0, z: -2.359224e-18}
+      rotation: {x: 0.000000076979184, y: 0.0833946, z: -0.000000026952273, w: 0.99651664}
+      scale: {x: 1.0000008, y: 1.0000011, z: 1.0000008}
+    - name: Tony:Ankle_L
+      parentName: Tony:Knee_L
+      position: {x: -0.013947114, y: 0, z: 1.6653345e-18}
+      rotation: {x: 0.566987, y: 0.048919424, z: 0.14080967, w: 0.8101268}
+      scale: {x: 1.0000001, y: 1.0000008, z: 1.0000011}
+    - name: Tony:Foot_L
+      parentName: Tony:Ankle_L
+      position: {x: -0.017831676, y: 0, z: 1.3322676e-17}
+      rotation: {x: 0.5017567, y: 0.49822038, z: -0.49661422, w: -0.5033796}
+      scale: {x: 0.9999997, y: 0.9999996, z: 0.9999998}
+    - name: Tony:Toe_L
+      parentName: Tony:Foot_L
+      position: {x: -0.023566362, y: 7.892991e-18, z: 5.9528415e-20}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Leg_R
+      parentName: Tony:Hips
+      position: {x: -0.0032005047, y: 0, z: 0.011688527}
+      rotation: {x: -0.99991894, y: -0.000000029802326, z: -0.012736277, w: -0.000000029802326}
+      scale: {x: 0.9999998, y: 1.0000006, z: 1}
+    - name: Tony:Knee_R
+      parentName: Tony:Leg_R
+      position: {x: 0.02362157, y: 5.3324457e-24, z: 0.000000043542723}
+      rotation: {x: 0.000000027560185, y: 0.083394736, z: -0.000000027071952, w: 0.9965166}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1}
+    - name: Tony:Ankle_R
+      parentName: Tony:Knee_R
+      position: {x: 0.013947065, y: -2.8388616e-19, z: 0.000000010925355}
+      rotation: {x: 0.56698716, y: 0.04891946, z: 0.14080982, w: 0.8101266}
+      scale: {x: 1.000001, y: 1.0000008, z: 1.0000013}
+    - name: Tony:Foot_R
+      parentName: Tony:Ankle_R
+      position: {x: 0.017831698, y: -6.1943844e-19, z: 0.000000008787426}
+      rotation: {x: -0.5017568, y: -0.4982205, z: 0.4966141, w: 0.5033795}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000005}
+    - name: Tony:Toe_R
+      parentName: Tony:Foot_R
+      position: {x: 0.023566373, y: 6.686935e-11, z: 2.1333267e-10}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Torso
+      parentName: Tony:Hips
+      position: {x: -0.01884124, y: 0, z: -1.3392065e-17}
+      rotation: {x: -0, y: 0.014670998, z: -0.000000074505806, w: -0.9998924}
+      scale: {x: 1.000001, y: 1.0000001, z: 1.0000011}
+    - name: Tony:Chest
+      parentName: Tony:Torso
+      position: {x: -0.017611388, y: 0, z: -7.979728e-18}
+      rotation: {x: -5.263114e-10, y: -0.009998575, z: 0.000000014906762, w: -0.99995}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Tony:Neck
+      parentName: Tony:Chest
+      position: {x: -0.017783947, y: 0, z: 8.111567e-17}
+      rotation: {x: -0.00000005960399, y: -0.000000059604638, z: 2.785195e-10, w: 1}
+      scale: {x: 1.0000001, y: 0.9999995, z: 1.0000001}
+    - name: Tony:Head
+      parentName: Tony:Neck
+      position: {x: -0.055288706, y: -2.0500289e-10, z: 2.5182112e-16}
+      rotation: {x: -0.7071064, y: -0.0007103346, z: 0.00071039493, w: 0.70710653}
+      scale: {x: 1.0000007, y: 1.0000007, z: 1.0000014}
+    - name: Tony:Hat
+      parentName: Tony:Head
+      position: {x: -0.028885815, y: -1.3118846e-16, z: 9.91868e-30}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Clav_L
+      parentName: Tony:Chest
+      position: {x: -0.0038648045, y: 0, z: -0.01130814}
+      rotation: {x: 0.00000006460228, y: 0.580638, z: 0.00000004077583, w: -0.8141619}
+      scale: {x: 1.0000007, y: 1.0000002, z: 1.0000007}
+    - name: Tony:Arm_L
+      parentName: Tony:Clav_L
+      position: {x: -0.012645735, y: 0, z: -3.330669e-18}
+      rotation: {x: 0.00000011057382, y: -0.20415655, z: -0.000000046774186, w: 0.97893834}
+      scale: {x: 0.99999756, y: 0.9999993, z: 1.0000005}
+    - name: Tony:Elbow_L
+      parentName: Tony:Arm_L
+      position: {x: -0.016938344, y: 0, z: -1.7763568e-17}
+      rotation: {x: -0.000000049154202, y: 0.06608696, z: -0.0000000096982475, w: 0.99781394}
+      scale: {x: 1.0000001, y: 1.0000018, z: 1.0000015}
+    - name: Tony:Wrist_L
+      parentName: Tony:Elbow_L
+      position: {x: -0.017528702, y: 0, z: -1.6098233e-17}
+      rotation: {x: 0.000000030592574, y: 0.08316868, z: 0.000000026007415, w: 0.9965355}
+      scale: {x: 1, y: 1.0000011, z: 1.0000008}
+    - name: Tony:Hand_L
+      parentName: Tony:Wrist_L
+      position: {x: -0.008515781, y: 0, z: -1.1657341e-17}
+      rotation: {x: -0.000000006079779, y: 0.000000007450579, z: -0.000000007054955, w: 1}
+      scale: {x: 0.9999997, y: 0.9999998, z: 0.9999997}
+    - name: Tony:Pinky_a_L
+      parentName: Tony:Hand_L
+      position: {x: -0.004930647, y: 0.007024769, z: -0.002141761}
+      rotation: {x: 0.7060164, y: -0.07213828, z: 0.039197896, w: 0.7034205}
+      scale: {x: 1.0000014, y: 0.99999887, z: 0.9999997}
+    - name: Tony:Pinky_b_L
+      parentName: Tony:Pinky_a_L
+      position: {x: -0.0041362736, y: 0, z: 1.1986614e-19}
+      rotation: {x: 0.00000011920926, y: -0.02946975, z: 0.000000029802315, w: 0.99956566}
+      scale: {x: 1.000001, y: 0.99999934, z: 0.99999994}
+    - name: Tony:Pinky_c_L
+      parentName: Tony:Pinky_b_L
+      position: {x: -0.004562305, y: 0, z: -5.2041704e-18}
+      rotation: {x: -0, y: -0, z: 8.881782e-16, w: 1}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Tony:Ring_a_L
+      parentName: Tony:Hand_L
+      position: {x: -0.0075936606, y: 0.0026793187, z: -0.0025648565}
+      rotation: {x: 0.7060825, y: -0.07323348, z: 0.03804086, w: 0.7033044}
+      scale: {x: 1.000001, y: 0.9999992, z: 0.9999997}
+    - name: Tony:Ring_b_L
+      parentName: Tony:Ring_a_L
+      position: {x: -0.0059549413, y: -2.4890343e-36, z: 3.1869967e-20}
+      rotation: {x: 0.99937284, y: -0, z: 0.03541004, w: -0.000000013154927}
+      scale: {x: 1.0000013, y: 0.999999, z: 1.0000001}
+    - name: Tony:Ring_c_L
+      parentName: Tony:Ring_b_L
+      position: {x: -0.005821471, y: -9.148627e-20, z: 1.040834e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Middle_a_L
+      parentName: Tony:Hand_L
+      position: {x: -0.008876655, y: -0.0020494289, z: -0.0027686968}
+      rotation: {x: 0.7036697, y: -0.04164124, z: 0.06963432, w: 0.7058796}
+      scale: {x: 1.0000025, y: 0.99999815, z: 0.99999994}
+    - name: Tony:Middle_b_L
+      parentName: Tony:Middle_a_L
+      position: {x: -0.006974127, y: 0, z: -4.0052695e-19}
+      rotation: {x: 0.00000008940697, y: -0.0002592299, z: -0.00000014156103, w: 1}
+      scale: {x: 0.999999, y: 1.0000008, z: 0.9999998}
+    - name: Tony:Middle_c_L
+      parentName: Tony:Middle_b_L
+      position: {x: -0.007066355, y: 0, z: -9.579566e-16}
+      rotation: {x: -0, y: -0, z: -9.436895e-16, w: 1}
+      scale: {x: 0.9999998, y: 0.99999994, z: 1}
+    - name: Tony:Index_a_L
+      parentName: Tony:Hand_L
+      position: {x: -0.0073269974, y: -0.0063875155, z: -0.0025224893}
+      rotation: {x: 0.6976844, y: 0.004151548, z: 0.11505045, w: 0.70709455}
+      scale: {x: 1.0000011, y: 0.99999887, z: 0.9999998}
+    - name: Tony:Index_b_L
+      parentName: Tony:Index_a_L
+      position: {x: -0.005477854, y: 0, z: 3.3675497e-19}
+      rotation: {x: -0.000000029802315, y: -0.008577561, z: -0.00000008626373, w: 0.9999632}
+      scale: {x: 1.0000011, y: 0.9999992, z: 1.0000001}
+    - name: Tony:Index_c_L
+      parentName: Tony:Index_b_L
+      position: {x: -0.0070033837, y: 0, z: -2.112893e-17}
+      rotation: {x: -0, y: -0, z: -6.3837807e-15, w: 1}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+    - name: Tony:Thumb_a_L
+      parentName: Tony:Hand_L
+      position: {x: -0.0040453672, y: -0.0067567145, z: -0.0020011088}
+      rotation: {x: 0.5929682, y: 0.28563586, z: 0.3830087, w: 0.64815533}
+      scale: {x: 1.0000018, y: 0.9999996, z: 1.000001}
+    - name: Tony:Thumb_b_L
+      parentName: Tony:Thumb_a_L
+      position: {x: -0.0050385837, y: 0, z: 8.3909274e-19}
+      rotation: {x: 0.0000010132785, y: -0.00000011920923, z: -0.00000010430808, w: 1}
+      scale: {x: 1.0000005, y: 0.9999998, z: 0.9999996}
+    - name: Tony:Thumb_c_L
+      parentName: Tony:Thumb_b_L
+      position: {x: -0.0052412096, y: -1.2858629e-19, z: -9.714451e-18}
+      rotation: {x: 0.9992422, y: 0.00000024939652, z: -0.038925648, w: -0.00000011871386}
+      scale: {x: 1, y: 1.0000006, z: 1.0000007}
+    - name: Tony:Thumb_d_L
+      parentName: Tony:Thumb_c_L
+      position: {x: -0.0059549413, y: 1.3121383e-18, z: -9.228728e-18}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1.0000004, z: 1.0000004}
+    - name: Tony:Clav_R
+      parentName: Tony:Chest
+      position: {x: -0.0038648439, y: 0, z: 0.011308105}
+      rotation: {x: -0.58063793, y: -0.000000084408605, z: -0.8141619, w: 0.000000041273992}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000015}
+    - name: Tony:Arm_R
+      parentName: Tony:Clav_R
+      position: {x: 0.012645756, y: -5.270145e-19, z: 0.000000008955383}
+      rotation: {x: -0.0000000070372526, y: -0.20415609, z: 0.00000006899129, w: 0.97893834}
+      scale: {x: 1.0000004, y: 1.0000042, z: 1.0000045}
+    - name: Tony:Elbow_R
+      parentName: Tony:Arm_R
+      position: {x: 0.016938364, y: 2.9200479e-19, z: -0.000000009560758}
+      rotation: {x: -0.00000002010676, y: 0.06608699, z: -0.000000016806803, w: 0.99781394}
+      scale: {x: 1.000001, y: 1.0000001, z: 1.0000005}
+    - name: Tony:Wrist_R
+      parentName: Tony:Elbow_R
+      position: {x: 0.017528703, y: 1.9251448e-20, z: -0.0000000017936497}
+      rotation: {x: 0.000000016906254, y: 0.08316875, z: -0.000000021603748, w: 0.9965355}
+      scale: {x: 0.99999994, y: 1.0000008, z: 1.0000001}
+    - name: Tony:Hand_R
+      parentName: Tony:Wrist_R
+      position: {x: 0.008515784, y: -1.636373e-19, z: 0.000000015691045}
+      rotation: {x: -0.0000000011077927, y: 0.000000007450579, z: 0.00000004484475, w: 1}
+      scale: {x: 0.9999997, y: 1.0000002, z: 1.0000001}
+    - name: Tony:Pinky_a_R
+      parentName: Tony:Hand_R
+      position: {x: 0.004930606, y: -0.0070247697, z: 0.0021417944}
+      rotation: {x: 0.7060164, y: -0.07213933, z: 0.039197616, w: 0.70342046}
+      scale: {x: 1.0000004, y: 1, z: 1.0000012}
+    - name: Tony:Pinky_b_R
+      parentName: Tony:Pinky_a_R
+      position: {x: 0.004136288, y: -1.7763568e-17, z: -0.0000000030071392}
+      rotation: {x: 0.000000089406946, y: -0.029469773, z: -0.000000081956365, w: 0.99956566}
+      scale: {x: 1.000003, y: 0.9999985, z: 1.0000015}
+    - name: Tony:Pinky_c_R
+      parentName: Tony:Pinky_b_R
+      position: {x: 0.004562286, y: 0, z: 0.000000008462037}
+      rotation: {x: -0, y: -0, z: -3.1086238e-15, w: 1}
+      scale: {x: 1.0000005, y: 1.0000002, z: 1.0000002}
+    - name: Tony:Ring_a_R
+      parentName: Tony:Hand_R
+      position: {x: 0.007593605, y: -0.0026793198, z: 0.0025648877}
+      rotation: {x: 0.7060824, y: -0.073234245, z: 0.038040448, w: 0.7033046}
+      scale: {x: 1.0000007, y: 1.0000002, z: 1.0000004}
+    - name: Tony:Ring_b_R
+      parentName: Tony:Ring_a_R
+      position: {x: 0.0059550204, y: 0, z: -0.000000009013732}
+      rotation: {x: -0.99937284, y: -0.00000005587933, z: -0.035410058, w: 0.00000006909246}
+      scale: {x: 1.0000023, y: 0.99999756, z: 1}
+    - name: Tony:Ring_c_R
+      parentName: Tony:Ring_b_R
+      position: {x: 0.005821441, y: 0, z: -0.0000000082038}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Middle_a_R
+      parentName: Tony:Hand_R
+      position: {x: 0.008876613, y: 0.00204943, z: 0.00276873}
+      rotation: {x: 0.7036697, y: -0.041641243, z: 0.06963441, w: 0.7058796}
+      scale: {x: 1.0000021, y: 0.9999985, z: 1.0000005}
+    - name: Tony:Middle_b_R
+      parentName: Tony:Middle_a_R
+      position: {x: 0.006974099, y: 1.7763568e-17, z: -0.0000000019851882}
+      rotation: {x: -0.00000008940696, y: -0.00025921498, z: 0.000000029802319, w: 1}
+      scale: {x: 0.9999992, y: 1.0000008, z: 1}
+    - name: Tony:Middle_c_R
+      parentName: Tony:Middle_b_R
+      position: {x: 0.0070664273, y: 0, z: 0.0000000019592792}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Tony:Index_a_R
+      parentName: Tony:Hand_R
+      position: {x: 0.00732695, y: 0.0063875197, z: 0.002522522}
+      rotation: {x: 0.6976842, y: 0.004151538, z: 0.11505053, w: 0.7070947}
+      scale: {x: 1.000001, y: 1.0000001, z: 1.0000006}
+    - name: Tony:Index_b_R
+      parentName: Tony:Index_a_R
+      position: {x: 0.0054779183, y: 1.7763568e-17, z: 0.00000001828183}
+      rotation: {x: 0.000000089406946, y: -0.008577549, z: 0.000000056345, w: 0.9999632}
+      scale: {x: 1.0000021, y: 0.9999983, z: 1.0000005}
+    - name: Tony:Index_c_R
+      parentName: Tony:Index_b_R
+      position: {x: 0.007003306, y: 0, z: -0.000000015156198}
+      rotation: {x: -0, y: -0, z: 2.775557e-16, w: 1}
+      scale: {x: 1, y: 1, z: 1.0000004}
+    - name: Tony:Thumb_a_R
+      parentName: Tony:Hand_R
+      position: {x: 0.00404531, y: 0.00675671, z: 0.0020011398}
+      rotation: {x: 0.59296983, y: 0.2856373, z: 0.38300753, w: 0.6481539}
+      scale: {x: 1.000001, y: 1.0000002, z: 1.0000001}
+    - name: Tony:Thumb_b_R
+      parentName: Tony:Thumb_a_R
+      position: {x: 0.0050385995, y: 0, z: 4.440892e-18}
+      rotation: {x: 0.00000044703467, y: 0.000009566542, z: 0.0000014007087, w: 1}
+      scale: {x: 1.0000006, y: 1.0000004, z: 1.0000002}
+    - name: Tony:Thumb_c_R
+      parentName: Tony:Thumb_b_R
+      position: {x: 0.005241212, y: 1.7763568e-17, z: 0.00000007686932}
+      rotation: {x: -0.99924207, y: -0.0000000056213056, z: 0.038925752, w: 0.000000053101157}
+      scale: {x: 0.9999998, y: 1, z: 1}
+    - name: Tony:Thumb_d_R
+      parentName: Tony:Thumb_c_R
+      position: {x: 0.005954971, y: 1.7763568e-17, z: 0.00000006974858}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
