@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Shockwave : MonoBehaviour
+{
+    public float pushForce;
+    public Slider rageMeter;
+    public float growDuration = 2f;
+    public float activeDuration = 2f;
+    private Vector3 targetScale;
+    private Vector3 initialScale;
+    public float growSizeX;
+    public float growSizeY;
+    public float growSizeZ;
+
+    
+
+    private void Start()
+    {
+        targetScale = new Vector3(growSizeX, growSizeY, growSizeZ);
+        initialScale = transform.localScale;
+        StartCoroutine(ScaleOverTime(growDuration, targetScale));
+    }
+
+    private void Update()
+    {
+        activeDuration -= Time.deltaTime;
+        if (activeDuration <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+        if (hit.gameObject.CompareTag("Enemy")|| hit.gameObject.CompareTag("GhostDancer"))
+        {
+            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+            body.AddForce(pushDir * pushForce, ForceMode.Impulse);
+        }
+    }
+
+    IEnumerator ScaleOverTime(float duration, Vector3 endScale)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            transform.localScale = Vector3.Lerp(initialScale, endScale, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        transform.localScale = endScale;
+    }
+}

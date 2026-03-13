@@ -10,22 +10,25 @@ public class EnemyBase : MonoBehaviour
     public NavMeshAgent agent;
     public Rigidbody rb;
     public InGameMenuManager menuManager;
+    public PowerGauge powerGuage;
     public Transform groundCheck;
     public LayerMask groundMask;
     public float groundDistance;
+    public Slider rageBar;
 
     [Header("Behavior Toggles ")]
     public bool canPatrol = true;
     public bool canChase = true;
     public bool canAttack = true;
 
-
     [Header("Ground Settings")]
     public float m_Distance;
     public bool wasGrounded = false;
+    public bool IgnoreGroundCheck = false;
     public bool isGrabbed;
     public bool isPushed = false;
     public float pushCooldown;
+
     [Header("UI")]
     public Slider chargeSlider;
 
@@ -43,22 +46,17 @@ public class EnemyBase : MonoBehaviour
     public float meleeRange = 1.75f;
     public float attackCooldown = 0.8f;
     public float _nextAttackTime = 0f;
+  //public bool IsDead = false;
 
     [Header("Hitbox")]
-    public Collider slapbox;          // child trigger collider with AttackHitBox
+    public GameObject slapbox;          // child trigger collider with AttackHitBox
     [SerializeField] private float slapActiveTime = 0.1f;
-
-    [Header("Animation")]
-    public Animator animator;
-
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     GameManager gameManager;
     public void Start()
     {
-
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         if (chargeSlider != null)
@@ -68,13 +66,15 @@ public class EnemyBase : MonoBehaviour
             chargeSlider.value = 0f;
             chargeSlider.gameObject.SetActive(false);
         }
-        if (animator == null) animator = GetComponent<Animator>();
-        slapbox.enabled = false;
-
+     
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
     }
 
     // Update is called once per frame
-    public void Update()
+    public virtual void Update()
     {
         bool grounded = IsEnemyGrounded();
         if (isPushed)
@@ -83,7 +83,7 @@ public class EnemyBase : MonoBehaviour
         }
         if (pushCooldown < 0)
         {
-            if (!isGrabbed)
+            if (!isGrabbed && !CompareTag("DontRespawn"))
             {
                 pushCooldown = 0;
                 isPushed = false;
@@ -97,30 +97,44 @@ public class EnemyBase : MonoBehaviour
         }
         if (grounded && wasGrounded && !isGrabbed && !isPushed)
         {
-            // Debug.Log("Enemy just landed!");
             rb.isKinematic = true;
             agent.enabled = true;
         }
         wasGrounded = grounded;
         if (agent.enabled && agent.isOnNavMesh)
         {
-            ChasePlayer();
+            if (canChase)
+            {
+                ChasePlayer();
+            }
+            else if (canPatrol)
+            {
+                // Patrol-only mode: request a new patrol destination when there's no path or we've arrived.
+                float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+                if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold)
+                    RandomPatrolDestination();
+            }
         }
     }
+
+
+
     public void ResetSlapState()
     {
         _nextAttackTime = 0f;
-        slapbox.enabled = false;
+        if (slapbox != null)
+        {
+            slapbox.SetActive(false);
+        }
         StopCoroutine(SlapattackDuration());
         ResetChargeUI();
     }
-    public void RandomPatrolDestination()
+
+    public virtual void RandomPatrolDestination()
     {
-        // Behavior guard: only patrol when allowed
         if (!canPatrol) return;
         if (!agent.enabled || !agent.isOnNavMesh) return;
 
-        // Pick points around current floor height (not y=0) to stay on the same NavMesh island
         const float patrolRadius = 20f;
         const int maxTries = 6;
         Vector3 origin = transform.position;
@@ -142,17 +156,17 @@ public class EnemyBase : MonoBehaviour
                 }
             }
         }
-
     }
+
     public void FaceTarget()
     {
-        var TurnToTarget = agent.steeringTarget;
-        Vector3 direction = (TurnToTarget - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        Vector3 direction = Target.transform.position - transform.position;
+        direction.y = 0;
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
 
-    public void ChasePlayer()
+    public virtual void ChasePlayer()
     {
         // Behavior guard: only chase when allowed
         if (!canChase) return;
@@ -161,26 +175,31 @@ public class EnemyBase : MonoBehaviour
             RandomPatrolDestination();
             return;
         }
+
+     /*   if (CompareTag("Grabbed"))
+        {
+            this.gameObject.tag = "Macro";
+        }*/
+
         m_Distance = Vector3.Distance(Target.transform.position, transform.position);
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
+
         if (agent.isOnNavMesh)
         {
+          //  bool inChaseRange = m_Distance <= chaseRange;
+
             if (m_Distance <= chaseRange)
             {
                 patrolWaitDefault = 0f;
-                agent.speed = patrolRunSpeed; // set chase speed
-                agent.destination = Target.transform.position;
-                   
-
+                agent.speed = patrolRunSpeed;
+                FaceTarget();
                 if (m_Distance < meleeRange)
                 {
                     agent.isStopped = true;
-                    FaceTarget();
-                    SlapAttack();
+                    BaseAttack();
                 }
                 else
                 {
-                    // Out of melee: resume chase and clear timer so next entry arms again
                     if (agent.isStopped) agent.isStopped = false;
                     agent.destination = Target.transform.position;
                     _nextAttackTime = 0f;
@@ -188,25 +207,22 @@ public class EnemyBase : MonoBehaviour
                 }
             }
 
-
-            // Out of chase range -> patrol
             if (patrolWaitDefault > 0f)
             {
-                // Idle thinking
-                // m_EnemyAgent.isStopped = true;
                 patrolWaitDefault -= Time.deltaTime;
                 if (patrolWaitDefault <= 0f)
                 {
                     agent.isStopped = false;
-                    //  RandomPatrolDestination();
-
                 }
             }
-            else if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold) RandomPatrolDestination();
+            else if (!agent.hasPath || agent.remainingDistance <= arrivalThreshold)
+            {
+                RandomPatrolDestination();
+            }
         }
     }
 
-    public void SlapAttack()
+    public virtual void BaseAttack()
     {
         // Behavior guard: only attack when allowed
         if (!canAttack) { ResetSlapState(); return; }// ensure state/UI is cleared if attack disabled mid-charge
@@ -220,22 +236,26 @@ public class EnemyBase : MonoBehaviour
             // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
             return;
         }
-
+        CustomAttack();
         // Fully charged -> attack, then reset charge for the next swing
-        Debug.Log($"[{name}] Melee attack!");
-        animator.SetTrigger("EnemySlap");
-        AudioManager.PlayEnemySlap();
+
         _nextAttackTime = 0f; // restart charge
         UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
-        StartCoroutine(SlapattackDuration());
+        
     }
+    protected virtual void CustomAttack()
+    {
+        Debug.Log($"[{name}] Melee attack!");
+        AudioManager.PlayEnemySlap();
+        StartCoroutine(SlapattackDuration());
+    }    
     public IEnumerator SlapattackDuration()
     {
         if (slapbox == null) yield break;
         yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
-        slapbox.enabled = true;
+        slapbox.SetActive(true);
         yield return new WaitForSeconds(.09f);
-        slapbox.enabled = false;
+        slapbox.SetActive(false);
     }
     // Add these helpers inside Enemy class
     public void UpdateChargeUI(float current, float max, bool show)
@@ -264,15 +284,16 @@ public class EnemyBase : MonoBehaviour
         isGrabbed = grabbed;
         if (grabbed)
         {
-            // Optionally disable agent here if needed
+            
             agent.enabled = false;
         }
 
     }
     public bool IsEnemyGrounded()
     {
+        if (IgnoreGroundCheck) return false;
         // Use a raycast or other method to check if the enemy is on the ground
-        Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
+     //    Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
         return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
     }
@@ -286,6 +307,13 @@ public class EnemyBase : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(center, radius);
+        // Chase range sphere (yellow)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+        // Melee range sphere (red/orange)
+        Gizmos.color = new Color(1f, 0.5f, 0f); // orange
+        Gizmos.DrawWireSphere(transform.position, meleeRange);
     }
     public void OnCollisionEnter(Collision collision)
     {
@@ -295,6 +323,10 @@ public class EnemyBase : MonoBehaviour
             isPushed = true;
             agent.enabled = false;
             rb.isKinematic = false;
+            if (powerGuage.rageIncrease == true)
+            {
+                rageBar.value += 0.01f;
+            }
         }
     }
 }
