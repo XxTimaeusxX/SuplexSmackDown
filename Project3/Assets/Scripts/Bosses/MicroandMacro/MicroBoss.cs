@@ -17,8 +17,8 @@ public class MicroBoss : EnemyBase
     [SerializeField] private Transform macrosmesh;
     [SerializeField] private Transform throwOrigin;    // optional; defaults to boss position
     [SerializeField] private float throwInterval = 3f;
-    [SerializeField] private float throwForce = 12f;
    [SerializeField] private PowerGauge _powerGauge;
+    [SerializeField] public Collider GrabCollider;
     private NavMeshAgent _MacroAgent;
     private Rigidbody _MacrosRb;
     private MacroBoss _MacroEnemy;
@@ -35,8 +35,8 @@ public class MicroBoss : EnemyBase
     private bool wasInChaseRange = false;
 
     [Header("Animation")]
-    public Animator WorkerAnimator;
-    private string CurrentWorkerAnimation = "";
+    public Animator MicroAnimator;
+    private string CurrentMicroAnimation = "";
     public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
@@ -61,9 +61,11 @@ public class MicroBoss : EnemyBase
             {
                 Debug.LogError("GlowMesh component not found on MacroPrefab or its children.");
         }
+
+        GrabCollider.enabled = false; 
     }
     // ------------ auto assign references -------------- //
-    void OnValidate()
+    private void OnValidate()
     {
         // 1) Target: find and assign player as target if not assigned
         if (Target == null)
@@ -170,18 +172,7 @@ public class MicroBoss : EnemyBase
         _MacroEnemy.IsGrabbedByMicro = false;// set out of grab ball state
         _MacrosRb.isKinematic = false; // re-enable physics
 
-
-        // ----- Calculate throw direction and apply force ----- //
-
-     //  float hieght = 0f;
-     //   float foward = 18f;
-        Vector3 dir = (Target.transform.position - MacroPrefab.transform.position).normalized;
-      //  Vector3 orientThrow = new Vector3(dir.x, 0f, dir.z).normalized;
-      //  Vector3 Upwardforce = hieght *  Vector3.up; // total power to apply to macro
-      //  Vector3 FowardForce = foward * orientThrow; // forward force to apply to macro*/
-
-    
-        _MacrosRb.AddForce(dir*throwForce , ForceMode.Impulse);
+        _MacroEnemy.LaunchToTarget(Target.transform);
      
         _MacroEnemy.IsThrownByMicro = true; // flag macro as thrown
         float enableMacroTimer = 0f;
@@ -209,7 +200,7 @@ public class MicroBoss : EnemyBase
         // macrosmesh.localRotation = originalMeshRotation; // restore original mesh rotation
      //   _MacroEnemy.IsThrownByMicro = false;
         _MacroEnemy.ResumeSequence();
-        
+        GrabCollider.enabled = false;
     }
     public IEnumerator TakeDamage()
     {
@@ -222,21 +213,21 @@ public class MicroBoss : EnemyBase
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {
-        if (CurrentWorkerAnimation != animation)
+        if (CurrentMicroAnimation != animation)
         {
-            CurrentWorkerAnimation = animation;
-            WorkerAnimator.CrossFade(animation, crossfade);
+            CurrentMicroAnimation = animation;
+            MicroAnimator.CrossFade(animation, crossfade);
 
         }
     }
     // Pauses animation frame, but frame is set to paused at  0.5f set in the animation controller event system.
     public void PauseAnimation()
     {
-        WorkerAnimator.speed = 0f;
+        MicroAnimator.speed = 0f;
     }
     public void ResumeAnimation()
     {
-        WorkerAnimator.speed = 1f;
+        MicroAnimator.speed = 1f;
     }
     private void CheckAnimation()
     {

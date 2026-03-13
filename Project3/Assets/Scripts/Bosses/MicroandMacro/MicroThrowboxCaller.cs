@@ -11,7 +11,7 @@ public class MicroThrowboxCaller : MonoBehaviour
     }
     private void OnTriggerEnter(Collider macro)
     {
-        if (macro.gameObject.name.Equals("Macro"))
+        if (macro.CompareTag("Macro"))
         {
             if (macroBoss != null && !macroBoss.isGrabbed && !macroBoss.isPushed)
             {
