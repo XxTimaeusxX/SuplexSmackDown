@@ -251,7 +251,7 @@ public class PlayerMovement : MonoBehaviour
             // Suplex animation 
             if (!isGrounded)
             {
-                ChangeAnimtion("LeapGrab");
+                ChangeAnimtion("LeapGrab",0f);
                 return;
             }
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.
