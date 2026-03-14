@@ -58,7 +58,7 @@ public class EnemyGrabHandler : MonoBehaviour
         _currentMacroBoss = GrabbedEnemy.GetComponent<MacroBoss>();
 
         // Determine enemy size/weight based on enemy type
-        var root = enemy.GetComponentInParent<EnemyBase>()?.transform ?? enemy.transform;
+        var root = enemy.GetComponentInParent<OGEnemyBase>()?.transform ?? enemy.transform;
         int bigLayer = LayerMask.NameToLayer(bigEnemyLayerName);
         bool isBigEnemy = root.gameObject.layer == bigLayer;
 
@@ -95,7 +95,7 @@ public class EnemyGrabHandler : MonoBehaviour
         _playerMovement.IsPlayingGrabAnimation = false;
 
         var rb = GrabbedEnemy.GetComponent<Rigidbody>();
-        var enemyScript = GrabbedEnemy.GetComponent<EnemyBase>();
+        var enemyScript = GrabbedEnemy.GetComponent<OGEnemyBase>();
         var ghostBoss = GrabbedEnemy.GetComponent<Level2BossManager>();
         
         // Re-enable enemy ground detection FIRST
@@ -137,7 +137,7 @@ public class EnemyGrabHandler : MonoBehaviour
         // Disable MacroBoss damage hitbox
         if (_currentMacroBoss != null && _currentMacroBoss.damageHitbox != null)
         {
-            _currentMacroBoss.damageHitbox.enabled = false;
+            //_currentMacroBoss.damageHitbox.enabled = false;
         }
 
         _currentMacroBoss = null;
@@ -151,7 +151,7 @@ public class EnemyGrabHandler : MonoBehaviour
     {
         if (_currentMacroBoss != null && _currentMacroBoss.damageHitbox != null)
         {
-            _currentMacroBoss.damageHitbox.enabled = enabled;
+            //_currentMacroBoss.damageHitbox.enabled = enabled;
         }
     }
 
@@ -169,7 +169,7 @@ public class EnemyGrabHandler : MonoBehaviour
             rb.isKinematic = true;
 
         // Disable enemy ground detection
-        var enemyScript = enemy.GetComponent<EnemyBase>();
+        var enemyScript = enemy.GetComponent<OGEnemyBase>();
         if (enemyScript != null)
             enemyScript.SetGrabbed(true);
     }

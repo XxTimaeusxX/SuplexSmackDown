@@ -8,7 +8,7 @@ using System.Collections;
 public class InGameMenuManager : MonoBehaviour
 {
 	[SerializeField] CharacterController playerCC;
-	[SerializeField] PlayerMovement playerMovement;
+	[SerializeField] MovementController movementController;
 	[SerializeField] PlayerDash playerDash;
 	public PlayerInput playerInput;
 	[SerializeField] GameObject _SuperSuplexUI;
@@ -79,7 +79,7 @@ public class InGameMenuManager : MonoBehaviour
 	public void Update()
 	{
 		//if all cheat inputs are pressed together, activate the cheats menu
-		if (_SettingsPanel.active == true && canInputCheats && cheatsAction1.IsPressed() && cheatsAction2.IsPressed())
+		if (_SettingsPanel.activeInHierarchy && canInputCheats && cheatsAction1.IsPressed() && cheatsAction2.IsPressed())
         {
 			CheatsMenuActivate();
         }
@@ -122,7 +122,7 @@ public class InGameMenuManager : MonoBehaviour
 			//pausing: play a sound, show cursor, set timeScale to 0, hide super suplex UI, and show pause menu
 			else{
 				playerCC.enabled = false; //prevent player input in the menu
-				playerMovement.enabled = false;
+				movementController.enabled = false;
 				playerDash.enabled = false;
 				
 				AudioManager.PlaySuplexSlam();
@@ -162,7 +162,7 @@ public class InGameMenuManager : MonoBehaviour
 		pause_anim.SetBool("isPaused", false);
 		
 		playerCC.enabled = true; //allow the player to move again
-		playerMovement.enabled = true;
+		movementController.enabled = true;
 		playerDash.enabled = true;
 	}
 	

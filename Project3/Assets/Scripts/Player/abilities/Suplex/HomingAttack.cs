@@ -88,7 +88,7 @@ public class HomingAttack : MonoBehaviour
             if (lastReleasedEnemyignore != null && (col.transform == lastReleasedEnemyignore || col.transform.IsChildOf(lastReleasedEnemyignore)))// checks to ensure player does not home attacks same enemy
                 continue;
 
-            var enemy = col.GetComponentInParent<EnemyBase>();
+            var enemy = col.GetComponentInParent<OGEnemyBase>();
             if (enemy == null || !enemy.gameObject.activeInHierarchy)
                 continue;
 

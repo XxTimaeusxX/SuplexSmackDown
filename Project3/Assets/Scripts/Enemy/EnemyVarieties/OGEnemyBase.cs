@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class EnemyBase : MonoBehaviour
+public class OGEnemyBase : MonoBehaviour
 {
     [Header("References")]
     public GameObject Target;

@@ -33,7 +33,7 @@ public class SuplexController : MonoBehaviour
     //public GameObject carriedObject = null;        // The GameObject of the carriable/object being carried
     //public MonoBehaviour carriedObjectScript = null;  // The script of the carriable/object being carried (if needed for specific interactions)
 
-    private EnemyBase carriedEnemyBase = null;      // The EnemyBase script of the carried carriable
+    private EnemyBase carriedEnemyBase = null;      // The OGEnemyBase script of the carried carriable
     //private Transform carriedEnemy;          // The transform of the carriable that's currently being carried
     private MonoBehaviour carriableMono;              // Testin for suplexable objects
     public GameObject suplexedObject; 

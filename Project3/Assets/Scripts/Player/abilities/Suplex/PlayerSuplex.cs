@@ -6,29 +6,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 /// <summary>
-/// Stores configuration for each type of suplex (height, distance, speed, etc). 
-/// </summary>
-[System.Serializable]
-public class SuplexConfig
-{
-    public SuplexAbilities ability;
-    public float LiftHeight;
-    public float FowardDistance;
-    public float LaunchSpeed;
-}
-
-/// <summary>
-/// Enum for different suplex types.
-/// </summary>
-public enum SuplexAbilities
-{
-    None,
-    Long,
-    Rainbow,
-    Super
-}
-
-/// <summary>
 /// Handles all logic for grabbing, holding, and suplexing enemies.
 /// </summary>
 public class PlayerSuplex : MonoBehaviour
@@ -54,7 +31,6 @@ public class PlayerSuplex : MonoBehaviour
     public HomingAttack homingAttack;
     
     [Header("Suplex Configurations")]
-    public List<SuplexConfig> suplexConfigs;
     public AnimationCurve GravityControl;
     public AnimationCurve CameraOffsetCurve;
 
@@ -77,6 +53,7 @@ public class PlayerSuplex : MonoBehaviour
     public bool isSuplexing = false;
     private SuplexAbilities currentSuplex = SuplexAbilities.None;
     
+    /*
     private void Awake()
     {
         impulseSource = GetComponent<CinemachineImpulseSource>();
@@ -467,6 +444,7 @@ public class PlayerSuplex : MonoBehaviour
     {
         return powerGauge != null && powerGauge.powerSlider.value >= 1;
     }
+    */
 }
 
 

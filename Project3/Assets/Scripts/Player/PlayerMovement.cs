@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
         //  Reset horizontal momentum
             velocity.x = 0f; 
             velocity.z = 0f;
-            playerDash.airDashCount = 2;
+            //playerDash.airDashCount = 2;
         }
 
         if (velocity.y < velocityCap)
@@ -180,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
       
         else if (isHoldingEnemy && !playerSuplex.isSuplexing)
         {
-            StartCoroutine(playerSuplex.WaitForSuplexInput());
+            //StartCoroutine(playerSuplex.WaitForSuplexInput());
             // Debug.Log("Waiting for suplex input!");
         }
     }

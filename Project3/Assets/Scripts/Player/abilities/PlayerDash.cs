@@ -38,20 +38,20 @@ public class PlayerDash : MonoBehaviour
         playerAnimationController = GetComponent<PlayerAnimationController>();
 
         // Setup
-        movementConfig.grabHitbox.SetActive(false); 
+        movementConfig.grabHitbox.SetActive(false);
     }
 
     void Update()
     {
-        if (controller.isGrounded  && !isDashing)              
-        { 
+        if (controller.isGrounded && !isDashing)
+        {
             dashCooldown = 0f;  // Reset cooldown on ground
-            airDashCount = maxAirDashCount; 
-        } 
+            airDashCount = maxAirDashCount;
+        }
 
-        if (dashCooldown > 0f && !isDashing)    { dashCooldown -= 0.1f; }
-        if (dashCooldown < 0f)                  { dashCooldown = 0f; }
-        if (dashTime > 0f && !suplexHitboxCaller.hitTarget)                      { dashTime -= Time.deltaTime; }
+        if (dashCooldown > 0f && !isDashing) { dashCooldown -= 0.1f; }
+        if (dashCooldown < 0f) { dashCooldown = 0f; }
+        if (dashTime > 0f && !suplexHitboxCaller.hitTarget) { dashTime -= Time.deltaTime; }
         if (dashTime <= 0f || suplexHitboxCaller.hitTarget == true)
         {
             CancelDash();
@@ -69,38 +69,37 @@ public class PlayerDash : MonoBehaviour
             // Debug.Log("Dash initiated!");
             */
         }
-       /*
-        // If currently dashing, move the player and count down the dash timer
-         if (isDashing)
-         {
-            // Re-aim while homing
-            if (homingDashActive && _homingTarget != null)
-            {
-                Vector3 toTarget = _homingTarget.position - transform.position; // include vertical
-                if (toTarget.sqrMagnitude > 0.0001f)
-                {
-                    dashDirection = toTarget.normalized;
+        /*
+         // If currently dashing, move the player and count down the dash timer
+          if (isDashing)
+          {
+             // Re-aim while homing
+             if (homingDashActive && _homingTarget != null)
+             {
+                 Vector3 toTarget = _homingTarget.position - transform.position; // include vertical
+                 if (toTarget.sqrMagnitude > 0.0001f)
+                 {
+                     dashDirection = toTarget.normalized;
 
-                    Vector3 face = new Vector3(dashDirection.x, dashDirection.y, dashDirection.z);
-                    if (face.sqrMagnitude > 0.000001f)
-                        transform.forward = face.normalized;
-                }
-            }
+                     Vector3 face = new Vector3(dashDirection.x, dashDirection.y, dashDirection.z);
+                     if (face.sqrMagnitude > 0.000001f)
+                         transform.forward = face.normalized;
+                 }
+             }
 
-            float speed = homingDashActive ? dashSpeed * homingSpeedMultiplier : dashSpeed;
+             float speed = homingDashActive ? dashSpeed * homingSpeedMultiplier : dashSpeed;
 
-            // single Move per frame
-            controller.Move(dashDirection * speed * Time.deltaTime);
+             // single Move per frame
+             controller.Move(dashDirection * speed * Time.deltaTime);
 
-            dashTime -= Time.deltaTime;
-            if (dashTime <= 0f)
-            {
-                isDashing = false;
-                homingDashActive = false;
-                if (suplexhitbox != null) suplexhitbox.SetActive(false);
-            }
-            */
-        }
+             dashTime -= Time.deltaTime;
+             if (dashTime <= 0f)
+             {
+                 isDashing = false;
+                 homingDashActive = false;
+                 if (suplexhitbox != null) suplexhitbox.SetActive(false);
+             }
+             */
     }
 
     public void Dash()
@@ -144,13 +143,14 @@ public class PlayerDash : MonoBehaviour
         if (movementConfig.grabHitbox != null) movementConfig.grabHitbox.SetActive(false);
     }
 
-    public IEnumerator PlayDashAnimation()
-    {
-        _playerMovement.isPlayingDashAnimation = true;
-  
-        _playerMovement.ChangeAnimtion("GRABAIR"); // or whatever your dash animation is named                 
-        yield return new WaitForSeconds(1f); // Change this to match your dash animation length
+    //public IEnumerator PlayDashAnimation()
+    //{
+        //_playerMovement.isPlayingDashAnimation = true;
 
-      _playerMovement.isPlayingDashAnimation = false;
-    }
+        //_playerMovement.ChangeAnimtion("GRABAIR"); // or whatever your dash animation is named                 
+        //yield return new WaitForSeconds(1f); // Change this to match your dash animation length
+
+        //_playerMovement.isPlayingDashAnimation = false;
+    //}
 }
+

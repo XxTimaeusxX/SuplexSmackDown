@@ -15,7 +15,7 @@ public class ShoalEnemy : EnemyBase
     public Cinema_final CinemaScript;
     [Header("Animation")]
     public Animator ShoalAnimator;
-    private string CurrentShoalAnimation = "";
+    private string CurrentShoalAnimation = string.Empty;
 
     bool IsAlive = true;
     public GameObject slapbox;          // child trigger collider with AttackHitBox

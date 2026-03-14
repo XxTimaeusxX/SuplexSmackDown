@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,7 +56,8 @@ public class PlayerHealth : MonoBehaviour
 	{
 		if(newHP >= 0){
 			currentHealth = newHP;
-			healthImg.texture = healthSprites[currentHealth];
+			//Debug.Log($"Current Health: {currentHealth}, {healthImg.IsUnityNull()}, {healthSprites.IsUnityNull()}");
+            healthImg.texture = healthSprites[currentHealth];
 		}
 		if(newHP <= 0){
 			GameOver();

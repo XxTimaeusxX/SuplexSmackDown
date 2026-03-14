@@ -12,6 +12,7 @@ public class EnemyRespawn : MonoBehaviour
     {
         outside = false;
         timer = maxTimer;
+        respawnPoint.position = transform.position;
     }
 
     private void Update()

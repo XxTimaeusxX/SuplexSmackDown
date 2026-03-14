@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class GhostDancer : EnemyBase
+public class GhostDancer : OGEnemyBase
 {
     
     [Header("Projectile")]

@@ -24,7 +24,7 @@ public enum RockyRhodesStates
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class RockyRhodes : EnemyBase
+public class RockyRhodes : OGEnemyBase
 {
     [Header("Rocky Rhodes Settings")]
     // runtime toggles
@@ -173,7 +173,7 @@ public class RockyRhodes : EnemyBase
 
         // Vector3 toTarget = _homingTarget.position - transform.position; // include vertical
        //  dashForce = transform.forward; 
-        IsPerformingAbility = true; // Prevent EnemyBase from re-enabling agent
+        IsPerformingAbility = true; // Prevent OGEnemyBase from re-enabling agent
         ToggleBehaviors(false); // Disable AI behaviors and NavMesh
         IgnoreGroundCheck = true; // Prevent ground check interference during ability
 
@@ -214,7 +214,7 @@ public class RockyRhodes : EnemyBase
         // Re-enable everything
         Debug.Log("TOGGLING ---------------- BEHAVIORS-------------.");
         ToggleBehaviors(true);
-        IsPerformingAbility = false; // Allow EnemyBase to control agent again
+        IsPerformingAbility = false; // Allow OGEnemyBase to control agent again
         CheckState(RockyRhodesStates.Regular);
     }
 
