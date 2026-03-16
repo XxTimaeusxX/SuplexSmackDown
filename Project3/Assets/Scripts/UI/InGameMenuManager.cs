@@ -64,7 +64,7 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] Animator pause_anim;
 	
 	public void Start(){
-        cheatsAction1 = playerInput.actions.FindAction("RainbowSuplex");
+        cheatsAction1 = playerInput.actions.FindAction("Throw");
         cheatsAction2 = playerInput.actions.FindAction("Dash");
 		//check to make sure the system can find the inputs
 		if (cheatsAction1 != null && cheatsAction2 != null)

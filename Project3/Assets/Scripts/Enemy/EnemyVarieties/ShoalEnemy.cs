@@ -23,9 +23,25 @@ public class ShoalEnemy : EnemyBase
     public Slider enemyHealth;
     public GameObject enemyHealthScreen;
 
+    private static bool waveStarted = false;
+    private static int totalShoalCount = 0;
+
     void Start()
     {
-        enemyHealth.value += 1;
+        if (!bossShoal)
+        {        
+            if (!waveStarted)
+            {
+                waveStarted = true;
+                enemyHealth.value = enemyHealth.maxValue;
+            }
+            totalShoalCount++;
+        }
+        else
+        {
+            enemyHealth.value += 1; // Boss health starts at 100%
+        }
+
     }
     public override void Death()
     {
@@ -102,11 +118,17 @@ public class ShoalEnemy : EnemyBase
         }
         if (health <= 0 && IsAlive)
         {
-            enemyHealth.value -= 1;
+            enemyHealth.value -= 1;  // 100 shoal in first stage, so 1 damage = 1% health
             IsAlive = false;    // prevents rapid depeletion of boss bar
             Death();
         }
         CheckAnimation();
+
+        if (totalShoalCount >= 100)
+            {
+            totalShoalCount = 0;
+            waveStarted = false;
+        }
     }
 
     public void ResetSlapState()

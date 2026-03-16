@@ -12,8 +12,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Collider))]
 
 // MARK - Currently broken
-public class MicroBoss : MonoBehaviour
+public class MicroBoss : MonoBehaviour, ICarriable
 {
+    public int health;
     [SerializeField] private float stateTimer;
     public float chasePeriodMean; // Time Macro will chase before thrown
     private float chasePeriod;
@@ -29,8 +30,7 @@ public class MicroBoss : MonoBehaviour
     [SerializeField] private float throwInterval = 3f;
     [SerializeField] private float throwForce = 5f;
     private SuplexController suplexController;
-    private NavMeshAgent _MacroAgent;
-    private Rigidbody _MacrosRb;
+
     private MacroBoss _MacroEnemy;
     public float grabRange = 2f;
     //public GameObject grabHitbox;
@@ -63,6 +63,9 @@ public class MicroBoss : MonoBehaviour
     public Slider enemyHealth;
     public GameObject enemyHealthScreen;
 
+    private Transform originalParent;
+    private RigidbodyConstraints originalConstraints;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -70,11 +73,6 @@ public class MicroBoss : MonoBehaviour
         PLAYER = GameObject.FindGameObjectWithTag("Player");
         suplexController = PLAYER.GetComponent<SuplexController>();
 
-        //grabHitbox.SetActive(false);
-
-        // ----- get macros components ----- //
-        _MacroAgent = macro.GetComponent<NavMeshAgent>();
-        _MacrosRb = macro.GetComponent<Rigidbody>();
         _MacroEnemy = macro.GetComponent<MacroBoss>();
 
         lowerRoom = FindFirstObjectByType<LowerRoom>();
@@ -160,7 +158,8 @@ public class MicroBoss : MonoBehaviour
         yield return new WaitUntil(() => Vector3.Distance(Macro.transform.position, transform.position) <= grabRange);
         Debug.Log("Macro is within grab range, proceeding with throw");
 
-
+        _MacroEnemy.damageHitbox.SetActive(true); // enable macro's damage hitbox while being thrown
+        _MacroEnemy.invulnerable = false;
         stateTimer = chasePeriod;
 
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
@@ -193,7 +192,8 @@ public class MicroBoss : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Shockwave") && suplexController.suplexedObject.name == "Macro")
         {
-            //enemyHealth.value -= 1;
+            health -= 1;
+            enemyHealth.value -= 1;
             Debug.Log("Macro hit by shockwave, applying damage to Micro");
         }
     }
@@ -207,9 +207,55 @@ public class MicroBoss : MonoBehaviour
         lowerRoom.EnableArrows();// enable arrows to show path to next area
         lowerRoom.MoveDown();
 
-        this.gameObject.tag = "Enemy";
+        this.gameObject.tag = "canGrab";
 
         enemyHealthScreen.SetActive(false);
         Destroy(macro);
+    }
+
+    public void EnterCarriedState(Transform carryPoint)
+    {
+        //Debug.Log("Enemy picked up");
+
+        originalParent = transform.parent;  // Store original parent
+
+        // Disable physics
+        rb.isKinematic = true;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        //mainCollider.enabled = false;   // Disable colliders that should not interact
+
+        // Disable AI/NavMeshAgent
+        agent.enabled = false;
+
+        if (carryProxy != null) carryProxy.enabled = true;  // Enable proxy collider (prevents clipping)
+
+        // Parent to carry point
+        transform.SetParent(carryPoint);
+        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+        //Debug.Log("EnterCarriedState called on " + gameObject.name);
+    }
+
+    public void ExitCarriedState(Vector3 throwForce)
+    {
+
+        transform.SetParent(originalParent);    // Unparent
+
+        rb.isKinematic = false;     // Re-enable physics
+
+        rb.constraints = RigidbodyConstraints.None;
+
+        //mainCollider.enabled = true;    //  Re-enable colliders
+
+        if (carryProxy != null) carryProxy.enabled = false;     //  Disable proxy collider
+
+        if (throwForce != Vector3.zero)
+            rb.AddForce(throwForce, ForceMode.Impulse);    // Apply throw force
+
+
+        //Debug.Log("ExitCarriedState called on " + gameObject.name);
+        //Debug.Log($"Main collider enabled: {mainCollider.enabled}, Proxy: {carryProxy.enabled}");
     }
 }

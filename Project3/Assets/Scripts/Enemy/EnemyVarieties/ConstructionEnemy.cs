@@ -10,44 +10,16 @@ public class ConstructionEnemy : EnemyBase
 
     [Header("Animation")]
     private string CurrentWorkerAnimation = string.Empty;
+    public float slapActiveTime = 0.2f;
 
-    void OnValidate()
-    {
-        // 1) Target: assign Player by tag if not set
-        if (target == null)
-        {
-            target = PLAYER;
-        }
-        // Optional: ensure sane defaults (won’t override if already configured)
-        if (agent != null)
-        {
-            if (agent.stoppingDistance < 0.5f) agent.stoppingDistance = 0.75f;
-            if (agent.radius < 0.1f) agent.radius = 0.3f;
-            if (agent.acceleration < 8f) agent.acceleration = 12f;
-        }
-
-        // Hitbox slapbox: find child trigger named "AttackHitBox"
-        if (slapbox == null)
-        {
-            var hitbox = transform.Find("SlapHitBox");
-            if (hitbox != null)
-            {
-                //var col = hitbox.GetComponentInChildren<GameObject>();
-                //if (col != null) slapbox = col;
-                //else Debug.LogWarning($"[{name}] 'SlapHitBox' found but has no Collider.", this);
-            }
-        }
-        // 5) UI: try find in children (optional)
-        if (chargeSlider == null)
-        {
-            chargeSlider = GetComponentInChildren<UnityEngine.UI.Slider>(includeInactive: true);
-         
-        }
-    }
     public override void Update()
     {
         base.Update();  // Let base class handle everything
         CheckAnimation();
+        if (health <= 0)
+        {
+            Death();
+        }
     }
 
     /*   public override void ChasePlayer()
@@ -116,11 +88,34 @@ public class ConstructionEnemy : EnemyBase
         if (collision.gameObject.CompareTag("Shockwave"))
         {
             AudioManager.PlayConstructionFalling();
+            health -= 1;
         }
     }
 
     public override void Attack()
     {
+        if (_nextAttackTime < attackCooldown)
+        {
+            _nextAttackTime += Time.deltaTime;
+            // Debug.Log($"charge: {_nextAttackTime:F2}/{attackCooldown:F2}");
+            return;
+        }
+
+        //Debug.Log($"[{name}] Melee attack!");
+
+        animator.SetTrigger("EnemySlap");
+        AudioManager.PlayEnemySlap();
+        _nextAttackTime = 0f;
+        UpdateChargeUI(_nextAttackTime, attackCooldown, show: true);
+        StartCoroutine(SlapAttackDuration());
+        ResetChargeUI();
+    }
+    public IEnumerator SlapAttackDuration()
+    {
+        yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
+        slapbox.SetActive(true);
+        yield return new WaitForSeconds(slapActiveTime);
+        slapbox.SetActive(false);
     }
     public override void Death()
     {

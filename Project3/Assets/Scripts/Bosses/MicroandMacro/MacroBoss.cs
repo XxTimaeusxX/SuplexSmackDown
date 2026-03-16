@@ -23,6 +23,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
 
     private Transform originalParent;
     private RigidbodyConstraints originalConstraints;
+    private GroundChecker groundChecker;
 
     [SerializeField] protected CarryWeightProfile carryWeightProfile;
     public CarryWeightProfile CarryWeightProfile => carryWeightProfile;
@@ -35,6 +36,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
     public float _nextAttackTime = 0f;
     public float distanceToTarget;
     public GameObject damageHitbox;          // child trigger collider with AttackHitBox
+    public GameObject slapHitbox;
     public float slapActiveTime = 0.2f;
     public float knockOutTime = 5f; // Time the enemy stays knocked out
 
@@ -49,15 +51,18 @@ public class MacroBoss : MonoBehaviour, ICarriable
     public bool wasThrown = false;
     private bool isReturning = false;
     public bool isChasing = false;
+    public bool invulnerable = false;
 
     public void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         rb = GetComponent<Rigidbody>();
         mainCollider = GetComponent<CapsuleCollider>();
+        groundChecker = GetComponentInChildren<GroundChecker>();
 
         originalConstraints = rb.constraints;
         damageHitbox.SetActive(false);
+        slapHitbox.SetActive(false);
         isChasing = true;
     }
 
@@ -80,9 +85,9 @@ public class MacroBoss : MonoBehaviour, ICarriable
     public IEnumerator SlapAttackDuration()
     {
         yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
-        damageHitbox.SetActive(true);
+        slapHitbox.SetActive(true);
         yield return new WaitForSeconds(slapActiveTime);
-        damageHitbox.SetActive(false);
+        slapHitbox.SetActive(false);
     }
     public void Update()
     {
@@ -149,6 +154,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
             {
                 Debug.Log("Reached micro position");
                 damageHitbox.SetActive(false); // disable damage hitbox
+                slapHitbox.SetActive(false); // disable slap hitbox
                 break; // exit coroutine
             }
             yield return null;
@@ -221,7 +227,10 @@ public class MacroBoss : MonoBehaviour, ICarriable
 
     private IEnumerator EnableAgentAfterLanding()
     {
-        tag = "canGrab";
+        yield return new WaitUntil(()=> groundChecker.IsGrounded() == true);
+        damageHitbox.SetActive(false); // Ensure hitbox is off while in the air
+        if (!invulnerable)
+            tag = "canGrab";
         yield return new WaitForSeconds(knockOutTime); // Small delay to ensure physics has settled after landing
         tag = "Macro";
         rb.constraints = originalConstraints;
@@ -230,5 +239,13 @@ public class MacroBoss : MonoBehaviour, ICarriable
         isChasing = true;
         ChasePlayer();
         //Debug.Log($"{microBoss.throwingMacro} {agent.enabled}");
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            tag = "Macro";
+            invulnerable = true;
+        }
     }
 }
