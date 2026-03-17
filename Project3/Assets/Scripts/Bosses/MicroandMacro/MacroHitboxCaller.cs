@@ -12,7 +12,7 @@ public class MacroHitboxCaller : MonoBehaviour
             // Micro was hit during suplex
             Debug.Log("Micro is hit");
             if (macroBoss.damageHitbox != null) macroBoss.damageHitbox.enabled = false;
-            microBoss.enemyHealth.value -= 1;
+           StartCoroutine(microBoss.TakeDamage());
             // handle any damage/UI here
         }
     }

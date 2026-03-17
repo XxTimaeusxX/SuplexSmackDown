@@ -207,12 +207,16 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //---------------- Animation ---------------------------//
-    public void ChangeAnimtion(string animation, float crossfade = 0.2f)
+    public void ChangeAnimtion(string animation, float crossfade = 0.2f, bool instantAnimate = false)
     {
         if(CurrentAnimation!= animation)
         {
             CurrentAnimation = animation;
-            CoheteAnimator.CrossFade(animation, crossfade);
+            if (instantAnimate)
+                CoheteAnimator.Play(animation, 0, 0f);
+            else
+                CoheteAnimator.CrossFade(animation, crossfade);
+            
             
         }
     }
@@ -251,7 +255,7 @@ public class PlayerMovement : MonoBehaviour
             // Suplex animation 
             if (!isGrounded)
             {
-                ChangeAnimtion("LeapGrab");
+                ChangeAnimtion("LeapGrab",0f,true);
                 return;
             }
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.

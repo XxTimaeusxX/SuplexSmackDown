@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0df00a1374a4ae242a3706c7be7f908c
+guid: 26c5418753f5ad2488ecc4fd5218c1fc
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -7,8 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Tiny_standardSurface4
-    second: {fileID: 2100000, guid: f4eb60e65f6645147945f0bbc8df6ad5, type: 2}
+      name: Tony_standardSurface2
+    second: {fileID: 2100000, guid: ec0a938da1c74a34697a20cae55a6fb7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -36,9 +36,9 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: THROW
-      takeName: THROW
-      internalID: -9066260296831446417
+      name: RUN
+      takeName: RUN
+      internalID: -4440360848040735060
       firstFrame: 0
       lastFrame: 24
       wrapMode: 0
@@ -47,7 +47,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -59,21 +59,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.5
-        functionName: PauseAnimation
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 1
-        functionName: CheckAnimation
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -87,7 +73,7 @@ ModelImporter:
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importPhysicalCameras: 1
-    importVisibility: 1
+    importVisibility: 0
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
