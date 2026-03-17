@@ -74,7 +74,7 @@ public class Level2BossManager : MonoBehaviour
     public bool grabbed;
     public bool isGrounded;
     private bool grabbedCooldown;
-    private bool jump;
+    public bool jump;
     public bool movingBoss;
     private bool jumpCooldown;
     private bool breakCooldown;
