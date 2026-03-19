@@ -111,7 +111,7 @@ public class Level2BossManager : MonoBehaviour
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
             playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
             if (isDashing) return;
-            if (!breakCooldown)
+            if (!breakCooldown && !stunned)
             {
                 States();
             }
@@ -206,19 +206,20 @@ public class Level2BossManager : MonoBehaviour
             {
                 if (agent.enabled == true)
                 {
-                        agent.SetDestination(transform.position);
-                        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-                        Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
-                        targetPosition.y = transform.position.y;
-                        Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
-                        transform.LookAt(targetLookAt);
-                        if (!alreadyAttacked)
-                        {
-                            StartCoroutine(DashCoroutine(targetPosition));
-                            alreadyAttacked = true;
-                            attackCounter++;
-                            attacking = false;
-                        }
+                    chargeAura.SetActive(false);
+                    agent.SetDestination(transform.position);
+                    Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                    Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+                    targetPosition.y = transform.position.y;
+                    Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+                    transform.LookAt(targetLookAt);
+                    if (!alreadyAttacked)
+                    {
+                        StartCoroutine(DashCoroutine(targetPosition));
+                        alreadyAttacked = true;
+                        attackCounter++;
+                        attacking = false;
+                    }
                 }
             }
         }
@@ -364,22 +365,22 @@ public class Level2BossManager : MonoBehaviour
                 switch (randomAttackIndex)
                 {
                     case 0:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 1:
                         Jump();
                         break;
                     case 2:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 3:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 4:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 5:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                 }
             }
@@ -388,7 +389,7 @@ public class Level2BossManager : MonoBehaviour
 
     private void Jump()
     {
-        if (!alreadyAttacked)
+        if (!alreadyAttacked && !attacking)
         {
             jump = true;
             alreadyAttacked = true;
@@ -473,6 +474,14 @@ public class Level2BossManager : MonoBehaviour
                 Instantiate(shockwave, boss.position, boss.rotation, boss);
             }
         }
+    }
+
+    private IEnumerator AttackWithDelay(float delay)
+    {
+        attacking = true;
+        chargeAura.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        AttackPlayer();
     }
 
     private void OnCollisionEnter(Collision collision)
