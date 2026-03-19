@@ -61,6 +61,7 @@ public class Level2BossManager : MonoBehaviour
     public GameObject healthBar;
     public Slider bossHealthSlider;
     public GameObject aura;
+    public GameObject chargeAura;
     public InGameMenuManager menuManager;
 
     [Header("Bools")]
@@ -82,6 +83,7 @@ public class Level2BossManager : MonoBehaviour
     public bool slow;
     public bool grabBoxGrab;
     private bool suplex;
+    private bool attacking;
 
     private void Start()
     {
@@ -204,18 +206,19 @@ public class Level2BossManager : MonoBehaviour
             {
                 if (agent.enabled == true)
                 {
-                    agent.SetDestination(transform.position);
-                    Vector3 directionToPlayer = (player.position - transform.position).normalized;
-                    Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
-                    targetPosition.y = transform.position.y;
-                    Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
-                    transform.LookAt(targetLookAt);
-                    if (!alreadyAttacked)
-                    {
-                        StartCoroutine(DashCoroutine(targetPosition));
-                        alreadyAttacked = true;
-                        attackCounter++;
-                    }
+                        agent.SetDestination(transform.position);
+                        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                        Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
+                        targetPosition.y = transform.position.y;
+                        Vector3 targetLookAt = new Vector3(player.position.x, transform.position.y, player.position.z);
+                        transform.LookAt(targetLookAt);
+                        if (!alreadyAttacked)
+                        {
+                            StartCoroutine(DashCoroutine(targetPosition));
+                            alreadyAttacked = true;
+                            attackCounter++;
+                            attacking = false;
+                        }
                 }
             }
         }
