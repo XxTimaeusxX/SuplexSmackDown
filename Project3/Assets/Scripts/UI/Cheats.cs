@@ -69,10 +69,10 @@ public class Cheats : MonoBehaviour
 				_loadingScreenManager.StartLoadingScene(level2index);
 				break;
 			
-			/*// SUPLEXITY - level 3 warp
+			// SUPLEXITY - level 3 warp
 			case "SUPLEXITY":
 				_loadingScreenManager.StartLoadingScene(level3index);
-				break;*/
+				break;
 			
 			//if code is incorrect, set color to invalidColor and show an error
 			default:
