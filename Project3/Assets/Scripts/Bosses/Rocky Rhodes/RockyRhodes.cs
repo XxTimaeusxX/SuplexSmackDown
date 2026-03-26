@@ -10,7 +10,7 @@ using UnityEngine.UI;
 // TODO: Develop the principle mechnics
 
 // TODO: jump slam attack, dash knock up,
-//TODO: change tag to damageplayer when rocket hop jumps to player
+//TODO: make rocky jump to next platform after depleting certain amount of health and adding more health when on new platform.
 
 public enum RockyRhodesStates
 {
@@ -30,29 +30,23 @@ public class RockyRhodes : EnemyBase
     // runtime toggles
     [SerializeField] private InGameMenuManager inGameMenuManager;
     private bool abilitiesEnabled = false; // when true the state machine runs
-    public RockyRhodesStates CurrentRockyState;
-    private List<RockyRhodesStates> _RandomSelection= new List<RockyRhodesStates>
-    {
-        RockyRhodesStates.BoulderEruption,
-        RockyRhodesStates.BullRock,
-    };
+    private RhockyAbilities _abilities;
     private float _lastHealthValue;
+    private bool _healthhasDecreased = false; // flag to track if health has decreased since last check
+    private float _currentPhase = 1f;
+
+    [Header("Phase Health")]
+    [SerializeField] private float phase1Health = 4f;
+    [SerializeField] private float phase2Health = 5f;
+    [SerializeField] private float phase3Health = 6f;
 
     [Header("Visual References")]
     public Transform RockyRhodesMesh;
-    private Quaternion originalMeshRotation;
+    public Quaternion originalMeshRotation;
     public GameObject RockyRhodesHealthBarUI;
     public Slider slider;
 
-    [Header ("Launch Settings")]
-    public float jumpForce = 55f;
-    private Vector3 dashForce;
-    public float AbilityCooldown = 5f;
-    public bool IsPerformingAbility = false;
-    private float _abilityTimer = 0f;
-    private Coroutine _currentStateCoroutine;
-    [SerializeField]private Transform PlayerTarget;
-
+ 
 
     [Header("Jump Patrol Settings")]
     public float jumpPatrolForce = 40f;
@@ -71,194 +65,99 @@ public class RockyRhodes : EnemyBase
     new  void Start()
     {
         base.Start();
-        // default orientation of mesh, used to reset rotation after abilities
-        QTETriggerCollider.isTrigger = true; // make QTE a triggerenter type 
+        QTETriggerCollider.isTrigger = true;
         if (QTESystemScript == null) QTESystemScript = GetComponent<QTESystem>();
+        if (_abilities == null) _abilities = GetComponent<RhockyAbilities>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
-        // CheckState(RockyRhodesStates.Regular);
-        //   StartCoroutine(JumpToPlatform());
+
         _lastHealthValue = slider.value;
+        Applyhealth(phase1Health);
+        CurrentPhaseMode();
         CheckHealthState();
+        _healthhasDecreased = false;
     }
 
     // Update is called once per frame
-    public override void  Update()
+    public override void Update()
     {
         base.Update();
-        if(IsPerformingAbility &&(isGrabbed || isPushed))
+        if (_abilities != null && _abilities.IsPerformingAbility && (isGrabbed || isPushed))
         {
-            ToggleBehaviors(false); // Ensure behaviors remain disabled while performing ability and being grabbed/pushed
-            StopAllCoroutines(); // Stop current ability coroutine to prevent conflicts
-             _currentStateCoroutine = null;
-             Debug.Log("Ability interrupted by grab/push. Stopping ability and waiting for release.");
+            ToggleBehaviors(false);
+            _abilities.InterruptAbility();
         }
+
         if (slider.value != _lastHealthValue)
         {
             _lastHealthValue = slider.value;
             CheckHealthState();
         }
-
     }
 
     public override void BaseAttack()
     {
-        if (abilitiesEnabled) {CheckState(CurrentRockyState); }
-        
+        if (abilitiesEnabled && _abilities != null)
+        {
+            _abilities.CheckState(_abilities.CurrentRockyState);
+        }
     }
     public void CheckHealthState()
     {
-        switch (_lastHealthValue)
+        if (_lastHealthValue == 1f && !_healthhasDecreased && _currentPhase <3)
         {
-            case 6:
-                Debug.Log("regular");
-                QTESystemScript.SetDifficulty(20, 20f,500f);
-                QTESystemScript.TimerRate = 1f;
-                break;
-            case 4:
-                Debug.Log("getting challenging");
-                QTESystemScript.SetDifficulty(30, 20f, 1500f );
-                QTESystemScript.TimerRate = 2f;
-                break;
-            case 2:
-                Debug.Log("getting challenging");
-              QTESystemScript.SetDifficulty(30, 20f, 2000f);
-               QTESystemScript.TimerRate = 2.5f;
-                break;
-            case 1:
-                Debug.Log("maximum difficulty");
-                QTESystemScript.SetDifficulty(30, 20f,3000f);
-                QTESystemScript.TimerRate = 3.5f;
-                break;
-            case 0:
-                RockyRhodesHealthBarUI.SetActive(false);
-                this.gameObject.SetActive(false);
-                inGameMenuManager.WinScreen();
-                break;
+            _healthhasDecreased = true; // set flag to prevent multiple triggers
+            float NextPhaseHealth = _currentPhase == 1f ? phase2Health : phase3Health; // determine next phase health based on current phase
+            StartCoroutine(HealAndJump(NextPhaseHealth)); // heal 3 health and jump to next platform when health hits 1
+        }
+        else if(_lastHealthValue <= 0f && _currentPhase>=3)
+        {
+            Dead();
+            return;
         }
     }
-    public void CheckState(RockyRhodesStates states)
+    private void CurrentPhaseMode()
     {
-        if (_currentStateCoroutine != null)
+        switch(_currentPhase)
         {
-            StopCoroutine(_currentStateCoroutine);
-            _currentStateCoroutine = null;
-        }
-        CurrentRockyState = states;
-        switch (states)
-        {
-            case RockyRhodesStates.Regular:
-             _currentStateCoroutine =  StartCoroutine(Regular());
+            case 1:
+                Debug.Log("regular mode");
+                QTESystemScript.SetDifficulty(20, 20f, 500f);
+                QTESystemScript.TimerRate = 1f;
                 break;
-            case RockyRhodesStates.BoulderEruption:
-             _currentStateCoroutine =  StartCoroutine(BoulderEruption());
+            case 2:
+                Debug.Log("Medium mode");
+                QTESystemScript.SetDifficulty(30, 20f, 1500f);
+                QTESystemScript.TimerRate = 1f;
                 break;
-            case RockyRhodesStates.BullRock:
-             _currentStateCoroutine = StartCoroutine(BullRock());
+            case 3:
+                Debug.Log("Intense mode");
+                QTESystemScript.SetDifficulty(35, 15f, 2000f);
+                QTESystemScript.TimerRate = 1f;
                 break;
         }
      }
 
-    public IEnumerator Regular()
-    {  
-        Debug.Log("Regular State Active");
-        // Wait for cooldown
-        yield return new WaitForSeconds(AbilityCooldown);
-        int randomIndex = Random.Range(0, _RandomSelection.Count);
-        CurrentRockyState = _RandomSelection[randomIndex];
-        CheckState(CurrentRockyState);
-        yield return null;
-    }
-    public IEnumerator BoulderEruption()
+
+    private IEnumerator HealAndJump(float healthAmount)
     {
-
-        // Vector3 toTarget = _homingTarget.position - transform.position; // include vertical
-       //  dashForce = transform.forward; 
-        IsPerformingAbility = true; // Prevent EnemyBase from re-enabling agent
-        ToggleBehaviors(false); // Disable AI behaviors and NavMesh
-        IgnoreGroundCheck = true; // Prevent ground check interference during ability
-
-        // --- lock to player logic -- // 
-        Vector3 toTarget = (PlayerTarget.position - transform.position);
-         toTarget.y = 0f; // Ignore vertical difference for horizontal movement
-        //toTarget.x = 0f;
-        toTarget.Normalize();
-        rb.AddForce((Vector3.up * jumpForce*1f) + (Vector3.forward+ toTarget*20f ), ForceMode.Impulse);
-        // --- lock to player logic -- //
-
-       yield return new WaitForSeconds(0.5f); // Short delay before allowing ground check to prevent early reset
-                                              
-        IgnoreGroundCheck = false; // enable ground check after initial jump to allow proper landing detection
-        while ( !IsEnemyGrounded() && IsPerformingAbility)
-        {
-            // PAUSE: Wait while grabbed or pushed
-            if (!isGrabbed && !isPushed)
-            {
-                Debug.Log("Boulder Eruption -in motion.");
-                RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
-
-            }
-            
-            yield return null;
-        }
-      
-        RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
-        while (isGrabbed && isPushed)
-        {
-            yield return null;
-        }
-        yield return new WaitForSeconds(AbilityCooldown);
-
-
-       
-
-        // Re-enable everything
-        Debug.Log("TOGGLING ---------------- BEHAVIORS-------------.");
-        ToggleBehaviors(true);
-        IsPerformingAbility = false; // Allow EnemyBase to control agent again
-        CheckState(RockyRhodesStates.Regular);
+        yield return StartCoroutine(JumpToPlatform()); // waits for couroutine to finish before starting regeneration, ensuring Rocky is on the new platform
+        _currentPhase++;
+       Applyhealth(healthAmount);
+        CurrentPhaseMode();
+        _healthhasDecreased = false; // reset flag for next health check
+        CheckHealthState();
     }
-
-    public IEnumerator BullRock()
+    private void Applyhealth(float value)
     {
-        IsPerformingAbility = true;
-        ToggleBehaviors(false);
-        IgnoreGroundCheck = true; // Prevent ground check interference during ability
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
-
-        //  rb.angularVelocity = new Vector3(0f, 90f, 0f) * 5f * Time.fixedDeltaTime;
-        yield return new WaitForSeconds(0.5f); // Short delay before allowing ground check to prevent early reset
-
-        IgnoreGroundCheck = false; // enable ground check after initial jump to allow proper landing detection
-
-        while (!IsEnemyGrounded() && IsPerformingAbility)
-        {
-            // PAUSE: Wait while grabbed or pushed
-            if (!isGrabbed && !isPushed)
-            {
-                Debug.Log("Bull rock -in motion.");
-                RockyRhodesMesh.Rotate(Vector3.up * 1400f * Time.deltaTime, Space.World);
-
-            }
-            
-            yield return null;
-        }
-
-        RockyRhodesMesh.localRotation = originalMeshRotation; // Reset mesh rotation after ability
-        while (isGrabbed && isPushed)
-        {
-            yield return null;
-        }
-        yield return new WaitForSeconds(AbilityCooldown);
- 
-        Debug.Log("TOGGLING ---------------- BEHAVIORS-------------.");
-        ToggleBehaviors(true);
-        IsPerformingAbility = false;
-        CheckState(RockyRhodesStates.Regular);
+        slider.maxValue = Mathf.Max(slider.maxValue, value);
+        slider.value = value;
+        _lastHealthValue = slider.value;
     }
- 
     public void Dead()
     {
                Debug.Log("Rocky Rhodes is Dead");
+        RockyRhodesHealthBarUI.SetActive(false);
+        this.gameObject.SetActive(false);
     }
     public void ToggleBehaviors( bool IsEnabled)
     {
@@ -275,7 +174,7 @@ public class RockyRhodes : EnemyBase
     public IEnumerator JumpToPlatform()
     {
         isJumping = true;
-
+        _lastHealthValue += 3f;
         // Pick the next point in the list, wrapping around
         Transform targetPoint = JumpPoints[_currentJumpIndex];
         _currentJumpIndex = (_currentJumpIndex + 1) % JumpPoints.Count;
@@ -333,17 +232,20 @@ public class RockyRhodes : EnemyBase
         agent.enabled = true;
 
         // Cooldown before the next jump
-        yield return new WaitForSeconds(jumpPatrolCooldown);
+      //  yield return new WaitForSeconds(jumpPatrolCooldown);
 
         isJumping = false;
+        
     }
-    public override void RandomPatrolDestination()
+
+    // rocky rhodes begines its jumping here
+  /*  public override void RandomPatrolDestination()
     {
         if (isJumping) return; // already mid-jump or in cooldown, wait
         if (JumpPoints == null || JumpPoints.Count == 0) return;
         if (QTESystemScript.EnableQuickTimeEvent) return; // QTE is active, don't jump away
         StartCoroutine(JumpToPlatform());    
-    }
+    }*/
 
     public void JumpAway()
     {

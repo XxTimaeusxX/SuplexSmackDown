@@ -208,7 +208,7 @@ public class QTESystem : MonoBehaviour
                     // RhockyRhodes.TakeDamage();
                     CinemaComponent.EndRockyPanIn();
                     RockyRhodesScript.slider.value -= 1;
-                    RockyRhodesScript.JumpAway();
+                //    RockyRhodesScript.JumpAway();
                     StopQTE(); // Clean up UI and re-enable abilities
                     yield break; // Exit the coroutine
                 }
@@ -223,7 +223,7 @@ public class QTESystem : MonoBehaviour
         timerText.text = "failed";
         PlayerHealth.TakeDamage();
         CinemaComponent.EndRockyPanIn();
-        RockyRhodesScript.JumpAway();
+    //    RockyRhodesScript.JumpAway();
         StopQTE(); // Clean up UI and re-enable abilities
     }
 
@@ -261,7 +261,7 @@ public class QTESystem : MonoBehaviour
                     Debug.Log("Success!");
                     timerText.text = "success";
                     RockyRhodesScript.slider.value -= 1;
-                    RockyRhodesScript.JumpAway();
+                //    RockyRhodesScript.JumpAway();
                     StopQTE();
                     yield break;
                 }
@@ -270,7 +270,7 @@ public class QTESystem : MonoBehaviour
                     Debug.Log("Failed!");
                     timerText.text = "failed";
                     PlayerHealth.TakeDamage();
-                    RockyRhodesScript.JumpAway();
+                //    RockyRhodesScript.JumpAway();
                     StopQTE();
                     yield break;
                 }
@@ -285,7 +285,7 @@ public class QTESystem : MonoBehaviour
         Debug.Log("Timing Slider QTE Failed! Time ran out.");
         timerText.text = "failed";
         PlayerHealth.TakeDamage();
-        RockyRhodesScript.JumpAway();
+      //  RockyRhodesScript.JumpAway();
         StopQTE();
     }
 
