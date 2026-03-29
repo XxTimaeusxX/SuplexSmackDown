@@ -1,0 +1,47 @@
+using UnityEngine;
+
+public class QteCollideSensor : MonoBehaviour
+{
+    private string _playerTag = "Player";
+    private int _playerOverlapCount = 0;
+
+    // Drag the main RockyRhodes script (or QTESystem) into this slot in the inspector
+    public QTESystem qteSystemScript;
+    public Collider QTETriggerCollider;
+    public RhockyAbilities rockyAbilitiesScript;
+    void Start()
+    {
+        QTETriggerCollider.enabled = false;
+       
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(_playerTag))
+        {
+            _playerOverlapCount++;
+            if (_playerOverlapCount == 1)
+            {
+                Debug.Log("Player entered Boulder Eruption area (Child Trigger)!");
+                rockyAbilitiesScript.CheckState(RockyRhodesStates.QTEMode);
+                qteSystemScript.EnableQuickTimeEvent = true;
+                qteSystemScript.StartQTE();
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag(_playerTag))
+        {
+            _playerOverlapCount--;
+            if (_playerOverlapCount < 0) _playerOverlapCount = 0;
+
+            if (_playerOverlapCount == 0)
+            {
+                Debug.Log("Player exited Boulder Eruption area (Child Trigger).");
+                qteSystemScript.EnableQuickTimeEvent = false;
+                qteSystemScript.StopQTE();
+            }
+        }
+    }
+}

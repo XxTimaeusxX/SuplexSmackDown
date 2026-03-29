@@ -15,8 +15,10 @@ using UnityEngine.UI;
 public enum RockyRhodesStates
 {
     Regular,
-    BoulderEruption,
-    BullRock,
+    CannonBall,
+    BullRush,
+    Haymaker,
+    QTEMode,
     Dead,
 }
 
@@ -29,22 +31,14 @@ public class RockyRhodes : EnemyBase
     [Header("Rocky Rhodes Settings")]
     // runtime toggles
     [SerializeField] private InGameMenuManager inGameMenuManager;
-    private bool abilitiesEnabled = false; // when true the state machine runs
+    public bool abilitiesEnabled = false; // when true the state machine runs
     private RhockyAbilities _abilities;
-    private float _lastHealthValue;
-    private bool _healthhasDecreased = false; // flag to track if health has decreased since last check
-    private float _currentPhase = 1f;
-
-    [Header("Phase Health")]
-    [SerializeField] private float phase1Health = 4f;
-    [SerializeField] private float phase2Health = 5f;
-    [SerializeField] private float phase3Health = 6f;
 
     [Header("Visual References")]
     public Transform RockyRhodesMesh;
     public Quaternion originalMeshRotation;
     public GameObject RockyRhodesHealthBarUI;
-    public Slider slider;
+   
 
  
 
@@ -57,24 +51,16 @@ public class RockyRhodes : EnemyBase
     public List<Transform> JumpPoints = new List<Transform>();
 
     [Header("QTE trigger")]
-    [SerializeField] QTESystem QTESystemScript;
-    public Collider QTETriggerCollider;
+    public  QTESystem QTESystemScript;
     private string _playerTag = "Player";
-
+    private int _PlayerOverLapCount = 0; // track how many colliders of the player are overlapping the QTE trigger
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     new  void Start()
     {
         base.Start();
-        QTETriggerCollider.isTrigger = true;
         if (QTESystemScript == null) QTESystemScript = GetComponent<QTESystem>();
         if (_abilities == null) _abilities = GetComponent<RhockyAbilities>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
-
-        _lastHealthValue = slider.value;
-        Applyhealth(phase1Health);
-        CurrentPhaseMode();
-        CheckHealthState();
-        _healthhasDecreased = false;
     }
 
     // Update is called once per frame
@@ -84,74 +70,29 @@ public class RockyRhodes : EnemyBase
         if (_abilities != null && _abilities.IsPerformingAbility && (isGrabbed || isPushed))
         {
             ToggleBehaviors(false);
-            _abilities.InterruptAbility();
-        }
-
-        if (slider.value != _lastHealthValue)
-        {
-            _lastHealthValue = slider.value;
-            CheckHealthState();
+           // _abilities.InterruptAbility();
         }
     }
 
-    public override void BaseAttack()
+    protected override void CustomAttack()
     {
-        if (abilitiesEnabled && _abilities != null)
+        if (abilitiesEnabled && !QTESystemScript.EnableQuickTimeEvent)
         {
-            _abilities.CheckState(_abilities.CurrentRockyState);
+            Debug.Log("sssssssssssssssssssssssss");
+            // Only enforce the current state if he's NOT in QTE mode
+          
+                _abilities.CheckState(_abilities.CurrentRockyState);
+            
         }
-    }
-    public void CheckHealthState()
-    {
-        if (_lastHealthValue == 1f && !_healthhasDecreased && _currentPhase <3)
+        else if (QTESystemScript.EnableQuickTimeEvent) // Make sure this else-if is here!
         {
-            _healthhasDecreased = true; // set flag to prevent multiple triggers
-            float NextPhaseHealth = _currentPhase == 1f ? phase2Health : phase3Health; // determine next phase health based on current phase
-            StartCoroutine(HealAndJump(NextPhaseHealth)); // heal 3 health and jump to next platform when health hits 1
+            if (_abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
+            {
+                Debug.Log("Forcing Rocky into QTE Mode state.");
+                _abilities.IsPerformingAbility = false;
+                _abilities.CheckState(RockyRhodesStates.QTEMode);
+            }
         }
-        else if(_lastHealthValue <= 0f && _currentPhase>=3)
-        {
-            Dead();
-            return;
-        }
-    }
-    private void CurrentPhaseMode()
-    {
-        switch(_currentPhase)
-        {
-            case 1:
-                Debug.Log("regular mode");
-                QTESystemScript.SetDifficulty(20, 20f, 500f);
-                QTESystemScript.TimerRate = 1f;
-                break;
-            case 2:
-                Debug.Log("Medium mode");
-                QTESystemScript.SetDifficulty(30, 20f, 1500f);
-                QTESystemScript.TimerRate = 1f;
-                break;
-            case 3:
-                Debug.Log("Intense mode");
-                QTESystemScript.SetDifficulty(35, 15f, 2000f);
-                QTESystemScript.TimerRate = 1f;
-                break;
-        }
-     }
-
-
-    private IEnumerator HealAndJump(float healthAmount)
-    {
-        yield return StartCoroutine(JumpToPlatform()); // waits for couroutine to finish before starting regeneration, ensuring Rocky is on the new platform
-        _currentPhase++;
-       Applyhealth(healthAmount);
-        CurrentPhaseMode();
-        _healthhasDecreased = false; // reset flag for next health check
-        CheckHealthState();
-    }
-    private void Applyhealth(float value)
-    {
-        slider.maxValue = Mathf.Max(slider.maxValue, value);
-        slider.value = value;
-        _lastHealthValue = slider.value;
     }
     public void Dead()
     {
@@ -174,7 +115,6 @@ public class RockyRhodes : EnemyBase
     public IEnumerator JumpToPlatform()
     {
         isJumping = true;
-        _lastHealthValue += 3f;
         // Pick the next point in the list, wrapping around
         Transform targetPoint = JumpPoints[_currentJumpIndex];
         _currentJumpIndex = (_currentJumpIndex + 1) % JumpPoints.Count;
@@ -255,24 +195,11 @@ public class RockyRhodes : EnemyBase
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag(_playerTag) )
-        {
-            Debug.Log("Player hit by Boulder Eruption!");
-           QTESystemScript.EnableQuickTimeEvent = true;
-                QTESystemScript.StartQTE();
-            
-         
-        }
+       //if doing abilities player take damage
     }
     private void OnTriggerExit(Collider other)
     {
-        if(other.CompareTag(_playerTag) )
-        {
-            Debug.Log("Player exited Boulder Eruption area.");
-         QTESystemScript.EnableQuickTimeEvent = false;
-         QTESystemScript.StopQTE();
-          
-          
-        }
+
     }
+   
 }
