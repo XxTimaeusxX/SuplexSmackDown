@@ -125,7 +125,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 5785751019512489216}
     m_Modifications:
     - target: {fileID: 34789255962076150, guid: d0004e6e4285c6841bbace703c39494c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -228,6 +228,10 @@ PrefabInstance:
     - target: {fileID: 963849876440050012, guid: d0004e6e4285c6841bbace703c39494c, type: 3}
       propertyPath: m_Name
       value: RhockyRhodesHealth
+      objectReference: {fileID: 0}
+    - target: {fileID: 963849876440050012, guid: d0004e6e4285c6841bbace703c39494c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1112890045602103633, guid: d0004e6e4285c6841bbace703c39494c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -4677,6 +4681,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 963849876440050012, guid: d0004e6e4285c6841bbace703c39494c, type: 3}
   m_PrefabInstance: {fileID: 21055821}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &1442568581 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 572329706790675479, guid: d0004e6e4285c6841bbace703c39494c, type: 3}
+  m_PrefabInstance: {fileID: 21055821}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1448051524
 GameObject:
   m_ObjectHideFlags: 0
@@ -6094,7 +6103,7 @@ MonoBehaviour:
   ButtonMashbarSlider: {fileID: 247378488}
   CinemaComponent: {fileID: 358145551}
   PlayerHealth: {fileID: 1746245455}
-  RockyRhodesScript: {fileID: 8985381124412353163}
+  RhockyHealth: {fileID: 8985381124412353165}
   playerSuplex: {fileID: 1746245466}
   playerDash: {fileID: 1746245467}
   qteInputActions:
@@ -6636,8 +6645,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1989905578}
   - component: {fileID: 1989905579}
+  - component: {fileID: 1989905580}
   m_Layer: 8
-  m_Name: CinemaTriggerCollider
+  m_Name: QteBoxTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6679,6 +6689,21 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4.424204, y: 1.82, z: 3.9427884}
   m_Center: {x: -0.2809221, y: -0.11999997, z: 0.6911044}
+--- !u!114 &1989905580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989905577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04ea8da3d89a00741b0aa90800e8f318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QteCollideSensor
+  qteSystemScript: {fileID: 1782493006}
+  QTETriggerCollider: {fileID: 1989905579}
+  rockyAbilitiesScript: {fileID: 8985381124412353164}
 --- !u!1001 &1991245741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6804,6 +6829,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 940a57fadb88d3f4f9f9181e64acff7d, type: 3}
+--- !u!1001 &2022206223
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1959777578656107485, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: jumpforce
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1959777578656107485, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: ghostDancer
+      value: 
+      objectReference: {fileID: 1042164631}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -41.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 7.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 35.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2380750131732626114, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_Name
+      value: MariGold Petals (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7628872413022130178, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
+      propertyPath: m_TagString
+      value: Flower
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 74446af341cf32547905d2b3a7549e66, type: 3}
 --- !u!4 &2053909951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1811525581774194839, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
@@ -7329,7 +7427,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 48
   m_CollisionDetection: 2
 --- !u!4 &296623511035782891
 Transform:
@@ -9207,6 +9305,7 @@ Transform:
   - {fileID: 1989905578}
   - {fileID: 1811997902}
   - {fileID: 927522606}
+  - {fileID: 1442568581}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5815586475082254320
@@ -10292,6 +10391,7 @@ GameObject:
   - component: {fileID: 5981510028302032743}
   - component: {fileID: 8985381124412353163}
   - component: {fileID: 8985381124412353164}
+  - component: {fileID: 8985381124412353165}
   m_Layer: 8
   m_Name: RockyRhodes
   m_TagString: Untagged
@@ -10334,34 +10434,29 @@ MonoBehaviour:
   chargeSlider: {fileID: 0}
   enemyHealth: {fileID: 0}
   enemyHealthScreen: {fileID: 0}
-  chaseRange: 10
+  chaseRange: 31.8
   patrolWalkSpeed: 3
   patrolWaitTime: 2
   patrolRunSpeed: 3
   patrolWaitDefault: 2
-  meleeRange: 6.39
+  meleeRange: 30.2
   attackCooldown: 0.8
   _nextAttackTime: 0
   slapbox: {fileID: 0}
   slapActiveTime: 0.1
   inGameMenuManager: {fileID: 0}
-  phase1Health: 4
-  phase2Health: 5
-  phase3Health: 6
+  abilitiesEnabled: 1
   RockyRhodesMesh: {fileID: 1811997902}
   originalMeshRotation: {x: 0, y: 0, z: 0, w: 0}
   RockyRhodesHealthBarUI: {fileID: 1442568580}
-  slider: {fileID: 1782728780}
   jumpPatrolForce: 40
   jumpPatrolHorizontalForce: 62.7
   jumpPatrolCooldown: 5
   isJumping: 0
   JumpPoints:
-  - {fileID: 1285389193}
   - {fileID: 846618704}
   - {fileID: 1306542330}
   QTESystemScript: {fileID: 1782493006}
-  QTETriggerCollider: {fileID: 1989905579}
 --- !u!114 &8985381124412353164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10374,10 +10469,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e850e88aaf04424d9259fd1d92f7b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RhockyAbilities
-  AbilityCooldown: 5
-  jumpForce: 55
+  AbilityCooldown: 4
+  jumpForce: 20
+  bullRushSpeed: 40
+  bullRushDuration: 0.6
   IsPerformingAbility: 0
   PlayerTarget: {fileID: 471682383}
+  CurrentRockyState: 0
+  _randomSelection: 0100000002000000
+  qteCollideSensorScript: {fileID: 1989905580}
+--- !u!114 &8985381124412353165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985381124412353162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dc99ddbd170dd04c83389f4027dbdd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RhockyHealth
+  phase1Health: 4
+  phase2Health: 5
+  phase3Health: 6
+  HealthSlider: {fileID: 1782728780}
 --- !u!1 &9207498249536304586
 GameObject:
   m_ObjectHideFlags: 0
@@ -10435,6 +10551,7 @@ SceneRoots:
   - {fileID: 1991245741}
   - {fileID: 2862059971777482167}
   - {fileID: 1296500006}
+  - {fileID: 2022206223}
   - {fileID: 1125365034}
   - {fileID: 1309714655}
   - {fileID: 403156116}
@@ -10443,4 +10560,3 @@ SceneRoots:
   - {fileID: 742507591156339546}
   - {fileID: 1782493007}
   - {fileID: 1432418382}
-  - {fileID: 21055821}
