@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class RockyRhodesManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class RockyRhodesManager : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     public GameObject player;
     [HideInInspector] public NavMeshAgent agent;
+    public Slider healthSlider;
 
     public float moveSpeed;
 
@@ -18,6 +20,9 @@ public class RockyRhodesManager : MonoBehaviour
     public float chargeDuration;
     public Transform[] ropeRushStartPoints;
     public float interactionDistance;
+
+    [Header("Arenas")]
+    public bool open;
 
     [Header("Flags")]
     public bool canPerformAction = true;
@@ -38,5 +43,14 @@ public class RockyRhodesManager : MonoBehaviour
     private void Update()
     {
         attacks.StartRopeRush();
+        OpenArenas();
+    }
+
+    private void OpenArenas()
+    {
+        if (healthSlider.value <= 0)
+        {
+            open = true;
+        }
     }
 }
