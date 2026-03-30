@@ -8,11 +8,12 @@ public class OpenArena : MonoBehaviour
     public bool rightSide;
     public float openTime;
     public float moveSpeed;
+    public bool arena1, arena2;
 
     private void Update()
     {
-        LeftSideOpen();
-        RightSideOpen();
+        Arena1();
+        Arena2();
     }
 
     private void LeftSideOpen()
@@ -21,8 +22,16 @@ public class OpenArena : MonoBehaviour
         {
             if (manager.open)
             {
-                openTime -= Time.deltaTime;
-                transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+                if (arena1)
+                {
+                    openTime -= Time.deltaTime;
+                    transform.Translate(Vector3.left * moveSpeed * Time.deltaTime);
+                }
+                if (arena2)
+                {
+                    openTime -= Time.deltaTime;
+                    transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
+                }
             }
         }
         if (openTime <= 0)
@@ -37,13 +46,39 @@ public class OpenArena : MonoBehaviour
         {
             if (manager.open)
             {
-                openTime -= Time.deltaTime;
-                transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+                if (arena1)
+                {
+                    openTime -= Time.deltaTime;
+                    transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+                }
+                if (arena2)
+                {
+                    openTime -= Time.deltaTime;
+                    transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
+                }
             }
         }
         if (openTime <= 0)
         {
             manager.open = false;
+        }
+    }
+
+    private void Arena1()
+    {
+        if (arena1 && manager.arena1)
+        {
+            LeftSideOpen();
+            RightSideOpen();
+        }
+    }
+
+    private void Arena2()
+    {
+        if (arena2 && manager.arena2)
+        {
+            LeftSideOpen();
+            RightSideOpen();
         }
     }
 }

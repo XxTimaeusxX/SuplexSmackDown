@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -23,6 +24,7 @@ public class RockyRhodesManager : MonoBehaviour
 
     [Header("Arenas")]
     public bool open;
+    public bool arena1, arena2, arena3;
 
     [Header("Flags")]
     public bool canPerformAction = true;
@@ -51,6 +53,18 @@ public class RockyRhodesManager : MonoBehaviour
         if (healthSlider.value <= 0)
         {
             open = true;
+            healthSlider.value = 6;
+            StartCoroutine(ChangeArena(3f));
+        }
+    }
+
+    private IEnumerator ChangeArena(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (arena1)
+        {
+            arena1 = false;
+            arena2 = true;
         }
     }
 }
