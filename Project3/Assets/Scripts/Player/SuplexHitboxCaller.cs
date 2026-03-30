@@ -21,7 +21,7 @@ public class SuplexHitboxCaller : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
-        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") || other.CompareTag("Solid") || other.CompareTag("GhostDancer") && playerSuplex != null)
+        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") || other.CompareTag("Solid") || other.CompareTag("GhostDancer") || other.CompareTag("Stunned Rocky") && playerSuplex != null)
         {
            //  Debug.Log("hitboxcollider called");
             if (other.CompareTag("Drone"))

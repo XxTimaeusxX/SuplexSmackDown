@@ -16,7 +16,7 @@ public class RockyRhodesManager : MonoBehaviour
 
     [Header("Rope Rush")]
     public int numberOfCharges;
-    [HideInInspector] public int chargesRemaining;
+    private int maxCharges;
     public float rushForce;
     public float chargeDuration;
     public Transform[] ropeRushStartPoints;
@@ -39,12 +39,18 @@ public class RockyRhodesManager : MonoBehaviour
 
     private void Start()
     {
+        maxCharges = numberOfCharges;
         agent.speed = moveSpeed;
     }
 
     private void Update()
     {
         attacks.StartRopeRush();
+
+        if (numberOfCharges == 0 && attacks.collided)
+        {
+            Stunned();
+        }
         OpenArenas();
     }
 
@@ -66,5 +72,10 @@ public class RockyRhodesManager : MonoBehaviour
             arena1 = false;
             arena2 = true;
         }
+    }
+
+    public void Stunned()
+    {
+        gameObject.tag = "Stunned Rocky";
     }
 }

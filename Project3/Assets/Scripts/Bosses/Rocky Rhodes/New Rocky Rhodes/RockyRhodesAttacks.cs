@@ -8,6 +8,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 {
     RockyRhodesManager manager;
     Transform chosenPoint;
+    public bool collided;
 
     private void Awake()
     {
@@ -49,6 +50,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void RopeRush()
     {
+        collided = false;
         Vector3 directionToPlayer = (manager.player.transform.position - transform.position).normalized;
         Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, manager.player.transform.position) * manager.rushForce);
         targetPosition.y = transform.position.y;
@@ -61,7 +63,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         float startTime = Time.time;
         Vector3 startPos = transform.position;
-        while (Time.time < startTime + manager.chargeDuration)
+        while (!collided)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, manager.rushForce * Time.deltaTime);
             yield return null;
@@ -100,6 +102,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Rope")) {
+            collided = true;
             manager.canPerformAction = true;
             if (manager.numberOfCharges > 0)
             {
