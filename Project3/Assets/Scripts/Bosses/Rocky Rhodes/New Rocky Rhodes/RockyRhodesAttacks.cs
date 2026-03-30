@@ -17,7 +17,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     #region Rope Rush
     public void StartRopeRush()
     {
-        if (manager.ropeRush)
+        if (manager.ropeRush && manager.canPerformAction)
         {
             ReadyRopeRush();
         }
@@ -25,16 +25,14 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void ReadyRopeRush()
     {
+        manager.canPerformAction = false;
+        manager.numberOfCharges -= 1;
         ChooseRandomPoint();
         Vector3 direction = (chosenPoint.position - transform.position).normalized;
         Vector3 targetPosition = transform.position + direction * (Vector3.Distance(transform.position, chosenPoint.position) * manager.moveSpeed);
         targetPosition.y = transform.position.y;
         Vector3 targetLookAt = new Vector3(chosenPoint.position.x, transform.position.y, chosenPoint.position.z);
         transform.LookAt(targetLookAt);
-        if (!manager.canPerformAction)
-        {
-            return;
-        }
         StartCoroutine(MoveToPoint());
     }
 
@@ -56,18 +54,11 @@ public class RockyRhodesAttacks : MonoBehaviour
         targetPosition.y = transform.position.y;
         Vector3 targetLookAt = new Vector3(manager.player.transform.position.x, transform.position.y, manager.player.transform.position.z);
         transform.LookAt(targetLookAt);
-        if (!manager.canPerformAction)
-        {
-            return;
-        }
         StartCoroutine(RushCoroutine(targetPosition));
     }
 
     private IEnumerator RushCoroutine(Vector3 target)
     {
-        manager.ropeRush = false;
-        manager.canPerformAction = false;
-        StartCoroutine(ReEnableCanPerformAction(manager.rushCooldown));
         float startTime = Time.time;
         Vector3 startPos = transform.position;
         while (Time.time < startTime + manager.chargeDuration)
@@ -104,5 +95,16 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         manager.canPerformAction = true;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Rope")) {
+            manager.canPerformAction = true;
+            if (manager.numberOfCharges > 0)
+            {
+                manager.ropeRush = true;
+            }
+        }
     }
 }

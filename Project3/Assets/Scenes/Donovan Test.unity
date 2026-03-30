@@ -20857,7 +20857,7 @@ GameObject:
   - component: {fileID: 146676193}
   m_Layer: 0
   m_Name: Cylinder (1)
-  m_TagString: Untagged
+  m_TagString: Rope
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -202030,13 +202030,10 @@ MonoBehaviour:
   slapbox: {fileID: 0}
   slapActiveTime: 0.1
   inGameMenuManager: {fileID: 1970712135}
-  phase1Health: 4
-  phase2Health: 5
-  phase3Health: 6
+  abilitiesEnabled: 0
   RockyRhodesMesh: {fileID: 229884541}
   originalMeshRotation: {x: 0, y: 0, z: 0, w: 0}
   RockyRhodesHealthBarUI: {fileID: 1577831931}
-  slider: {fileID: 645619778}
   jumpPatrolForce: 70
   jumpPatrolHorizontalForce: 62.7
   jumpPatrolCooldown: 5
@@ -202046,7 +202043,6 @@ MonoBehaviour:
   - {fileID: 448871715}
   - {fileID: 1876524206}
   QTESystemScript: {fileID: 1317643428}
-  QTETriggerCollider: {fileID: 2056261591}
 --- !u!95 &550007404
 Animator:
   serializedVersion: 7
@@ -207070,7 +207066,7 @@ GameObject:
   - component: {fileID: 601171880}
   m_Layer: 0
   m_Name: Cylinder (10)
-  m_TagString: Untagged
+  m_TagString: Rope
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -212637,7 +212633,11 @@ PrefabInstance:
       objectReference: {fileID: 1440337000}
     - target: {fileID: 1632921600831666798, guid: a1ff906d75270c44f97b2d3bcd411c77, type: 3}
       propertyPath: moveSpeed
-      value: 5
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1632921600831666798, guid: a1ff906d75270c44f97b2d3bcd411c77, type: 3}
+      propertyPath: rushForce
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1632921600831666798, guid: a1ff906d75270c44f97b2d3bcd411c77, type: 3}
       propertyPath: interactionDistance
@@ -215168,17 +215168,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!114 &645619778 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3890710337477189745, guid: d0004e6e4285c6841bbace703c39494c, type: 3}
-  m_PrefabInstance: {fileID: 1577831930}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &650717324
 GameObject:
   m_ObjectHideFlags: 0
@@ -310260,7 +310249,7 @@ MonoBehaviour:
   ButtonMashbarSlider: {fileID: 2079879349}
   CinemaComponent: {fileID: 924073908}
   PlayerHealth: {fileID: 1440336999}
-  RockyRhodesScript: {fileID: 550007403}
+  RhockyHealth: {fileID: 0}
   playerSuplex: {fileID: 1440336998}
   playerDash: {fileID: 1501161578}
   qteInputActions:
@@ -324551,7 +324540,7 @@ GameObject:
   - component: {fileID: 1414229823}
   m_Layer: 0
   m_Name: Cylinder (5)
-  m_TagString: Untagged
+  m_TagString: Rope
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342621,7 +342610,7 @@ GameObject:
   - component: {fileID: 1536253690}
   m_Layer: 0
   m_Name: Cylinder (13)
-  m_TagString: Untagged
+  m_TagString: Rope
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -355034,7 +355023,7 @@ GameObject:
   - component: {fileID: 1625615608}
   m_Layer: 0
   m_Name: Cylinder (06)
-  m_TagString: Untagged
+  m_TagString: Rope
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -387677,7 +387666,7 @@ GameObject:
   - component: {fileID: 1885723803}
   m_Layer: 0
   m_Name: Cylinder (7)
-  m_TagString: Untagged
+  m_TagString: Rope
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -423643,7 +423632,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1135314534819478848, guid: ce4593cef187fcf46ac161ae6c92e045, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.97
+      value: -15.77
       objectReference: {fileID: 0}
     - target: {fileID: 3825233153113003445, guid: ce4593cef187fcf46ac161ae6c92e045, type: 3}
       propertyPath: m_Name
@@ -423651,7 +423640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4425224026316770718, guid: ce4593cef187fcf46ac161ae6c92e045, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.14
+      value: 3.51
       objectReference: {fileID: 0}
     - target: {fileID: 4652428472939455698, guid: ce4593cef187fcf46ac161ae6c92e045, type: 3}
       propertyPath: m_LocalPosition.x
@@ -423695,11 +423684,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5685116823344397313, guid: ce4593cef187fcf46ac161ae6c92e045, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 766.23
+      value: 768.75
       objectReference: {fileID: 0}
     - target: {fileID: 6153853949373911365, guid: ce4593cef187fcf46ac161ae6c92e045, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 756.48
+      value: 750.86
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

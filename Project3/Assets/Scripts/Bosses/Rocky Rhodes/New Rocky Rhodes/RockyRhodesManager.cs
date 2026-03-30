@@ -14,7 +14,6 @@ public class RockyRhodesManager : MonoBehaviour
     [Header("Rope Rush")]
     public int numberOfCharges;
     [HideInInspector] public int chargesRemaining;
-    public float rushCooldown;
     public float rushForce;
     public float chargeDuration;
     public Transform[] ropeRushStartPoints;
