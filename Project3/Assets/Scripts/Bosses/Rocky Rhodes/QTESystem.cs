@@ -153,7 +153,7 @@ public class QTESystem : MonoBehaviour
         timerText.text = "";
          ButtonMashbarSlider.value = 0f;
         EnableQuickTimeEvent = false;
-
+        Debug.Log("QTE Stopped and cleaned up.");
 
     }
     private IEnumerator QTERandomizer()

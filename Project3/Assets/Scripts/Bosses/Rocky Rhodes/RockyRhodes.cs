@@ -67,10 +67,10 @@ public class RockyRhodes : EnemyBase
     public override void Update()
     {
         base.Update();
-        if (_abilities != null && _abilities.IsPerformingAbility && (isGrabbed || isPushed))
+        if (_abilities != null && (isGrabbed || isPushed))
         {
             ToggleBehaviors(false);
-           // _abilities.InterruptAbility();
+            _abilities.InterruptAbility(true);
         }
     }
 
@@ -80,9 +80,10 @@ public class RockyRhodes : EnemyBase
         {
             Debug.Log("sssssssssssssssssssssssss");
             // Only enforce the current state if he's NOT in QTE mode
-          
+            if (_abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
+            {
                 _abilities.CheckState(_abilities.CurrentRockyState);
-            
+            }
         }
         else if (QTESystemScript.EnableQuickTimeEvent) // Make sure this else-if is here!
         {
@@ -102,8 +103,9 @@ public class RockyRhodes : EnemyBase
     }
     public void ToggleBehaviors( bool IsEnabled)
     {
+        Debug.Log("Toggling Rocky's behaviors: " + (IsEnabled ? "ENABLED" : "DISABLED"));
         // Disable AI behaviors
-       // canAttack = IsEnabled;
+        canAttack = IsEnabled;
         canChase = IsEnabled;
        // canPatrol = IsEnabled;
 

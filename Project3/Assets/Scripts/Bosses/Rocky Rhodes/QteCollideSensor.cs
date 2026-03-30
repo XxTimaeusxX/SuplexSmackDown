@@ -14,6 +14,10 @@ public class QteCollideSensor : MonoBehaviour
         QTETriggerCollider.enabled = false;
        
     }
+    public void ResetOverlap()
+    {
+        _playerOverlapCount = 0;
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(_playerTag))
@@ -29,7 +33,7 @@ public class QteCollideSensor : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+  /*  private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(_playerTag))
         {
@@ -43,5 +47,5 @@ public class QteCollideSensor : MonoBehaviour
                 qteSystemScript.StopQTE();
             }
         }
-    }
+    }*/
 }

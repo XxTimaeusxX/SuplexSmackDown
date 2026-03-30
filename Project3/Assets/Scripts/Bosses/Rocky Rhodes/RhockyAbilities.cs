@@ -88,7 +88,7 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator QTE()
     {
-        InterruptAbility(true); // Interrupt any ongoing ability when entering QTE mode
+      //  InterruptAbility(true); // Interrupt any ongoing ability when entering QTE mode
         qteCollideSensorScript.QTETriggerCollider.enabled = false;
         // Wait until QTE finishes
         while (_rockyRhodes.QTESystemScript != null &&
@@ -99,14 +99,21 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         // Resume normal AI AFTER QTE
-        InterruptAbility(false); // Resume normal AI after QTE ends
+        IsPerformingAbility = false;
+        _rockyRhodes.IgnoreGroundCheck = false;
+        _rockyRhodes.ToggleBehaviors(true); // Ensure his AI is turned back on if it was off
+        Debug.Log("QTE ended, resuming normal AI.");
+       
         CheckState(RockyRhodesStates.Regular);
     }
     // --------------------------------------- Main  abilities ------------------------------------//
     public IEnumerator AbilityChoose()
     {
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("Regular State Active");
         yield return new WaitForSeconds(AbilityCooldown);
+
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         int randomIndex = Random.Range(0, _randomSelection.Count);
         //   CurrentRockyState = _randomSelection[randomIndex];
         CheckState(_randomSelection[randomIndex]);
@@ -114,21 +121,22 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator BullRush()
     {
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("Bull Rush State Active");
         if (PlayerTarget == null) yield break;
 
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-
+        qteCollideSensorScript.ResetOverlap();
         qteCollideSensorScript.QTETriggerCollider.enabled = true; // Enable the QTE trigger collider for the Bull Rush attack
-
-         if ( _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
+        if(qteCollideSensorScript.QTETriggerCollider == true)Debug.Log("QTE Trigger Collider enabled for Bull Rush.");
+        if ( _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
         {
             Debug.Log("Player successfully triggered QTE during Bull Rush! Transitioning to QTE mode.");
-            _rockyRhodes.ToggleBehaviors(false);
             IsPerformingAbility = false;
        qteCollideSensorScript.QTETriggerCollider.enabled = false;
+            CheckState(RockyRhodesStates.QTEMode);
             yield break;
         }
         yield return new WaitForSeconds(5f); // charge-up delay
@@ -158,8 +166,8 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator Haymaker()
     {
-
-        Debug.Log("Bull Rush State Active");
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
+        Debug.Log("HAYMAKER State Active");
         if (PlayerTarget == null) yield break;
 
         IsPerformingAbility = true;
@@ -206,7 +214,8 @@ public class RhockyAbilities : MonoBehaviour
     // --------------------------------------- Arena 2 abilities ------------------------------------//
     public IEnumerator CannonBall()
     {
-        Debug.Log("Cannon Ball State Active");
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
+        Debug.Log("CANNONBALL State Active");
         if (PlayerTarget == null) yield break;
 
         IsPerformingAbility = true;
