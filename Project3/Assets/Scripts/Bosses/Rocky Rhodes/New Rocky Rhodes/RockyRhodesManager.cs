@@ -15,20 +15,28 @@ public class RockyRhodesManager : MonoBehaviour
     public float moveSpeed;
 
     [Header("Rope Rush")]
-    public int numberOfCharges;
-    [HideInInspector] public int chargesRemaining;
-    public float rushForce;
-    public float chargeDuration;
+    public int numberOfRopeRusheCharges;
+    private int maxRopeRushCharges;
+    public float ropeRushForce;
     public Transform[] ropeRushStartPoints;
     public float interactionDistance;
 
+    [Header("Enhanced Rope Rush")]
+    public float enhancedRopeRushForce;
+    public Transform[] enhancedRopeRushStartPoints;
+    public int numberOfEnhancedRopeRusheCharges;
+    private int maxEnhancedRopeRushCharges;
+
     [Header("Arenas")]
-    public bool open;
-    public bool arena1, arena2, arena3;
+    public bool arena1;
+    public bool arena2;
+    public bool arena3;
+    [HideInInspector] public bool open;
 
     [Header("Flags")]
     public bool canPerformAction = true;
     public bool ropeRush;
+    public bool enhancedRopeRush;
 
     private void Awake()
     {
@@ -39,12 +47,24 @@ public class RockyRhodesManager : MonoBehaviour
 
     private void Start()
     {
+        maxRopeRushCharges = numberOfRopeRusheCharges;
+        maxEnhancedRopeRushCharges = numberOfEnhancedRopeRusheCharges;
         agent.speed = moveSpeed;
     }
 
     private void Update()
     {
         attacks.StartRopeRush();
+        attacks.StartEnhancedRopeRush();
+
+        if (numberOfRopeRusheCharges == 0 && attacks.collided)
+        {
+            Stunned();
+        }
+        if (numberOfEnhancedRopeRusheCharges == 0 && attacks.collided)
+        {
+            Stunned();
+        }
         OpenArenas();
     }
 
@@ -66,5 +86,10 @@ public class RockyRhodesManager : MonoBehaviour
             arena1 = false;
             arena2 = true;
         }
+    }
+
+    public void Stunned()
+    {
+        gameObject.tag = "Stunned Rocky";
     }
 }
