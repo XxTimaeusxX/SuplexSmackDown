@@ -42,7 +42,8 @@ public class QTESystem : MonoBehaviour
 
     [Header("Other References")]
    [SerializeField] PlayerHealth PlayerHealth;
-    [SerializeField] RockyRhodes RockyRhodesScript;
+    [SerializeField] RhockyHealth RhockyHealth;
+
 
     [Header("Player Ability References")]
     [SerializeField] PlayerSuplex playerSuplex;
@@ -66,7 +67,7 @@ public class QTESystem : MonoBehaviour
         if (playerInput != null) buttonMashAction = playerInput.actions.FindAction("Jump");
         if(CinemaComponent == null) CinemaComponent = GetComponent<Cinema_final>();
         if(PlayerHealth == null) PlayerHealth = GetComponent<PlayerHealth>();
-        if(RockyRhodesScript == null) RockyRhodesScript = GetComponent<RockyRhodes>();
+        if(RhockyHealth== null) RhockyHealth = GetComponent<RhockyHealth>();
         _initialCountDownTimer = CountDownTimer; // Store the initial timer value
         foreach(string actionName in qteInputActions)
         {
@@ -152,7 +153,7 @@ public class QTESystem : MonoBehaviour
         timerText.text = "";
          ButtonMashbarSlider.value = 0f;
         EnableQuickTimeEvent = false;
-
+        Debug.Log("QTE Stopped and cleaned up.");
 
     }
     private IEnumerator QTERandomizer()
@@ -207,7 +208,7 @@ public class QTESystem : MonoBehaviour
                     timerText.text = "success";
                     // RhockyRhodes.TakeDamage();
                     CinemaComponent.EndRockyPanIn();
-                    RockyRhodesScript.slider.value -= 1;
+                    RhockyHealth.HealthSlider.value -= 1;
                 //    RockyRhodesScript.JumpAway();
                     StopQTE(); // Clean up UI and re-enable abilities
                     yield break; // Exit the coroutine
@@ -260,8 +261,8 @@ public class QTESystem : MonoBehaviour
                 {
                     Debug.Log("Success!");
                     timerText.text = "success";
-                    RockyRhodesScript.slider.value -= 1;
-                //    RockyRhodesScript.JumpAway();
+                    RhockyHealth.HealthSlider.value -= 1;
+                    //    RockyRhodesScript.JumpAway();
                     StopQTE();
                     yield break;
                 }
