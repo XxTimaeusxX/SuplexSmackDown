@@ -142,6 +142,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
         while (true)
         {
             agent.SetDestination(microBoss.transform.position);
+            agent.speed += 20f; // increase speed while returning to micro position
 
             if (agent.pathPending)
             {
@@ -248,4 +249,25 @@ public class MacroBoss : MonoBehaviour, ICarriable
             invulnerable = true;
         }
     }
+
+        // Checks if its currently grabbed by Micro or Player
+        // call grab animation if grabbed
+        //if (IsThrownByMicro) // checks when thrown by micro
+        //{
+        //    ChangeAnimation("MacroLaunched");
+        //    return;
+        //}
+        // if (isGrabbed && !agent.enabled)
+        //{
+        //  
+        //   ChangeAnimation(IsGrabbedByMicro ? "MacroBall" : "MacroGrabbed");
+        //    return;
+        //}
+        //
+        //Walk Animation call
+        //if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
+        //{
+        //    ChangeAnimation("MacroRun");
+        //    return;
+        //}
 }

@@ -66,6 +66,10 @@ public class MicroBoss : MonoBehaviour, ICarriable
     private Transform originalParent;
     private RigidbodyConstraints originalConstraints;
 
+    [Header("Animation")]
+    public Animator MicroAnimator;
+    private string CurrentMicroAnimation = String.Empty;
+    public GameObject MacroPrefab => macroPrefab;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -113,6 +117,8 @@ public class MicroBoss : MonoBehaviour, ICarriable
         {
             Death();
         }
+   //    if (!_MacroEnemy.IsGrabbedByMicro){ CheckAnimation(); }
+        
     }
     public void FaceTarget()
     {
@@ -150,6 +156,8 @@ public class MicroBoss : MonoBehaviour, ICarriable
     public IEnumerator ThrowMacro()
     {
         //Debug.Log("Initiating ThrowMacro sequence");
+        ChangeAnimation("MicroThrow"); // play throw animation
+        //_MacroEnemy.IsGrabbedByMicro = true;
         // Store original mesh rotation to restore later
         Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
         AudioManager.PlayMicroPrepareAttack();
@@ -197,7 +205,26 @@ public class MicroBoss : MonoBehaviour, ICarriable
             Debug.Log("Macro hit by shockwave, applying damage to Micro");
         }
     }
+    
     private void Death()
+        if (CurrentMicroAnimation != animation)
+        {
+            CurrentMicroAnimation = animation;
+            MicroAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+
+    // Pauses animation frame, but frame is set to paused at  0.5f set in the animation controller event system.
+    public void PauseAnimation()
+    {
+        MicroAnimator.speed = 0f;
+    }
+    public void ResumeAnimation()
+    {
+        MicroAnimator.speed = 1f;
+    }
+    private void CheckAnimation()
     {
         // Disable this boss functionality
         agent.enabled = false;
