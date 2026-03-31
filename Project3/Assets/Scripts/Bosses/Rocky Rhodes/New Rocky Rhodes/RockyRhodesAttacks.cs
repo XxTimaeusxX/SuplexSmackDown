@@ -22,7 +22,6 @@ public class RockyRhodesAttacks : MonoBehaviour
         {
             ReadyRopeRush();
         }
-        ReactivateRopeRush();
     }
 
     private void ReadyRopeRush()
@@ -30,7 +29,7 @@ public class RockyRhodesAttacks : MonoBehaviour
         manager.canPerformAction = false;
         ChooseRandomRopeRushPoint();
         Vector3 direction = (chosenPoint.position - transform.position).normalized;
-        Vector3 targetPosition = transform.position + direction * (Vector3.Distance(transform.position, chosenPoint.position) * manager.moveSpeed);
+        Vector3 targetPosition = transform.position + direction * (Vector3.Distance(transform.position, chosenPoint.position) * manager.arena1MoveSpeed);
         targetPosition.y = transform.position.y;
         Vector3 targetLookAt = new Vector3(chosenPoint.position.x, transform.position.y, chosenPoint.position.z);
         transform.LookAt(targetLookAt);
@@ -41,7 +40,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         while (Vector3.Distance(transform.position, chosenPoint.position) > manager.interactionDistance)
         {
-            float step = manager.moveSpeed * Time.deltaTime;
+            float step = manager.arena1MoveSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, chosenPoint.position, step);
             yield return null;
         }
@@ -81,19 +80,6 @@ public class RockyRhodesAttacks : MonoBehaviour
         int randomPoint = Random.Range(0, manager.ropeRushStartPoints.Length);
         chosenPoint = manager.ropeRushStartPoints[randomPoint];
     }
-
-    private void ReactivateRopeRush()
-    {
-        if (collided && manager.arena1)
-        {
-            manager.numberOfRopeRusheCharges -= 1;
-            manager.canPerformAction = true;
-        }
-        if (manager.numberOfRopeRusheCharges > 0 && manager.arena1 && collided)
-        {
-            manager.ropeRush = true;
-        }
-    }
     #endregion
 
     #region Cannonball
@@ -110,7 +96,6 @@ public class RockyRhodesAttacks : MonoBehaviour
         {
             ReadyEnhancedRopeRush();
         }
-        ReactivateEnhancedRopeRush();
     }
 
     private void ReadyEnhancedRopeRush()
@@ -118,7 +103,7 @@ public class RockyRhodesAttacks : MonoBehaviour
         manager.canPerformAction = false;
         ChooseRandomEnhancedRopeRushPoint();
         Vector3 direction = (chosenPoint.position - transform.position).normalized;
-        Vector3 targetPosition = transform.position + direction * (Vector3.Distance(transform.position, chosenPoint.position) * manager.moveSpeed);
+        Vector3 targetPosition = transform.position + direction * (Vector3.Distance(transform.position, chosenPoint.position) * manager.arena3MoveSpeed);
         targetPosition.y = transform.position.y;
         Vector3 targetLookAt = new Vector3(chosenPoint.position.x, transform.position.y, chosenPoint.position.z);
         transform.LookAt(targetLookAt);
@@ -129,7 +114,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         while (Vector3.Distance(transform.position, chosenPoint.position) > manager.interactionDistance)
         {
-            float step = manager.moveSpeed * Time.deltaTime;
+            float step = manager.arena3MoveSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, chosenPoint.position, step);
             yield return null;
         }
@@ -169,18 +154,6 @@ public class RockyRhodesAttacks : MonoBehaviour
         int randomPoint = Random.Range(0, manager.enhancedRopeRushStartPoints.Length);
         chosenPoint = manager.enhancedRopeRushStartPoints[randomPoint];
     }
-
-    private void ReactivateEnhancedRopeRush()
-    {
-        if (collided && manager.arena3)
-        {
-            manager.canPerformAction = true;
-        }
-        if (manager.numberOfEnhancedRopeRusheCharges > 0 && manager.arena3 && collided)
-        {
-            manager.enhancedRopeRush = true;
-        }
-    }
     #endregion
 
     private IEnumerator ReEnableCanPerformAction(float delay)
@@ -192,10 +165,22 @@ public class RockyRhodesAttacks : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Rope")) {
+            manager.rb.linearVelocity = Vector3.zero;
             collided = true;
+            gameObject.tag = "Stunned Rocky";
             if (manager.arena3 && manager.numberOfEnhancedRopeRusheCharges > 0)
             {
+                gameObject.tag = "Rocky Rhodes";
                 manager.numberOfEnhancedRopeRusheCharges -= 1;
+                manager.canPerformAction = true;
+                manager.enhancedRopeRush = true;
+            }
+            if (manager.arena1 && manager.numberOfRopeRusheCharges > 0)
+            {
+                gameObject.tag = "Rocky Rhodes";
+                manager.numberOfRopeRusheCharges -= 1;
+                manager.canPerformAction = true;
+                manager.ropeRush = true;
             }
         }
     }
