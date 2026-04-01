@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class RockyRhodesAttacks : MonoBehaviour
 {
     RockyRhodesManager manager;
-    Transform chosenPoint;
-    GameObject chosenObject;
+    public Transform chosenPoint;
     public bool collided;
+
+    public bool canChooseRandom;
+
+    private float heightOffset = 2f;
 
     private void Awake()
     {
@@ -92,12 +96,15 @@ public class RockyRhodesAttacks : MonoBehaviour
         if (manager.cannonball && manager.canPerformAction)
         {
             Jump();
+            if (canChooseRandom)
+            {
+                ChooseRandomTile();
+            }
         }
     }
 
     private void Jump()
     {
-        ChooseRandomTile();
         manager.agent.enabled = false;
         manager.rb.linearVelocity = new Vector2(manager.rb.linearVelocity.x, manager.jumpForce);
         StartCoroutine(JumpTime(manager.jumpTime));
@@ -111,6 +118,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void ChooseRandomTile()
     {
+        canChooseRandom = false;
         if (manager.tiles == null)
         {
             return;
@@ -124,7 +132,8 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         manager.cannonball = false;
         float step = manager.slamForce * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, chosenPoint.position, step);
+        Vector3 targetWithHeight = new Vector3(chosenPoint.position.x, chosenPoint.position.y + heightOffset, chosenPoint.position.z);
+        transform.position = Vector3.MoveTowards(transform.position, targetWithHeight, step);
     }
 
     private void Shockwave()
@@ -230,6 +239,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Arena2"))
         {
+            canChooseRandom = true;
             manager.agent.enabled = true;
             if (manager.canPerformAction)
             {

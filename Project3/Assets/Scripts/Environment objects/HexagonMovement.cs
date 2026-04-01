@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class HexagonMovement : MonoBehaviour
 {
+    public RockyRhodesAttacks attacks;
     public bool moveUp;
     public bool moveDown;
     public float speed;
     public float risingTime;
     public float loweringTime;
+
+    public Material glowMaterial;
+    public Material normalMaterial;
 
     private void Start()
     {
@@ -36,6 +40,19 @@ public class HexagonMovement : MonoBehaviour
         {
             loweringTime = 1f;
             moveDown = false;
+        }
+        AddGlow();
+    }
+
+    private void AddGlow()
+    {
+        if (attacks.chosenPoint == this.gameObject.transform)
+        {
+            GetComponent<Renderer>().material = glowMaterial;
+        }
+        else
+        {
+            GetComponent<Renderer>().material = normalMaterial;
         }
     }
 }
