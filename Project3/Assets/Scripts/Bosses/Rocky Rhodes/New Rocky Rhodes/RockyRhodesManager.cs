@@ -23,6 +23,14 @@ public class RockyRhodesManager : MonoBehaviour
     public Transform[] ropeRushStartPoints;
     public float interactionDistance;
 
+    [Header("Cannonball")]
+    public Transform[] tiles;
+    public float jumpForce;
+    public float jumpTime;
+    public float jumpDelay;
+    public float slamForce;
+    public GameObject shockwave;
+
     [Header("Enhanced Rope Rush")]
     public float enhancedRopeRushForce;
     public Transform[] enhancedRopeRushStartPoints;
@@ -38,6 +46,7 @@ public class RockyRhodesManager : MonoBehaviour
     [Header("Flags")]
     public bool canPerformAction = true;
     public bool ropeRush;
+    public bool cannonball;
     public bool enhancedRopeRush;
 
     private void Awake()
@@ -62,6 +71,7 @@ public class RockyRhodesManager : MonoBehaviour
             moveSpeed = arena3MoveSpeed;
         }
         attacks.StartRopeRush();
+        attacks.StartCannonball();
         attacks.StartEnhancedRopeRush();
 
         OpenArenas();

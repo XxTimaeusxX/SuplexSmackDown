@@ -8,11 +8,17 @@ public class RockyRhodesAttacks : MonoBehaviour
 {
     RockyRhodesManager manager;
     Transform chosenPoint;
+    GameObject chosenObject;
     public bool collided;
 
     private void Awake()
     {
         manager = GetComponent<RockyRhodesManager>();
+    }
+
+    private void Update()
+    {
+        
     }
 
     #region Rope Rush
@@ -60,8 +66,6 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private IEnumerator RopeRushCoroutine(Vector3 target)
     {
-        float startTime = Time.time;
-        Vector3 startPos = transform.position;
         while (!collided)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, manager.ropeRushForce * Time.deltaTime);
@@ -83,9 +87,57 @@ public class RockyRhodesAttacks : MonoBehaviour
     #endregion
 
     #region Cannonball
-    private void Cannball()
+    public void StartCannonball()
     {
+        if (manager.cannonball && manager.canPerformAction)
+        {
+            Jump();
+        }
+    }
 
+    private void Jump()
+    {
+        ChooseRandomTile();
+        manager.agent.enabled = false;
+        manager.rb.linearVelocity = new Vector2(manager.rb.linearVelocity.x, manager.jumpForce);
+        StartCoroutine(JumpTime(manager.jumpTime));
+    }
+
+    private IEnumerator JumpTime(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SlamDown();
+    }
+
+    private void ChooseRandomTile()
+    {
+        if (manager.tiles == null)
+        {
+            return;
+        }
+
+        int randomPoint = Random.Range(0, manager.tiles.Length);
+        chosenPoint = manager.tiles[randomPoint];
+    }
+
+    private void SlamDown()
+    {
+        manager.cannonball = false;
+        float step = manager.slamForce * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, chosenPoint.position, step);
+    }
+
+    private void Shockwave()
+    {
+        Instantiate(manager.shockwave, manager.gameObject.transform.position, manager.gameObject.transform.rotation, manager.gameObject.transform);
+    }
+
+    private IEnumerator RepeatCannonball(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.tag = "Rocky Rhodes";
+        manager.cannonball = true;
+        manager.canPerformAction = true;
     }
     #endregion
 
@@ -134,8 +186,6 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private IEnumerator EnhancedRopeRushCoroutine(Vector3 target)
     {
-        float startTime = Time.time;
-        Vector3 startPos = transform.position;
         while (!collided)
         {
             transform.position = Vector3.MoveTowards(transform.position, target, manager.enhancedRopeRushForce * Time.deltaTime);
@@ -156,12 +206,6 @@ public class RockyRhodesAttacks : MonoBehaviour
     }
     #endregion
 
-    private IEnumerator ReEnableCanPerformAction(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        manager.canPerformAction = true;
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Rope")) {
@@ -181,6 +225,19 @@ public class RockyRhodesAttacks : MonoBehaviour
                 manager.numberOfRopeRusheCharges -= 1;
                 manager.canPerformAction = true;
                 manager.ropeRush = true;
+            }
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Arena2"))
+        {
+            manager.agent.enabled = true;
+            if (manager.canPerformAction)
+            {
+                manager.canPerformAction = false;
+                Shockwave();
+                manager.rb.linearVelocity = Vector3.zero;
+                gameObject.tag = "Stunned Rocky";
+                StartCoroutine(RepeatCannonball(manager.jumpDelay));
             }
         }
     }
