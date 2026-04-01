@@ -22,30 +22,36 @@ public class QteCollideSensor : MonoBehaviour
     {
         if (other.CompareTag(_playerTag))
         {
-            _playerOverlapCount++;
-            if (_playerOverlapCount == 1)
+            PlayerDash playerDash = other.GetComponent<PlayerDash>();
+            if(playerDash.isDashing)
             {
-                Debug.Log("Player entered Boulder Eruption area (Child Trigger)!");
+                _playerOverlapCount++;
+                if (_playerOverlapCount == 1)
+                {
+                   // Debug.Log("Player entered Boulder Eruption area (Child Trigger)!");
+                    
+                    qteSystemScript.EnableQuickTimeEvent = true;
+                    qteSystemScript.StartQTE();
+                    rockyAbilitiesScript.CheckState(RockyRhodesStates.QTEMode);
+                }
+            }
+           
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag(_playerTag))
+        {
+            PlayerDash playerDash = other.GetComponent<PlayerDash>();
+
+            if (playerDash != null && playerDash.isDashing && _playerOverlapCount == 0)
+            {
+                _playerOverlapCount++;
+             //   Debug.Log("Player activated dash while inside trigger! Triggering QTE.");
                 rockyAbilitiesScript.CheckState(RockyRhodesStates.QTEMode);
                 qteSystemScript.EnableQuickTimeEvent = true;
                 qteSystemScript.StartQTE();
             }
         }
     }
-
-  /*  private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag(_playerTag))
-        {
-            _playerOverlapCount--;
-            if (_playerOverlapCount < 0) _playerOverlapCount = 0;
-
-            if (_playerOverlapCount == 0)
-            {
-                Debug.Log("Player exited Boulder Eruption area (Child Trigger).");
-                qteSystemScript.EnableQuickTimeEvent = false;
-                qteSystemScript.StopQTE();
-            }
-        }
-    }*/
 }
