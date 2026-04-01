@@ -12,23 +12,42 @@ public class RockyRhodesManager : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     public Slider healthSlider;
 
-    public float moveSpeed;
+    [HideInInspector] public float moveSpeed;
+    public float arena1MoveSpeed;
+    public float arena3MoveSpeed;
 
     [Header("Rope Rush")]
-    public int numberOfCharges;
-    [HideInInspector] public int chargesRemaining;
-    public float rushForce;
-    public float chargeDuration;
+    public int numberOfRopeRusheCharges;
+    private int maxRopeRushCharges;
+    public float ropeRushForce;
     public Transform[] ropeRushStartPoints;
     public float interactionDistance;
 
+    [Header("Cannonball")]
+    public Transform[] tiles;
+    public float jumpForce;
+    public float jumpTime;
+    public float jumpDelay;
+    public float slamForce;
+    public GameObject shockwave;
+
+    [Header("Enhanced Rope Rush")]
+    public float enhancedRopeRushForce;
+    public Transform[] enhancedRopeRushStartPoints;
+    public int numberOfEnhancedRopeRusheCharges;
+    private int maxEnhancedRopeRushCharges;
+
     [Header("Arenas")]
-    public bool open;
-    public bool arena1, arena2, arena3;
+    public bool arena1;
+    public bool arena2;
+    public bool arena3;
+    [HideInInspector] public bool open;
 
     [Header("Flags")]
     public bool canPerformAction = true;
     public bool ropeRush;
+    public bool cannonball;
+    public bool enhancedRopeRush;
 
     private void Awake()
     {
@@ -39,12 +58,22 @@ public class RockyRhodesManager : MonoBehaviour
 
     private void Start()
     {
+        moveSpeed = arena1MoveSpeed;
+        maxRopeRushCharges = numberOfRopeRusheCharges;
+        maxEnhancedRopeRushCharges = numberOfEnhancedRopeRusheCharges;
         agent.speed = moveSpeed;
     }
 
     private void Update()
     {
+        if (arena3)
+        {
+            moveSpeed = arena3MoveSpeed;
+        }
         attacks.StartRopeRush();
+        attacks.StartCannonball();
+        attacks.StartEnhancedRopeRush();
+
         OpenArenas();
     }
 
@@ -65,6 +94,11 @@ public class RockyRhodesManager : MonoBehaviour
         {
             arena1 = false;
             arena2 = true;
+        }
+        if (arena2)
+        {
+            arena2 = false;
+            arena3 = true;
         }
     }
 }
