@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor.ProBuilder;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -14,10 +16,18 @@ using UnityEngine.UI;
 
 public enum RockyRhodesStates
 {
-    Regular,
-    CannonBall,
+    Idle,
+    //-- base attack states--//
     BullRush,
     Haymaker,
+    Chestbump,
+    HeelTaunt,
+    //-- arena 1 states--//
+    //roperush,
+    //-- arena 2 states--//
+    CannonBall,
+    //-- arena 3 states--//
+    Deadlift,
     QTEMode,
     Dead,
 }
@@ -31,6 +41,7 @@ public class RockyRhodes : EnemyBase
     [Header("Rocky Rhodes Settings")]
     // runtime toggles
     [SerializeField] private InGameMenuManager inGameMenuManager;
+    [SerializeField] RhockyHealth rhockyHealth;
     public bool abilitiesEnabled = false; // when true the state machine runs
     private RhockyAbilities _abilities;
 
@@ -49,17 +60,18 @@ public class RockyRhodes : EnemyBase
     private int _currentJumpIndex = 0;
     public bool isJumping = false;
     public List<Transform> JumpPoints = new List<Transform>();
+    public Transform Recoverypoint;
 
     [Header("QTE trigger")]
     public  QTESystem QTESystemScript;
-    private string _playerTag = "Player";
-    private int _PlayerOverLapCount = 0; // track how many colliders of the player are overlapping the QTE trigger
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     new  void Start()
     {
         base.Start();
         if (QTESystemScript == null) QTESystemScript = GetComponent<QTESystem>();
         if (_abilities == null) _abilities = GetComponent<RhockyAbilities>();
+        rhockyHealth = GetComponent<RhockyHealth>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
     }
 
@@ -67,31 +79,47 @@ public class RockyRhodes : EnemyBase
     public override void Update()
     {
         base.Update();
-        if (_abilities != null && (isGrabbed || isPushed))
-        {
-            ToggleBehaviors(false);
-            _abilities.InterruptAbility(true);
-        }
     }
-
-    protected override void CustomAttack()
+    public override void SetGrabbed(bool grabbed) // custom grab condition for Rhocky :enemybase
     {
-        if (abilitiesEnabled && !QTESystemScript.EnableQuickTimeEvent)
+        base.SetGrabbed(grabbed);
+        if(grabbed)
         {
-            Debug.Log("sssssssssssssssssssssssss");
-            // Only enforce the current state if he's NOT in QTE mode
-            if (_abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
+           ToggleBehaviors(false);
+            _abilities.InterruptAbility(true);
+            rb.isKinematic = true;
+        }
+        else
+        {
+            rhockyHealth.TakeDamage();
+            ToggleBehaviors(true);
+            this.gameObject.tag="Untagged"; // untag so player can't accidentally re-grab while recovering
+            if (_abilities != null && _abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
             {
-                _abilities.CheckState(_abilities.CurrentRockyState);
+                _abilities.CheckState(RockyRhodesStates.Idle);
             }
         }
-        else if (QTESystemScript.EnableQuickTimeEvent) // Make sure this else-if is here!
+    }
+    protected override void CustomAttack() // Rhocky's custom attack behavior :enemybase
+    {
+        if (!abilitiesEnabled) return;
+
+        // If the QTE started, force him into the QTE state
+        if (QTESystemScript.EnableQuickTimeEvent)
         {
             if (_abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
             {
                 Debug.Log("Forcing Rocky into QTE Mode state.");
                 _abilities.IsPerformingAbility = false;
                 _abilities.CheckState(RockyRhodesStates.QTEMode);
+            }
+        }
+        // Otherwise, just let him casually run his normal state
+        else
+        {
+            if (_abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
+            {
+                _abilities.CheckState(_abilities.CurrentRockyState);
             }
         }
     }
@@ -101,7 +129,7 @@ public class RockyRhodes : EnemyBase
         RockyRhodesHealthBarUI.SetActive(false);
         this.gameObject.SetActive(false);
     }
-    public void ToggleBehaviors( bool IsEnabled)
+    public void ToggleBehaviors( bool IsEnabled) // disabling rocky States switch
     {
         Debug.Log("Toggling Rocky's behaviors: " + (IsEnabled ? "ENABLED" : "DISABLED"));
         // Disable AI behaviors
@@ -112,33 +140,69 @@ public class RockyRhodes : EnemyBase
         // Disable NavMesh
         agent.enabled = IsEnabled;
         rb.isKinematic = IsEnabled;
+     //   rb.useGravity = IsEnabled;
     }
 
-    public IEnumerator JumpToPlatform()
+    public IEnumerator JumpToPlatform() 
     {
         isJumping = true;
-        // Pick the next point in the list, wrapping around
-        Transform targetPoint = JumpPoints[_currentJumpIndex];
-        _currentJumpIndex = (_currentJumpIndex + 1) % JumpPoints.Count;
 
-        // Disable NavMesh so physics can drive movement
+        // 1. CLEAR CURRENT ACTIONS
+        ToggleBehaviors(false);
+        if (_abilities != null)
+        {
+            _abilities.InterruptAbility(true); // Stop any rogue attacks
+        }
+
+        // 2. BOUNCE TO THE ROOF (Recoverypoint) FIRST
+        if (Recoverypoint != null)
+        {
+            Debug.Log("Jumping to the ROOF!");
+            yield return StartCoroutine(PerformJump(Recoverypoint));
+            
+            // Wait on the roof for a moment to catch his breath
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        // 3. PICK THE NEXT STAGE AND JUMP DOWN TO IT
+        if (JumpPoints != null && JumpPoints.Count > 0)
+        {
+            Transform targetPoint = JumpPoints[_currentJumpIndex];
+            _currentJumpIndex = (_currentJumpIndex + 1) % JumpPoints.Count;
+
+            Debug.Log("Jumping down to the NEXT STAGE!");
+            yield return StartCoroutine(PerformJump(targetPoint));
+        }
+
+        // 4. WAKE UP ON THE NEW STAGE
+        rb.isKinematic = true;
+        agent.enabled = true;
+        ToggleBehaviors(true);
+        isJumping = false;
+
+        // Give the AI back control
+        if (_abilities != null && _abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
+        {
+            _abilities.CheckState(RockyRhodesStates.Idle);
+        }
+    }
+
+    // Helper Coroutine: Actually just calculates the math and moves him!
+    private IEnumerator PerformJump(Transform targetPoint)
+    {
+        // Disable NavMesh so physics can freely drive movement
         agent.enabled = false;
         rb.isKinematic = false;
         IgnoreGroundCheck = true;
 
-        // Calculate required velocity to reach target point
         Vector3 displacement = targetPoint.position - transform.position;
         float gravity = Physics.gravity.magnitude;
         float horizontalDist = new Vector3(displacement.x, 0f, displacement.z).magnitude;
         float verticalDist = displacement.y;
 
-        // Scale flight time with distance so short hops are quick and long ones arc higher
         float flightTime = Mathf.Clamp(horizontalDist / 10f, 0.6f, 2f);
 
-        // v_y = (y + 0.5 * g * t²) / t  — needed vertical speed to arrive at target height
         float velocityY = (verticalDist + 0.5f * gravity * flightTime * flightTime) / flightTime;
-
-        // v_xz = xz / t — needed horizontal speed to cover the ground distance
         Vector3 horizontalDir = new Vector3(displacement.x, 0f, displacement.z).normalized;
         float velocityXZ = horizontalDist / flightTime;
 
@@ -146,14 +210,14 @@ public class RockyRhodes : EnemyBase
 
         rb.linearVelocity = Vector3.zero; // clear any existing velocity
         rb.AddForce(launchVelocity, ForceMode.VelocityChange);
-        Debug.Log("JumpToPlatform - jumping to point " + (_currentJumpIndex) + " | flight time: " + flightTime);
 
-        yield return new WaitForSeconds(0.5f); // let Rocky leave the ground before checking landing
+        yield return new WaitForSeconds(0.5f); // let Rocky leave the ground
         IgnoreGroundCheck = false;
 
         // Wait until landed
         while (!IsEnemyGrounded())
         {
+            // Spin through the air
             if (!isGrabbed && !isPushed)
             {
                 RockyRhodesMesh.Rotate(Vector3.forward, 1000f * Time.deltaTime, Space.World);
@@ -161,25 +225,9 @@ public class RockyRhodes : EnemyBase
             yield return null;
         }
 
+        // Snap rotation back to normal upon landing
         RockyRhodesMesh.localRotation = originalMeshRotation;
-
-        // Wait while grabbed or pushed before re-enabling
-        while (isGrabbed || isPushed)
-        {
-            yield return null;
-        }
-
-        // Re-enable NavMesh after landing
-        rb.isKinematic = true;
-        agent.enabled = true;
-
-        // Cooldown before the next jump
-      //  yield return new WaitForSeconds(jumpPatrolCooldown);
-
-        isJumping = false;
-        
     }
-
     // rocky rhodes begines its jumping here
   /*  public override void RandomPatrolDestination()
     {
@@ -203,5 +251,32 @@ public class RockyRhodes : EnemyBase
     {
 
     }
-   
-}
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Check if the boss just hit the player while performing the Chestbump ability
+        if (collision.gameObject.CompareTag("Player") && _abilities != null)
+        {
+            if (_abilities.CurrentRockyState == RockyRhodesStates.Chestbump)
+            {
+                PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+                if (playerMovement != null)
+                {
+                    Debug.Log("Chest bump hit! Applying damage AND knockback.");
+
+                    // Normal horizontal push direction away from Rocky
+                    Vector3 knockbackDir = (collision.transform.position - transform.position).normalized;
+                    knockbackDir.y = 0f;
+
+                    float knockbackForce = 25f;
+                    float upwardForce = 5f;
+
+                    // Apply knockback to the player's velocity
+                    playerMovement.velocity = (knockbackDir * knockbackForce) + (Vector3.up * upwardForce);
+
+                    // (Optional) Stop Rocky instantly so he doesn't slide past the player
+                    rb.linearVelocity = Vector3.zero;
+                }
+            }
+        }
+    }
+    }

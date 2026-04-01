@@ -6,7 +6,7 @@ using UnityEngine;
 public class RhockyAbilities : MonoBehaviour
 {
     [Header("Ability Settings")]
-    public float AbilityCooldown = 2f;
+    public float AbilityCooldown = 5f;
 
     [Header("Launch Settings")]
     public float jumpForce = 55f;
@@ -21,22 +21,26 @@ public class RhockyAbilities : MonoBehaviour
 
 
     private RockyRhodes _rockyRhodes;
+    private RockyAnimations _rockyAnimations;
     private Coroutine _currentStateCoroutine;
 
     public RockyRhodesStates CurrentRockyState;
 
     public List<RockyRhodesStates> _randomSelection = new List<RockyRhodesStates>
     {
-        RockyRhodesStates.CannonBall,
+       // RockyRhodesStates.CannonBall,
         RockyRhodesStates.BullRush,
         RockyRhodesStates.Haymaker,
+        RockyRhodesStates.Chestbump,
     };
    [SerializeField] private QteCollideSensor qteCollideSensorScript;
     private void Awake()
     {
         _rockyRhodes = GetComponent<RockyRhodes>();
-       if(qteCollideSensorScript ==null) qteCollideSensorScript = GetComponent<QteCollideSensor>();
+        _rockyAnimations = GetComponent<RockyAnimations>();
+        if (qteCollideSensorScript ==null) qteCollideSensorScript = GetComponent<QteCollideSensor>();
         //  CurrentRockyState = RockyRhodesStates.Regular;
+
     }
 
     public void InterruptAbility(bool PauseAbility)
@@ -55,6 +59,11 @@ public class RhockyAbilities : MonoBehaviour
 
     public void CheckState(RockyRhodesStates states)
     {
+        if(_rockyRhodes.gameObject.tag!= "Enemy")// Only reset tag if it's not set to "Enemy" to avoid unnecessary changes
+        {
+            _rockyRhodes.gameObject.tag = "Untagged"; // Reset tag to default at the start of any state change
+        }
+       
         if (CurrentRockyState == states && _currentStateCoroutine != null)
         {
             return;
@@ -68,17 +77,20 @@ public class RhockyAbilities : MonoBehaviour
         CurrentRockyState = states;
         switch (states)
         {
-            case RockyRhodesStates.Regular:
+            case RockyRhodesStates.Idle:
                 _currentStateCoroutine = StartCoroutine(AbilityChoose());
                 break;
-            case RockyRhodesStates.CannonBall:
+          /*  case RockyRhodesStates.CannonBall:
                 _currentStateCoroutine = StartCoroutine(CannonBall());
-                break;
+                break;*/
             case RockyRhodesStates.BullRush:
                 _currentStateCoroutine = StartCoroutine(BullRush());
                 break;
              case RockyRhodesStates.Haymaker:
                 _currentStateCoroutine = StartCoroutine(Haymaker());
+                break;
+            case RockyRhodesStates.Chestbump:   
+                _currentStateCoroutine = StartCoroutine(ChestBump());
                 break;
             case RockyRhodesStates.QTEMode:
                 _currentStateCoroutine = StartCoroutine(QTE());
@@ -104,7 +116,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(true); // Ensure his AI is turned back on if it was off
         Debug.Log("QTE ended, resuming normal AI.");
        
-        CheckState(RockyRhodesStates.Regular);
+        CheckState(RockyRhodesStates.Idle);
     }
     // --------------------------------------- Main  abilities ------------------------------------//
     public IEnumerator AbilityChoose()
@@ -144,6 +156,11 @@ public class RhockyAbilities : MonoBehaviour
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
+        if(toTarget != Vector3.zero)
+        {
+            _rockyRhodes.RockyRhodesMesh.rotation = Quaternion.LookRotation(toTarget);
+        }
+
 
         float timer = 0f;
         while (timer < bullRushDuration)
@@ -151,6 +168,7 @@ public class RhockyAbilities : MonoBehaviour
             if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
             {
                 _rockyRhodes.rb.linearVelocity = toTarget * bullRushSpeed;
+                _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
 
             timer += Time.deltaTime;
@@ -162,28 +180,37 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(true);
         IsPerformingAbility = false;
 
-        CheckState(RockyRhodesStates.Regular);
+        CheckState(RockyRhodesStates.Idle);
     }
     public IEnumerator Haymaker()
     {
+        _rockyAnimations.ChangeAnimation("RockyPunchChargeUp_demo");
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HAYMAKER State Active");
+        
         if (PlayerTarget == null) yield break;
 
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
 
+        yield return new WaitForSeconds(3f); // charge-up delay effect
+       
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
-
+        if (toTarget != Vector3.zero)
+        {
+            _rockyRhodes.RockyRhodesMesh.rotation = Quaternion.LookRotation(toTarget);
+        }
         float timer = 0f;
         while (timer < bullRushDuration)
         {
             if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
             {
+                _rockyAnimations.ChangeAnimation("HayMaker_demo");
                 _rockyRhodes.rb.linearVelocity = toTarget * bullRushSpeed;
+                _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
 
             timer += Time.deltaTime;
@@ -195,11 +222,57 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(true);
         IsPerformingAbility = false;
 
-        CheckState(RockyRhodesStates.Regular);
+        CheckState(RockyRhodesStates.Idle);
     }
     public IEnumerator ChestBump()
     {
-        yield return new WaitForSeconds(AbilityCooldown);
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
+        Debug.Log("CHEST BUMP State Active");
+
+        if (PlayerTarget == null) yield break;
+
+        IsPerformingAbility = true;
+        _rockyRhodes.ToggleBehaviors(false);
+        _rockyRhodes.IgnoreGroundCheck = true;
+
+        // No long charge-up like BullRush. Maybe a tiny windup for visual feedback.
+        yield return new WaitForSeconds(0.2f); 
+
+        Vector3 toTarget = PlayerTarget.position - transform.position;
+        toTarget.y = 0f;
+        toTarget.Normalize();
+        
+        // Force boss to face the dash direction
+        if (toTarget != Vector3.zero)
+        {
+            _rockyRhodes.RockyRhodesMesh.rotation = Quaternion.LookRotation(toTarget);
+        }
+
+        // Use custom shorter duration/speed for the mini dash
+        float chestBumpDuration = 0.3f; // Shorter than BullRush
+        float chestBumpSpeed = 40f;     // Slightly slower/punchier
+        float timer = 0f;
+
+        while (timer < chestBumpDuration)
+        {
+            if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
+            {
+                // Optionally add animation change here if you have one!
+                // _rockyAnimations.ChangeAnimation("ChestBump_demo");
+                _rockyRhodes.rb.linearVelocity = toTarget * chestBumpSpeed;
+                _rockyRhodes.gameObject.tag = "DamagePlayer";
+            }
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        _rockyRhodes.rb.linearVelocity = Vector3.zero;
+        _rockyRhodes.IgnoreGroundCheck = false;
+        _rockyRhodes.ToggleBehaviors(true);
+        IsPerformingAbility = false;
+
+        CheckState(RockyRhodesStates.Idle);
     }
     public IEnumerator HeelTaunt()
     {
@@ -212,7 +285,7 @@ public class RhockyAbilities : MonoBehaviour
         yield return new WaitForSeconds(AbilityCooldown);
     }
     // --------------------------------------- Arena 2 abilities ------------------------------------//
-    public IEnumerator CannonBall()
+  /*  public IEnumerator CannonBall()
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("CANNONBALL State Active");
@@ -223,6 +296,10 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.IgnoreGroundCheck = true;
 
         Vector3 toTarget = PlayerTarget.position - transform.position;
+        if (toTarget != Vector3.zero)
+        {
+            _rockyRhodes.RockyRhodesMesh.rotation = Quaternion.LookRotation(toTarget);
+        }
         float gravity = Mathf.Abs(Physics.gravity.y);
 
         Vector3 toTargetXZ = new Vector3(toTarget.x, 0f, toTarget.z);
@@ -272,7 +349,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(true);
         IsPerformingAbility = false;
         CheckState(RockyRhodesStates.Regular);
-    }
+    }*/
     // --------------------------------------- Arena 3 abilities ------------------------------------//
     public IEnumerator DeadLiftSuplex()
     {
