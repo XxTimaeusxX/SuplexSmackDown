@@ -32,7 +32,8 @@ public class LoadingScreenManager : MonoBehaviour
         while (!operation.isDone)
 		{
 			float progressValue = Mathf.Clamp01(operation.progress / 0.9f);
-			_LoadingBar.fillAmount = progressValue;
+			if(_LoadingBar.fillAmount < progressValue)
+				_LoadingBar.fillAmount += Time.deltaTime;
 			yield return null;
 		}
 	}
