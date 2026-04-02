@@ -57,6 +57,7 @@ public class Cheats : MonoBehaviour
 			// ROCKET - infinite super suplex
 			case "ROCKET":
 				powerGauge.EnableInfiniteMeter();
+				feedbackText.text = "Infinite suplex enabled";
 				break;
 			
 			// SALMON - level 1 warp
