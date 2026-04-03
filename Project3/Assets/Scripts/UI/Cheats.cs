@@ -57,22 +57,26 @@ public class Cheats : MonoBehaviour
 			// ROCKET - infinite super suplex
 			case "ROCKET":
 				powerGauge.EnableInfiniteMeter();
+				feedbackText.text = "Infinite suplex enabled";
 				break;
 			
 			// SALMON - level 1 warp
 			case "SALMON":
 				_loadingScreenManager.StartLoadingScene(level1index);
+				menuManager.ResumeButtonClicked();
 				break;
 			
 			// MARIACHI - level 2 warp
 			case "MARIACHI":
 				_loadingScreenManager.StartLoadingScene(level2index);
+				menuManager.ResumeButtonClicked();
 				break;
 			
-			/*// SUPLEXITY - level 3 warp
+			// SUPLEXITY - level 3 warp
 			case "SUPLEXITY":
 				_loadingScreenManager.StartLoadingScene(level3index);
-				break;*/
+				menuManager.ResumeButtonClicked();
+				break;
 			
 			//if code is incorrect, set color to invalidColor and show an error
 			default:

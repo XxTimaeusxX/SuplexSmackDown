@@ -42,7 +42,9 @@ public class QTESystem : MonoBehaviour
 
     [Header("Other References")]
    [SerializeField] PlayerHealth PlayerHealth;
+    [SerializeField] RhockyHealth RhockyHealth;
     [SerializeField] RockyRhodes RockyRhodesScript;
+
 
     [Header("Player Ability References")]
     [SerializeField] PlayerSuplex playerSuplex;
@@ -66,7 +68,8 @@ public class QTESystem : MonoBehaviour
         if (playerInput != null) buttonMashAction = playerInput.actions.FindAction("Jump");
         if(CinemaComponent == null) CinemaComponent = GetComponent<Cinema_final>();
         if(PlayerHealth == null) PlayerHealth = GetComponent<PlayerHealth>();
-        if(RockyRhodesScript == null) RockyRhodesScript = GetComponent<RockyRhodes>();
+     
+        if (RhockyHealth== null) RhockyHealth = GetComponent<RhockyHealth>();
         _initialCountDownTimer = CountDownTimer; // Store the initial timer value
         foreach(string actionName in qteInputActions)
         {
@@ -152,7 +155,7 @@ public class QTESystem : MonoBehaviour
         timerText.text = "";
          ButtonMashbarSlider.value = 0f;
         EnableQuickTimeEvent = false;
-
+        Debug.Log("QTE Stopped and cleaned up.");
 
     }
     private IEnumerator QTERandomizer()
@@ -203,12 +206,11 @@ public class QTESystem : MonoBehaviour
                 if (CurrentButtonClicks >= NumberOfButtonClicksRequired)
                 {
                     // QTE success logic here
-                    Debug.Log("QTE Success!");
+                 //   Debug.Log("QTE Success!");
                     timerText.text = "success";
-                    // RhockyRhodes.TakeDamage();
+                   
                     CinemaComponent.EndRockyPanIn();
-                    RockyRhodesScript.slider.value -= 1;
-                    RockyRhodesScript.JumpAway();
+                    RockyRhodesScript.gameObject.tag = "Enemy";
                     StopQTE(); // Clean up UI and re-enable abilities
                     yield break; // Exit the coroutine
                 }
@@ -219,11 +221,10 @@ public class QTESystem : MonoBehaviour
             yield return null; // Wait for the next frame
         }
         // QTE failure logic here
-        Debug.Log("QTE Failed!");
+    //    Debug.Log("QTE Failed!");
         timerText.text = "failed";
         PlayerHealth.TakeDamage();
         CinemaComponent.EndRockyPanIn();
-        RockyRhodesScript.JumpAway();
         StopQTE(); // Clean up UI and re-enable abilities
     }
 
@@ -258,19 +259,17 @@ public class QTESystem : MonoBehaviour
             {
                 if (RectTransformUtility.RectangleContainsScreenPoint(safeZone, pointerTransform.position, null))
                 {
-                    Debug.Log("Success!");
+                  //  Debug.Log("Success!");
                     timerText.text = "success";
-                    RockyRhodesScript.slider.value -= 1;
-                    RockyRhodesScript.JumpAway();
+                    RockyRhodesScript.gameObject.tag = "Enemy";
                     StopQTE();
                     yield break;
                 }
                 else
                 {
-                    Debug.Log("Failed!");
+                //    Debug.Log("Failed!");
                     timerText.text = "failed";
                     PlayerHealth.TakeDamage();
-                    RockyRhodesScript.JumpAway();
                     StopQTE();
                     yield break;
                 }
@@ -282,10 +281,9 @@ public class QTESystem : MonoBehaviour
         }
 
         // Ran out of time
-        Debug.Log("Timing Slider QTE Failed! Time ran out.");
+      //  Debug.Log("Timing Slider QTE Failed! Time ran out.");
         timerText.text = "failed";
         PlayerHealth.TakeDamage();
-        RockyRhodesScript.JumpAway();
         StopQTE();
     }
 

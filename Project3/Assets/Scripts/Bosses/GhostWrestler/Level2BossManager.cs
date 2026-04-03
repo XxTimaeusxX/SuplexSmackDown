@@ -61,6 +61,7 @@ public class Level2BossManager : MonoBehaviour
     public GameObject healthBar;
     public Slider bossHealthSlider;
     public GameObject aura;
+    public GameObject chargeAura;
     public InGameMenuManager menuManager;
 
     [Header("Bools")]
@@ -74,7 +75,7 @@ public class Level2BossManager : MonoBehaviour
     public bool grabbed;
     public bool isGrounded;
     private bool grabbedCooldown;
-    private bool jump;
+    public bool jump;
     public bool movingBoss;
     private bool jumpCooldown;
     private bool breakCooldown;
@@ -82,6 +83,7 @@ public class Level2BossManager : MonoBehaviour
     public bool slow;
     public bool grabBoxGrab;
     private bool suplex;
+    private bool attacking;
 
     private void Start()
     {
@@ -109,7 +111,7 @@ public class Level2BossManager : MonoBehaviour
             playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerLayer);
             playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
             if (isDashing) return;
-            if (!breakCooldown)
+            if (!breakCooldown && !stunned)
             {
                 States();
             }
@@ -204,6 +206,7 @@ public class Level2BossManager : MonoBehaviour
             {
                 if (agent.enabled == true)
                 {
+                    chargeAura.SetActive(false);
                     agent.SetDestination(transform.position);
                     Vector3 directionToPlayer = (player.position - transform.position).normalized;
                     Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, player.position) * dashDistanceMultiplier);
@@ -215,6 +218,7 @@ public class Level2BossManager : MonoBehaviour
                         StartCoroutine(DashCoroutine(targetPosition));
                         alreadyAttacked = true;
                         attackCounter++;
+                        attacking = false;
                     }
                 }
             }
@@ -361,22 +365,22 @@ public class Level2BossManager : MonoBehaviour
                 switch (randomAttackIndex)
                 {
                     case 0:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 1:
                         Jump();
                         break;
                     case 2:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 3:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 4:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                     case 5:
-                        AttackPlayer();
+                        StartCoroutine(AttackWithDelay(2f));
                         break;
                 }
             }
@@ -385,7 +389,7 @@ public class Level2BossManager : MonoBehaviour
 
     private void Jump()
     {
-        if (!alreadyAttacked)
+        if (!alreadyAttacked && !attacking)
         {
             jump = true;
             alreadyAttacked = true;
@@ -470,6 +474,14 @@ public class Level2BossManager : MonoBehaviour
                 Instantiate(shockwave, boss.position, boss.rotation, boss);
             }
         }
+    }
+
+    private IEnumerator AttackWithDelay(float delay)
+    {
+        attacking = true;
+        chargeAura.SetActive(true);
+        yield return new WaitForSeconds(delay);
+        AttackPlayer();
     }
 
     private void OnCollisionEnter(Collision collision)
