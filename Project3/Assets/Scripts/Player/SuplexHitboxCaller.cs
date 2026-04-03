@@ -20,8 +20,25 @@ public class SuplexHitboxCaller : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // 1. Check if the object is Rocky Rhodes AND if he is vulnerable
+      /*  if (other.TryGetComponent<RockyRhodes>(out RockyRhodes rockyBoss))
+        {
+          
+            if (other.gameObject.GetComponent<RockyRhodes>().isGrabbed = true)
+            {
+                Debug.Log("cangrabrocky-------------------------------------------------");
+              //  rockyBoss.IsStunnedForGrab = false; // Turn off the stun so he can't be grabbed twice
+                gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
+                playerSuplex.StartSuplex(other); // Begin the suplex sequence on Rocky
+            }
+            // If Rocky is hit but NOT stunned, we just ignore the collision.
+            return;
+        }*/
         // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
-        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn") || other.CompareTag("Macro") || other.CompareTag("Drone") || other.CompareTag("Solid") || other.CompareTag("GhostDancer") || other.CompareTag("Stunned Rocky") && playerSuplex != null)
+        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn")
+            || other.CompareTag("Macro") || other.CompareTag("Drone") || 
+            other.CompareTag("Solid") || other.CompareTag("GhostDancer") 
+            && playerSuplex != null)
         {
            //  Debug.Log("hitboxcollider called");
             if (other.CompareTag("Drone"))

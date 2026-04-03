@@ -12,7 +12,9 @@ public class RockyRhodesManager : MonoBehaviour
     [HideInInspector] public NavMeshAgent agent;
     public Slider healthSlider;
 
-    public float moveSpeed;
+    [HideInInspector] public float moveSpeed;
+    public float arena1MoveSpeed;
+    public float arena3MoveSpeed;
 
     [Header("Rope Rush")]
     public int numberOfRopeRusheCharges;
@@ -20,6 +22,14 @@ public class RockyRhodesManager : MonoBehaviour
     public float ropeRushForce;
     public Transform[] ropeRushStartPoints;
     public float interactionDistance;
+
+    [Header("Cannonball")]
+    public Transform[] tiles;
+    public float jumpForce;
+    public float jumpTime;
+    public float jumpDelay;
+    public float slamForce;
+    public GameObject shockwave;
 
     [Header("Enhanced Rope Rush")]
     public float enhancedRopeRushForce;
@@ -36,6 +46,7 @@ public class RockyRhodesManager : MonoBehaviour
     [Header("Flags")]
     public bool canPerformAction = true;
     public bool ropeRush;
+    public bool cannonball;
     public bool enhancedRopeRush;
 
     private void Awake()
@@ -47,6 +58,7 @@ public class RockyRhodesManager : MonoBehaviour
 
     private void Start()
     {
+        moveSpeed = arena1MoveSpeed;
         maxRopeRushCharges = numberOfRopeRusheCharges;
         maxEnhancedRopeRushCharges = numberOfEnhancedRopeRusheCharges;
         agent.speed = moveSpeed;
@@ -54,17 +66,14 @@ public class RockyRhodesManager : MonoBehaviour
 
     private void Update()
     {
+        if (arena3)
+        {
+            moveSpeed = arena3MoveSpeed;
+        }
         attacks.StartRopeRush();
+        attacks.StartCannonball();
         attacks.StartEnhancedRopeRush();
 
-        if (numberOfRopeRusheCharges == 0 && attacks.collided)
-        {
-            Stunned();
-        }
-        if (numberOfEnhancedRopeRusheCharges == 0 && attacks.collided)
-        {
-            Stunned();
-        }
         OpenArenas();
     }
 
@@ -86,10 +95,10 @@ public class RockyRhodesManager : MonoBehaviour
             arena1 = false;
             arena2 = true;
         }
-    }
-
-    public void Stunned()
-    {
-        gameObject.tag = "Stunned Rocky";
+        if (arena2)
+        {
+            arena2 = false;
+            arena3 = true;
+        }
     }
 }

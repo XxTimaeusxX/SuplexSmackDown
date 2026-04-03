@@ -45,7 +45,11 @@ public class RhockyHealth : MonoBehaviour
             CheckHealthState();
         }
     }
-
+    public void TakeDamage()
+    {
+        if (HealthSlider == null) return;
+        HealthSlider.value = Mathf.Max(HealthSlider.value - 1f, 0f);
+    }
     public void CheckHealthState()
     {
         if (_lastHealthValue == 1f && !_healthhasDecreased && _currentPhase < 3)
@@ -68,17 +72,17 @@ public class RhockyHealth : MonoBehaviour
         {
             case 1:
                 Debug.Log("regular mode");
-                _qteSystem.SetDifficulty(20, 20f, 500f);
+                _qteSystem.SetDifficulty(20, 15f, 500f);
                 _qteSystem.TimerRate = 1f;
                 break;
             case 2:
                 Debug.Log("Medium mode");
-                _qteSystem.SetDifficulty(30, 20f, 1500f);
+                _qteSystem.SetDifficulty(20, 10f, 1500f);
                 _qteSystem.TimerRate = 1f;
                 break;
             case 3:
                 Debug.Log("Intense mode");
-                _qteSystem.SetDifficulty(35, 15f, 2000f);
+                _qteSystem.SetDifficulty(20, 9f, 2000f);
                 _qteSystem.TimerRate = 1f;
                 break;
         }
