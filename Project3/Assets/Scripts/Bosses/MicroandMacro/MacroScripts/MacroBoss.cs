@@ -2,6 +2,16 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum MacroState
+{
+    Idle,
+    Chasing,
+    Attacking,
+    Grabbed,
+    Thrown,
+    Returning
+}
+
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
@@ -17,17 +27,18 @@ public class MacroBoss : EnemyBase
     public Collider damageHitbox;
     public Collider MacrosCollider;
     public bool wasThrown = false;
-
+    public bool IsReturningToMicro = false;
     [Header("Throw Launch Settings")]
     [SerializeField] private float throwMinFlightTime = 0.6f;
     [SerializeField] private float throwMaxFlightTime = 2f;
     [SerializeField] private float throwTimeDistanceDivisor = 10f;
        [SerializeField] private float diveDownMultiplier = 1.5f;
     [Header("Animation")]
-    public Animator WorkerAnimator;
-    private string CurrentWorkerAnimation = "";
+    public Animator MacroAnimator;
+    private string CurrentMacroAnimation = "";
     public bool IsGrabbedByMicro;
     public bool IsThrownByMicro;
+    public MacroState CurrentMacroState;
     private void Awake()
     {
         canAttack = true; // little guy can attack
@@ -119,6 +130,7 @@ public class MacroBoss : EnemyBase
      
         while (true)
         {
+            CurrentMacroState = MacroState.Returning;
             agent.SetDestination(MicroPosition.position);
            agent.speed = 20f; // increase speed while returning to micro position
             if (agent.pathPending)
@@ -188,10 +200,10 @@ public class MacroBoss : EnemyBase
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {
-        if (CurrentWorkerAnimation != animation)
+        if (CurrentMacroAnimation != animation)
         {
-            CurrentWorkerAnimation = animation;
-            WorkerAnimator.CrossFade(animation, crossfade);
+            CurrentMacroAnimation = animation;
+            MacroAnimator.CrossFade(animation, crossfade);
 
         }
     }
@@ -208,26 +220,38 @@ public class MacroBoss : EnemyBase
         // call grab animation if grabbed
         if (IsThrownByMicro) // checks when thrown by micro
         {
+            CurrentMacroState = MacroState.Thrown;
             ChangeAnimation("MacroLaunched");
             return;
         }
          if (isGrabbed && !agent.enabled)
         {
-           
-           ChangeAnimation(IsGrabbedByMicro ? "MacroBall" : "MacroGrabbed");
+            if (!IsGrabbedByMicro)
+            {
+                CurrentMacroState = MacroState.Grabbed;
+            }
+            ChangeAnimation(IsGrabbedByMicro ? "MacroBall" : "MacroGrabbed");
             return;
         }
      
         //Walk Animation call
         if (agent.enabled && agent.isOnNavMesh && agent.hasPath && agent.remainingDistance > agent.stoppingDistance)
         {
+            // Only set to Chasing if we aren't returning
+            if (CurrentMacroState != MacroState.Returning)
+            {
+                CurrentMacroState = MacroState.Chasing;
+            }
             ChangeAnimation("MacroRun");
             return;
         }
 
         // Default to idle
         ChangeAnimation("MacroIdle");
-
+        if (CurrentMacroState != MacroState.Returning)
+        {
+            CurrentMacroState = MacroState.Idle;
+        }
 
     }
 
