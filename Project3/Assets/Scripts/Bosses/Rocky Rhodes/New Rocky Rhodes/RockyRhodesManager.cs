@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -48,6 +49,7 @@ public class RockyRhodesManager : MonoBehaviour
     public bool ropeRush;
     public bool cannonball;
     public bool enhancedRopeRush;
+    public bool grabbed;
 
     private void Awake()
     {
@@ -83,22 +85,61 @@ public class RockyRhodesManager : MonoBehaviour
         {
             open = true;
             healthSlider.value = 6;
-            StartCoroutine(ChangeArena(3f));
+            if (arena1)
+            {
+
+                StartCoroutine(ChangeArena1(3f));
+            }
+            if (arena2)
+            {
+                StartCoroutine(ChangeArena2(3f));
+            }
         }
     }
 
-    private IEnumerator ChangeArena(float delay)
+    private IEnumerator ChangeArena1(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (arena1)
+        arena1 = false;
+        arena2 = true;
+    }
+
+    private IEnumerator ChangeArena2(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        arena2 = false;
+        arena3 = true;
+        Vector3 newPos = transform.position;
+        newPos.y = 5.270936f;
+        transform.position = newPos;
+    }
+
+    private IEnumerator UnGrab(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canPerformAction = true;
+        grabbed = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shockwave"))
         {
-            arena1 = false;
-            arena2 = true;
-        }
-        if (arena2)
-        {
-            arena2 = false;
-            arena3 = true;
+            if (CompareTag("Stunned Rocky"))
+            {
+                if (arena1 || arena3)
+                {
+                    canPerformAction = true;
+                    grabbed = false;
+                }
+                healthSlider.value -= 1;
+                gameObject.tag = "Rocky Rhodes";
+                if (arena2)
+                {
+                    StartCoroutine(UnGrab(1));
+                }
+
+            }
         }
     }
 }
