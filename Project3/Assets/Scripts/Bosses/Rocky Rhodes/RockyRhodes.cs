@@ -267,8 +267,8 @@ public class RockyRhodes : EnemyBase
                     Vector3 knockbackDir = (collision.transform.position - transform.position).normalized;
                     knockbackDir.y = 0f;
 
-                    float knockbackForce = 25f;
-                    float upwardForce = 5f;
+                    float knockbackForce = 15f;
+                    float upwardForce = 15f;
 
                     // Apply knockback to the player's velocity
                     playerMovement.velocity = (knockbackDir * knockbackForce) + (Vector3.up * upwardForce);

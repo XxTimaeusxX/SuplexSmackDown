@@ -15,6 +15,12 @@ public class RhockyAbilities : MonoBehaviour
     [SerializeField] private float bullRushSpeed = 20f;
     [SerializeField] private float bullRushDuration = 0.6f;
 
+    [Header("Heel Taunt Settings")]
+    public float tauntChargeDuration = 5f;
+    public float speedMultiplierLevel = 5f;
+    public bool isEnraged = false;
+    public GameObject auraPlaceholder;
+
     public bool IsPerformingAbility = false;
     private float _abilityTimer = 0f;
     public Transform PlayerTarget;
@@ -92,6 +98,9 @@ public class RhockyAbilities : MonoBehaviour
             case RockyRhodesStates.Chestbump:   
                 _currentStateCoroutine = StartCoroutine(ChestBump());
                 break;
+            case RockyRhodesStates.HeelTaunt:
+                    _currentStateCoroutine = StartCoroutine(HeelTaunt());
+                break;
             case RockyRhodesStates.QTEMode:
                 _currentStateCoroutine = StartCoroutine(QTE());
                 break;
@@ -163,11 +172,12 @@ public class RhockyAbilities : MonoBehaviour
 
 
         float timer = 0f;
+        float currentSpeed = isEnraged ? (bullRushSpeed * speedMultiplierLevel) : bullRushSpeed;
         while (timer < bullRushDuration)
         {
             if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
             {
-                _rockyRhodes.rb.linearVelocity = toTarget * bullRushSpeed;
+                _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
                 _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
 
@@ -176,6 +186,14 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
+        // Consume the rage buff
+        if (isEnraged)
+        {
+            isEnraged = false;
+            if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
+            Debug.Log("Rage consumed");
+        }
+
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true);
         IsPerformingAbility = false;
@@ -204,12 +222,13 @@ public class RhockyAbilities : MonoBehaviour
             _rockyRhodes.RockyRhodesMesh.rotation = Quaternion.LookRotation(toTarget);
         }
         float timer = 0f;
+        float currentSpeed = isEnraged ? (bullRushSpeed * speedMultiplierLevel) : bullRushSpeed;
         while (timer < bullRushDuration)
         {
             if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
             {
                 _rockyAnimations.ChangeAnimation("HayMaker_demo");
-                _rockyRhodes.rb.linearVelocity = toTarget * bullRushSpeed;
+                _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
                 _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
 
@@ -218,6 +237,13 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
+        if (isEnraged)
+        {
+            isEnraged = false;
+            if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
+            Debug.Log("Rage consumed");
+        }
+
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true);
         IsPerformingAbility = false;
@@ -253,13 +279,14 @@ public class RhockyAbilities : MonoBehaviour
         float chestBumpSpeed = 40f;     // Slightly slower/punchier
         float timer = 0f;
 
+        float currentSpeed = isEnraged ? (chestBumpSpeed * speedMultiplierLevel) : chestBumpSpeed;
         while (timer < chestBumpDuration)
         {
             if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
             {
                 // Optionally add animation change here if you have one!
                 // _rockyAnimations.ChangeAnimation("ChestBump_demo");
-                _rockyRhodes.rb.linearVelocity = toTarget * chestBumpSpeed;
+                _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
                 _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
 
@@ -268,6 +295,14 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
+        if (isEnraged)
+        {
+            isEnraged = false;
+            if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
+            Debug.Log("Rage consumed");
+        }
+
+
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true);
         IsPerformingAbility = false;
@@ -276,6 +311,23 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator HeelTaunt()
     {
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
+        Debug.Log("HEEL TAUNT State Active - Charging Rage...");
+
+        IsPerformingAbility = true;
+        _rockyRhodes.ToggleBehaviors(false);
+        _rockyRhodes.IgnoreGroundCheck = true;
+        yield return new WaitForSeconds(tauntChargeDuration);
+
+        isEnraged = true;
+        if (auraPlaceholder != null) auraPlaceholder.SetActive(true);
+        Debug.Log("Rocky is ENRAGED! Next attack speed x" + speedMultiplierLevel);
+
+        _rockyRhodes.IgnoreGroundCheck = false;
+        _rockyRhodes.ToggleBehaviors(true);
+        IsPerformingAbility = false;
+
+        CheckState(RockyRhodesStates.Idle);
         yield return new WaitForSeconds(AbilityCooldown);
     }
 
