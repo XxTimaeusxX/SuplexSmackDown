@@ -15,6 +15,7 @@ public class RhockyHealth : MonoBehaviour
 
     private RockyRhodes _rockyRhodes;
     private QTESystem _qteSystem;
+    private RhockyAbilities _rhockyAbilities; // Added reference
     private float _lastHealthValue;
     private bool _healthhasDecreased;
     private float _currentPhase = 1f;
@@ -22,7 +23,8 @@ public class RhockyHealth : MonoBehaviour
     private void Awake()
     {
         _rockyRhodes = GetComponent<RockyRhodes>();
-         _qteSystem = _rockyRhodes.QTESystemScript;
+        _rhockyAbilities = GetComponent<RhockyAbilities>();
+        _qteSystem = _rockyRhodes.QTESystemScript;
     }
 
     private void Start()
@@ -52,11 +54,29 @@ public class RhockyHealth : MonoBehaviour
     }
     public void CheckHealthState()
     {
-        if (_lastHealthValue == 1f && !_healthhasDecreased && _currentPhase < 3)
+        // When health drops to 1, we either transition phases or trigger the desperation move
+        if (_lastHealthValue == 1f && !_healthhasDecreased)
         {
-            _healthhasDecreased = true;
-            float nextPhaseHealth = _currentPhase == 1f ? phase2Health : phase3Health;
-            StartCoroutine(HealAndJump(nextPhaseHealth));
+            _healthhasDecreased = true; // Lock so we only trigger once per health drop to 1
+
+            if (_currentPhase < 3)
+            {
+                // Heal and jump to next phase
+                float nextPhaseHealth = _currentPhase == 1f ? phase2Health : phase3Health;
+                StartCoroutine(HealAndJump(nextPhaseHealth));
+            }
+            else if (_currentPhase == 3)
+            {
+                // Trigger the flurry when Phase 3 reaches exactly 1 health!
+                Debug.Log("Health is 1 in Phase 3! Initiating Unstoppable Flurry!");
+
+                // Lock him into ONLY doing the flurry until he dies
+                _rhockyAbilities._randomSelection.Clear();
+                _rhockyAbilities._randomSelection.Add(RockyRhodesStates.DesperationFlurry);
+
+                // Start the first one immediately
+                _rhockyAbilities.CheckState(RockyRhodesStates.DesperationFlurry);
+            }
         }
         else if (_lastHealthValue <= 0f && _currentPhase >= 3)
         {
@@ -84,6 +104,7 @@ public class RhockyHealth : MonoBehaviour
                 Debug.Log("Intense mode");
                 _qteSystem.SetDifficulty(20, 9f, 2000f);
                 _qteSystem.TimerRate = 1f;
+                // Removed the initial CheckState from here, moving it to CheckHealthState
                 break;
         }
     }
@@ -94,7 +115,7 @@ public class RhockyHealth : MonoBehaviour
         _currentPhase++;
         Applyhealth(healthAmount);
         CurrentPhaseMode();
-        _healthhasDecreased = false;
+        _healthhasDecreased = false; // Reset the flag so Phase 2 and 3 can trigger their 1HP events
         CheckHealthState();
     }
 

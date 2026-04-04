@@ -28,6 +28,7 @@ public enum RockyRhodesStates
     CannonBall,
     //-- arena 3 states--//
     Deadlift,
+    DesperationFlurry,
     QTEMode,
     Dead,
 }

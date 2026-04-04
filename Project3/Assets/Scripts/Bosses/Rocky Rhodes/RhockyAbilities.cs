@@ -22,6 +22,7 @@ public class RhockyAbilities : MonoBehaviour
     public GameObject auraPlaceholder;
 
     public bool IsPerformingAbility = false;
+    public bool isFlurryActive = false;
     private float _abilityTimer = 0f;
     public Transform PlayerTarget;
 
@@ -51,12 +52,20 @@ public class RhockyAbilities : MonoBehaviour
 
     public void InterruptAbility(bool PauseAbility)
     {
+        // Prevent ANY interruption if flurry is active
+        if (isFlurryActive) 
+        {
+            Debug.Log("Interrupt ignored. Flurry is active.");
+            return;
+        }
+
         //  if (!IsPerformingAbility) return;
         if (PauseAbility && _currentStateCoroutine != null)
         {
             StopAllCoroutines();
             _currentStateCoroutine = null;
             IsPerformingAbility = false;
+            isFlurryActive = false;
             //   CheckState(RockyRhodesStates.Regular);
             Debug.Log("Ability interrupted by grab/push. Stopping ability and waiting for release.");
         }
@@ -104,6 +113,10 @@ public class RhockyAbilities : MonoBehaviour
             case RockyRhodesStates.QTEMode:
                 _currentStateCoroutine = StartCoroutine(QTE());
                 break;
+            // Ensure DesperationFlurry is hooked up if called via state
+            case RockyRhodesStates.DesperationFlurry:
+                _currentStateCoroutine = StartCoroutine(DesperationFlurry());
+                break;
    
         }
     }
@@ -149,19 +162,31 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-        qteCollideSensorScript.ResetOverlap();
-        qteCollideSensorScript.QTETriggerCollider.enabled = true; // Enable the QTE trigger collider for the Bull Rush attack
-        if(qteCollideSensorScript.QTETriggerCollider == true)Debug.Log("QTE Trigger Collider enabled for Bull Rush.");
-        if ( _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
+        
+        // Skip all QTE logic if part of an un-interruptible flurry
+        if (!isFlurryActive)
         {
-            Debug.Log("Player successfully triggered QTE during Bull Rush! Transitioning to QTE mode.");
-            IsPerformingAbility = false;
-       qteCollideSensorScript.QTETriggerCollider.enabled = false;
-            CheckState(RockyRhodesStates.QTEMode);
-            yield break;
+            qteCollideSensorScript.ResetOverlap();
+            qteCollideSensorScript.QTETriggerCollider.enabled = true; 
+            if(qteCollideSensorScript.QTETriggerCollider == true) Debug.Log("QTE Trigger Collider enabled for Bull Rush.");
+            if ( _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
+            {
+                Debug.Log("Player successfully triggered QTE during Bull Rush! Transitioning to QTE mode.");
+                IsPerformingAbility = false;
+                qteCollideSensorScript.QTETriggerCollider.enabled = false;
+                CheckState(RockyRhodesStates.QTEMode);
+                yield break;
+            }
         }
-        yield return new WaitForSeconds(5f); // charge-up delay
-    qteCollideSensorScript.QTETriggerCollider.enabled = false; // Enable the QTE trigger collider for the Bull Rush attack
+        else
+        {
+            qteCollideSensorScript.QTETriggerCollider.enabled = false;
+        }
+
+        // Skip or reduce charge-up delay if this attack is part of the Desperation Flurry
+        yield return new WaitForSeconds(isFlurryActive ? 0.2f : 5f);
+
+        qteCollideSensorScript.QTETriggerCollider.enabled = false; 
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
@@ -170,12 +195,12 @@ public class RhockyAbilities : MonoBehaviour
             _rockyRhodes.RockyRhodesMesh.rotation = Quaternion.LookRotation(toTarget);
         }
 
-
         float timer = 0f;
         float currentSpeed = isEnraged ? (bullRushSpeed * speedMultiplierLevel) : bullRushSpeed;
         while (timer < bullRushDuration)
         {
-            if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
+            // Ignore grab/push statuses if flurry is active so it's unstoppable
+            if (isFlurryActive || (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed))
             {
                 _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
                 _rockyRhodes.gameObject.tag = "DamagePlayer";
@@ -186,8 +211,9 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
-        // Consume the rage buff
-        if (isEnraged)
+        
+        // ONLY consume the rage buff if we are NOT in the endless flurry!
+        if (isEnraged && !isFlurryActive)
         {
             isEnraged = false;
             if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
@@ -196,9 +222,12 @@ public class RhockyAbilities : MonoBehaviour
 
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true);
-        IsPerformingAbility = false;
-
-        CheckState(RockyRhodesStates.Idle);
+        
+        if (!isFlurryActive)
+        {
+            IsPerformingAbility = false;
+            CheckState(RockyRhodesStates.Idle);
+        }
     }
     public IEnumerator Haymaker()
     {
@@ -212,8 +241,9 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
 
-        yield return new WaitForSeconds(3f); // charge-up delay effect
-       
+        // Skip or reduce charge-up delay
+        yield return new WaitForSeconds(isFlurryActive ? 0.2f : 3f);
+
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
@@ -225,7 +255,8 @@ public class RhockyAbilities : MonoBehaviour
         float currentSpeed = isEnraged ? (bullRushSpeed * speedMultiplierLevel) : bullRushSpeed;
         while (timer < bullRushDuration)
         {
-            if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
+            // Ignore grab/push statuses if flurry is active
+            if (isFlurryActive || (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed))
             {
                 _rockyAnimations.ChangeAnimation("HayMaker_demo");
                 _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
@@ -237,7 +268,9 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
-        if (isEnraged)
+        
+        // ONLY consume the rage buff if we are NOT in the endless flurry!
+        if (isEnraged && !isFlurryActive)
         {
             isEnraged = false;
             if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
@@ -246,9 +279,12 @@ public class RhockyAbilities : MonoBehaviour
 
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true);
-        IsPerformingAbility = false;
-
-        CheckState(RockyRhodesStates.Idle);
+        
+        if (!isFlurryActive)
+        {
+            IsPerformingAbility = false;
+            CheckState(RockyRhodesStates.Idle);
+        }
     }
     public IEnumerator ChestBump()
     {
@@ -261,8 +297,8 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
 
-        // No long charge-up like BullRush. Maybe a tiny windup for visual feedback.
-        yield return new WaitForSeconds(0.2f); 
+        // Skip or reduce charge-up delay
+        yield return new WaitForSeconds(isFlurryActive ? 0.2f : 1f);
 
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
@@ -282,7 +318,8 @@ public class RhockyAbilities : MonoBehaviour
         float currentSpeed = isEnraged ? (chestBumpSpeed * speedMultiplierLevel) : chestBumpSpeed;
         while (timer < chestBumpDuration)
         {
-            if (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed)
+            // Ignore grab/push statuses if flurry is active
+            if (isFlurryActive || (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed))
             {
                 // Optionally add animation change here if you have one!
                 // _rockyAnimations.ChangeAnimation("ChestBump_demo");
@@ -295,19 +332,23 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
-        if (isEnraged)
+        
+        // ONLY consume the rage buff if we are NOT in the endless flurry!
+        if (isEnraged && !isFlurryActive)
         {
             isEnraged = false;
             if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
             Debug.Log("Rage consumed");
         }
 
-
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true);
-        IsPerformingAbility = false;
-
-        CheckState(RockyRhodesStates.Idle);
+        
+        if (!isFlurryActive)
+        {
+            IsPerformingAbility = false;
+            CheckState(RockyRhodesStates.Idle);
+        }
     }
     public IEnumerator HeelTaunt()
     {
@@ -409,12 +450,45 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator DesperationFlurry()
     {
-        yield return new WaitForSeconds(AbilityCooldown);
+        if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
+        Debug.Log("DESPERATION FLURRY State Active");
+
+        if (PlayerTarget == null) yield break;
+
+        IsPerformingAbility = true;
+        isFlurryActive = true;
+
+        // Force enraged state at the START of the flurry and keep it on
+        isEnraged = true;
+        if (auraPlaceholder != null) auraPlaceholder.SetActive(true);
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (CurrentRockyState == RockyRhodesStates.QTEMode) break; // Break out if QTE is interrupted
+
+            // Randomly choose the next ability
+            int randomAbility = Random.Range(0, 3);
+
+            if (randomAbility == 0)
+                yield return StartCoroutine(BullRush());
+            else if (randomAbility == 1)
+                yield return StartCoroutine(Haymaker());
+            else
+                yield return StartCoroutine(ChestBump());
+
+            // Allow a short buffer to allow physics/animation transitions smoothly
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        // Flurry has ended, completely shut off rage and aura
+        isEnraged = false;
+        if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
+
+        isFlurryActive = false;
+        IsPerformingAbility = false;
+
+        // Go back into standard rotation
+        CheckState(RockyRhodesStates.Idle);
     }
-
-
-
-
-
 
 }
