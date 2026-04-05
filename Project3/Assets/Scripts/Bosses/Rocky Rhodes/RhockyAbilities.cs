@@ -26,6 +26,7 @@ public class RhockyAbilities : MonoBehaviour
     private float _abilityTimer = 0f;
     public Transform PlayerTarget;
     RockyRhodesManager manager;
+    RockyRhodesAttacks attacks;
 
 
     private RockyRhodes _rockyRhodes;
@@ -40,6 +41,8 @@ public class RhockyAbilities : MonoBehaviour
         RockyRhodesStates.BullRush,
         RockyRhodesStates.Haymaker,
         RockyRhodesStates.Chestbump,
+        RockyRhodesStates.RopeRush,
+        RockyRhodesStates.EnhancedRopeRush,
     };
    [SerializeField] private QteCollideSensor qteCollideSensorScript;
     private void Awake()
@@ -49,6 +52,7 @@ public class RhockyAbilities : MonoBehaviour
         if (qteCollideSensorScript ==null) qteCollideSensorScript = GetComponent<QteCollideSensor>();
         //  CurrentRockyState = RockyRhodesStates.Regular;
         manager = GetComponent<RockyRhodesManager>();
+        attacks = GetComponent<RockyRhodesAttacks>();
     }
 
     public void InterruptAbility(bool PauseAbility)
@@ -110,6 +114,12 @@ public class RhockyAbilities : MonoBehaviour
                 break;
             case RockyRhodesStates.HeelTaunt:
                     _currentStateCoroutine = StartCoroutine(HeelTaunt());
+                break;
+            case RockyRhodesStates.RopeRush:
+                manager.ropeRush = true;
+                break;
+            case RockyRhodesStates.EnhancedRopeRush:
+                manager.enhancedRopeRush = true;
                 break;
             case RockyRhodesStates.QTEMode:
                 _currentStateCoroutine = StartCoroutine(QTE());

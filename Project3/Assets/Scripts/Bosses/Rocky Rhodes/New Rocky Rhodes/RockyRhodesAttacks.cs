@@ -12,6 +12,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     RockyRhodesManager manager;
     public Transform chosenPoint;
     public bool collided;
+    RhockyAbilities abilities;
 
     public GameObject hitBox;
 
@@ -22,11 +23,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     private void Awake()
     {
         manager = GetComponent<RockyRhodesManager>();
-    }
-
-    private void Update()
-    {
-        
+        abilities = GetComponent<RhockyAbilities>();
     }
 
     #region Rope Rush
@@ -56,6 +53,7 @@ public class RockyRhodesAttacks : MonoBehaviour
         gameObject.tag = "Rocky Rhodes";
         manager.canPerformAction = true;
         manager.numberOfRopeRusheCharges = 3;
+        abilities.CheckState(RockyRhodesStates.Idle);
     }
 
     private void ReadyRopeRush()
@@ -213,6 +211,7 @@ public class RockyRhodesAttacks : MonoBehaviour
         gameObject.tag = "Rocky Rhodes";
         manager.canPerformAction = true;
         manager.numberOfEnhancedRopeRusheCharges = 10;
+        abilities.CheckState(RockyRhodesStates.Idle);
     }
 
     private void ReadyEnhancedRopeRush()

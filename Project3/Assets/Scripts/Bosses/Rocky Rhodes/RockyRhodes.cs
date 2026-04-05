@@ -23,10 +23,11 @@ public enum RockyRhodesStates
     Chestbump,
     HeelTaunt,
     //-- arena 1 states--//
-    //roperush,
+    RopeRush,
     //-- arena 2 states--//
     CannonBall,
     //-- arena 3 states--//
+    EnhancedRopeRush,
     Deadlift,
     DesperationFlurry,
     QTEMode,
