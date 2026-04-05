@@ -20,12 +20,20 @@ public class TravelToLocation : MonoBehaviour
     public NavMeshAgent agent;
     public Level2BossManager boss;
     public Rigidbody rb;
+    public AudioManager audioManager;
+    AudioSource audioSource;
 
     [Header("Movement Locations")]
     public List<Transform> waypoints;
 
     [Header("Bools")]
     public bool moveToLocation;
+
+    private void Awake()
+    {
+        audioManager = FindAnyObjectByType<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
+    }
 
     void Start()
     {
@@ -61,6 +69,15 @@ public class TravelToLocation : MonoBehaviour
     private void MoveLocation()
     {
         float step = travelSpeed * Time.deltaTime;
+        if (currentFlowerIndex == 0)
+        {
+            audioSource.PlayOneShot(audioManager.hurt1);
+        }
+        if (currentFlowerIndex == 1)
+        {
+            audioSource.PlayOneShot(audioManager.hurt2);
+        }
+        audioSource.PlayOneShot(audioManager.moveArena);
         transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, step);
         if (flowers != null)
         {
