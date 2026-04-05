@@ -25,7 +25,7 @@ public class Tooltip : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
 		
-		//if the player enters and it's not already active, start the coroutine to eventually destroy it
+		//if the player enters and it's not already active, start the coroutine to eventually disable it
 		if (other.CompareTag("Player"))
         {
 			if(!isPlaying){
@@ -43,6 +43,8 @@ public class Tooltip : MonoBehaviour
 		yield return new WaitForSeconds(destroyTime);
 		tooltipPanel.SetActive(false);
 		tooltipVideoPlayer.Stop();
-		Destroy(this.gameObject);
+		isPlaying = false;
+		yield break; //break out of the coroutine
+		//Destroy(this.gameObject);
 	}
 }
