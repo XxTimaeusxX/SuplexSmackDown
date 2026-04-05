@@ -45,6 +45,7 @@ public class RockyRhodesManager : MonoBehaviour
     public bool arena2;
     public bool arena3;
     [HideInInspector] public bool open;
+    public GameObject arena1Floor;
 
     [Header("Flags")]
     public bool canPerformAction = true;
@@ -52,6 +53,7 @@ public class RockyRhodesManager : MonoBehaviour
     public bool cannonball;
     public bool enhancedRopeRush;
     public bool grabbed;
+    public bool navOff;
 
     private void Awake()
     {
@@ -79,7 +81,14 @@ public class RockyRhodesManager : MonoBehaviour
         attacks.StartRopeRush();
         attacks.StartCannonball();
         attacks.StartEnhancedRopeRush();
-
+        if (navOff)
+        {
+            agent.enabled = false;
+        }
+        if (!navOff)
+        {
+            agent.enabled = true;
+        }
         OpenArenas();
     }
 
@@ -90,7 +99,7 @@ public class RockyRhodesManager : MonoBehaviour
             open = true;
             if (arena1)
             {
-
+                arena1Floor.SetActive(false);
                 StartCoroutine(ChangeArena1(3f));
             }
             if (arena2)
