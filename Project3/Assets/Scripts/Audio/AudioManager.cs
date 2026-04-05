@@ -100,7 +100,20 @@ public sealed class AudioManager : MonoBehaviour
     [Header("    --------------------------- LEVEL 2 -----------------------------     ")]
     [Header("Mariachi Sfx")]
     public AudioClip GuitarNoteClip;
-   
+
+    [Header("Ghost Boss")]
+    public AudioClip wrestle1;
+    public AudioClip wrestle2;
+    public AudioClip wrestle3;
+    public AudioClip frozen;
+    public AudioClip slam;
+    public AudioClip hurt1;
+    public AudioClip hurt2;
+    public AudioClip hurt3;
+    public AudioClip moveArena;
+    public AudioClip phase;
+    public AudioClip weakSignal;
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
