@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class Level2BossManager : MonoBehaviour
@@ -64,6 +65,7 @@ public class Level2BossManager : MonoBehaviour
     public GameObject chargeAura;
     public InGameMenuManager menuManager;
     public Cinema_final cinemaFinalScript;
+    public AudioManager audio;
 
     [Header("Bools")]
     private bool alreadyAttacked;

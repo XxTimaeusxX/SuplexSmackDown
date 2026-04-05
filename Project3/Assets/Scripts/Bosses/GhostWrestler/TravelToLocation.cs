@@ -20,6 +20,7 @@ public class TravelToLocation : MonoBehaviour
     public NavMeshAgent agent;
     public Level2BossManager boss;
     public Rigidbody rb;
+    public AudioManager audio;
 
     [Header("Movement Locations")]
     public List<Transform> waypoints;
