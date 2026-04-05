@@ -63,6 +63,7 @@ public class Level2BossManager : MonoBehaviour
     public GameObject aura;
     public GameObject chargeAura;
     public InGameMenuManager menuManager;
+    public Cinema_final cinemaFinalScript;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -492,6 +493,15 @@ public class Level2BossManager : MonoBehaviour
             {
                 travel.moveToLocation = true;
                 bossHealthSlider.value -= 1;
+                if(bossHealthSlider.value == 2)
+                {
+                    cinemaFinalScript.triggerDefeatCam1 = true;
+                }
+                if(bossHealthSlider.value == 1)
+                {
+                    cinemaFinalScript.triggerDefeatCam2 = true;
+                }
+
             }
             aura.SetActive(false);
             stunnedTimer = 0;
