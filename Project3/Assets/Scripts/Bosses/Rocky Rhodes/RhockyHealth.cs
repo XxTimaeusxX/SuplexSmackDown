@@ -54,30 +54,28 @@ public class RhockyHealth : MonoBehaviour
     }
     public void CheckHealthState()
     {
-        // When health drops to 1, we either transition phases or trigger the desperation move
-        if (_lastHealthValue == 1f && !_healthhasDecreased)
+        // 1. Phases 1 & 2: Health hits 0 -> Heal and Jump to the next phase
+        if (_lastHealthValue <= 0f && _currentPhase < 3 && !_healthhasDecreased)
         {
-            _healthhasDecreased = true; // Lock so we only trigger once per health drop to 1
-
-            if (_currentPhase < 3)
-            {
-                // Heal and jump to next phase
-                float nextPhaseHealth = _currentPhase == 1f ? phase2Health : phase3Health;
-                StartCoroutine(HealAndJump(nextPhaseHealth));
-            }
-            else if (_currentPhase == 3)
-            {
-                // Trigger the flurry when Phase 3 reaches exactly 1 health!
-                Debug.Log("Health is 1 in Phase 3! Initiating Unstoppable Flurry!");
-
-                // Lock him into ONLY doing the flurry until he dies
-                _rhockyAbilities._randomSelection.Clear();
-                _rhockyAbilities._randomSelection.Add(RockyRhodesStates.DesperationFlurry);
-
-                // Start the first one immediately
-                _rhockyAbilities.CheckState(RockyRhodesStates.DesperationFlurry);
-            }
+            _healthhasDecreased = true; // Lock until jump finishes
+            float nextPhaseHealth = _currentPhase == 1f ? phase2Health : phase3Health;
+            StartCoroutine(HealAndJump(nextPhaseHealth));
         }
+        // 2. Phase 3: Health hits 1 -> Trigger Flurry mode!
+        else if (_lastHealthValue == 1f && _currentPhase == 3 && !_healthhasDecreased)
+        {
+            _healthhasDecreased = true; // Lock so we only trigger this flurry setup once
+
+            Debug.Log("Health is 1 in Phase 3! Initiating Unstoppable Flurry!");
+
+            // Lock him into ONLY doing the flurry until he dies
+            _rhockyAbilities._randomSelection.Clear();
+            _rhockyAbilities._randomSelection.Add(RockyRhodesStates.DesperationFlurry);
+
+            // Start the first one immediately
+            _rhockyAbilities.CheckState(RockyRhodesStates.DesperationFlurry);
+        }
+        // 3. Phase 3: Health hits 0 -> Boss Dies
         else if (_lastHealthValue <= 0f && _currentPhase >= 3)
         {
             _rockyRhodes.Dead();

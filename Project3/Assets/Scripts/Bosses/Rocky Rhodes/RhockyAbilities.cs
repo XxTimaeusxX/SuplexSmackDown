@@ -184,7 +184,7 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         // Skip or reduce charge-up delay if this attack is part of the Desperation Flurry
-        yield return new WaitForSeconds(isFlurryActive ? 0.2f : 5f);
+        yield return new WaitForSeconds(isFlurryActive ? 2f : 5f);
 
         qteCollideSensorScript.QTETriggerCollider.enabled = false; 
         Vector3 toTarget = PlayerTarget.position - transform.position;
@@ -242,7 +242,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.IgnoreGroundCheck = true;
 
         // Skip or reduce charge-up delay
-        yield return new WaitForSeconds(isFlurryActive ? 0.2f : 3f);
+        yield return new WaitForSeconds(isFlurryActive ? 1f : 3f);
 
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
@@ -298,7 +298,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.IgnoreGroundCheck = true;
 
         // Skip or reduce charge-up delay
-        yield return new WaitForSeconds(isFlurryActive ? 0.2f : 1f);
+        yield return new WaitForSeconds(isFlurryActive ? 0.5f : 1f);
 
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
@@ -484,10 +484,26 @@ public class RhockyAbilities : MonoBehaviour
         isEnraged = false;
         if (auraPlaceholder != null) auraPlaceholder.SetActive(false);
 
+        // Turn off Flurry protection so he can be interrupted/grabbed again!
         isFlurryActive = false;
+        
+        // ---- EXHAUSTED STATE ----
+        Debug.Log("Flurry finished! Rocky is EXHAUSTED and vulnerable to grabs for 4 seconds!");
+        _rockyRhodes.gameObject.tag = "Enemy"; // Enable grabbable tag
+        
+        // Stop any leftover momentum so he stands still while exhausted
+        _rockyRhodes.rb.linearVelocity = Vector3.zero;
+
+        // If you have a tired animation, you can trigger it here!
+         _rockyAnimations.ChangeAnimation("Exhausted_demo");
+
+        yield return new WaitForSeconds(6f);
+
+        // If he wasn't grabbed during the Exhausted phase, reset and loop
+        _rockyRhodes.gameObject.tag = "Untagged"; 
         IsPerformingAbility = false;
 
-        // Go back into standard rotation
+        // Go back into standard rotation (which will instantly trigger Flurry again due to Phase 3 lockdown)
         CheckState(RockyRhodesStates.Idle);
     }
 
