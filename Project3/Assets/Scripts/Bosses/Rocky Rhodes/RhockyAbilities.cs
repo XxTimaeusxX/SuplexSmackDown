@@ -25,6 +25,7 @@ public class RhockyAbilities : MonoBehaviour
     public bool isFlurryActive = false;
     private float _abilityTimer = 0f;
     public Transform PlayerTarget;
+    RockyRhodesManager manager;
 
 
     private RockyRhodes _rockyRhodes;

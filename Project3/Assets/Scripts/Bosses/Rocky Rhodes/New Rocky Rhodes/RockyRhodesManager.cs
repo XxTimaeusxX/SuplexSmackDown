@@ -12,6 +12,8 @@ public class RockyRhodesManager : MonoBehaviour
     public GameObject player;
     [HideInInspector] public NavMeshAgent agent;
     public Slider healthSlider;
+    RhockyHealth health;
+    RhockyAbilities abilities;
 
     [HideInInspector] public float moveSpeed;
     public float arena1MoveSpeed;
@@ -56,6 +58,8 @@ public class RockyRhodesManager : MonoBehaviour
         attacks = GetComponent<RockyRhodesAttacks>();
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        health = GetComponent<RhockyHealth>();
+        abilities = GetComponent<RhockyAbilities>();
     }
 
     private void Start()
@@ -84,7 +88,6 @@ public class RockyRhodesManager : MonoBehaviour
         if (healthSlider.value <= 0)
         {
             open = true;
-            healthSlider.value = 6;
             if (arena1)
             {
 
@@ -110,7 +113,7 @@ public class RockyRhodesManager : MonoBehaviour
         arena2 = false;
         arena3 = true;
         Vector3 newPos = transform.position;
-        newPos.y = 5.270936f;
+        newPos.y = 7.1f;
         transform.position = newPos;
     }
 
@@ -132,7 +135,7 @@ public class RockyRhodesManager : MonoBehaviour
                     canPerformAction = true;
                     grabbed = false;
                 }
-                healthSlider.value -= 1;
+                health.TakeDamage();
                 gameObject.tag = "Rocky Rhodes";
                 if (arena2)
                 {
