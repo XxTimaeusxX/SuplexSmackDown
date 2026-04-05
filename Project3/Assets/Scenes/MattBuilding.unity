@@ -184002,6 +184002,13 @@ MonoBehaviour:
   isPhase2Intro: 0
   shoalHealth: {fileID: 464562667}
   bossTrigger2: {fileID: 1313045482}
+  triggerLevel2Intro: 0
+  triggerDefeatCam1: 0
+  triggerDefeatCam2: 0
+  defeatCameraDuration: 8
+  Level2IntroCam: {fileID: 0}
+  DefeatCam1: {fileID: 0}
+  DefeatCam2: {fileID: 0}
   Boss3Intro: 0
   IsRockyPhase1: 0
   IsRockyPhase2: 0
@@ -195592,6 +195599,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: DroneDieClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 64e2d439559b25e4b8872ffb3fca633e, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: DroneIdleClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b8f73dc5bb983a048baca9794c750aad, type: 3}
     - target: {fileID: 7968779603832368370, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
       propertyPath: m_Name
       value: AudioManager
