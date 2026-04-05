@@ -48,7 +48,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyAnimations = GetComponent<RockyAnimations>();
         if (qteCollideSensorScript ==null) qteCollideSensorScript = GetComponent<QteCollideSensor>();
         //  CurrentRockyState = RockyRhodesStates.Regular;
-
+        manager = GetComponent<RockyRhodesManager>();
     }
 
     public void InterruptAbility(bool PauseAbility)
