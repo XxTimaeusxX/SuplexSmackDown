@@ -241,7 +241,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene("StadiumBlockout");
+        SceneManager.LoadScene("StadiumBlockoutV2");
      //   PlaySceneMusic();
     }
 	

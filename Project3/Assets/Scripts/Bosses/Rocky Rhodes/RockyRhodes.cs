@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.ProBuilder;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -75,6 +73,7 @@ public class RockyRhodes : EnemyBase
         if (_abilities == null) _abilities = GetComponent<RhockyAbilities>();
         rhockyHealth = GetComponent<RhockyHealth>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
+        inGameMenuManager= GetComponent<InGameMenuManager>();
     }
 
     // Update is called once per frame
@@ -85,17 +84,27 @@ public class RockyRhodes : EnemyBase
     public override void SetGrabbed(bool grabbed) // custom grab condition for Rhocky :enemybase
     {
         base.SetGrabbed(grabbed);
+        
+        RockyRhodesManager manager = GetComponent<RockyRhodesManager>();
+
         if(grabbed)
         {
-           ToggleBehaviors(false);
+            ToggleBehaviors(false);
             _abilities.InterruptAbility(true);
             rb.isKinematic = true;
+            
+            // Tell the manager to STOP turning the NavMeshAgent back on!
+            if (manager != null) manager.navOff = true; 
         }
         else
         {
             rhockyHealth.TakeDamage();
             ToggleBehaviors(true);
             this.gameObject.tag="Untagged"; // untag so player can't accidentally re-grab while recovering
+            
+            // Allow the manager to use the NavMeshAgent again
+            if (manager != null) manager.navOff = false;
+
             if (_abilities != null && _abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
             {
                 _abilities.CheckState(RockyRhodesStates.Idle);
@@ -130,6 +139,7 @@ public class RockyRhodes : EnemyBase
                Debug.Log("Rocky Rhodes is Dead");
         RockyRhodesHealthBarUI.SetActive(false);
         this.gameObject.SetActive(false);
+        inGameMenuManager.WinScreen();
     }
     public void ToggleBehaviors( bool IsEnabled) // disabling rocky States switch
     {
@@ -145,7 +155,7 @@ public class RockyRhodes : EnemyBase
      //   rb.useGravity = IsEnabled;
     }
 
-    public IEnumerator JumpToPlatform() 
+  /*  public IEnumerator JumpToPlatform() 
     {
         isJumping = true;
 
@@ -188,9 +198,9 @@ public class RockyRhodes : EnemyBase
             _abilities.CheckState(RockyRhodesStates.Idle);
         }
     }
-
+    */
     // Helper Coroutine: Actually just calculates the math and moves him!
-    private IEnumerator PerformJump(Transform targetPoint)
+ /*   private IEnumerator PerformJump(Transform targetPoint)
     {
         // Disable NavMesh so physics can freely drive movement
         agent.enabled = false;
@@ -229,7 +239,7 @@ public class RockyRhodes : EnemyBase
 
         // Snap rotation back to normal upon landing
         RockyRhodesMesh.localRotation = originalMeshRotation;
-    }
+    } */
     // rocky rhodes begines its jumping here
   /*  public override void RandomPatrolDestination()
     {
@@ -239,12 +249,12 @@ public class RockyRhodes : EnemyBase
         StartCoroutine(JumpToPlatform());    
     }*/
 
-    public void JumpAway()
+ /*   public void JumpAway()
     {
         isJumping = false;
         StopCoroutine(nameof(JumpToPlatform)); // kill any lingering jump coroutine
         StartCoroutine(JumpToPlatform());
-    }
+    }*/
     private void OnTriggerEnter(Collider other)
     {
        //if doing abilities player take damage
