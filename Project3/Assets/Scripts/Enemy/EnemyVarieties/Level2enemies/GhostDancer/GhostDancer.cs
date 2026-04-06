@@ -51,6 +51,7 @@ public class GhostDancer : EnemyBase
     protected override void CustomAttack()
     {
         // Implement Ghost Dancer's specific attack behavior here
+        AudioManager.PlayDancerAttack();
         ShootWindGust();
 
     }
