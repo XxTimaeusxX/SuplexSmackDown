@@ -36,7 +36,7 @@ public class SuplexHitboxCaller : MonoBehaviour
         }*/
         // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
         if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn")
-            || other.CompareTag("Macro") || other.CompareTag("Drone") || 
+            || other.CompareTag("Macro") || other.CompareTag("Micro") || other.CompareTag("Drone") || 
             other.CompareTag("Solid") || other.CompareTag("GhostDancer") || other.CompareTag("Stunned Rocky")
             && playerSuplex != null)
         {
@@ -52,6 +52,10 @@ public class SuplexHitboxCaller : MonoBehaviour
             if (other.CompareTag("Stunned Rocky"))
             {
                 other.gameObject.GetComponent<RockyRhodesManager>().grabbed = true;
+            }
+            if (other.CompareTag("Micro"))
+            {
+                AudioManager.PlayMicroGrabbed();
             }
             gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
             playerSuplex.StartSuplex(other); // Begin the suplex sequence on the enemy

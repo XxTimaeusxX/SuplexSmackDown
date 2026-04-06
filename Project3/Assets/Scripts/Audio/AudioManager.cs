@@ -92,6 +92,7 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip MicroEncounterClip;// intro1 
     public AudioClip MicroTwoHealthClip;// intro2
     public AudioClip MicroOneHealthClip;
+    public AudioClip MicroGrabbedClip;
 
     [Header("Boss sfx")]
     public AudioClip BossIntro;
@@ -339,6 +340,7 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayMicroAttack() => PlaySFX(Instance?.MicroAttackClip, 1f);
     public static void PlayMicroEncounter() => PlaySFX(Instance?.MicroDamageHitOneClip, 1f);
     public static void PlayMicroDamageHitTwo() => PlaySFX(Instance?.MicroDamageHitTwoClip, 1f);
+    public static void PlayMicroGrabbed() => PlaySFX(Instance?.MicroGrabbedClip, 1f);
 
 
     public static void PlayMicroDie() => PlaySFX(Instance?.MicroDieClip, 1f);
