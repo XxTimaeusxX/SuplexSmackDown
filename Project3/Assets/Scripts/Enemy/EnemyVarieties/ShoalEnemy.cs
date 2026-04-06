@@ -36,6 +36,7 @@ public class ShoalEnemy : EnemyBase
                 {
                     doorManager.open = true;
                     areaTwoEnemies.SetActive(true);
+                    AudioManager.PlayIntercomShoalDefeat();
                 }
                 if (bossShoal == true)
                 {

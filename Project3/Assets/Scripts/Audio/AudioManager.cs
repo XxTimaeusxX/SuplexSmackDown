@@ -97,6 +97,11 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip BossIntro;
     public AudioClip BossPhase;
 
+    [Header("Intercom SFX")]
+    public AudioClip Intercom1;
+    public AudioClip Intercom2;
+    public AudioClip IntercomShoalDefeat;
+
     [Header("    --------------------------- LEVEL 2 -----------------------------     ")]
     [Header("Mariachi Sfx")]
     public AudioClip GuitarNoteClip;
@@ -341,6 +346,11 @@ public sealed class AudioManager : MonoBehaviour
     // ----Boss SFX----
     public static void PlayBossIntro() => PlayNarration(Instance?.BossIntro, 1f); // Uses narration system for boss intro
     public static void PlayBossPhase() => PlayNarration(Instance?.BossPhase, 1f);
+
+    // ----Intercom SFX----
+    public static void PlayIntercom1() => PlaySFX(Instance?.Intercom1, 1f);
+    public static void PlayIntercom2() => PlaySFX(Instance?.Intercom2, 1f);
+    public static void PlayIntercomShoalDefeat() => PlaySFX(Instance?.IntercomShoalDefeat, 1f);
 
     //-------------------------------------------- LEVEL 2------------------------------------------//
 
