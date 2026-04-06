@@ -160,7 +160,7 @@ public class PlayerDash : MonoBehaviour
     {
         _playerMovement.isPlayingDashAnimation = true;
   
-        _playerMovement.ChangeAnimtion("GRABAIR"); // or whatever your dash animation is named                 
+        _playerMovement.SetState(PlayerState.Dash,("GRABAIR")); // or whatever your dash animation is named                 
         yield return new WaitForSeconds(1f); // Change this to match your dash animation length
 
       _playerMovement.isPlayingDashAnimation = false;

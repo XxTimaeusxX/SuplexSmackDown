@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ public class RockyRhodesManager : MonoBehaviour
     public GameObject player;
     [HideInInspector] public NavMeshAgent agent;
     public Slider healthSlider;
+    RhockyHealth health;
+    RhockyAbilities abilities;
 
     [HideInInspector] public float moveSpeed;
     public float arena1MoveSpeed;
@@ -42,18 +45,23 @@ public class RockyRhodesManager : MonoBehaviour
     public bool arena2;
     public bool arena3;
     [HideInInspector] public bool open;
+    public GameObject arena1Floor;
 
     [Header("Flags")]
     public bool canPerformAction = true;
     public bool ropeRush;
     public bool cannonball;
     public bool enhancedRopeRush;
+    public bool grabbed;
+    public bool navOff;
 
     private void Awake()
     {
         attacks = GetComponent<RockyRhodesAttacks>();
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
+        health = GetComponent<RhockyHealth>();
+        abilities = GetComponent<RhockyAbilities>();
     }
 
     private void Start()
@@ -73,7 +81,14 @@ public class RockyRhodesManager : MonoBehaviour
         attacks.StartRopeRush();
         attacks.StartCannonball();
         attacks.StartEnhancedRopeRush();
-
+        if (navOff)
+        {
+            agent.enabled = false;
+        }
+        if (!navOff)
+        {
+            agent.enabled = true;
+        }
         OpenArenas();
     }
 
@@ -82,23 +97,61 @@ public class RockyRhodesManager : MonoBehaviour
         if (healthSlider.value <= 0)
         {
             open = true;
-            healthSlider.value = 6;
-            StartCoroutine(ChangeArena(3f));
+            if (arena1)
+            {
+                arena1Floor.SetActive(false);
+                StartCoroutine(ChangeArena1(3f));
+            }
+            if (arena2)
+            {
+                StartCoroutine(ChangeArena2(3f));
+            }
         }
     }
 
-    private IEnumerator ChangeArena(float delay)
+    private IEnumerator ChangeArena1(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (arena1)
+        arena1 = false;
+        arena2 = true;
+    }
+
+    private IEnumerator ChangeArena2(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        arena2 = false;
+        arena3 = true;
+        Vector3 newPos = transform.position;
+        newPos.y = 7.1f;
+        transform.position = newPos;
+    }
+
+    private IEnumerator UnGrab(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canPerformAction = true;
+        grabbed = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Shockwave"))
         {
-            arena1 = false;
-            arena2 = true;
-        }
-        if (arena2)
-        {
-            arena2 = false;
-            arena3 = true;
+            if (CompareTag("Stunned Rocky"))
+            {
+                if (arena1 || arena3)
+                {
+                    canPerformAction = true;
+                    grabbed = false;
+                }
+                health.TakeDamage();
+                gameObject.tag = "Rocky Rhodes";
+                if (arena2)
+                {
+                    StartCoroutine(UnGrab(1));
+                }
+
+            }
         }
     }
 }

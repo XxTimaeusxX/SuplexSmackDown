@@ -23,11 +23,13 @@ public enum RockyRhodesStates
     Chestbump,
     HeelTaunt,
     //-- arena 1 states--//
-    //roperush,
+    RopeRush,
     //-- arena 2 states--//
     CannonBall,
     //-- arena 3 states--//
+    EnhancedRopeRush,
     Deadlift,
+    DesperationFlurry,
     QTEMode,
     Dead,
 }
@@ -267,8 +269,8 @@ public class RockyRhodes : EnemyBase
                     Vector3 knockbackDir = (collision.transform.position - transform.position).normalized;
                     knockbackDir.y = 0f;
 
-                    float knockbackForce = 25f;
-                    float upwardForce = 5f;
+                    float knockbackForce = 15f;
+                    float upwardForce = 15f;
 
                     // Apply knockback to the player's velocity
                     playerMovement.velocity = (knockbackDir * knockbackForce) + (Vector3.up * upwardForce);

@@ -5,7 +5,24 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.ProBuilder.MeshOperations;
+public enum PlayerState
+{
+    Idle,
+    Walk,
+    Run,
+    Jump,
+    Freefall,
+    Dash,
 
+    Grab,
+    GrabIdle,
+    GrabRun,
+    LeapGrab,
+
+    Hurt,
+    Suplex,
+    SuperSuplex,
+}
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
@@ -45,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     public float RunSpeedThreshold = 2f; // Speed at which to switch from walk to run animation
     public bool IsPlayingGrabAnimation = false; // Flag to track if we're currently playing a grab animation
     public bool isPlayingDashAnimation = false; // Flag to track if we're currently playing a dash animation
-
+    public PlayerState CurrentState { get;  set; }
     // --- Freefall timing ---
     [Header("Free fall settings")]
     private float airTime = 0f;
@@ -203,10 +220,16 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -2f; // cancel upward momentum if we hit ceiling
             Debug.Log("Hit ceiling while jumping off enemy, cancelling upward momentum.");
+          
         }
     }
 
     //---------------- Animation ---------------------------//
+    public void SetState(PlayerState newState, string animName, float crossfade = 0.2f, bool instantAnimate = false)
+    {
+        CurrentState = newState;
+        ChangeAnimtion(animName, crossfade, instantAnimate);
+    }
     public void ChangeAnimtion(string animation, float crossfade = 0.2f, bool instantAnimate = false)
     {
         if(CurrentAnimation!= animation)
@@ -255,18 +278,18 @@ public class PlayerMovement : MonoBehaviour
             // Suplex animation 
             if (!isGrounded)
             {
-                ChangeAnimtion("LeapGrab",0f,true);
+                SetState(PlayerState.LeapGrab, "LeapGrab",0f,true);
                 return;
             }
             // Make GRABWALK behave like WALK: every time movement resumes, switch to GRABWALK.
             if (direction.magnitude >= 0.1f)
             {
-              //  Debug.Log("Changing to GRABWALK animation");
-                ChangeAnimtion("GrabRun");
+                //  Debug.Log("Changing to GRABWALK animation");
+                SetState(PlayerState.LeapGrab,"GrabRun");
                 return;
             }
             if (IsPlayingGrabAnimation) return;
-              ChangeAnimtion("GrabIDLE");
+            SetState(PlayerState.GrabIdle, "GrabIDLE");
             return;
         }
         // ----- DASHING - Check this BEFORE grab handling -----
@@ -284,14 +307,14 @@ public class PlayerMovement : MonoBehaviour
         //----- jump / freefall / walk / idle settiings -----//
         if (!isGrounded)// Jumping takes priority if not grounded
         {
-            if(velocity.y > 0.01f) ChangeAnimtion("JUMP");
+            if(velocity.y > 0.01f) SetState(PlayerState.Jump, "JUMP");
             else
             {
                 // only switch to FREEFALL after the configured delay AND a sufficient downward velocity
                 if (airTime >= freefallDelay && velocity.y <= freefallVelocityThreshold)
-                    ChangeAnimtion("FREEFALL");
+                    SetState(PlayerState.Freefall, "FREEFALL");
                 else
-                    ChangeAnimtion("JUMP"); // still considered jump/rise or early fall
+                    SetState(PlayerState.Jump, "JUMP");
             }
             return;
         }
@@ -300,14 +323,14 @@ public class PlayerMovement : MonoBehaviour
         if (direction.magnitude >= 0.1f)
         {
             if(moveSpeed >= RunSpeedThreshold)
-                ChangeAnimtion("RunFAST");
+                SetState(PlayerState.Run, "RunFAST");
             else
-                ChangeAnimtion("WALK");
+                SetState(PlayerState.Walk, "WALK");
         } 
-        else ChangeAnimtion("IDLE");
+        else SetState(PlayerState.Idle, "IDLE");
 
 
-      
-}
+
+    }
  
 }

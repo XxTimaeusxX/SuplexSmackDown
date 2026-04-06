@@ -1,8 +1,6 @@
 using Unity.Cinemachine;
 using System.Collections;
 using UnityEngine;
-using Unity.VisualScripting;
-//using UnityEngine.Audio;
 
 
 public class Cinema_final : MonoBehaviour
@@ -34,6 +32,7 @@ public class Cinema_final : MonoBehaviour
     public float positionThreshold = 1f;
     public float rotationThreshold = 2f;
 
+    [Header("---------------Level 1 Setting ------------------")]
     [Header("Phase Settings")]
     public bool isMainMenuIntro;
     public bool isPhase1Intro; // first intro before Shoal defeat
@@ -44,8 +43,18 @@ public class Cinema_final : MonoBehaviour
     public GameObject shoalHealth;
     public GameObject bossTrigger2;
 
+    [Header("---------------Level 2 Setting ------------------")]
+    public bool triggerLevel2Intro; // Set to true to trigger Level 2 intro
+    public bool triggerDefeatCam1; // Set to true to trigger Cam1
+    public bool triggerDefeatCam2; // Set to true to trigger Cam2
+    public float defeatCameraDuration = 8f; // How long the camera stays active
+
+    public GameObject Level2IntroCam;
+    public GameObject DefeatCam1;
+    public GameObject DefeatCam2;
 
     //----------- Level3 settings-----------//
+    [Header("---------------Level 3 Setting ------------------")]
     [Header("RockyRhodes Camera Settings")]
     public bool Boss3Intro;
     public bool IsRockyPhase1;
@@ -53,6 +62,8 @@ public class Cinema_final : MonoBehaviour
     public bool IsRockyPhase3;
     public CinemachineCamera Boss3ClashCloseUp;
     public float CameraTransitionDuration = 7f;
+
+    public GameObject Level3IntroCam;
     private void Start()
     {
         playerMovementScript = player.GetComponent<PlayerMovement>();
@@ -72,10 +83,35 @@ public class Cinema_final : MonoBehaviour
         {
             StartCoroutine(StartIntro());
         }
-      /*  if (Boss3Intro)
+
+        if(triggerLevel2Intro)
         {
-            StartCoroutine(StartBoss3PanIn());
-        }*/
+            triggerLevel2Intro = false; // Reset toggle
+            StartCoroutine(HandleLevel2Cameras(Level2IntroCam));
+        }
+        // LEVEL 2 - Defeat Camera Triggers
+        if (triggerDefeatCam1)
+        {
+            triggerDefeatCam1 = false; // Reset toggle
+            StartCoroutine(HandleLevel2Cameras(DefeatCam1));
+        }
+
+        if (triggerDefeatCam2)
+        {
+            triggerDefeatCam2 = false; // Reset toggle
+            StartCoroutine(HandleLevel2Cameras(DefeatCam2));
+        }
+        // LEVEL 3 - Start scene intro
+        if (Boss3Intro)
+        {
+            Boss3Intro = false; // Reset toggle
+            StartCoroutine(HandleLevel3Cameras(Level3IntroCam));
+        }
+
+        /*  if (Boss3Intro)
+          {
+              StartCoroutine(StartBoss3PanIn());
+          }*/
     }
 
     private IEnumerator StartIntro()
@@ -113,6 +149,43 @@ public class Cinema_final : MonoBehaviour
 
         yield return new WaitForSeconds(4f);
         EndIntro();
+    }
+
+    //----------------------------------- LEVEL 2-------------------------------------//
+    
+    private IEnumerator HandleLevel2Cameras(GameObject camObject)
+    {
+        if (camObject == null) yield break;
+
+        CinemachineCamera cinemachineCam = camObject.GetComponent<CinemachineCamera>();
+        
+        // Enable object and raise priority
+        camObject.SetActive(true);
+        playerMovementScript.enabled = false;
+        if (cinemachineCam != null) cinemachineCam.Priority = 100;
+
+        // Wait designated time
+        yield return new WaitForSeconds(defeatCameraDuration);
+
+        // Lower priority back to 1 and disable
+        if (cinemachineCam != null) cinemachineCam.Priority = 1;
+        camObject.SetActive(false);
+        playerMovementScript.enabled = true;
+    }
+
+    //----------------------------------- LEVEL 3-------------------------------------//
+
+    public IEnumerator HandleLevel3Cameras(GameObject camObject)
+    {
+        if (camObject == null) yield break;
+        CinemachineCamera cinemachineCam = camObject.GetComponent<CinemachineCamera>();
+        camObject.SetActive(true);
+        playerMovementScript.enabled = false;
+        if (cinemachineCam != null) cinemachineCam.Priority = 100;
+        yield return new WaitForSeconds(defeatCameraDuration);
+        if (cinemachineCam != null) cinemachineCam.Priority = 1;
+        camObject.SetActive(false);
+        playerMovementScript.enabled = true;
     }
     public IEnumerator StartBoss3PanIn()
     {

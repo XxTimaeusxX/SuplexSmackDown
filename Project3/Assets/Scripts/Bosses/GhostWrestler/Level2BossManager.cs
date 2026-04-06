@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class Level2BossManager : MonoBehaviour
@@ -63,6 +64,9 @@ public class Level2BossManager : MonoBehaviour
     public GameObject aura;
     public GameObject chargeAura;
     public InGameMenuManager menuManager;
+    public Cinema_final cinemaFinalScript;
+    public AudioManager audioManager;
+    AudioSource audioSource;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -84,6 +88,12 @@ public class Level2BossManager : MonoBehaviour
     public bool grabBoxGrab;
     private bool suplex;
     private bool attacking;
+
+    private void Awake()
+    {
+        audioManager = FindAnyObjectByType<AudioManager>();
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Start()
     {
@@ -229,6 +239,7 @@ public class Level2BossManager : MonoBehaviour
     {
         if (finalArea && slow && !grabBoxGrab)
         {
+            audioSource.PlayOneShot(audioManager.phase);
             Debug.Log("Activate");
             grabBox.SetActive(true);
             agent.SetDestination(transform.position);
@@ -284,6 +295,7 @@ public class Level2BossManager : MonoBehaviour
     {
         if (stunned)
         {
+            audioSource.PlayOneShot(audioManager.frozen);
             agent.enabled = false;
             stunnedTimer -= Time.deltaTime;
             body.tag = "Solid";
@@ -472,13 +484,26 @@ public class Level2BossManager : MonoBehaviour
                 grabBoxGrab = false;
                 suplexTimer = maxSuplexTimer;
                 Instantiate(shockwave, boss.position, boss.rotation, boss);
+                audioSource.PlayOneShot(audioManager.slam);
             }
         }
     }
 
     private IEnumerator AttackWithDelay(float delay)
     {
-        attacking = true;
+        int randomAudio = Random.Range(0, 3);
+        switch (randomAudio)
+        {
+            case 0:
+                audioSource.PlayOneShot(audioManager.wrestle1);
+                break;
+            case 1:
+                audioSource.PlayOneShot(audioManager.wrestle2);
+                break;
+            case 2:
+                audioSource.PlayOneShot(audioManager.wrestle3);
+                break;
+        }
         chargeAura.SetActive(true);
         yield return new WaitForSeconds(delay);
         AttackPlayer();
@@ -492,6 +517,15 @@ public class Level2BossManager : MonoBehaviour
             {
                 travel.moveToLocation = true;
                 bossHealthSlider.value -= 1;
+                if(bossHealthSlider.value == 2)
+                {
+                    cinemaFinalScript.triggerDefeatCam1 = true;
+                }
+                if(bossHealthSlider.value == 1)
+                {
+                    cinemaFinalScript.triggerDefeatCam2 = true;
+                }
+
             }
             aura.SetActive(false);
             stunnedTimer = 0;
