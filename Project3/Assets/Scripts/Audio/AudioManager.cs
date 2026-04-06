@@ -100,7 +100,25 @@ public sealed class AudioManager : MonoBehaviour
     [Header("    --------------------------- LEVEL 2 -----------------------------     ")]
     [Header("Mariachi Sfx")]
     public AudioClip GuitarNoteClip;
-   
+    public AudioClip MariachiDetection;
+    public AudioClip MariachiHurt;
+
+    [Header("Ghost Boss")]
+    public AudioClip wrestle1;
+    public AudioClip wrestle2;
+    public AudioClip wrestle3;
+    public AudioClip frozen;
+    public AudioClip slam;
+    public AudioClip hurt1;
+    public AudioClip hurt2;
+    public AudioClip hurt3;
+    public AudioClip moveArena;
+    public AudioClip phase;
+    public AudioClip weakSignal;
+
+    [Header("Dancer SFX")]
+    public AudioClip DancerAttack;
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -328,6 +346,9 @@ public sealed class AudioManager : MonoBehaviour
 
     public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
     public static void PlayFestivalBGM() => PlayMusic(Instance?.FestivalBGM);
+    public static void PlayMariachiDetection() => PlaySFX(Instance?.MariachiDetection, 1f);
+    public static void PlayMariachiHurt() => PlaySFX(Instance?.MariachiHurt, 1f);
+    public static void PlayDancerAttack() => PlaySFX(Instance?.DancerAttack, 1f);
 
     //-------------------------------------------- LEVEL 3------------------------------------------//
     public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);
