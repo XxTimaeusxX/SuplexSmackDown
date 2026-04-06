@@ -714,7 +714,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6469857921906907582, guid: fc2f3cfcd64a4c24bbeeaa430e72b7f0, type: 3}
   m_PrefabInstance: {fileID: 1555040525}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332007955}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
@@ -225823,9 +225823,9 @@ MonoBehaviour:
         z: 12.520526
       Rotation:
         value:
-          x: -0.016562795
+          x: -0.016562797
           y: -0.39215776
-          z: 0.004629285
+          z: 0.0046292865
           w: 0.9197373
     - Position:
         x: -60.58705
@@ -264169,10 +264169,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de39ea71ecbab2e4cbdb122b3c555d9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cinema_final
-  introCameraObj: {fileID: 1332007955}
-  introCamera: {fileID: 1687342536}
-  freeLookCamera: {fileID: 184188907}
-  towerCamera: {fileID: 1687342536}
+  introCameraObj: {fileID: 0}
+  introCamera: {fileID: 0}
+  freeLookCamera: {fileID: 0}
+  towerCamera: {fileID: 0}
   player: {fileID: 1440337000}
   triggerRange: 25
   introPlayed: 0
@@ -264192,12 +264192,13 @@ MonoBehaviour:
   Level2IntroCam: {fileID: 0}
   DefeatCam1: {fileID: 0}
   DefeatCam2: {fileID: 0}
-  Boss3Intro: 0
+  Boss3Intro: 1
   IsRockyPhase1: 0
   IsRockyPhase2: 0
   IsRockyPhase3: 0
   Boss3ClashCloseUp: {fileID: 11093310}
-  CameraTransitionDuration: 15
+  CameraTransitionDuration: 5
+  Level3IntroCam: {fileID: 1687342531}
 --- !u!4 &924073909
 Transform:
   m_ObjectHideFlags: 0
@@ -336254,11 +336255,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!1 &1332007955 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3937933601060086724, guid: fc2f3cfcd64a4c24bbeeaa430e72b7f0, type: 3}
-  m_PrefabInstance: {fileID: 1555040525}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1339865578
 GameObject:
   m_ObjectHideFlags: 0
