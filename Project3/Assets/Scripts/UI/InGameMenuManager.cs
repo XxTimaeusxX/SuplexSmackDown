@@ -12,6 +12,9 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] PlayerDash playerDash;
 	public PlayerInput playerInput;
 	[SerializeField] GameObject _SuperSuplexUI;
+	public GameObject player;
+	public Level2Respawn respawn;
+	public PlayerHealth health;
 
 	[SerializeField] string _MainMenuScene;
     [SerializeField] string _Stage1Scene;
@@ -204,7 +207,7 @@ public class InGameMenuManager : MonoBehaviour
 	public void RestartButtonClicked()
 	{
 		ResumeButtonClicked();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     //    PlaySceneMusic();
     }
 	
