@@ -96,14 +96,15 @@ public class RockyRhodesManager : MonoBehaviour
     {
         if (healthSlider.value <= 0)
         {
-            open = true;
             if (arena1)
             {
+                agent.enabled = false;
                 arena1Floor.SetActive(false);
                 StartCoroutine(ChangeArena1(3f));
             }
             if (arena2)
             {
+                open = true;
                 StartCoroutine(ChangeArena2(3f));
             }
         }
@@ -114,6 +115,10 @@ public class RockyRhodesManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         arena1 = false;
         arena2 = true;
+        Vector3 newPos = transform.position;
+        newPos.y = 30.63f;
+        newPos.z = 751.97f;
+        transform.position = newPos;
     }
 
     private IEnumerator ChangeArena2(float delay)
