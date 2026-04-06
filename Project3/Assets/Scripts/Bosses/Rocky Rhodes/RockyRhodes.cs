@@ -157,7 +157,7 @@ public class RockyRhodes : EnemyBase
      //   rb.useGravity = IsEnabled;
     }
 
-    public IEnumerator JumpToPlatform() 
+  /*  public IEnumerator JumpToPlatform() 
     {
         isJumping = true;
 
@@ -200,9 +200,9 @@ public class RockyRhodes : EnemyBase
             _abilities.CheckState(RockyRhodesStates.Idle);
         }
     }
-
+    */
     // Helper Coroutine: Actually just calculates the math and moves him!
-    private IEnumerator PerformJump(Transform targetPoint)
+ /*   private IEnumerator PerformJump(Transform targetPoint)
     {
         // Disable NavMesh so physics can freely drive movement
         agent.enabled = false;
@@ -241,7 +241,7 @@ public class RockyRhodes : EnemyBase
 
         // Snap rotation back to normal upon landing
         RockyRhodesMesh.localRotation = originalMeshRotation;
-    }
+    } */
     // rocky rhodes begines its jumping here
   /*  public override void RandomPatrolDestination()
     {
@@ -251,12 +251,12 @@ public class RockyRhodes : EnemyBase
         StartCoroutine(JumpToPlatform());    
     }*/
 
-    public void JumpAway()
+ /*   public void JumpAway()
     {
         isJumping = false;
         StopCoroutine(nameof(JumpToPlatform)); // kill any lingering jump coroutine
         StartCoroutine(JumpToPlatform());
-    }
+    }*/
     private void OnTriggerEnter(Collider other)
     {
        //if doing abilities player take damage

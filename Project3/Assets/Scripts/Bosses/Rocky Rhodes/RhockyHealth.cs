@@ -110,7 +110,8 @@ public class RhockyHealth : MonoBehaviour
 
     private IEnumerator HealAndJump(float healthAmount)
     {
-        yield return StartCoroutine(_rockyRhodes.JumpToPlatform());
+        yield return new WaitForSeconds(1f); // Small delay before healing and jumping to the next phase
+                                             //    yield return StartCoroutine(_rockyRhodes.JumpToPlatform());
         _currentPhase++;
         Applyhealth(healthAmount);
         CurrentPhaseMode();
