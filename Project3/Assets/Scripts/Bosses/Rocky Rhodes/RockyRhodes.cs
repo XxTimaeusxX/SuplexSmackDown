@@ -73,7 +73,7 @@ public class RockyRhodes : EnemyBase
         if (_abilities == null) _abilities = GetComponent<RhockyAbilities>();
         rhockyHealth = GetComponent<RhockyHealth>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
-        inGameMenuManager= GetComponent<InGameMenuManager>();
+     if(inGameMenuManager==null) GetComponent<InGameMenuManager>();
     }
 
     // Update is called once per frame

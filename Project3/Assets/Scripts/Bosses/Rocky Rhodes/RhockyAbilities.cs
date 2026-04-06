@@ -42,6 +42,7 @@ public class RhockyAbilities : MonoBehaviour
         RockyRhodesStates.Haymaker,
         RockyRhodesStates.Chestbump,
         RockyRhodesStates.RopeRush,
+        RockyRhodesStates.HeelTaunt,
         RockyRhodesStates.EnhancedRopeRush,
     };
    [SerializeField] private QteCollideSensor qteCollideSensorScript;
