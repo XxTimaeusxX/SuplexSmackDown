@@ -62,6 +62,8 @@ public class Cinema_final : MonoBehaviour
     public bool IsRockyPhase3;
     public CinemachineCamera Boss3ClashCloseUp;
     public float CameraTransitionDuration = 7f;
+
+    public GameObject Level3IntroCam;
     private void Start()
     {
         playerMovementScript = player.GetComponent<PlayerMovement>();
@@ -99,11 +101,17 @@ public class Cinema_final : MonoBehaviour
             triggerDefeatCam2 = false; // Reset toggle
             StartCoroutine(HandleLevel2Cameras(DefeatCam2));
         }
-        
-      /*  if (Boss3Intro)
+        // LEVEL 3 - Start scene intro
+        if (Boss3Intro)
         {
-            StartCoroutine(StartBoss3PanIn());
-        }*/
+            Boss3Intro = false; // Reset toggle
+            StartCoroutine(HandleLevel3Cameras(Level3IntroCam));
+        }
+
+        /*  if (Boss3Intro)
+          {
+              StartCoroutine(StartBoss3PanIn());
+          }*/
     }
 
     private IEnumerator StartIntro()
@@ -166,6 +174,19 @@ public class Cinema_final : MonoBehaviour
     }
 
     //----------------------------------- LEVEL 3-------------------------------------//
+
+    public IEnumerator HandleLevel3Cameras(GameObject camObject)
+    {
+        if (camObject == null) yield break;
+        CinemachineCamera cinemachineCam = camObject.GetComponent<CinemachineCamera>();
+        camObject.SetActive(true);
+        playerMovementScript.enabled = false;
+        if (cinemachineCam != null) cinemachineCam.Priority = 100;
+        yield return new WaitForSeconds(defeatCameraDuration);
+        if (cinemachineCam != null) cinemachineCam.Priority = 1;
+        camObject.SetActive(false);
+        playerMovementScript.enabled = true;
+    }
     public IEnumerator StartBoss3PanIn()
     {
         Boss3Intro = false;
