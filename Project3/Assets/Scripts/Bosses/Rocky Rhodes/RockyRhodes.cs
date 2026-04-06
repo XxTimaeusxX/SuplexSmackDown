@@ -75,6 +75,7 @@ public class RockyRhodes : EnemyBase
         if (_abilities == null) _abilities = GetComponent<RhockyAbilities>();
         rhockyHealth = GetComponent<RhockyHealth>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
+        inGameMenuManager= GetComponent<InGameMenuManager>();
     }
 
     // Update is called once per frame
@@ -85,17 +86,27 @@ public class RockyRhodes : EnemyBase
     public override void SetGrabbed(bool grabbed) // custom grab condition for Rhocky :enemybase
     {
         base.SetGrabbed(grabbed);
+        
+        RockyRhodesManager manager = GetComponent<RockyRhodesManager>();
+
         if(grabbed)
         {
-           ToggleBehaviors(false);
+            ToggleBehaviors(false);
             _abilities.InterruptAbility(true);
             rb.isKinematic = true;
+            
+            // Tell the manager to STOP turning the NavMeshAgent back on!
+            if (manager != null) manager.navOff = true; 
         }
         else
         {
             rhockyHealth.TakeDamage();
             ToggleBehaviors(true);
             this.gameObject.tag="Untagged"; // untag so player can't accidentally re-grab while recovering
+            
+            // Allow the manager to use the NavMeshAgent again
+            if (manager != null) manager.navOff = false;
+
             if (_abilities != null && _abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
             {
                 _abilities.CheckState(RockyRhodesStates.Idle);
@@ -130,6 +141,7 @@ public class RockyRhodes : EnemyBase
                Debug.Log("Rocky Rhodes is Dead");
         RockyRhodesHealthBarUI.SetActive(false);
         this.gameObject.SetActive(false);
+        inGameMenuManager.WinScreen();
     }
     public void ToggleBehaviors( bool IsEnabled) // disabling rocky States switch
     {
