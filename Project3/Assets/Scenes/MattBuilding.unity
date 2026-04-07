@@ -39973,6 +39973,9 @@ MonoBehaviour:
   playerDash: {fileID: 0}
   playerInput: {fileID: 1152671281}
   _SuperSuplexUI: {fileID: 7320028099363092639}
+  player: {fileID: 0}
+  respawn: {fileID: 0}
+  health: {fileID: 0}
   _MainMenuScene: MainMenuTest
   _Stage1Scene: MattBuilding
   _PauseMenuContainer: {fileID: 1258977866}
@@ -95504,7 +95507,7 @@ GameObject:
   - component: {fileID: 338575454}
   m_Layer: 0
   m_Name: trigger_intercom2
-  m_TagString: Untagged
+  m_TagString: Intercom2Trash
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157910,7 +157913,7 @@ GameObject:
   - component: {fileID: 702078502}
   m_Layer: 0
   m_Name: trigger_intercom1
-  m_TagString: Untagged
+  m_TagString: Intercom
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184171,6 +184174,7 @@ Transform:
   m_Children:
   - {fileID: 702078501}
   - {fileID: 338575453}
+  - {fileID: 865650326}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &858153996
@@ -185665,6 +185669,59 @@ Transform:
   - {fileID: 1880690609}
   m_Father: {fileID: 736405892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &865650325
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 865650326}
+  - component: {fileID: 865650327}
+  m_Layer: 0
+  m_Name: trigger_intercom3LoadingBay
+  m_TagString: Intercom3Loadingbay
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &865650326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865650325}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -59.3, y: -153, z: -10.92}
+  m_LocalScale: {x: 23.85618, y: 11.19108, z: 12.954076}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 857647035}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!65 &865650327
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 865650325}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5.609973, y: 0.9999999, z: 1}
+  m_Center: {x: 0.3882627, y: 0, z: -5.4942114e-16}
 --- !u!1 &865948958
 GameObject:
   m_ObjectHideFlags: 0
@@ -195743,6 +195800,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: Intercom1
+      value: 
+      objectReference: {fileID: 8300000, guid: 3c2323a603a68bc4ba3b66d3d8875247, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: Intercom2
+      value: 
+      objectReference: {fileID: 8300000, guid: 19920b0885537004f967406cfd41bba6, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: Intercom4
+      value: 
+      objectReference: {fileID: 8300000, guid: 19920b0885537004f967406cfd41bba6, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
       propertyPath: DroneDieClip
       value: 
       objectReference: {fileID: 8300000, guid: 64e2d439559b25e4b8872ffb3fca633e, type: 3}
@@ -195750,6 +195819,18 @@ PrefabInstance:
       propertyPath: DroneIdleClip
       value: 
       objectReference: {fileID: 8300000, guid: b8f73dc5bb983a048baca9794c750aad, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: Intercom2LoadingBay
+      value: 
+      objectReference: {fileID: 8300000, guid: 472df6952b19dbe419c8996e0fabf5f4, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: IntercomShoalDefeat
+      value: 
+      objectReference: {fileID: 8300000, guid: 8e832f7c822be5d42a554f1ebb3f642a, type: 3}
+    - target: {fileID: 4170961018126825664, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
+      propertyPath: Intercom1HrDeparment
+      value: 
+      objectReference: {fileID: 8300000, guid: 3c2323a603a68bc4ba3b66d3d8875247, type: 3}
     - target: {fileID: 7968779603832368370, guid: ceccfc608fb6ca4448bfc7a2a43fe895, type: 3}
       propertyPath: m_Name
       value: AudioManager

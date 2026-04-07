@@ -99,9 +99,10 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip BossPhase;
 
     [Header("Intercom SFX")]
-    public AudioClip Intercom1;
-    public AudioClip Intercom2;
+    public AudioClip Intercom1HrDeparment;
+    public AudioClip Intercom2LoadingBay;
     public AudioClip IntercomShoalDefeat;
+    public AudioClip Intercom4;
 
     [Header("    --------------------------- LEVEL 2 -----------------------------     ")]
     [Header("Mariachi Sfx")]
@@ -350,9 +351,11 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayBossPhase() => PlayNarration(Instance?.BossPhase, 1f);
 
     // ----Intercom SFX----
-    public static void PlayIntercom1() => PlaySFX(Instance?.Intercom1, 1f);
-    public static void PlayIntercom2() => PlaySFX(Instance?.Intercom2, 1f);
+    public static void PlayIntercom1HrDepartment() => PlaySFX(Instance?.Intercom1HrDeparment, 1f);
+    public static void PlayIntercom2LoadingBay() => PlaySFX(Instance?.Intercom2LoadingBay, 1f);
+
     public static void PlayIntercomShoalDefeat() => PlaySFX(Instance?.IntercomShoalDefeat, 1f);
+    public static void PlayIntercom4Trash() => PlaySFX(Instance?.Intercom4, 1f);
 
     //-------------------------------------------- LEVEL 2------------------------------------------//
 

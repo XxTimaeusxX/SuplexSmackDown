@@ -332,5 +332,19 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
- 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Intercom"))
+        {
+           AudioManager.PlayIntercom1HrDepartment();
+        }
+        if(other.CompareTag("Intercom2Trash"))
+        {
+            AudioManager.PlayIntercom4Trash();
+        }
+        if (other.CompareTag("Intercom3Loadingbay"))
+        {
+            AudioManager.PlayIntercom2LoadingBay();
+        }
+    }
 }

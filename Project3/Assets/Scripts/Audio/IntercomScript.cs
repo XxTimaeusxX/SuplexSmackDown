@@ -12,12 +12,12 @@ public class IntercomScript : MonoBehaviour
     {
         if (collision.gameObject == Trigger1 && !hasPlayedIntercom1)
         {
-            AudioManager.PlayIntercom1();
+            AudioManager.PlayIntercom1HrDepartment();
             hasPlayedIntercom1 = true;
         }
         if (collision.gameObject == Trigger2 && !hasPlayedIntercom2)
         {
-            AudioManager.PlayIntercom2();
+            AudioManager.PlayIntercom2LoadingBay();
             hasPlayedIntercom2 = true;
         }
     }
