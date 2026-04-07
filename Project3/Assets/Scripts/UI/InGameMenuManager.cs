@@ -11,10 +11,6 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] PlayerMovement playerMovement;
 	[SerializeField] PlayerDash playerDash;
 	public PlayerInput playerInput;
-	[SerializeField] GameObject _SuperSuplexUI;
-	public GameObject player;
-	public Level2Respawn respawn;
-	public PlayerHealth health;
 
 	[SerializeField] int _MainMenuSceneInt = 0;
     [SerializeField] int _Stage1SceneInt = 1;
@@ -37,6 +33,7 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _DefaultCheatsButton;
 	
 	[SerializeField] GameObject _HealthUI;
+	[SerializeField] GameObject _StatusCanvas;
 
 	InputAction cheatsAction1;
 	InputAction cheatsAction2;
@@ -135,7 +132,7 @@ public class InGameMenuManager : MonoBehaviour
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
 				_PauseButtonContainer.SetActive(true);
-				_SuperSuplexUI.SetActive(false);
+				_StatusCanvas.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
 				}
@@ -161,7 +158,7 @@ public class InGameMenuManager : MonoBehaviour
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_CheatsMenu) _CheatsMenu.SetActive(false);
 		isPaused = false;
-		_SuperSuplexUI.SetActive(true);
+		_StatusCanvas.SetActive(true);
 		pause_anim.SetBool("isPaused", false);
 		
 		playerCC.enabled = true; //allow the player to move again
@@ -311,6 +308,7 @@ public class InGameMenuManager : MonoBehaviour
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
+		if(_StatusCanvas) _StatusCanvas.SetActive(false);
 	}
 
     void OnEnable()
