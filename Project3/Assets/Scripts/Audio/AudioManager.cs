@@ -351,11 +351,11 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayBossPhase() => PlayNarration(Instance?.BossPhase, 1f);
 
     // ----Intercom SFX----
-    public static void PlayIntercom1HrDepartment() => PlaySFX(Instance?.Intercom1HrDeparment, 1f);
-    public static void PlayIntercom2LoadingBay() => PlaySFX(Instance?.Intercom2LoadingBay, 1f);
+    public static void PlayIntercom1HrDepartment() => PlayNarration(Instance?.Intercom1HrDeparment, 1f);
+    public static void PlayIntercom2LoadingBay() => PlayNarration(Instance?.Intercom2LoadingBay, 1f);
 
-    public static void PlayIntercomShoalDefeat() => PlaySFX(Instance?.IntercomShoalDefeat, 1f);
-    public static void PlayIntercom4Trash() => PlaySFX(Instance?.Intercom4, 1f);
+    public static void PlayIntercomShoalDefeat() => PlayNarration(Instance?.IntercomShoalDefeat, 1f);
+    public static void PlayIntercom4Trash() => PlayNarration(Instance?.Intercom4, 1f);
 
     //-------------------------------------------- LEVEL 2------------------------------------------//
 

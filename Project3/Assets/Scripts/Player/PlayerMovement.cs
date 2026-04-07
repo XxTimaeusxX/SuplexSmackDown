@@ -337,14 +337,17 @@ public class PlayerMovement : MonoBehaviour
         if (other.CompareTag("Intercom"))
         {
            AudioManager.PlayIntercom1HrDepartment();
+            other.gameObject.SetActive(false); // Deactivate the intercom object after triggering the audio
         }
         if(other.CompareTag("Intercom2Trash"))
         {
             AudioManager.PlayIntercom4Trash();
+            Destroy(other.gameObject); // Destroy the intercom object after triggering the audio
         }
         if (other.CompareTag("Intercom3Loadingbay"))
         {
             AudioManager.PlayIntercom2LoadingBay();
+            Destroy(other.gameObject); // Destroy the intercom object after triggering the audio
         }
     }
 }

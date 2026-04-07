@@ -25,6 +25,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     #region Rope Rush
     public void StartRopeRush()
     {
+        if (manager.grabbed) return;
         if (manager.ropeRush && manager.canPerformAction)
         {
             ReadyRopeRush();
@@ -182,6 +183,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     #region Enhanced Rope Rush
     public void StartEnhancedRopeRush()
     {
+        if (manager.grabbed) return;
         if (manager.enhancedRopeRush && manager.canPerformAction)
         {
             ReadyEnhancedRopeRush();
@@ -269,7 +271,15 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (manager.grabbed) return;
         if (collision.gameObject.CompareTag("Rope")) {
+
+            // --- NEW CODE: Ignore rope bounce if we aren't currently using a Rope Rush ability ---
+            if (abilities.CurrentRockyState != RockyRhodesStates.RopeRush &&
+                abilities.CurrentRockyState != RockyRhodesStates.EnhancedRopeRush)
+            {
+                return;
+            }
             manager.rb.linearVelocity = Vector3.zero;
             collided = true;
             gameObject.tag = "Stunned Rocky";
