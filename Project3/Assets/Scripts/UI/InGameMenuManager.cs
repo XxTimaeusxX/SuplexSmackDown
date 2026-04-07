@@ -7,9 +7,13 @@ using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
+	[Header("-- Set these in-level --")]
 	[SerializeField] CharacterController playerCC;
 	[SerializeField] PlayerMovement playerMovement;
 	[SerializeField] PlayerDash playerDash;
+	[SerializeField] GameObject _StatusCanvas;
+	
+	[Header("-----------")]
 	public PlayerInput playerInput;
 
 	[SerializeField] int _MainMenuSceneInt = 0;
@@ -33,7 +37,6 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _DefaultCheatsButton;
 	
 	[SerializeField] GameObject _HealthUI;
-	[SerializeField] GameObject _StatusCanvas;
 
 	InputAction cheatsAction1;
 	InputAction cheatsAction2;
