@@ -16,10 +16,10 @@ public class InGameMenuManager : MonoBehaviour
 	public Level2Respawn respawn;
 	public PlayerHealth health;
 
-	[SerializeField] string _MainMenuScene;
-    [SerializeField] string _Stage1Scene;
-    private string _Stage2Scene = "FestivalLevel";
-    private string _Stage3Scene = "StadiumBlockout";
+	[SerializeField] int _MainMenuSceneInt = 0;
+    [SerializeField] int _Stage1SceneInt = 1;
+    [SerializeField] int _Stage2SceneInt = 2;
+    [SerializeField] int _Stage3SceneInt = 3;
 	
     [SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _HowToPlayPanel;
@@ -216,7 +216,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		SceneManager.LoadScene(_MainMenuScene);
+		SceneManager.LoadScene(_MainMenuSceneInt);
 	}
 
     //unpause and go to stage 1
@@ -224,7 +224,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		SceneManager.LoadScene(_Stage1Scene);
+		SceneManager.LoadScene(_Stage1SceneInt);
     }
 
     //unpause and go to stage 2
@@ -330,21 +330,21 @@ public class InGameMenuManager : MonoBehaviour
     //plays the appropriate music based on the current scene
     void PlaySceneMusic()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        Debug.Log("Current Scene: " + currentSceneName); // Add this line
-        if (currentSceneName == _MainMenuScene)
+        int currentSceneInt = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("Current Scene: " + currentSceneInt); // Add this line
+        if (currentSceneInt == _MainMenuSceneInt)
         {
             AudioManager.PlayMainMenuBGM();
         }
-		else if (currentSceneName == _Stage1Scene)
+		else if (currentSceneInt == _Stage1SceneInt)
 		{
 				AudioManager.PlayConstructionBGM();
         }
-        else if (currentSceneName == _Stage2Scene)
+        else if (currentSceneInt == _Stage2SceneInt)
 		{
 			AudioManager.PlayFestivalBGM();
 		}
-		else if (currentSceneName == _Stage3Scene)
+		else if (currentSceneInt == _Stage3SceneInt)
 		{
 			AudioManager.PlayArenaBossBGM();
         }
