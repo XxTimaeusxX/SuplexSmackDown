@@ -26,6 +26,7 @@ public sealed class AudioManager : MonoBehaviour
 
     [Header("BGM Clips")]
     public AudioClip mainMenuBGM;
+    public AudioClip TutorialBGM;
     public AudioClip constructionBGM;
     public AudioClip boss1BGM;
     public AudioClip VictoryBGM;
@@ -283,6 +284,7 @@ public sealed class AudioManager : MonoBehaviour
 
     // BGM
     public static void PlayMainMenuBGM() => PlayMusic(Instance?.mainMenuBGM);
+    public static void PlayTutorialBGM() => PlayMusic(Instance?.TutorialBGM);
     public static void PlayConstructionBGM() => PlayMusic(Instance?.constructionBGM);
     public static void PlayBoss1BGM() => PlayMusic(Instance?.boss1BGM);
     public static void PLayVictory() => PlayMusic(Instance?.VictoryBGM,false);

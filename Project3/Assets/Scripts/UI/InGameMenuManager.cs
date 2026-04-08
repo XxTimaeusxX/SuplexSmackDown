@@ -20,7 +20,8 @@ public class InGameMenuManager : MonoBehaviour
     [SerializeField] int _Stage1SceneInt = 1;
     [SerializeField] int _Stage2SceneInt = 2;
     [SerializeField] int _Stage3SceneInt = 3;
-	
+	[SerializeField] int _TutorialSceneInt = 4;
+
     [SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _HowToPlayPanel;
 	[SerializeField] GameObject _SettingsPanel;
@@ -348,6 +349,10 @@ public class InGameMenuManager : MonoBehaviour
 		else if (currentSceneInt == _Stage3SceneInt)
 		{
 			AudioManager.PlayArenaBossBGM();
+        }
+        else if (currentSceneInt == _TutorialSceneInt)
+        {
+            AudioManager.PlayTutorialBGM();
         }
 			
     }

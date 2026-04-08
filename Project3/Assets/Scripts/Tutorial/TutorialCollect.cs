@@ -9,7 +9,8 @@ public class TutorialCollect : MonoBehaviour
     public GameObject Window2;
 
     [Header("Scene Transition")]
-    public string nextSceneName; // Type the name of your next scene in the Inspector
+    public int Scene1
+        ; // Type the name of your next scene in the Inspector
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,7 +43,7 @@ public class TutorialCollect : MonoBehaviour
             if(beltsCollected == 3)
             {
                 Debug.Log("Collected the first belt! Keep going!");
-                SceneManager.LoadScene(nextSceneName);
+                SceneManager.LoadScene(Scene1);
             }
         }
     }

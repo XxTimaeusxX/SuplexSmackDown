@@ -6539,6 +6539,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
+--- !u!1 &244883998 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7172822168667300552, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
+  m_PrefabInstance: {fileID: 244883997}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &265895716 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3904729399684723981, guid: 59987fbef76f79b4d941d15f362d8773, type: 3}
@@ -8046,6 +8051,10 @@ PrefabInstance:
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 1501161623}
+    - target: {fileID: 3175567735082858662, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: _StatusCanvas
+      value: 
+      objectReference: {fileID: 244883998}
     - target: {fileID: 3175567735082858662, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: playerMovement
       value: 
@@ -15447,7 +15456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d97023979043944c8e1c4265ee3f1c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewEnemyRespawn
-  objectThatActivatesRespawn: {fileID: 2142165782}
+  objectThatActivatesRespawn:
+  - {fileID: 0}
 --- !u!1 &872723699 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8783937196673940900, guid: 1d718909a093bca4dbefb1977c8981e6, type: 3}
@@ -25392,7 +25402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d97023979043944c8e1c4265ee3f1c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewEnemyRespawn
-  objectThatActivatesRespawn: {fileID: 2142165782}
+  objectThatActivatesRespawn:
+  - {fileID: 0}
 --- !u!1001 &1182019900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38393,7 +38404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialCollect
   Window: {fileID: 886433973}
   Window2: {fileID: 1769732790}
-  nextSceneName: MattBuilding
+  Scene1: 1
 --- !u!143 &1501161622 stripped
 CharacterController:
   m_CorrespondingSourceObject: {fileID: 5799758933028956056, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
@@ -51180,6 +51191,7 @@ SceneRoots:
   - {fileID: 1348806473}
   - {fileID: 216100979}
   - {fileID: 1258695753}
+  - {fileID: 373850587}
   - {fileID: 1678719569}
   - {fileID: 1391208275}
   - {fileID: 1182019900}
@@ -51199,7 +51211,6 @@ SceneRoots:
   - {fileID: 2071072313}
   - {fileID: 650446234}
   - {fileID: 1915937869}
-  - {fileID: 373850587}
   - {fileID: 991491070}
   - {fileID: 1180944451}
   - {fileID: 1444892884}
