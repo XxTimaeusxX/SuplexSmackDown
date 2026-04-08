@@ -54,22 +54,23 @@ MonoBehaviour:
   duckSpeed: 3
   mainMenuBGM: {fileID: 8300000, guid: f10b08c5174da3b44a81c6a411c0054f, type: 3}
   constructionBGM: {fileID: 8300000, guid: 28b8c1b4ed0c14c41bf37102cc3e9f56, type: 3}
-  boss1BGM: {fileID: 0}
+  boss1BGM: {fileID: 8300000, guid: 7f46226702da14d45ad761fc62a76888, type: 3}
   VictoryBGM: {fileID: 8300000, guid: 5efca8750ecf7324ba693e9997397d12, type: 3}
   DefeatBGM: {fileID: 8300000, guid: d7a764fe85cc33643ab4a70f8e288095, type: 3}
   FestivalBGM: {fileID: 8300000, guid: 5e3f8fa84562b4e44a6f5c29e10b6d43, type: 3}
+  ArenaBossBGM: {fileID: 8300000, guid: 2a3d264cd521469448c4ab9ba35f6d51, type: 3}
   footstepClip: {fileID: 8300000, guid: 17cd9b45fad62a347901b152060e8260, type: 3}
-  jumpingClip: {fileID: 8300000, guid: 1e834564441248e46abe897dde234473, type: 3}
+  jumpingClip: {fileID: 8300000, guid: d5448c1d437bc134687d03d4b81023ef, type: 3}
   health3Clip: {fileID: 8300000, guid: 239c904c93eb1d8468c70a6aecf51c4f, type: 3}
   health2Clip: {fileID: 8300000, guid: 500b7ee3b53f3394299f7713c4547f5c, type: 3}
   health1Clip: {fileID: 8300000, guid: 0b54168a0e4be884a94da5cc15c3fca5, type: 3}
   GameOverClip: {fileID: 8300000, guid: 90b1086c8a8409542b68390f86982048, type: 3}
   GrabClip: {fileID: 0}
   CohettePhraseOneclip: {fileID: 8300000, guid: b7b5bca41271beb4face7216faf895a3, type: 3}
-  LaunchSoundClip: {fileID: 8300000, guid: 9790b4ca0afa1d34496566d0490da94d, type: 3}
+  LaunchSoundClip: {fileID: 8300000, guid: 07d72a9c22480ba43af4bef8fce31619, type: 3}
   suplexSlamClip: {fileID: 8300000, guid: 755b2c781fcce96498e98a11147cf4b1, type: 3}
-  SuperSuplexSlam: {fileID: 8300000, guid: 9790b4ca0afa1d34496566d0490da94d, type: 3}
-  smallHealthPackClip: {fileID: 8300000, guid: b7b5bca41271beb4face7216faf895a3, type: 3}
+  SuperSuplexSlam: {fileID: 8300000, guid: 76e931bbe71112a45afb17825083f58c, type: 3}
+  smallHealthPackClip: {fileID: 8300000, guid: 53a67e6ead9e59c4e91b7c36c30ac445, type: 3}
   enemySlapClip: {fileID: 8300000, guid: e6acb1e3f53e33043938c805cf3db8bf, type: 3}
   enemyDieclip: {fileID: 0}
   shoalPhraseClip: {fileID: 0}
@@ -78,10 +79,10 @@ MonoBehaviour:
   shoalIdleclip: {fileID: 8300000, guid: d9fd3db3e28871341b71a4365bd0d9f6, type: 3}
   shoalDamageHitClip: {fileID: 8300000, guid: a3dd7105ab9567048b1260ae8a110830, type: 3}
   ShoalPhrase1Clip: {fileID: 8300000, guid: 946f80a6f1e85aa4293994016117d303, type: 3}
-  DroneDetectionClip: {fileID: 0}
-  DroneIdleClip: {fileID: 0}
-  DroneGrabbedClip: {fileID: 0}
-  DroneDieClip: {fileID: 0}
+  DroneDetectionClip: {fileID: 8300000, guid: 5ba309d27d70ec34fbef67454c09da9c, type: 3}
+  DroneIdleClip: {fileID: 8300000, guid: b8f73dc5bb983a048baca9794c750aad, type: 3}
+  DroneGrabbedClip: {fileID: 8300000, guid: 01f5209e596589c459c3d16504543466, type: 3}
+  DroneDieClip: {fileID: 8300000, guid: 64e2d439559b25e4b8872ffb3fca633e, type: 3}
   ConstructionIdleClip: {fileID: 8300000, guid: 4de3367c5f93df546a6b041482e50617, type: 3}
   ConstructionSeenOneClip: {fileID: 8300000, guid: 90dbe2f1e9e38d144bdaeef6597f3d0b, type: 3}
   ConstructionSeentwoClip: {fileID: 8300000, guid: f8265cfbc3636964da0334ba20250c55, type: 3}
@@ -99,9 +100,28 @@ MonoBehaviour:
   MicroDamageHitOneClip: {fileID: 8300000, guid: 3368c531807cb2847bb6af26ff7c5031, type: 3}
   MicroDamageHitTwoClip: {fileID: 8300000, guid: 85a7d768a8045ad4cabd0a5ab0867bba, type: 3}
   MicroDieClip: {fileID: 0}
-  MicroEncounterClip: {fileID: 8300000, guid: da807677f7693c7469f5cceedd25ebef, type: 3}
+  MicroEncounterClip: {fileID: 8300000, guid: ac5353436a57cae40a540849891f553f, type: 3}
   MicroTwoHealthClip: {fileID: 8300000, guid: b74b830a367e3e848badae4860b1b649, type: 3}
   MicroOneHealthClip: {fileID: 8300000, guid: a17f4c22baa7397439cbebd923a57d8a, type: 3}
-  BossIntro: {fileID: 8300000, guid: 2c08cd54da8a61a418577881b8977ed8, type: 3}
+  MicroGrabbedClip: {fileID: 0}
+  BossIntro: {fileID: 8300000, guid: bbde9ca5405fb1d44818ea5a64067135, type: 3}
   BossPhase: {fileID: 8300000, guid: c96c1574c3d0c4d4ca6e6b9d15265777, type: 3}
-  GuitarNoteClip: {fileID: 8300000, guid: e304cee931676b447bc4e60db9044d9b, type: 3}
+  Intercom1HrDeparment: {fileID: 0}
+  Intercom2LoadingBay: {fileID: 0}
+  IntercomShoalDefeat: {fileID: 8300000, guid: 8e832f7c822be5d42a554f1ebb3f642a, type: 3}
+  Intercom4: {fileID: 0}
+  GuitarNoteClip: {fileID: 8300000, guid: f420693c82f19ad409a3ca19620f17a5, type: 3}
+  MariachiDetection: {fileID: 8300000, guid: d4ab8cb8c92ec684191dd35aded8e928, type: 3}
+  MariachiHurt: {fileID: 8300000, guid: ba0508345b2eefa4990ea704a3b253aa, type: 3}
+  wrestle1: {fileID: 8300000, guid: 346b053836a2d9a46ace1d28b3b33044, type: 3}
+  wrestle2: {fileID: 8300000, guid: 9465cd8b820bf6144865dc18a02ad2da, type: 3}
+  wrestle3: {fileID: 8300000, guid: c21bb97fa6a73f84eb726e95c52973e6, type: 3}
+  frozen: {fileID: 8300000, guid: f70d847ace73f8a48969052761fdb0ba, type: 3}
+  slam: {fileID: 8300000, guid: 2d97228ccae81b14bae10af7a81e75fd, type: 3}
+  hurt1: {fileID: 8300000, guid: 891acd232ca22024b9aace65acea6184, type: 3}
+  hurt2: {fileID: 8300000, guid: e4f6a8749219c6e4bb6ce5aa939fc2c5, type: 3}
+  hurt3: {fileID: 8300000, guid: 8e7b190b6408e3b44a446e35532a50a7, type: 3}
+  moveArena: {fileID: 8300000, guid: 76709afb86fd6ce4a8d0da5e90ac8ddd, type: 3}
+  phase: {fileID: 8300000, guid: c6cc67ff1e06c62409764342bfc402fb, type: 3}
+  weakSignal: {fileID: 8300000, guid: faa35d28d8319c140892348ec2f8493d, type: 3}
+  DancerAttack: {fileID: 0}

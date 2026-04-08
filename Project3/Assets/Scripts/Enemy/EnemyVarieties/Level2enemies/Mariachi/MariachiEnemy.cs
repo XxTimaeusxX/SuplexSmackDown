@@ -1,4 +1,3 @@
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -58,10 +57,13 @@ public class MariachiEnemy : EnemyBase
     }
     private void DetectPlayer()
     {
-        if (m_Distance < chaseRange && !playerDetected)
+        if (m_Distance < chaseRange)
         {
-            playerDetected = true;
-            AudioManager.PlayMariachiDetection();
+            if (!playerDetected)
+            {
+                playerDetected = true;
+                AudioManager.PlayMariachiDetection();
+            }
         }
         else
         {
