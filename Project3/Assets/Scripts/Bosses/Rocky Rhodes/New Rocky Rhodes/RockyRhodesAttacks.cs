@@ -14,7 +14,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     public bool canChooseRandom;
 
-    private float heightOffset = 2f;
+    public float heightOffset;
 
     private void Awake()
     {

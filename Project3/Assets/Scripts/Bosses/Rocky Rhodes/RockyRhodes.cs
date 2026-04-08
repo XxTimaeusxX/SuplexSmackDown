@@ -92,18 +92,12 @@ public class RockyRhodes : EnemyBase
             ToggleBehaviors(false);
             _abilities.InterruptAbility(true);
             rb.isKinematic = true;
-            
-            // Tell the manager to STOP turning the NavMeshAgent back on!
-            if (manager != null) manager.navOff = true; 
         }
         else
         {
             rhockyHealth.TakeDamage();
             ToggleBehaviors(true);
             this.gameObject.tag="Untagged"; // untag so player can't accidentally re-grab while recovering
-            
-            // Allow the manager to use the NavMeshAgent again
-            if (manager != null) manager.navOff = false;
 
             if (_abilities != null && _abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
             {

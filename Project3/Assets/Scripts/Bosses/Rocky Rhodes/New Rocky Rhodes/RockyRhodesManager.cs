@@ -11,6 +11,7 @@ public class RockyRhodesManager : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     public GameObject player;
     [HideInInspector] public NavMeshAgent agent;
+    [HideInInspector] RockyRhodes rocky;
     public Slider healthSlider;
     RhockyHealth health;
     RhockyAbilities abilities;
@@ -53,7 +54,6 @@ public class RockyRhodesManager : MonoBehaviour
     public bool cannonball;
     public bool enhancedRopeRush;
     public bool grabbed;
-    public bool navOff;
 
     private void Awake()
     {
@@ -62,6 +62,7 @@ public class RockyRhodesManager : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         health = GetComponent<RhockyHealth>();
         abilities = GetComponent<RhockyAbilities>();
+        rocky = GetComponent<RockyRhodes>();
     }
 
     private void Start()
@@ -74,6 +75,12 @@ public class RockyRhodesManager : MonoBehaviour
 
     private void Update()
     {
+        if (arena2)
+        {
+            rocky.enabled = false;
+            abilities.enabled = false;
+            rb.isKinematic = false;
+        }
         if (arena3)
         {
             moveSpeed = arena3MoveSpeed;
@@ -81,14 +88,6 @@ public class RockyRhodesManager : MonoBehaviour
         attacks.StartRopeRush();
         attacks.StartCannonball();
         attacks.StartEnhancedRopeRush();
-        if (navOff)
-        {
-            agent.enabled = false;
-        }
-        if (!navOff)
-        {
-            agent.enabled = true;
-        }
         OpenArenas();
     }
 
@@ -99,12 +98,16 @@ public class RockyRhodesManager : MonoBehaviour
             if (arena1)
             {
                 agent.enabled = false;
+                rocky.enabled = false;
+                abilities.enabled = false;
+                rb.isKinematic = false;
                 arena1Floor.SetActive(false);
                 StartCoroutine(ChangeArena1(3f));
             }
             if (arena2)
             {
                 open = true;
+                agent.enabled = false;
                 StartCoroutine(ChangeArena2(3f));
             }
         }
@@ -115,10 +118,8 @@ public class RockyRhodesManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         arena1 = false;
         arena2 = true;
-        Vector3 newPos = transform.position;
-        newPos.y = 30.63f;
-        newPos.z = 751.97f;
-        transform.position = newPos;
+        cannonball = true;
+        agent.enabled = true;
     }
 
     private IEnumerator ChangeArena2(float delay)
@@ -129,6 +130,8 @@ public class RockyRhodesManager : MonoBehaviour
         Vector3 newPos = transform.position;
         newPos.y = 7.1f;
         transform.position = newPos;
+        rocky.enabled = true;
+        abilities.enabled = true;
     }
 
     private IEnumerator UnGrab(float delay)
