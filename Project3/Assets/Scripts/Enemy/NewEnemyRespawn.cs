@@ -1,9 +1,10 @@
+using System.Linq;
 using UnityEngine;
 
 public class NewEnemyRespawn : MonoBehaviour
 {
     private Vector3 respawnPoint;
-    public GameObject objectThatActivatesRespawn;
+    public GameObject[] objectThatActivatesRespawn;
 
     private void Start()
     {
@@ -12,7 +13,7 @@ public class NewEnemyRespawn : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject == objectThatActivatesRespawn)
+        if (objectThatActivatesRespawn.Contains(collision.gameObject))
         {
             transform.position = respawnPoint;
         }
