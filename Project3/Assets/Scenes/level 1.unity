@@ -39971,13 +39971,12 @@ MonoBehaviour:
   playerCC: {fileID: 0}
   playerMovement: {fileID: 0}
   playerDash: {fileID: 0}
+  _StatusCanvas: {fileID: 0}
   playerInput: {fileID: 1152671281}
-  _SuperSuplexUI: {fileID: 7320028099363092639}
-  player: {fileID: 0}
-  respawn: {fileID: 0}
-  health: {fileID: 0}
-  _MainMenuScene: MainMenuTest
-  _Stage1Scene: MattBuilding
+  _MainMenuSceneInt: 0
+  _Stage1SceneInt: 1
+  _Stage2SceneInt: 2
+  _Stage3SceneInt: 3
   _PauseMenuContainer: {fileID: 1258977866}
   _HowToPlayPanel: {fileID: 0}
   _SettingsPanel: {fileID: 2130239830}
@@ -307637,6 +307636,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1152671281}
     - target: {fileID: 3175567735082858662, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+      propertyPath: _StatusCanvas
+      value: 
+      objectReference: {fileID: 1735510934}
+    - target: {fileID: 3175567735082858662, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
       propertyPath: _SuperSuplexUI
       value: 
       objectReference: {fileID: 7320028099363092639}
@@ -367072,6 +367075,11 @@ Transform:
   - {fileID: 311834924}
   m_Father: {fileID: 62813154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1735510934 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7172822168667300552, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
+  m_PrefabInstance: {fileID: 1365157135454056439}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1735695961
 GameObject:
   m_ObjectHideFlags: 0
@@ -438393,6 +438401,10 @@ PrefabInstance:
       propertyPath: menuManager
       value: 
       objectReference: {fileID: 794785904}
+    - target: {fileID: 8538101938836077945, guid: 4f7650f503a7f2a468b3f043cea4ff3a, type: 3}
+      propertyPath: IsPequenoAndGrande
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

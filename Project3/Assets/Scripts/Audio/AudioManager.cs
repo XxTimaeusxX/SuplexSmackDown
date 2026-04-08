@@ -288,6 +288,9 @@ public sealed class AudioManager : MonoBehaviour
     public static void PLayVictory() => PlayMusic(Instance?.VictoryBGM,false);
     public static void PlayDefeat() => PlayMusic(Instance?.DefeatBGM,false);
 
+    // interactable SFX
+    public static void PlayHealthPack() =>PlayNarration(Instance?.smallHealthPackClip, 1f); // Uses narration system for important pickup lines
+
     // player SFX
     public static void PlayFootstep() => PlaySFX(Instance?.footstepClip, 1f);
     public static void PlayJumping() => PlaySFX(Instance?.jumpingClip, 1f);

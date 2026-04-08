@@ -38,6 +38,9 @@ public class MicroBoss : EnemyBase
     public Animator MicroAnimator;
     private string CurrentMicroAnimation = "";
     public GameObject MacroPrefab => macroPrefab;
+
+    [Header("---------------Pequeno y Grande------------------------")]
+    public bool IsPequenoAndGrande = true; // flag to indicate if this is the MicroBoss in the Pequeno y Grande encounter
     private void Awake()
     {
         canAttack = false; // Disable basic attack for MicroBoss "big guy"
@@ -91,6 +94,16 @@ public class MicroBoss : EnemyBase
      
         if (enemyHealth.value <= 0)
         {
+            // level2 logic to at 0 health
+            if(IsPequenoAndGrande)
+            {
+              //  _powerGauge.EnableInfiniteMeter();
+                Destroy(macroPrefab); 
+                Destroy(gameObject);
+                enemyHealthScreen.SetActive(false);
+                return;
+            }
+            // level 1 logic at 0 health
             // Disable this boss functionality
             bossArena.moveDown = true;
             canAttack = false;

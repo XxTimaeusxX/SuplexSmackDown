@@ -24,6 +24,7 @@ public class HealthPickUp : MonoBehaviour
             Debug.Log("Player health full — pickup ignored.");
             return;
         }
+        AudioManager.PlayHealthPack();
 
         // Apply healing (pickup is responsible for healing)
         int newHP = Mathf.Min(playerHealth.currentHealth + healthAmount, playerHealth.maxHealth);

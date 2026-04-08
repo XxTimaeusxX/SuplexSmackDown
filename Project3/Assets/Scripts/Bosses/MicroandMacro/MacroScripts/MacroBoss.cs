@@ -39,6 +39,7 @@ public class MacroBoss : EnemyBase
     public bool IsGrabbedByMicro;
     public bool IsThrownByMicro;
     public MacroState CurrentMacroState;
+
     private void Awake()
     {
         canAttack = true; // little guy can attack
