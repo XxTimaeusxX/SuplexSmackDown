@@ -249,14 +249,7 @@ public class RockyRhodes : EnemyBase
         StopCoroutine(nameof(JumpToPlatform)); // kill any lingering jump coroutine
         StartCoroutine(JumpToPlatform());
     }*/
-    private void OnTriggerEnter(Collider other)
-    {
-       //if doing abilities player take damage
-    }
-    private void OnTriggerExit(Collider other)
-    {
 
-    }
     private void OnCollisionEnter(Collision collision)
     {
         // Check if the boss just hit the player while performing the Chestbump ability

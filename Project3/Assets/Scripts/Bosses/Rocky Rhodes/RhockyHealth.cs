@@ -20,6 +20,13 @@ public class RhockyHealth : MonoBehaviour
     private bool _healthhasDecreased;
     private float _currentPhase = 1f;
 
+    [Header("Health Packs to enable")]
+    public GameObject Arena2Healthpack;
+    public GameObject Arena3Healthpack;
+
+    [Header("Lights to enable")]
+    public GameObject Arena2Light;
+    public GameObject Arena3Light;
 
     private void Awake()
     {
@@ -36,6 +43,10 @@ public class RhockyHealth : MonoBehaviour
         CurrentPhaseMode();
         CheckHealthState();
         _healthhasDecreased = false;
+        Arena2Healthpack.SetActive(false);
+        Arena3Healthpack.SetActive(false);
+        Arena2Light.SetActive(false);
+        Arena3Light.SetActive(false);
     }
 
     private void Update()
@@ -47,6 +58,7 @@ public class RhockyHealth : MonoBehaviour
             _lastHealthValue = HealthSlider.value;
             CheckHealthState();
         }
+
     }
     public void TakeDamage()
     {
@@ -62,6 +74,7 @@ public class RhockyHealth : MonoBehaviour
             float nextPhaseHealth = _currentPhase == 1f ? phase2Health : phase3Health;
             StartCoroutine(HealAndJump(nextPhaseHealth));
         }
+
         // 2. Phase 3: Health hits 1 -> Trigger Flurry mode!
         else if (_lastHealthValue == 1f && _currentPhase == 3 && !_healthhasDecreased)
         {
@@ -113,6 +126,7 @@ public class RhockyHealth : MonoBehaviour
         yield return new WaitForSeconds(1f); // Small delay before healing and jumping to the next phase
                                              //    yield return StartCoroutine(_rockyRhodes.JumpToPlatform());
         _currentPhase++;
+        SetArenaLightsAndHealthPacks();
         Applyhealth(healthAmount);
         CurrentPhaseMode();
         _healthhasDecreased = false; // Reset the flag so Phase 2 and 3 can trigger their 1HP events
@@ -124,5 +138,20 @@ public class RhockyHealth : MonoBehaviour
         HealthSlider.maxValue = Mathf.Max(HealthSlider.maxValue, value);
         HealthSlider.value = value;
         _lastHealthValue = HealthSlider.value;
+    }
+    private void SetArenaLightsAndHealthPacks()
+    {
+        if (_currentPhase == 2f)
+        {
+            Arena2Healthpack.SetActive(true);
+            Arena2Light.SetActive(true);
+        }
+        if (_currentPhase == 3f)
+        {
+            Arena2Healthpack.SetActive(false);
+            Arena2Light.SetActive(false);
+            Arena3Healthpack.SetActive(true);
+            Arena3Light.SetActive(true);
+        }
     }
 }
