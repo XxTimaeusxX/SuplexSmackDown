@@ -8,18 +8,20 @@ public class SuplexMotionDebugger : MonoBehaviour
     public MovementController movementController;
 
     [Header("Debugger Settings")]
-    public SuplexAbilities suplexToPreview = SuplexAbilities.Long;
+    public SuplexAbilities suplexToPreview;
     public int resolution = 60;          // Number of points drawn
     public float gizmoSize = 0.05f;
     public Color pathColor = Color.cyan;
     public Color forwardColor = Color.yellow;
     public Color verticalColor = Color.magenta;
+    public Color slamColor = Color.red;
 
     [Header("Debug Options")]
     public bool showDebug = true;
     public bool drawForwardVectors = true;
     public bool drawVerticalVectors = true;
     public bool drawTrajectory = true;
+    public bool drawSlamImpulse = true;
 
 
     private void OnDrawGizmos()
@@ -83,5 +85,16 @@ public class SuplexMotionDebugger : MonoBehaviour
             }
             prevPos = newPos;
         }
+        if (drawSlamImpulse && showDebug)
+        {
+            Vector3 slam =
+                forward * data.slamForwardForce +
+                Vector3.down * data.slamDownwardForce;
+
+            Gizmos.color = slamColor;
+            Gizmos.DrawLine(prevPos, prevPos + slam * 0.05f);
+            Gizmos.DrawSphere(prevPos + slam * 0.05f, gizmoSize * 1.2f);
+        }
+
     }
 }

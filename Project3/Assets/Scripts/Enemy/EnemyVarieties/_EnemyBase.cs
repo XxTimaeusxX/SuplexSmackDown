@@ -22,7 +22,6 @@ public abstract class EnemyBase : MonoBehaviour, ICarriable
     public NavMeshAgent agent;
     //public MonoBehaviour enemyAI; // whatever AI script used
     private Transform originalParent; // To store original parent when carried (e.g. After picking up an enemy that's parented to another object, once released it should go back to that object)
-    //private GroundChecker groundChecker;
     private RigidbodyConstraints originalConstraints;
     private GroundChecker groundChecker;
 

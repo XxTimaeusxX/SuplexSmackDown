@@ -130,19 +130,21 @@ public class SuplexController : MonoBehaviour
             new SuplexInput(
                 SuplexAbilities.Super,
                 () =>   movementController.leftBumper.IsPressed() && 
-                        movementController.rightBumper.IsPressed()
+                        movementController.rightBumper.IsPressed() && 
+                        !movementController.aimInputLock
                 ),
 
             new SuplexInput(
                 SuplexAbilities.Long,
                 () =>   playerDash.isDashing &&
                         Time.time - playerDash.dashStartTime < suplexConfig.longSuplexBuffer &&
-                        movementController.jumpAction.IsPressed()
-
+                        movementController.jumpAction.IsPressed() &&
+                        !movementController.aimInputLock
                 ),           
             new SuplexInput(
                 SuplexAbilities.Rainbow,
-                () =>   movementController.jumpAction.WasPressedThisFrame()
+                () =>   movementController.jumpAction.WasPressedThisFrame() &&
+                        !movementController.aimInputLock
                 )
 
         };
@@ -241,7 +243,7 @@ public class SuplexController : MonoBehaviour
         yield return new WaitUntil(() => movementController.isGrounded == true);
 
         CameraShakeManager.Instance.SuplexCameraShake(suplexConfig.impulseSource);
-        if (suplexConfig.shockwave != null)
+        if (suplexConfig.shockwave != null && suplexConfig.rageBar != null)
         {
             if (suplexConfig.rageBar.value >= 1)
             {

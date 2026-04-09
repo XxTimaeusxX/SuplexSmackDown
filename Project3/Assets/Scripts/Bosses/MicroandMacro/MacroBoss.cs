@@ -39,9 +39,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
     public GameObject slapHitbox;
     public float slapActiveTime = 0.2f;
     public float knockOutTime = 5f; // Time the enemy stays knocked out
-
-    [Header("UI")]
-    public Slider enemyHealth;
+    public float defaultSpeed;
 
     [Header("Carrying")]
     private Collider mainCollider;
@@ -64,6 +62,8 @@ public class MacroBoss : MonoBehaviour, ICarriable
         damageHitbox.SetActive(false);
         slapHitbox.SetActive(false);
         isChasing = true;
+
+        defaultSpeed = agent.speed;
     }
 
     public void Attack()
@@ -142,7 +142,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
         while (true)
         {
             agent.SetDestination(microBoss.transform.position);
-            agent.speed += 20f; // increase speed while returning to micro position
+            agent.speed = 20f; // increase speed while returning to micro position
 
             if (agent.pathPending)
             {
@@ -161,6 +161,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
             yield return null;
         }
         isReturning = false;
+        agent.speed = defaultSpeed;
         yield return new WaitUntil(() => wasThrown);
     }
     public void FaceTarget()

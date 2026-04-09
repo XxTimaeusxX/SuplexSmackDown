@@ -69,7 +69,7 @@ public class MicroBoss : MonoBehaviour, ICarriable
     [Header("Animation")]
     public Animator MicroAnimator;
     private string CurrentMicroAnimation = String.Empty;
-    public GameObject MacroPrefab => macroPrefab;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -156,8 +156,8 @@ public class MicroBoss : MonoBehaviour, ICarriable
     public IEnumerator ThrowMacro()
     {
         //Debug.Log("Initiating ThrowMacro sequence");
-        ChangeAnimation("MicroThrow"); // play throw animation
-        //_MacroEnemy.IsGrabbedByMicro = true;
+        //ChangeAnimation("MicroThrow"); // play throw animation
+
         // Store original mesh rotation to restore later
         Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
         AudioManager.PlayMicroPrepareAttack();
@@ -207,12 +207,19 @@ public class MicroBoss : MonoBehaviour, ICarriable
     }
     
     private void Death()
-        if (CurrentMicroAnimation != animation)
-        {
-            CurrentMicroAnimation = animation;
-            MicroAnimator.CrossFade(animation, crossfade);
+    {        
+        // Disable this boss functionality
+        agent.enabled = false;
+        rb.isKinematic = false;
 
-        }
+        _glowMesh.SetGlowColor(); // trigger glow effect on death
+        lowerRoom.EnableArrows();// enable arrows to show path to next area
+        lowerRoom.MoveDown();
+
+        this.gameObject.tag = "canGrab";
+
+        enemyHealthScreen.SetActive(false);
+        Destroy(macro);
     }
 
     // Pauses animation frame, but frame is set to paused at  0.5f set in the animation controller event system.
@@ -226,18 +233,12 @@ public class MicroBoss : MonoBehaviour, ICarriable
     }
     private void CheckAnimation()
     {
-        // Disable this boss functionality
-        agent.enabled = false;
-        rb.isKinematic = false;
+        //if (CurrentMicroAnimation != animation)
+        //{
+        //    CurrentMicroAnimation = animation;
+        //    MicroAnimator.CrossFade(animation, crossfade);
 
-        _glowMesh.SetGlowColor(); // trigger glow effect on death
-        lowerRoom.EnableArrows();// enable arrows to show path to next area
-        lowerRoom.MoveDown();
-
-        this.gameObject.tag = "canGrab";
-
-        enemyHealthScreen.SetActive(false);
-        Destroy(macro);
+        //}
     }
 
     public void EnterCarriedState(Transform carryPoint)

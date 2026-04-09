@@ -1,13 +1,19 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-public class FlyingAI : MonoBehaviour
+public class FlyingAI : MonoBehaviour, ICarriable
 {
     [Header("References")]
     [SerializeField] private Transform player;
     [SerializeField] private WaypointHolder waypointHolder;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform projectileSpawnPoint;
+    private Transform originalParent;
+    protected Rigidbody rb;
+    public Rigidbody Rigidbody => rb;
+    protected CarryWeightProfile carryWeightProfile;
+    public CarryWeightProfile CarryWeightProfile => carryWeightProfile;
+
     public bool grabbed;
     public PowerGauge powerGuage;
     public Slider rageBar;
@@ -30,6 +36,10 @@ public class FlyingAI : MonoBehaviour
     private Transform currentWaypointTarget;
     private Transform[] waypoints;
 
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     private void Start()
     {
         grabbed = false;
@@ -180,6 +190,35 @@ public class FlyingAI : MonoBehaviour
         }
     }
     #endregion
+
+    public virtual void EnterCarriedState(Transform carryPoint)
+    {
+        //Debug.Log("Enemy picked up");
+
+        originalParent = transform.parent;  // Store original parent
+
+        //hasLanded = false; // Reset landing state for when the enemy is thrown
+
+
+        // Parent to player carry point
+        transform.SetParent(carryPoint);
+        transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+
+        //Debug.Log("EnterCarriedState called on " + gameObject.name);
+    }
+
+    /// Called when the player throws or drops the enemy
+    public virtual void ExitCarriedState(Vector3 throwForce)
+    {
+
+        transform.SetParent(originalParent);    // Unparent
+
+        if (throwForce != Vector3.zero)
+            rb.AddForce(throwForce, ForceMode.Impulse);    // Apply throw force
+
+        //Debug.Log("ExitCarriedState called on " + gameObject.name);
+        //Debug.Log($"Main collider enabled: {mainCollider.enabled}, Proxy: {carryProxy.enabled}");
+    }
 
     public void OnCollisionEnter(Collision collision)
     {

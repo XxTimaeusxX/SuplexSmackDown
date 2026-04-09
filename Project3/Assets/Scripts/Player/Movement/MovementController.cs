@@ -17,8 +17,12 @@ public class MovementController : MonoBehaviour
     private PlayerInput playerInput;
     private PlayerDash playerDash;
     private SuplexController suplexController;
+    public SuplexConfig suplexConfig;
     private PlayerThrow playerThrow;
+    private GroundChecker groundChecker;
+    private SuplexTrajectoryVisualizer trajectoryVisualizer;
 
+    public Transform playerTransform;
     public Transform cameraTransform;
 
     // private Vector3 velocity;
@@ -27,6 +31,7 @@ public class MovementController : MonoBehaviour
     public bool overrideVerticalMotion = false;
     public bool isGrounded;
     public bool isTemp;
+    public bool aimInputLock;
 
     [Header("Movement Actions")]
     public InputAction moveAction;
@@ -59,8 +64,11 @@ public class MovementController : MonoBehaviour
         controller = GetComponent<CharacterController>();
         playerDash = GetComponent<PlayerDash>();
         suplexController = GetComponent<SuplexController>();
+        suplexConfig = suplexController.suplexConfig;
         playerThrow = GetComponent<PlayerThrow>();
         playerAnimationController = GetComponent<PlayerAnimationController>();
+        groundChecker = GetComponent<GroundChecker>();
+        trajectoryVisualizer = GetComponent<SuplexTrajectoryVisualizer>();
 
         /// Find input actions
         moveAction = playerInput.actions.FindAction("Move");
@@ -79,7 +87,12 @@ public class MovementController : MonoBehaviour
 
     private void Update()
     {
-        isGrounded = controller.isGrounded;
+        if (!controller.enabled || !gameObject.activeInHierarchy)
+        {
+            Debug.LogError("CONTROLLER DISABLED HERE", this);
+        }
+        isGrounded = groundChecker.IsGrounded();
+        Debug.DrawRay(groundChecker.groundCheck.position, Vector3.down * 0.2f, Color.red);
         if (isGrounded)
         {
             if (velocity.y < 0)
@@ -89,8 +102,44 @@ public class MovementController : MonoBehaviour
             velocity.z = 0f;
         }
 
+        /// Aim input
+        if (aimAction.IsPressed() && suplexController.carriedObject != null)
+        {
+            aimInputLock = true;
+            Debug.Log("Aiming with object");
+            transform.forward = CamForward; // Face the same direction as the camera while aiming
+
+            trajectoryVisualizer.Initialize(playerTransform);
+
+            SuplexAbilities selectedAbility = SuplexAbilities.None;
+
+            if (dashAction.IsPressed())
+                selectedAbility = SuplexAbilities.Long;
+            else if (jumpAction.IsPressed())
+                selectedAbility = SuplexAbilities.Rainbow;
+            else if (leftBumper.IsPressed())
+                selectedAbility = SuplexAbilities.Super;
+
+            Debug.Log("Selected ability: " + selectedAbility);
+
+            if (selectedAbility != SuplexAbilities.None)
+            {
+                SuplexData data = suplexConfig.suplexes.Find(s => s.ability == selectedAbility);
+
+                trajectoryVisualizer.SetTrajectoryMaterial(selectedAbility);
+
+                trajectoryVisualizer.ShowTrajectory(data);
+            }
+            else
+            {
+                // TODO: Add trajectory prediction for suplex throws
+                // Aiming but no ability button held, no arc
+                trajectoryVisualizer.ClearTrajectory();
+                trajectoryVisualizer.SetTargetLandActive(false);
+            }
+        }
         /// Dash input
-        if (dashAction.WasPressedThisFrame())   
+        if (dashAction.WasPressedThisFrame() && !aimInputLock)   
         { 
             //Debug.Log("DASH ATTEMPT"); 
             playerDash.Dash(); 
@@ -114,23 +163,14 @@ public class MovementController : MonoBehaviour
 
 
         /// Jump input
-        if (jumpAction.WasPressedThisFrame() && isGrounded && !suplexController.isSuplexing)
+        if (jumpAction.WasPressedThisFrame() && isGrounded && !suplexController.isSuplexing && !aimInputLock)
         { 
             Jump(); 
         }
-        else if (jumpAction.WasPressedThisFrame() && suplexController.isSuplexing && !playerDash.isDashing && !suplexController.suplexInputLocked)
+        else if (jumpAction.WasPressedThisFrame() && suplexController.isSuplexing && !playerDash.isDashing && !suplexController.suplexInputLocked && !aimInputLock)
         {
             ForceJump();
             Debug.Log("Forced jump during suplex!");
-        }
-
-        /// Aim input
-        if (aimAction.IsPressed() && suplexController.carriedObject != null)
-        {
-            // TODO: Add trajectory prediction
-            // TODO: Add trajectory prediction for suplex throws
-            //Debug.Log("Aiming with object");
-            transform.forward = CamForward; // Face the same direction as the camera while aiming
         }
 
         /// Throw input
@@ -170,6 +210,12 @@ public class MovementController : MonoBehaviour
             finalMove.y = 0f;
         }
 
+        if (aimAction.WasReleasedThisFrame())
+        {
+            aimInputLock = false;
+            trajectoryVisualizer.ClearTrajectory();
+            trajectoryVisualizer.SetTargetLandActive(false);
+        }
         controller.Move(finalMove);
         playerAnimationController.CheckAnimation();
     }

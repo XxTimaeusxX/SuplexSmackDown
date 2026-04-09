@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class ActivateRespawn : MonoBehaviour
 {
+    // MARK: Optimize later
     private float groundLevel;
     public GameObject player;
     public GameObject respawnTrigger1;
     public GameObject respawnTrigger2;
     public GameObject respawnTrigger3;
     public GameObject respawnTrigger4;
-    public GameObject respawnTrigger5;
+    //public GameObject respawnTrigger5;
     public List<GameObject> respawnTriggers;
     public List<Transform> respawnPoints;
     public Transform playerRespawnPoint1;
@@ -18,7 +19,7 @@ public class ActivateRespawn : MonoBehaviour
     public Transform playerRespawnPoint3;
     public Transform playerRespawnPoint4;
     public Transform playerRespawnPoint5;
-    public Transform playerRespawnPoint6;
+    //public Transform playerRespawnPoint6;
     public bool respawn1;
     public bool respawn2;
     public bool respawn3;
@@ -57,16 +58,15 @@ public class ActivateRespawn : MonoBehaviour
         // if (movementController.isGrounded)
         if (!turnOffFallDamage)
         {
-            if (playerMovement.isGrounded == false)
-            {
-                falling = true;
-            }
-            if (playerMovement.isGrounded)
+            if (movementController.isGrounded)
             {
                 falling = false;
                 fallTime = maxFallTime;
             }
-            if (falling)
+            else
+                falling = true;
+
+            if (falling && !suplexController.isSuplexing)
             {
                 fallTime -= Time.deltaTime;
             }
@@ -92,16 +92,16 @@ public class ActivateRespawn : MonoBehaviour
                     RespawnPlayer(playerRespawnPoint4);
                     fallTime = maxFallTime;
                 }
-                if (respawn5)
-                {
-                    RespawnPlayer(playerRespawnPoint5);
-                    fallTime = maxFallTime;
-                }
-                if (respawn6)
-                {
-                    RespawnPlayer(playerRespawnPoint6);
-                    fallTime = maxFallTime;
-                }
+                //if (respawn5)
+                //{
+                //    RespawnPlayer(playerRespawnPoint5);
+                //    fallTime = maxFallTime;
+                //}
+                //if (respawn6)
+                //{
+                //    RespawnPlayer(playerRespawnPoint6);
+                //    fallTime = maxFallTime;
+                //}
             }
         }
     }
@@ -132,12 +132,12 @@ public class ActivateRespawn : MonoBehaviour
             respawn4 = false;
             respawn5 = true;
         }
-        if (other.CompareTag("Collider5"))
-        {
-            Destroy(respawnTrigger5);
-            respawn5 = false;
-            respawn6 = true;
-        }
+        //if (other.CompareTag("Collider5"))
+        //{
+        //    Destroy(respawnTrigger5);
+        //    respawn5 = false;
+        //    respawn6 = true;
+        //}
     }
 
     public void RespawnPlayer(Transform newTransform)
