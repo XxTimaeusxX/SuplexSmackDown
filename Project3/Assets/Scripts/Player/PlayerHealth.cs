@@ -15,6 +15,7 @@ public class PlayerHealth : MonoBehaviour
 	[SerializeField] InGameMenuManager menuManager;
     private bool isFirstHealthUpdate = true; // Flag to skip initial health sound
 	[SerializeField] bool isInvincible;
+	Boss2Interaction boss;
 	
     void Start()
     {
@@ -26,6 +27,11 @@ public class PlayerHealth : MonoBehaviour
 		iFrames = false;
 		iFrameCooldown = 2f;
        // UpdateHealth(maxHealth);
+    }
+
+    private void Awake()
+    {
+        boss = GetComponent<Boss2Interaction>();
     }
 
     private void Update()
@@ -45,10 +51,11 @@ public class PlayerHealth : MonoBehaviour
     {
 		// Add hurt animation trigger here
 		if(!isInvincible){
-			playerAnimationController.IsHurt = true; // Request HURT animation
-			playerAnimationController.CheckAnimation();
-			UpdateHealth(--currentHealth);
-			iFrames = true;
+			if (!iFrames)
+			{
+                UpdateHealth(--currentHealth);
+                iFrames = true;
+            }
 		}
     }
 	
@@ -106,4 +113,15 @@ public class PlayerHealth : MonoBehaviour
 			isInvincible = false;
 		return isInvincible;
 	}
+
+    private void OnParticleCollision(GameObject other)
+    {
+		if (boss == null)
+		{
+            if (other.CompareTag("BossShockwave"))
+            {
+                TakeDamage();
+            }
+        }
+    }
 }

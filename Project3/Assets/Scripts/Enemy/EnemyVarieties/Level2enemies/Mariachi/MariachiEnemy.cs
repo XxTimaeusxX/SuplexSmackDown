@@ -1,4 +1,4 @@
-
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +20,7 @@ public class MariachiEnemy : OGEnemyBase
     public float DefaultWalkSpeed;
     public float DefaultRunMoveSpeed;
     public float DefaultAttackCooldown;
+    private bool playerDetected = false;
 
 
     // Update is called once per frame
@@ -44,7 +45,32 @@ public class MariachiEnemy : OGEnemyBase
             gameObject.SetActive(false);
             return;
         }
+        DetectPlayer();
     }
+    public void OnCollisionEnter(Collision collision)
+    {
+        base.OnCollisionEnter(collision);
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            AudioManager.PlayMariachiHurt();
+        }
+    }
+    private void DetectPlayer()
+    {
+        if (m_Distance < chaseRange)
+        {
+            if (!playerDetected)
+            {
+                playerDetected = true;
+                AudioManager.PlayMariachiDetection();
+            }
+        }
+        else
+        {
+            playerDetected = false;
+        }
+    }
+
     protected override void CustomAttack()
     {
       //  Debug.Log("Mariachi attack!");

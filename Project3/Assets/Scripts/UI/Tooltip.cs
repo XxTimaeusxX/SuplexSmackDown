@@ -1,13 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using System.Collections;
 
 public class Tooltip : MonoBehaviour
 {
 	Text objText;
 	[SerializeField] string newText;
-	[SerializeField] bool destroyOnExit = false;
+	[SerializeField] float destroyTime = 10.0f;
 	[SerializeField] VideoClip videoClip;
+	bool isPlaying = false;
 
 	[Header("From Main HUD")]
 	[SerializeField] GameObject tooltipPanel;
@@ -22,23 +24,27 @@ public class Tooltip : MonoBehaviour
 	
     private void OnTriggerEnter(Collider other)
     {
+		
+		//if the player enters and it's not already active, start the coroutine to eventually disable it
 		if (other.CompareTag("Player"))
         {
-			tooltipVideoPlayer.clip = videoClip;
-			objText.text = newText;
-			tooltipPanel.SetActive(true);
-			tooltipVideoPlayer.Play();
+			if(!isPlaying){
+				isPlaying = true;
+				tooltipVideoPlayer.clip = videoClip;
+				objText.text = newText;
+				tooltipPanel.SetActive(true);
+				tooltipVideoPlayer.Play();
+				StartCoroutine("TimedDestroy");
+			}
 		}
 	}
 	
-    private void OnTriggerExit(Collider other)
-    {
-		if (other.CompareTag("Player"))
-        {
-			tooltipPanel.SetActive(false);
-			tooltipVideoPlayer.Stop();
-			if(destroyOnExit)
-				Destroy(this.gameObject);
-		}
+	IEnumerator TimedDestroy(){
+		yield return new WaitForSeconds(destroyTime);
+		tooltipPanel.SetActive(false);
+		tooltipVideoPlayer.Stop();
+		isPlaying = false;
+		yield break; //break out of the coroutine
+		//Destroy(this.gameObject);
 	}
 }

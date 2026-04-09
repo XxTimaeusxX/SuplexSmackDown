@@ -32,8 +32,25 @@ public class ShoalEnemy : EnemyBase
         {        
             if (!waveStarted)
             {
-                waveStarted = true;
-                enemyHealth.value = enemyHealth.maxValue;
+                enemyHealthScreen.SetActive(false);
+                if (bossShoal == false)
+                {
+                    doorManager.open = true;
+                    areaTwoEnemies.SetActive(true);
+                    AudioManager.PlayIntercomShoalDefeat();
+                }
+                if (bossShoal == true)
+                {
+                    if (bossTrigger2 != null)
+                    {
+                        bossTrigger2.SetActive(true);
+                    }  
+                    timer.SetActive(true);
+                    if (CinemaScript != null)
+                    {
+                        CinemaScript.isPhase2Intro = true;
+                    }
+                }
             }
             totalShoalCount++;
         }

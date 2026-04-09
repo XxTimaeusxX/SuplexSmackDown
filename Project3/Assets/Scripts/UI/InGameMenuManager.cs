@@ -7,17 +7,21 @@ using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
+	[Header("-- Set these in-level --")]
 	[SerializeField] CharacterController playerCC;
 	[SerializeField] MovementController movementController;
 	[SerializeField] PlayerDash playerDash;
-	public PlayerInput playerInput;
-	[SerializeField] GameObject _SuperSuplexUI;
-
-	[SerializeField] string _MainMenuScene;
-    [SerializeField] string _Stage1Scene;
-    private string _Stage2Scene = "FestivalLevel";
-    private string _Stage3Scene = "StadiumBlockout";
+	[SerializeField] GameObject _StatusCanvas;
 	
+	[Header("-----------")]
+	public PlayerInput playerInput;
+
+	[SerializeField] int _MainMenuSceneInt = 0;
+    [SerializeField] int _Stage1SceneInt = 1;
+    [SerializeField] int _Stage2SceneInt = 2;
+    [SerializeField] int _Stage3SceneInt = 3;
+	[SerializeField] int _TutorialSceneInt = 4;
+
     [SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _HowToPlayPanel;
 	[SerializeField] GameObject _SettingsPanel;
@@ -132,7 +136,7 @@ public class InGameMenuManager : MonoBehaviour
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
 				_PauseButtonContainer.SetActive(true);
-				_SuperSuplexUI.SetActive(false);
+				_StatusCanvas.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
 				}
@@ -158,7 +162,7 @@ public class InGameMenuManager : MonoBehaviour
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_CheatsMenu) _CheatsMenu.SetActive(false);
 		isPaused = false;
-		_SuperSuplexUI.SetActive(true);
+		_StatusCanvas.SetActive(true);
 		pause_anim.SetBool("isPaused", false);
 		
 		playerCC.enabled = true; //allow the player to move again
@@ -204,7 +208,7 @@ public class InGameMenuManager : MonoBehaviour
 	public void RestartButtonClicked()
 	{
 		ResumeButtonClicked();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     //    PlaySceneMusic();
     }
 	
@@ -213,7 +217,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		SceneManager.LoadScene(_MainMenuScene);
+		SceneManager.LoadScene(_MainMenuSceneInt);
 	}
 
     //unpause and go to stage 1
@@ -221,7 +225,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		SceneManager.LoadScene(_Stage1Scene);
+		SceneManager.LoadScene(_Stage1SceneInt);
     }
 
     //unpause and go to stage 2
@@ -229,7 +233,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene("FestivalLevel");
+        SceneManager.LoadScene(_Stage2SceneInt);
      //   PlaySceneMusic();
     }
 	
@@ -238,7 +242,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene("StadiumBlockout");
+        SceneManager.LoadScene(_Stage3SceneInt);
      //   PlaySceneMusic();
     }
 	
@@ -308,6 +312,7 @@ public class InGameMenuManager : MonoBehaviour
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
+		if(_StatusCanvas) _StatusCanvas.SetActive(false);
 	}
 
     void OnEnable()
@@ -327,23 +332,27 @@ public class InGameMenuManager : MonoBehaviour
     //plays the appropriate music based on the current scene
     void PlaySceneMusic()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        Debug.Log("Current Scene: " + currentSceneName); // Add this line
-        if (currentSceneName == _MainMenuScene)
+        int currentSceneInt = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("Current Scene: " + currentSceneInt); // Add this line
+        if (currentSceneInt == _MainMenuSceneInt)
         {
             AudioManager.PlayMainMenuBGM();
         }
-		else if (currentSceneName == _Stage1Scene)
+		else if (currentSceneInt == _Stage1SceneInt)
 		{
 				AudioManager.PlayConstructionBGM();
         }
-        else if (currentSceneName == _Stage2Scene)
+        else if (currentSceneInt == _Stage2SceneInt)
 		{
 			AudioManager.PlayFestivalBGM();
 		}
-		else if (currentSceneName == _Stage3Scene)
+		else if (currentSceneInt == _Stage3SceneInt)
 		{
 			AudioManager.PlayArenaBossBGM();
+        }
+        else if (currentSceneInt == _TutorialSceneInt)
+        {
+            AudioManager.PlayTutorialBGM();
         }
 			
     }

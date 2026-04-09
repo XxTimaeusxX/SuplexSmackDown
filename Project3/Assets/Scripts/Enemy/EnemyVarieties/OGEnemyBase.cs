@@ -279,7 +279,7 @@ public class OGEnemyBase : MonoBehaviour
         if (chargeSlider.gameObject.activeSelf)
             chargeSlider.gameObject.SetActive(false);
     }
-    public void SetGrabbed(bool grabbed)
+    public virtual void SetGrabbed(bool grabbed)
     {
         isGrabbed = grabbed;
         if (grabbed)

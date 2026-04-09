@@ -79,9 +79,10 @@ public class EnemyGrabHandler : MonoBehaviour
     {
         _playerMovement.IsPlayingGrabAnimation = true;
         if (_playerMovement.isGrounded)
-            _playerMovement.ChangeAnimtion("GRAB");
+            _playerMovement.SetState(PlayerState.Grab, "GRAB", 0f, true);
+
         else
-            _playerMovement.ChangeAnimtion("LeapGrab");
+            _playerMovement.SetState(PlayerState.LeapGrab, "LeapGrab", 0f, true);
         yield return new WaitForSeconds(1f); // Wait for grab animation to play (adjust timing as needed)
         _playerMovement.IsPlayingGrabAnimation = false;
         //  _playerMovement.ChangeAnimtion("GrabIDLE");

@@ -7,7 +7,8 @@ using UnityEngine.Rendering.HighDefinition;
 
 public class MainMenuManager : MonoBehaviour
 {
-	[SerializeField] int _GameplaySceneInt;
+	[SerializeField] int _TutorialSceneInt;
+	[SerializeField] int _Level1SceneInt;
     [SerializeField] GameObject _DefaultPlayButton;
     [SerializeField] GameObject _MainMenuButtonContainer;
 	private Button MainMenuButtons;
@@ -18,6 +19,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject _ControlsBackButton;
     [SerializeField] GameObject _CreditsPanel;
     [SerializeField] GameObject _CreditsBackButton;
+    [SerializeField] GameObject _TutorialPanel;
+    [SerializeField] GameObject _TutorialYesButton;
     [SerializeField] LoadingScreenManager _loadingScreenManager;
     [SerializeField] Volume SkyVolume;
    
@@ -37,11 +40,25 @@ public class MainMenuManager : MonoBehaviour
 	}
 	
 	public void StartButtonClicked(){
+		if(_TutorialPanel) _TutorialPanel.SetActive(true);
+		if(_MainMenuButtonContainer) _MainMenuButtonContainer.SetActive(false);
+		EventSystem.current.SetSelectedGameObject(_TutorialYesButton);
+	}
+	
+	public void StartGameWithTutorial(){
 		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 	//	AudioManager.PlayConstructionBGM();// Play construction music (clip assigned on AudioManager)
 		StarTracker.ResetStars();
-        _loadingScreenManager.StartLoadingScene(_GameplaySceneInt);
+        _loadingScreenManager.StartLoadingScene(_TutorialSceneInt);
+	}
+	
+	public void StartGameNoTutorial(){
+		Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+	//	AudioManager.PlayConstructionBGM();// Play construction music (clip assigned on AudioManager)
+		StarTracker.ResetStars();
+        _loadingScreenManager.StartLoadingScene(_Level1SceneInt);
 	}
 	
 	public void HowToPlayButtonClicked(){
@@ -66,9 +83,12 @@ public class MainMenuManager : MonoBehaviour
 		if(_ControlsPanel) _ControlsPanel.SetActive(false);
 		if(_SettingsPanel) _SettingsPanel.SetActive(false);
 		if(_CreditsPanel) _CreditsPanel.SetActive(false);
+		if(_TutorialPanel) _TutorialPanel.SetActive(false);
 		if(_MainMenuButtonContainer) _MainMenuButtonContainer.SetActive(true);
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
 	}
+	
+	
 	
 	public void ExitButtonClicked(){
 		Debug.Log("exit!");

@@ -27,6 +27,46 @@ public class SuplexHitboxCaller : MonoBehaviour
         {
             hasGrabbed = false;
         }
+        // 1. Check if the object is Rocky Rhodes AND if he is vulnerable
+      /*  if (other.TryGetComponent<RockyRhodes>(out RockyRhodes rockyBoss))
+        {
+          
+            if (other.gameObject.GetComponent<RockyRhodes>().isGrabbed = true)
+            {
+                Debug.Log("cangrabrocky-------------------------------------------------");
+              //  rockyBoss.IsStunnedForGrab = false; // Turn off the stun so he can't be grabbed twice
+                gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
+                playerSuplex.StartSuplex(other); // Begin the suplex sequence on Rocky
+            }
+            // If Rocky is hit but NOT stunned, we just ignore the collision.
+            return;
+        }*/
+        // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
+        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn")
+            || other.CompareTag("Macro") || other.CompareTag("Micro") || other.CompareTag("Drone") || 
+            other.CompareTag("Solid") || other.CompareTag("GhostDancer") || other.CompareTag("Stunned Rocky")
+            && playerSuplex != null)
+        {
+           //  Debug.Log("hitboxcollider called");
+            if (other.CompareTag("Drone"))
+            {
+                other.gameObject.GetComponent<FlyingAI>().grabbed = true;
+            }
+            if (other.CompareTag("Solid"))
+            {
+                other.gameObject.GetComponent<Level2BossManager>().grabbed = true;
+            }
+            if (other.CompareTag("Stunned Rocky"))
+            {
+                other.gameObject.GetComponent<RockyRhodesManager>().grabbed = true;
+            }
+            if (other.CompareTag("Micro"))
+            {
+                AudioManager.PlayMicroGrabbed();
+            }
+            gameObject.SetActive(false); // Disable hitbox after a successful trigger to prevent multiple calls
+            playerSuplex.StartSuplex(other); // Begin the suplex sequence on the enemy
+        }
     }
     /// <summary>
     /// When hitbox is active from the dash ability it detects thisEnemy tag and starts the suplex sequence.

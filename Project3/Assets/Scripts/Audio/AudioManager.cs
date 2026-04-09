@@ -26,6 +26,7 @@ public sealed class AudioManager : MonoBehaviour
 
     [Header("BGM Clips")]
     public AudioClip mainMenuBGM;
+    public AudioClip TutorialBGM;
     public AudioClip constructionBGM;
     public AudioClip boss1BGM;
     public AudioClip VictoryBGM;
@@ -47,9 +48,10 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip SuperSuplexSlam;
 
     [Header("Health Packs SFX")]
-    public AudioClip smallHealthPackClip;
+    public AudioClip defaultHealthPackClip;
+    public AudioClip drinkHealthPackClip;
+
     [Header("Enemy SFX")]
-    
     public AudioClip enemySlapClip;
     public AudioClip enemyDieclip;
     public AudioClip shoalPhraseClip;
@@ -92,15 +94,40 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip MicroEncounterClip;// intro1 
     public AudioClip MicroTwoHealthClip;// intro2
     public AudioClip MicroOneHealthClip;
+    public AudioClip MicroGrabbedClip;
 
     [Header("Boss sfx")]
     public AudioClip BossIntro;
     public AudioClip BossPhase;
 
+    [Header("Intercom SFX")]
+    public AudioClip Intercom1HrDeparment;
+    public AudioClip Intercom2LoadingBay;
+    public AudioClip IntercomShoalDefeat;
+    public AudioClip Intercom4;
+
     [Header("    --------------------------- LEVEL 2 -----------------------------     ")]
     [Header("Mariachi Sfx")]
     public AudioClip GuitarNoteClip;
-   
+    public AudioClip MariachiDetection;
+    public AudioClip MariachiHurt;
+
+    [Header("Ghost Boss")]
+    public AudioClip wrestle1;
+    public AudioClip wrestle2;
+    public AudioClip wrestle3;
+    public AudioClip frozen;
+    public AudioClip slam;
+    public AudioClip hurt1;
+    public AudioClip hurt2;
+    public AudioClip hurt3;
+    public AudioClip moveArena;
+    public AudioClip phase;
+    public AudioClip weakSignal;
+
+    [Header("Dancer SFX")]
+    public AudioClip DancerAttack;
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -258,10 +285,15 @@ public sealed class AudioManager : MonoBehaviour
 
     // BGM
     public static void PlayMainMenuBGM() => PlayMusic(Instance?.mainMenuBGM);
+    public static void PlayTutorialBGM() => PlayMusic(Instance?.TutorialBGM);
     public static void PlayConstructionBGM() => PlayMusic(Instance?.constructionBGM);
     public static void PlayBoss1BGM() => PlayMusic(Instance?.boss1BGM);
     public static void PLayVictory() => PlayMusic(Instance?.VictoryBGM,false);
     public static void PlayDefeat() => PlayMusic(Instance?.DefeatBGM,false);
+
+    // interactable SFX
+    public static void PlayHealthPack() =>PlayNarration(Instance?.defaultHealthPackClip, 1f); // Uses narration system for important pickup lines
+    public static void PlayDrinkHealthPack() => PlayNarration(Instance?.drinkHealthPackClip, 1f); // Uses narration system for important pickup lines
 
     // player SFX
     public static void PlayFootstep() => PlaySFX(Instance?.footstepClip, 1f);
@@ -316,6 +348,7 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayMicroAttack() => PlaySFX(Instance?.MicroAttackClip, 1f);
     public static void PlayMicroEncounter() => PlaySFX(Instance?.MicroDamageHitOneClip, 1f);
     public static void PlayMicroDamageHitTwo() => PlaySFX(Instance?.MicroDamageHitTwoClip, 1f);
+    public static void PlayMicroGrabbed() => PlaySFX(Instance?.MicroGrabbedClip, 1f);
 
 
     public static void PlayMicroDie() => PlaySFX(Instance?.MicroDieClip, 1f);
@@ -324,10 +357,20 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayBossIntro() => PlayNarration(Instance?.BossIntro, 1f); // Uses narration system for boss intro
     public static void PlayBossPhase() => PlayNarration(Instance?.BossPhase, 1f);
 
+    // ----Intercom SFX----
+    public static void PlayIntercom1HrDepartment() => PlayNarration(Instance?.Intercom1HrDeparment, 1f);
+    public static void PlayIntercom2LoadingBay() => PlayNarration(Instance?.Intercom2LoadingBay, 1f);
+
+    public static void PlayIntercomShoalDefeat() => PlayNarration(Instance?.IntercomShoalDefeat, 1f);
+    public static void PlayIntercom4Trash() => PlayNarration(Instance?.Intercom4, 1f);
+
     //-------------------------------------------- LEVEL 2------------------------------------------//
 
     public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
     public static void PlayFestivalBGM() => PlayMusic(Instance?.FestivalBGM);
+    public static void PlayMariachiDetection() => PlaySFX(Instance?.MariachiDetection, 1f);
+    public static void PlayMariachiHurt() => PlaySFX(Instance?.MariachiHurt, 1f);
+    public static void PlayDancerAttack() => PlaySFX(Instance?.DancerAttack, 1f);
 
     //-------------------------------------------- LEVEL 3------------------------------------------//
     public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);
