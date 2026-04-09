@@ -48,9 +48,10 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip SuperSuplexSlam;
 
     [Header("Health Packs SFX")]
-    public AudioClip smallHealthPackClip;
+    public AudioClip defaultHealthPackClip;
+    public AudioClip drinkHealthPackClip;
+
     [Header("Enemy SFX")]
-    
     public AudioClip enemySlapClip;
     public AudioClip enemyDieclip;
     public AudioClip shoalPhraseClip;
@@ -291,7 +292,8 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayDefeat() => PlayMusic(Instance?.DefeatBGM,false);
 
     // interactable SFX
-    public static void PlayHealthPack() =>PlayNarration(Instance?.smallHealthPackClip, 1f); // Uses narration system for important pickup lines
+    public static void PlayHealthPack() =>PlayNarration(Instance?.defaultHealthPackClip, 1f); // Uses narration system for important pickup lines
+    public static void PlayDrinkHealthPack() => PlayNarration(Instance?.drinkHealthPackClip, 1f); // Uses narration system for important pickup lines
 
     // player SFX
     public static void PlayFootstep() => PlaySFX(Instance?.footstepClip, 1f);

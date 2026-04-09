@@ -4,7 +4,7 @@ public class HealthPickUp : MonoBehaviour
 {
     [SerializeField] int points = 1;
     [SerializeField] int healthAmount = 1;
-
+    [HideInInspector] public int healthIndex; // Used for editor dropdown, serialized in editor script
 
 
     void Update()
@@ -24,7 +24,11 @@ public class HealthPickUp : MonoBehaviour
             Debug.Log("Player health full — pickup ignored.");
             return;
         }
-        AudioManager.PlayHealthPack();
+
+        if (healthIndex == 0) // Default health pack
+            AudioManager.PlayHealthPack();
+        else if (healthIndex == 1) // Drink health pack
+            AudioManager.PlayDrinkHealthPack();
 
         // Apply healing (pickup is responsible for healing)
         int newHP = Mathf.Min(playerHealth.currentHealth + healthAmount, playerHealth.maxHealth);
