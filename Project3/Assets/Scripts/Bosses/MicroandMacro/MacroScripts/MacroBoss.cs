@@ -57,7 +57,10 @@ public class MacroBoss : MonoBehaviour, ICarriable
 
     [Header("Bools")]
     public bool wasThrown = false;
-    public bool IsReturning = false;
+    private bool isReturning = false;
+    public bool isChasing = false;
+    public bool invulnerable = false;
+    public bool isGrabbed = false;
 
     [Header("Throw Launch Settings")]
     [SerializeField] private float throwMinFlightTime = 0.6f;
@@ -163,7 +166,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
         while (true)
         {
             CurrentMacroState = MacroState.Returning;
-            agent.SetDestination(MicroPosition.position);
+            agent.SetDestination(microBoss.transform.position);
             agent.speed = 20f; // increase speed while returning to micro position
             if (agent.pathPending)
             {
@@ -223,6 +226,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
 
+        isGrabbed = true;
         //Debug.Log("EnterCarriedState called on " + gameObject.name);
     }
 
@@ -244,6 +248,7 @@ public class MacroBoss : MonoBehaviour, ICarriable
 
         enableAgentRoutine = StartCoroutine(EnableAgentAfterLanding());
 
+        isGrabbed = false;
         //Debug.Log("ExitCarriedState called on " + gameObject.name);
         //Debug.Log($"Main collider enabled: {mainCollider.enabled}, Proxy: {carryProxy.enabled}");
     }

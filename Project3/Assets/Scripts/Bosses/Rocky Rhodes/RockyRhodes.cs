@@ -36,7 +36,7 @@ public enum RockyRhodesStates
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
-public class RockyRhodes : EnemyBase
+public class RockyRhodes : OGEnemyBase
 {
     [Header("Rocky Rhodes Settings")]
     // runtime toggles
@@ -250,7 +250,7 @@ public class RockyRhodes : EnemyBase
         StartCoroutine(JumpToPlatform());
     }*/
 
-    private void OnCollisionEnter(Collision collision)
+    private new void OnCollisionEnter(Collision collision)
     {
         // Check if the boss just hit the player while performing the Chestbump ability
         if (collision.gameObject.CompareTag("Player") && _abilities != null)
