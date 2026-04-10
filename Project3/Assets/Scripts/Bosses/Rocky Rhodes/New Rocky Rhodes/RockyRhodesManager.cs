@@ -11,7 +11,7 @@ public class RockyRhodesManager : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     public GameObject player;
     [HideInInspector] public NavMeshAgent agent;
-    [HideInInspector] RockyRhodes rocky;
+    RockyRhodes rocky;
     public Slider healthSlider;
     RhockyHealth health;
     RhockyAbilities abilities;

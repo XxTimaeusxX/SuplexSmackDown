@@ -18,7 +18,7 @@ public class RhockyHealth : MonoBehaviour
     private RhockyAbilities _rhockyAbilities; // Added reference
     private float _lastHealthValue;
     private bool _healthhasDecreased;
-    private float _currentPhase = 1f;
+    public float _currentPhase = 1f;
 
     [Header("Health Packs to enable")]
     public GameObject Arena2Healthpack;
@@ -133,7 +133,7 @@ public class RhockyHealth : MonoBehaviour
         CheckHealthState();
     }
 
-    private void Applyhealth(float value)
+    public void Applyhealth(float value)
     {
         HealthSlider.maxValue = Mathf.Max(HealthSlider.maxValue, value);
         HealthSlider.value = value;

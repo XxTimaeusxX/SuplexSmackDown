@@ -7596,6 +7596,39 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &72150492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 72150493}
+  m_Layer: 0
+  m_Name: Floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &72150493
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72150492}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.000011444092}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 624734805}
+  - {fileID: 492038001}
+  m_Father: {fileID: 2033437764}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &72318244
 Mesh:
   m_ObjectHideFlags: 0
@@ -15435,6 +15468,37 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &104048014
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 104048015}
+  m_Layer: 14
+  m_Name: Arena2Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &104048015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104048014}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.3149319, y: 31.43, z: 728.43976}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 529450157}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &106168006
 GameObject:
   m_ObjectHideFlags: 0
@@ -41329,7 +41393,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5018433338472157327, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6494104471031518904, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
       propertyPath: m_Pivot.x
@@ -202868,6 +202932,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 998731841362213673, guid: fc2f3cfcd64a4c24bbeeaa430e72b7f0, type: 3}
   m_PrefabInstance: {fileID: 1555040525}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &463537273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463537254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c1423b360f8cde4e84e9f87ecf02719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockyRespawn
+  arena1Spawn: {fileID: 1550954866}
+  arena2Spawn: {fileID: 104048015}
+  arena3Spawn: {fileID: 1428876660}
+  arena1Floor: {fileID: 690853187}
+  arena2Floor: {fileID: 72150492}
 --- !u!1001 &466377936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207552,14 +207633,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 492038000}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1098816923}
   - {fileID: 931444097}
-  m_Father: {fileID: 2033437764}
+  m_Father: {fileID: 72150493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &492038002
 MonoBehaviour:
@@ -211060,6 +211141,9 @@ Transform:
   - {fileID: 904284125}
   - {fileID: 1115120742}
   - {fileID: 742878134}
+  - {fileID: 1550954866}
+  - {fileID: 104048015}
+  - {fileID: 1428876660}
   - {fileID: 158478249}
   - {fileID: 1204546910}
   - {fileID: 1741302196}
@@ -223731,14 +223815,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 624734804}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 35726848}
   - {fileID: 1153736278}
-  m_Father: {fileID: 2033437764}
+  m_Father: {fileID: 72150493}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &624734806
 MonoBehaviour:
@@ -226597,9 +226681,9 @@ MonoBehaviour:
         z: 12.520526
       Rotation:
         value:
-          x: -0.016562795
+          x: -0.016562797
           y: -0.39215776
-          z: 0.004629285
+          z: 0.0046292865
           w: 0.9197373
     - Position:
         x: -60.58705
@@ -351880,6 +351964,37 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1428876659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1428876660}
+  m_Layer: 14
+  m_Name: Arena3Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1428876660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428876659}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.3149319, y: 4.04, z: 728.43976}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 529450157}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1429697999
 Mesh:
   m_ObjectHideFlags: 0
@@ -353279,6 +353394,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7612831096732095278, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
       insertIndex: 1
+      addedObject: {fileID: 1501161601}
+    - targetCorrespondingSourceObject: {fileID: 7612831096732095278, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
+      insertIndex: 2
       addedObject: {fileID: 1501161583}
   m_SourcePrefab: {fileID: 100100000, guid: ff7992ec78b862a4295290179a58cd5d, type: 3}
 --- !u!114 &1440336998 stripped
@@ -367370,7 +367488,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440337000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7014f3a78cbf584980c4951d10451a4, type: 3}
   m_Name: 
@@ -367403,6 +367521,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b78a0d8a8f38fe40916b665331b8afc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PowerGauge
+--- !u!114 &1501161601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440337000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14a963825efc29041bf87ae6af2e0d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewPlayerRespawn
+  objectsThatChangeRespawnPointForBossBattle:
+  - {fileID: 0}
+  - {fileID: 0}
+  objectThatActivatesRespawn:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  objectThatChangesRespawnPoint:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1501643294
 GameObject:
   m_ObjectHideFlags: 0
@@ -373378,6 +373547,37 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!1 &1550954865
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1550954866}
+  m_Layer: 14
+  m_Name: Arena1Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1550954866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1550954865}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.3149319, y: 64.57, z: 728.43976}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 529450157}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1552222142
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -374912,6 +375112,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1414959027}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5427314504484792256, guid: fc2f3cfcd64a4c24bbeeaa430e72b7f0, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 463537273}
     - targetCorrespondingSourceObject: {fileID: 5427314504484792256, guid: fc2f3cfcd64a4c24bbeeaa430e72b7f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 463537265}
@@ -455883,8 +456086,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 492038001}
-  - {fileID: 624734805}
+  - {fileID: 72150493}
   m_Father: {fileID: 158478249}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2033437765
