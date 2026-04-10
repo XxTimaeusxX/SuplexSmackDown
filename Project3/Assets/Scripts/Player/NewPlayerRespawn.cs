@@ -4,14 +4,13 @@ using UnityEngine;
 public class NewPlayerRespawn : MonoBehaviour
 {
     PlayerHealth health;
-    private static bool respawnForBossFight;
+    public static bool respawnForBossFight;
 
     private Vector3 respawnPoint;
     private static Vector3 bossRespawnPoint;
     public GameObject[] objectsThatChangeRespawnPointForBossBattle;
     public GameObject[] objectThatActivatesRespawn;
     public GameObject[] objectThatChangesRespawnPoint;
-
     private void Awake()
     {
         health = GetComponent<PlayerHealth>();
@@ -26,20 +25,35 @@ public class NewPlayerRespawn : MonoBehaviour
         respawnPoint = transform.position;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void FixedUpdate()
     {
-        if (objectThatActivatesRespawn.Contains(collision.gameObject))
-        {
-            transform.position = respawnPoint;
-            health.TakeDamage();
-        }
+        Collider[] hitColliders = Physics.OverlapBox(transform.position, transform.localScale / 2);
 
-        if (objectThatChangesRespawnPoint.Contains(collision.gameObject))
+        foreach (var hitCollider in hitColliders)
+        {
+            if (objectThatActivatesRespawn.Contains(hitCollider.gameObject))
+            {
+                if (!respawnForBossFight)
+                {
+                    transform.position = respawnPoint;
+                    health.TakeDamage();
+                }
+                else if (respawnForBossFight)
+                {
+                    transform.position = bossRespawnPoint;
+                    health.TakeDamage();
+                }
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (objectThatChangesRespawnPoint.Contains(other.gameObject))
         {
             respawnPoint = transform.position;
         }
-
-        if (objectsThatChangeRespawnPointForBossBattle.Contains(collision.gameObject))
+        if (objectsThatChangeRespawnPointForBossBattle.Contains(other.gameObject))
         {
             bossRespawnPoint = transform.position;
             respawnForBossFight = true;
