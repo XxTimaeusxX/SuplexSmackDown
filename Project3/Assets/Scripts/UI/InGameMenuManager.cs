@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
@@ -72,8 +73,14 @@ public class InGameMenuManager : MonoBehaviour
 	Color[] menuImgColor;
 	Image[] statusImg;
 	Color[] statusImgColor;
+	Text[] statusText;
+	Color[] statusTextColor;
+	TextMeshProUGUI[] statusText2;
+	Color[] statusTextColor2;
 	Text[] menuText;
 	Color[] menuTextColor;
+	RawImage[] rawImg;
+	Color[] rawImgColor;
 	float H,S,V;
 	
 	public void Start(){
@@ -87,7 +94,7 @@ public class InGameMenuManager : MonoBehaviour
 			Debug.Log("inputs not found!");
 		}
 		
-		//ColorInit();
+		ColorInit();
 	}
 	
 	//listen for cheat code
@@ -371,59 +378,118 @@ public class InGameMenuManager : MonoBehaviour
 	void ColorInit(){
 		menuImg = GetComponentsInChildren<Image>(true);
 		menuText = GetComponentsInChildren<Text>(true);
-		
 		statusImg = _StatusCanvas.GetComponentsInChildren<Image>(true);
+		statusText = _StatusCanvas.GetComponentsInChildren<Text>(true);
+		statusText2 = _StatusCanvas.GetComponentsInChildren<TextMeshProUGUI>(true);
 		
 		menuImgColor = new Color[menuImg.Length];
 		menuTextColor = new Color[menuText.Length];
-		statusImgColor = new Color[statusImg.Length]; 
+		statusImgColor = new Color[statusImg.Length];
+		statusTextColor = new Color[statusText.Length];
+		statusTextColor2 = new Color[statusText2.Length];
 		
-		int index = 0;
+		//paying for my early mistakes (but it's less trouble than going back and reverting everything to Image)
+		rawImg = new RawImage[3];
+		rawImgColor = new Color[3];
+		RawImage[] temp1 = GetComponentsInChildren<RawImage>(true);
+		//RawImage[] temp2 = _StatusCanvas.GetComponentsInChildren<RawImage>(true);
+		rawImg[0] = temp1[0];
+		rawImg[1] = temp1[1];
+		rawImg[2] = temp1[2];
+		
+		print("StatusCanvas: ");
+		foreach (TextMeshProUGUI newText in statusText2)
+			print(newText.name);
+		
+		//loop through and initialize/sets colors, resetting index each time
 		float newV;
+		int index = 0;
 		foreach (Image img in menuImg){
 			menuImgColor[index] = img.color;
-			Color.RGBToHSV(menuImgColor[index], out H, out S, out V);
-			newV = GammaCalc(V, PlayerPrefs.GetFloat("gamma"));
-			img.color = Color.HSVToRGB(H,S,newV);
+			img.color = GammaArrayUpdate(menuImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (RawImage img in rawImg){
+			rawImgColor[index] = img.color;
+			img.color = GammaArrayUpdate(rawImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Image img in statusImg){
+			statusImgColor[index] = img.color;
+			img.color = GammaArrayUpdate(statusImgColor, img.color, index);
 			index++;
 		}
 		index = 0;
 		foreach (Text newText in menuText){
 			menuTextColor[index] = newText.color;
-			Color.RGBToHSV(menuTextColor[index], out H, out S, out V);
-			newV = GammaCalc(V, PlayerPrefs.GetFloat("gamma"));
-			newText.color = Color.HSVToRGB(H,S,newV);
+			newText.color = GammaArrayUpdate(menuTextColor, newText.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Text newText in statusText){
+			statusTextColor[index] = newText.color;
+			newText.color = GammaArrayUpdate(statusTextColor, newText.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (TextMeshProUGUI newText in statusText2){
+			statusTextColor2[index] = newText.color;
+			newText.color = GammaArrayUpdate(statusTextColor2, newText.color, index);
 			index++;
 		}
 	}
 	
+	Color GammaArrayUpdate(Color[] colorArray, Color newColor, int index){
+		float newV;
+		Color.RGBToHSV(colorArray[index], out H, out S, out V);
+		newV = GammaCalc(V, PlayerPrefs.GetFloat("gamma"));
+		return Color.HSVToRGB(H,S,newV);
+	}
+	
+	//change value depending on slider
 	float GammaCalc(float V, float newGamma){
 		if(newGamma <= 0.05f)
-			return V*(0.5f);
+			return V*(0.5f); //prevents everything from becoming too dark to see
 		else if(newGamma <= 0.5f)
 			return V*(newGamma+0.5f);
 		else
 			return 2*V*(newGamma);
 	}
 	
+	//as ColorInit, but doesn't initialize anything
 	public void GammaUIUpdate(float newGamma){
-		/*int index = 0;
+		int index = 0;
 		float newV;
 		foreach (Image img in menuImg){
-			//when gamma slider is 0, value should be at least 0.1
-			//when gamma slider is 0.5, value should be roughly V
-			//when gamma slider is 1, value could be 2?
-			Color.RGBToHSV(menuImgColor[index], out H, out S, out V);
-			newV = GammaCalc(V, newGamma);
-			img.color = Color.HSVToRGB(H,S,newV);
+			img.color = GammaArrayUpdate(menuImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (RawImage img in rawImg){
+			img.color = GammaArrayUpdate(rawImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Image img in statusImg){
+			img.color = GammaArrayUpdate(statusImgColor, img.color, index);
 			index++;
 		}
 		index = 0;
 		foreach (Text newText in menuText){
-			Color.RGBToHSV(menuTextColor[index], out H, out S, out V);
-			newV = GammaCalc(V, newGamma);
-			newText.color = Color.HSVToRGB(H,S,newV);
+			newText.color = GammaArrayUpdate(menuTextColor, newText.color, index);
 			index++;
-		}*/
+		}
+		index = 0;
+		foreach (Text newText in statusText){
+			newText.color = GammaArrayUpdate(statusTextColor, newText.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (TextMeshProUGUI newText in statusText2){
+			newText.color = GammaArrayUpdate(statusTextColor2, newText.color, index);
+			index++;
+		}
 	}
 }

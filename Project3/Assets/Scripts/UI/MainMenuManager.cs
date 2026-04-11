@@ -126,9 +126,10 @@ public class MainMenuManager : MonoBehaviour
 		}
 	}
 	
+	//change value depending on slider
 	float GammaCalc(float V, float newGamma){
 		if(newGamma <= 0.05f)
-			return V*(0.5f);
+			return V*(0.5f); //prevents everything from becoming too dark to see
 		else if(newGamma <= 0.5f)
 			return V*(newGamma+0.5f);
 		else
@@ -140,9 +141,6 @@ public class MainMenuManager : MonoBehaviour
 			int index = 0;
 			float newV;
 			foreach (Image img in menuImg){
-				//when gamma slider is 0, value should be at least 0.1
-				//when gamma slider is 0.5, value should be roughly V
-				//when gamma slider is 1, value could be 2?
 				Color.RGBToHSV(menuImgColor[index], out H, out S, out V);
 				newV = GammaCalc(V, newGamma);
 				img.color = Color.HSVToRGB(H,S,newV);
