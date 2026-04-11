@@ -70,7 +70,6 @@ public class MicroBoss : MonoBehaviour, ICarriable
     public Animator MicroAnimator;
     private string CurrentMicroAnimation = String.Empty;
 
-    public GameObject MacroPrefab => macroPrefab;
 
     [Header("---------------Pequeno y Grande------------------------")]
     public bool IsPequenoAndGrande = true; // flag to indicate if this is the MicroBoss in the Pequeno y Grande encounter
@@ -131,7 +130,8 @@ public class MicroBoss : MonoBehaviour, ICarriable
             // level 1 logic at 0 health
 
             // Disable this boss functionality
-            bossArena.moveDown = true;
+            //bossArena.moveDown = true;
+
             //canAttack = false;
             //canChase = false;
             //canPatrol = false;
@@ -141,7 +141,7 @@ public class MicroBoss : MonoBehaviour, ICarriable
             lowerRoom.MoveDown();
             this.gameObject.tag ="canGrab";
             
-            _powerGauge.EnableInfiniteMeter();
+            //_powerGauge.EnableInfiniteMeter();
         }
    //    if (!_MacroEnemy.IsGrabbedByMicro){ CheckAnimation(); }
         

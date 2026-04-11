@@ -20,7 +20,7 @@ public class PlayerDash : MonoBehaviour
     private float dashTime;                // Time left in the current dash
     private float dashCooldown;
     private int airDashCount;           // Number of dashes a player can perform in air
-    public int maxAirDashCount;           // Maximum number of air dashes allowed
+    private int maxAirDashCount;           // Maximum number of air dashes allowed
     public float dashStartTime;
 
 
@@ -39,6 +39,7 @@ public class PlayerDash : MonoBehaviour
 
         // Setup
         movementConfig.grabHitbox.SetActive(false);
+        maxAirDashCount = movementConfig.maxAirDashes;
     }
 
     void Update()

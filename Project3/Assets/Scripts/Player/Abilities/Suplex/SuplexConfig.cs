@@ -16,7 +16,7 @@ public class SuplexConfig : MonoBehaviour
     public Slider rageBar;
 
     public Image suplexBar;
-    public Sprite suplexImg1;
+    public Sprite suplexBarFull;
 
     public CinemachineImpulseSource impulseSource;
 

@@ -404,7 +404,7 @@ public class PlayerSuplex : MonoBehaviour
                         Instantiate(rageShockwave, player.position, player.rotation, player);
                         powerGuage.rageIncrease = false;
                         rageBar.value = 0;
-                        suplexBar.sprite = suplexImg1;
+                        suplexBar.sprite = suplexBarFull;
                     }
                     else
                     {

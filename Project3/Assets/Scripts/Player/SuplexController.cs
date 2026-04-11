@@ -250,7 +250,7 @@ public class SuplexController : MonoBehaviour
                 Instantiate(suplexConfig.rageShockwave, controller.transform.position, controller.transform.rotation, controller.transform);
                 rageMeter.rageIncrease = false;
                 suplexConfig.rageBar.value = 0;
-                suplexConfig.suplexBar.sprite = suplexConfig.suplexImg1;
+                suplexConfig.suplexBar.sprite = suplexConfig.suplexBarFull;
             }
             else
             {
