@@ -2371,6 +2371,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _TutorialSceneInt: 4
   _Level1SceneInt: 1
+  _MainMenuCanvas: {fileID: 375165691}
   _DefaultPlayButton: {fileID: 353653027}
   _MainMenuButtonContainer: {fileID: 1788024662}
   _SettingsPanel: {fileID: 30783942}
@@ -2949,7 +2950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.33869034, b: 0.2471698, a: 1}
+  m_Color: {r: 1, g: 0.3372549, b: 0.24705881, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5221,7 +5222,12 @@ MonoBehaviour:
     Istvan
     Wallace :  Engineer
 
-    Aiden Pain :  UI Engineer'
+    Aiden Pain :  Menu Engineer
+
+
+
+
+    Linh Nguyen : Musician'
 --- !u!222 &1976129668
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6284,6 +6290,10 @@ PrefabInstance:
       propertyPath: SkyVolume
       value: 
       objectReference: {fileID: 2043748287}
+    - target: {fileID: 6869585396614564383, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: mainMenuManager
+      value: 
+      objectReference: {fileID: 914068908}
     - target: {fileID: 6891832554534134210, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_Name
       value: SettingsPanel

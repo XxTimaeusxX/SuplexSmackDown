@@ -9,6 +9,7 @@ public class MainMenuManager : MonoBehaviour
 {
 	[SerializeField] int _TutorialSceneInt;
 	[SerializeField] int _Level1SceneInt;
+    [SerializeField] GameObject _MainMenuCanvas;
     [SerializeField] GameObject _DefaultPlayButton;
     [SerializeField] GameObject _MainMenuButtonContainer;
 	private Button MainMenuButtons;
@@ -23,6 +24,13 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject _TutorialYesButton;
     [SerializeField] LoadingScreenManager _loadingScreenManager;
     [SerializeField] Volume SkyVolume;
+	
+	//variables for gamma updates
+	Image[] menuImg;
+	Color[] menuImgColor;
+	Text[] menuText;
+	Color[] menuTextColor;
+	float H,S,V;
    
     public void Start(){
 		Cursor.lockState = CursorLockMode.Confined;
@@ -31,6 +39,8 @@ public class MainMenuManager : MonoBehaviour
 		AudioManager.PlayMainMenuBGM();// Play menu music (clip assigned on AudioManager)
 		sm = _SettingsPanel.GetComponent<SettingsManager>();
 		sm.GammaInit(SkyVolume);
+		
+		ColorInit();
     }
 	
 	//when hovering over a button, set it to selected
@@ -88,7 +98,65 @@ public class MainMenuManager : MonoBehaviour
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
 	}
 	
+	void ColorInit(){
+		if(_MainMenuCanvas){
+			menuImg = _MainMenuCanvas.GetComponentsInChildren<Image>(true);
+			menuText = _MainMenuCanvas.GetComponentsInChildren<Text>(true);
+			
+			menuImgColor = new Color[menuImg.Length];
+			menuTextColor = new Color[menuText.Length];
+			
+			int index = 0;
+			float newV;
+			foreach (Image img in menuImg){
+				menuImgColor[index] = img.color;
+				Color.RGBToHSV(menuImgColor[index], out H, out S, out V);
+				newV = GammaCalc(V, PlayerPrefs.GetFloat("gamma"));
+				img.color = Color.HSVToRGB(H,S,newV);
+				index++;
+			}
+			index = 0;
+			foreach (Text newText in menuText){
+				menuTextColor[index] = newText.color;
+				Color.RGBToHSV(menuTextColor[index], out H, out S, out V);
+				newV = GammaCalc(V, PlayerPrefs.GetFloat("gamma"));
+				newText.color = Color.HSVToRGB(H,S,newV);
+				index++;
+			}
+		}
+	}
 	
+	float GammaCalc(float V, float newGamma){
+		if(newGamma <= 0.05f)
+			return V*(0.5f);
+		else if(newGamma <= 0.5f)
+			return V*(newGamma+0.5f);
+		else
+			return 2*V*(newGamma);
+	}
+	
+	public void GammaUIUpdate(float newGamma){
+		if(_MainMenuCanvas){
+			int index = 0;
+			float newV;
+			foreach (Image img in menuImg){
+				//when gamma slider is 0, value should be at least 0.1
+				//when gamma slider is 0.5, value should be roughly V
+				//when gamma slider is 1, value could be 2?
+				Color.RGBToHSV(menuImgColor[index], out H, out S, out V);
+				newV = GammaCalc(V, newGamma);
+				img.color = Color.HSVToRGB(H,S,newV);
+				index++;
+			}
+			index = 0;
+			foreach (Text newText in menuText){
+				Color.RGBToHSV(menuTextColor[index], out H, out S, out V);
+				newV = GammaCalc(V, newGamma);
+				newText.color = Color.HSVToRGB(H,S,newV);
+				index++;
+			}
+		}
+	}
 	
 	public void ExitButtonClicked(){
 		Debug.Log("exit!");

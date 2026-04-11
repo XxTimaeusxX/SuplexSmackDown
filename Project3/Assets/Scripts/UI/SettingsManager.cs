@@ -18,6 +18,9 @@ public class SettingsManager : MonoBehaviour
 	[SerializeField] Volume SkyVolume; //should be set to the scene's Sky and Fog Global Volume
 	[SerializeField] float ExposureMultiplier = 5f; //use this (plus the slider settings themselves) to fine tune the gamma slider
 	ColorAdjustments ca;
+	
+	[SerializeField] MainMenuManager mainMenuManager;
+	[SerializeField] InGameMenuManager inGameMenuManager;
 
 	void Start(){
 		if(!SkyVolume.profile.TryGet<ColorAdjustments>(out var color_adjust)){
@@ -43,6 +46,10 @@ public class SettingsManager : MonoBehaviour
 		//the gamma slider is set to 0.5 by default
 		ca.postExposure.value = 2*ExposureMultiplier*(Gamma_Slider.value-0.5f);
 		PlayerPrefs.SetFloat("gamma", Gamma_Slider.value);
+		
+		//update the menus if applicable
+		if(mainMenuManager) mainMenuManager.GammaUIUpdate(Gamma_Slider.value);
+		if(inGameMenuManager) inGameMenuManager.GammaUIUpdate(Gamma_Slider.value);
 	}
 	
 	public void OnMasterAudioSliderChange()
