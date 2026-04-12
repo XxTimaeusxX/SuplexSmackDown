@@ -747,10 +747,13 @@ MonoBehaviour:
   playerCC: {fileID: 0}
   playerMovement: {fileID: 0}
   playerDash: {fileID: 0}
+  _StatusCanvas: {fileID: 0}
   playerInput: {fileID: 0}
-  _SuperSuplexUI: {fileID: 0}
-  _MainMenuScene: MainMenuTest
-  _Stage1Scene: MattBuilding
+  _MainMenuSceneInt: 0
+  _Stage1SceneInt: 1
+  _Stage2SceneInt: 2
+  _Stage3SceneInt: 3
+  _TutorialSceneInt: 4
   _PauseMenuContainer: {fileID: 8321384536991751280}
   _HowToPlayPanel: {fileID: 6501687545640653679}
   _SettingsPanel: {fileID: 4091711253857577333}
@@ -3378,6 +3381,10 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6869585396614564383, guid: af20fcef02373944285b4413424e9dea, type: 3}
+      propertyPath: inGameMenuManager
+      value: 
+      objectReference: {fileID: 3175567735082858662}
     - target: {fileID: 6882277510277982508, guid: af20fcef02373944285b4413424e9dea, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b
       value: 0.019607844

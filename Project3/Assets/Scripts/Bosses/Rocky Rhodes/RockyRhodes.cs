@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.ProBuilder;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -23,11 +21,13 @@ public enum RockyRhodesStates
     Chestbump,
     HeelTaunt,
     //-- arena 1 states--//
-    //roperush,
+    RopeRush,
     //-- arena 2 states--//
     CannonBall,
     //-- arena 3 states--//
+    EnhancedRopeRush,
     Deadlift,
+    DesperationFlurry,
     QTEMode,
     Dead,
 }
@@ -73,6 +73,7 @@ public class RockyRhodes : EnemyBase
         if (_abilities == null) _abilities = GetComponent<RhockyAbilities>();
         rhockyHealth = GetComponent<RhockyHealth>();
         originalMeshRotation = RockyRhodesMesh != null ? RockyRhodesMesh.localRotation : Quaternion.identity;
+     if(inGameMenuManager==null) GetComponent<InGameMenuManager>();
     }
 
     // Update is called once per frame
@@ -83,9 +84,12 @@ public class RockyRhodes : EnemyBase
     public override void SetGrabbed(bool grabbed) // custom grab condition for Rhocky :enemybase
     {
         base.SetGrabbed(grabbed);
+        
+        RockyRhodesManager manager = GetComponent<RockyRhodesManager>();
+
         if(grabbed)
         {
-           ToggleBehaviors(false);
+            ToggleBehaviors(false);
             _abilities.InterruptAbility(true);
             rb.isKinematic = true;
         }
@@ -94,6 +98,7 @@ public class RockyRhodes : EnemyBase
             rhockyHealth.TakeDamage();
             ToggleBehaviors(true);
             this.gameObject.tag="Untagged"; // untag so player can't accidentally re-grab while recovering
+
             if (_abilities != null && _abilities.CurrentRockyState != RockyRhodesStates.QTEMode)
             {
                 _abilities.CheckState(RockyRhodesStates.Idle);
@@ -128,6 +133,7 @@ public class RockyRhodes : EnemyBase
                Debug.Log("Rocky Rhodes is Dead");
         RockyRhodesHealthBarUI.SetActive(false);
         this.gameObject.SetActive(false);
+        inGameMenuManager.WinScreen();
     }
     public void ToggleBehaviors( bool IsEnabled) // disabling rocky States switch
     {
@@ -143,7 +149,7 @@ public class RockyRhodes : EnemyBase
      //   rb.useGravity = IsEnabled;
     }
 
-    public IEnumerator JumpToPlatform() 
+  /*  public IEnumerator JumpToPlatform() 
     {
         isJumping = true;
 
@@ -186,9 +192,9 @@ public class RockyRhodes : EnemyBase
             _abilities.CheckState(RockyRhodesStates.Idle);
         }
     }
-
+    */
     // Helper Coroutine: Actually just calculates the math and moves him!
-    private IEnumerator PerformJump(Transform targetPoint)
+ /*   private IEnumerator PerformJump(Transform targetPoint)
     {
         // Disable NavMesh so physics can freely drive movement
         agent.enabled = false;
@@ -227,7 +233,7 @@ public class RockyRhodes : EnemyBase
 
         // Snap rotation back to normal upon landing
         RockyRhodesMesh.localRotation = originalMeshRotation;
-    }
+    } */
     // rocky rhodes begines its jumping here
   /*  public override void RandomPatrolDestination()
     {
@@ -237,20 +243,13 @@ public class RockyRhodes : EnemyBase
         StartCoroutine(JumpToPlatform());    
     }*/
 
-    public void JumpAway()
+ /*   public void JumpAway()
     {
         isJumping = false;
         StopCoroutine(nameof(JumpToPlatform)); // kill any lingering jump coroutine
         StartCoroutine(JumpToPlatform());
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-       //if doing abilities player take damage
-    }
-    private void OnTriggerExit(Collider other)
-    {
+    }*/
 
-    }
     private void OnCollisionEnter(Collision collision)
     {
         // Check if the boss just hit the player while performing the Chestbump ability
@@ -267,8 +266,8 @@ public class RockyRhodes : EnemyBase
                     Vector3 knockbackDir = (collision.transform.position - transform.position).normalized;
                     knockbackDir.y = 0f;
 
-                    float knockbackForce = 25f;
-                    float upwardForce = 5f;
+                    float knockbackForce = 15f;
+                    float upwardForce = 15f;
 
                     // Apply knockback to the player's velocity
                     playerMovement.velocity = (knockbackDir * knockbackForce) + (Vector3.up * upwardForce);

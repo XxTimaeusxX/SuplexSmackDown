@@ -3,21 +3,26 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 using System.Collections;
 
 public class InGameMenuManager : MonoBehaviour
 {
+	[Header("-- Set these in-level --")]
 	[SerializeField] CharacterController playerCC;
 	[SerializeField] PlayerMovement playerMovement;
 	[SerializeField] PlayerDash playerDash;
-	public PlayerInput playerInput;
-	[SerializeField] GameObject _SuperSuplexUI;
-
-	[SerializeField] string _MainMenuScene;
-    [SerializeField] string _Stage1Scene;
-    private string _Stage2Scene = "FestivalLevel";
-    private string _Stage3Scene = "StadiumBlockout";
+	[SerializeField] GameObject _StatusCanvas;
 	
+	[Header("-----------")]
+	public PlayerInput playerInput;
+
+	[SerializeField] int _MainMenuSceneInt = 0;
+    [SerializeField] int _Stage1SceneInt = 1;
+    [SerializeField] int _Stage2SceneInt = 2;
+    [SerializeField] int _Stage3SceneInt = 3;
+	[SerializeField] int _TutorialSceneInt = 4;
+
     [SerializeField] GameObject _PauseMenuContainer;
 	[SerializeField] GameObject _HowToPlayPanel;
 	[SerializeField] GameObject _SettingsPanel;
@@ -63,6 +68,21 @@ public class InGameMenuManager : MonoBehaviour
 	
 	[SerializeField] Animator pause_anim;
 	
+	//variables for gamma updates
+	Image[] menuImg;
+	Color[] menuImgColor;
+	Image[] statusImg;
+	Color[] statusImgColor;
+	Text[] statusText;
+	Color[] statusTextColor;
+	TextMeshProUGUI[] statusText2;
+	Color[] statusTextColor2;
+	Text[] menuText;
+	Color[] menuTextColor;
+	RawImage[] rawImg;
+	Color[] rawImgColor;
+	float H,S,V;
+	
 	public void Start(){
         cheatsAction1 = playerInput.actions.FindAction("RainbowSuplex");
         cheatsAction2 = playerInput.actions.FindAction("Dash");
@@ -73,6 +93,8 @@ public class InGameMenuManager : MonoBehaviour
 			canInputCheats = false;
 			Debug.Log("inputs not found!");
 		}
+		
+		ColorInit();
 	}
 	
 	//listen for cheat code
@@ -132,7 +154,7 @@ public class InGameMenuManager : MonoBehaviour
 				isPaused = true;
 				_PauseMenuContainer.SetActive(true);
 				_PauseButtonContainer.SetActive(true);
-				_SuperSuplexUI.SetActive(false);
+				_StatusCanvas.SetActive(false);
 				if (pause_anim != null){
 					pause_anim.SetTrigger("justPaused");
 				}
@@ -158,7 +180,7 @@ public class InGameMenuManager : MonoBehaviour
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_CheatsMenu) _CheatsMenu.SetActive(false);
 		isPaused = false;
-		_SuperSuplexUI.SetActive(true);
+		_StatusCanvas.SetActive(true);
 		pause_anim.SetBool("isPaused", false);
 		
 		playerCC.enabled = true; //allow the player to move again
@@ -204,7 +226,7 @@ public class InGameMenuManager : MonoBehaviour
 	public void RestartButtonClicked()
 	{
 		ResumeButtonClicked();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); //reload current scene
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     //    PlaySceneMusic();
     }
 	
@@ -213,7 +235,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		SceneManager.LoadScene(_MainMenuScene);
+		SceneManager.LoadScene(_MainMenuSceneInt);
 	}
 
     //unpause and go to stage 1
@@ -221,7 +243,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-		SceneManager.LoadScene(_Stage1Scene);
+		SceneManager.LoadScene(_Stage1SceneInt);
     }
 
     //unpause and go to stage 2
@@ -229,7 +251,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene("FestivalLevel");
+        SceneManager.LoadScene(_Stage2SceneInt);
      //   PlaySceneMusic();
     }
 	
@@ -238,7 +260,7 @@ public class InGameMenuManager : MonoBehaviour
 	{
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene("StadiumBlockout");
+        SceneManager.LoadScene(_Stage3SceneInt);
      //   PlaySceneMusic();
     }
 	
@@ -308,6 +330,7 @@ public class InGameMenuManager : MonoBehaviour
 		if(_WinMenuContainer) _WinMenuContainer.SetActive(false);
 		if(_GameOverMenuContainer) _GameOverMenuContainer.SetActive(false);
 		if(_HealthUI) _HealthUI.SetActive(false);
+		if(_StatusCanvas) _StatusCanvas.SetActive(false);
 	}
 
     void OnEnable()
@@ -327,24 +350,146 @@ public class InGameMenuManager : MonoBehaviour
     //plays the appropriate music based on the current scene
     void PlaySceneMusic()
     {
-        string currentSceneName = SceneManager.GetActiveScene().name;
-        Debug.Log("Current Scene: " + currentSceneName); // Add this line
-        if (currentSceneName == _MainMenuScene)
+        int currentSceneInt = SceneManager.GetActiveScene().buildIndex;
+        Debug.Log("Current Scene: " + currentSceneInt); // Add this line
+        if (currentSceneInt == _MainMenuSceneInt)
         {
             AudioManager.PlayMainMenuBGM();
         }
-		else if (currentSceneName == _Stage1Scene)
+		else if (currentSceneInt == _Stage1SceneInt)
 		{
 				AudioManager.PlayConstructionBGM();
         }
-        else if (currentSceneName == _Stage2Scene)
+        else if (currentSceneInt == _Stage2SceneInt)
 		{
 			AudioManager.PlayFestivalBGM();
 		}
-		else if (currentSceneName == _Stage3Scene)
+		else if (currentSceneInt == _Stage3SceneInt)
 		{
 			AudioManager.PlayArenaBossBGM();
         }
+        else if (currentSceneInt == _TutorialSceneInt)
+        {
+            AudioManager.PlayTutorialBGM();
+        }
 			
     }
+	
+	void ColorInit(){
+		menuImg = GetComponentsInChildren<Image>(true);
+		menuText = GetComponentsInChildren<Text>(true);
+		statusImg = _StatusCanvas.GetComponentsInChildren<Image>(true);
+		statusText = _StatusCanvas.GetComponentsInChildren<Text>(true);
+		statusText2 = _StatusCanvas.GetComponentsInChildren<TextMeshProUGUI>(true);
+		
+		menuImgColor = new Color[menuImg.Length];
+		menuTextColor = new Color[menuText.Length];
+		statusImgColor = new Color[statusImg.Length];
+		statusTextColor = new Color[statusText.Length];
+		statusTextColor2 = new Color[statusText2.Length];
+		
+		//paying for my early mistakes (but it's less trouble than going back and reverting everything to Image)
+		rawImg = new RawImage[3];
+		rawImgColor = new Color[3];
+		RawImage[] temp1 = GetComponentsInChildren<RawImage>(true);
+		//RawImage[] temp2 = _StatusCanvas.GetComponentsInChildren<RawImage>(true);
+		rawImg[0] = temp1[0];
+		rawImg[1] = temp1[1];
+		rawImg[2] = temp1[2];
+		
+		print("StatusCanvas: ");
+		foreach (TextMeshProUGUI newText in statusText2)
+			print(newText.name);
+		
+		//loop through and initialize/sets colors, resetting index each time
+		float newV;
+		int index = 0;
+		foreach (Image img in menuImg){
+			menuImgColor[index] = img.color;
+			img.color = GammaArrayUpdate(menuImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (RawImage img in rawImg){
+			rawImgColor[index] = img.color;
+			img.color = GammaArrayUpdate(rawImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Image img in statusImg){
+			statusImgColor[index] = img.color;
+			img.color = GammaArrayUpdate(statusImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Text newText in menuText){
+			menuTextColor[index] = newText.color;
+			newText.color = GammaArrayUpdate(menuTextColor, newText.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Text newText in statusText){
+			statusTextColor[index] = newText.color;
+			newText.color = GammaArrayUpdate(statusTextColor, newText.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (TextMeshProUGUI newText in statusText2){
+			statusTextColor2[index] = newText.color;
+			newText.color = GammaArrayUpdate(statusTextColor2, newText.color, index);
+			index++;
+		}
+	}
+	
+	Color GammaArrayUpdate(Color[] colorArray, Color newColor, int index){
+		float newV;
+		Color.RGBToHSV(colorArray[index], out H, out S, out V);
+		newV = GammaCalc(V, PlayerPrefs.GetFloat("gamma"));
+		return Color.HSVToRGB(H,S,newV);
+	}
+	
+	//change value depending on slider
+	float GammaCalc(float V, float newGamma){
+		if(newGamma <= 0.05f)
+			return V*(0.5f); //prevents everything from becoming too dark to see
+		else if(newGamma <= 0.5f)
+			return V*(newGamma+0.5f);
+		else
+			return 2*V*(newGamma);
+	}
+	
+	//as ColorInit, but doesn't initialize anything
+	public void GammaUIUpdate(float newGamma){
+		int index = 0;
+		float newV;
+		foreach (Image img in menuImg){
+			img.color = GammaArrayUpdate(menuImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (RawImage img in rawImg){
+			img.color = GammaArrayUpdate(rawImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Image img in statusImg){
+			img.color = GammaArrayUpdate(statusImgColor, img.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Text newText in menuText){
+			newText.color = GammaArrayUpdate(menuTextColor, newText.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (Text newText in statusText){
+			newText.color = GammaArrayUpdate(statusTextColor, newText.color, index);
+			index++;
+		}
+		index = 0;
+		foreach (TextMeshProUGUI newText in statusText2){
+			newText.color = GammaArrayUpdate(statusTextColor2, newText.color, index);
+			index++;
+		}
+	}
 }

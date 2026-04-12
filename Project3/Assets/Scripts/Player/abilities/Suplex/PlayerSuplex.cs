@@ -320,6 +320,9 @@ public class PlayerSuplex : MonoBehaviour
        
         while (true)
         {
+            if(currentSuplex == SuplexAbilities.Super) playerMovement.CurrentState = PlayerState.SuperSuplex;
+            else playerMovement.CurrentState = PlayerState.Suplex;// Setting suplex state for face change and other state-based logic
+
             t += Time.deltaTime;
 
             if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0)

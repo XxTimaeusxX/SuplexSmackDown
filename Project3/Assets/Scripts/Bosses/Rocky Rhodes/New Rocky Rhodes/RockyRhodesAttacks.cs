@@ -1,37 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
+
 
 public class RockyRhodesAttacks : MonoBehaviour
 {
     RockyRhodesManager manager;
     public Transform chosenPoint;
     public bool collided;
+    RhockyAbilities abilities;
+
+    public GameObject hitBox;
 
     public bool canChooseRandom;
 
-    private float heightOffset = 2f;
+    public float heightOffset;
 
     private void Awake()
     {
         manager = GetComponent<RockyRhodesManager>();
-    }
-
-    private void Update()
-    {
-        
+        abilities = GetComponent<RhockyAbilities>();
     }
 
     #region Rope Rush
     public void StartRopeRush()
     {
+        if (manager.grabbed) return;
         if (manager.ropeRush && manager.canPerformAction)
         {
             ReadyRopeRush();
         }
+        if (gameObject.CompareTag("Stunned Rocky") && manager.arena1)
+        {
+            StartCoroutine(RestRopeRush(4f));
+        }
+    }
+
+    private IEnumerator RestRopeRush(float delay)
+    {
+        float timer = 0;
+        while (timer < delay)
+        {
+            if (!manager.grabbed)
+            {
+                timer += Time.deltaTime;
+            }
+            yield return null;
+        }
+        gameObject.tag = "Rocky Rhodes";
+        manager.canPerformAction = true;
+        manager.numberOfRopeRusheCharges = 3;
+        abilities.CheckState(RockyRhodesStates.Idle);
     }
 
     private void ReadyRopeRush()
@@ -59,6 +78,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void RopeRush()
     {
+        hitBox.SetActive(true);
         collided = false;
         Vector3 directionToPlayer = (manager.player.transform.position - transform.position).normalized;
         Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, manager.player.transform.position) * manager.ropeRushForce);
@@ -93,8 +113,9 @@ public class RockyRhodesAttacks : MonoBehaviour
     #region Cannonball
     public void StartCannonball()
     {
-        if (manager.cannonball && manager.canPerformAction)
+        if (manager.cannonball && manager.canPerformAction && !manager.grabbed)
         {
+            gameObject.tag = "Rocky Rhodes";
             Jump();
             if (canChooseRandom)
             {
@@ -138,13 +159,22 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void Shockwave()
     {
+        gameObject.tag = "Stunned Rocky";
         Instantiate(manager.shockwave, manager.gameObject.transform.position, manager.gameObject.transform.rotation, manager.gameObject.transform);
     }
 
     private IEnumerator RepeatCannonball(float delay)
     {
+        float timer = 0;
+        while (timer < delay)
+        {
+            if (!manager.grabbed)
+            {
+                timer += Time.deltaTime;
+            }
+            yield return null;
+        }
         yield return new WaitForSeconds(delay);
-        gameObject.tag = "Rocky Rhodes";
         manager.cannonball = true;
         manager.canPerformAction = true;
     }
@@ -153,10 +183,33 @@ public class RockyRhodesAttacks : MonoBehaviour
     #region Enhanced Rope Rush
     public void StartEnhancedRopeRush()
     {
+        if (manager.grabbed) return;
         if (manager.enhancedRopeRush && manager.canPerformAction)
         {
             ReadyEnhancedRopeRush();
         }
+        if (gameObject.CompareTag("Stunned Rocky") && manager.arena3)
+        {
+            StartCoroutine(RestEnhancedRopeRush(4f));
+        }
+    }
+
+    private IEnumerator RestEnhancedRopeRush(float delay)
+    {
+        float timer = 0;
+        while (timer < delay)
+        {
+            if (!manager.grabbed)
+            {
+                timer += Time.deltaTime;
+            }
+            yield return null;
+        }
+        yield return new WaitForSeconds(delay);
+        gameObject.tag = "Rocky Rhodes";
+        manager.canPerformAction = true;
+        manager.numberOfEnhancedRopeRusheCharges = 10;
+        abilities.CheckState(RockyRhodesStates.Idle);
     }
 
     private void ReadyEnhancedRopeRush()
@@ -184,6 +237,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void EnhancedRopeRush()
     {
+        hitBox.SetActive(true);
         collided = false;
         Vector3 directionToPlayer = (manager.player.transform.position - transform.position).normalized;
         Vector3 targetPosition = transform.position + directionToPlayer * (Vector3.Distance(transform.position, manager.player.transform.position) * manager.enhancedRopeRushForce);
@@ -217,10 +271,19 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (manager.grabbed) return;
         if (collision.gameObject.CompareTag("Rope")) {
+
+            // --- NEW CODE: Ignore rope bounce if we aren't currently using a Rope Rush ability ---
+            if (abilities.CurrentRockyState != RockyRhodesStates.RopeRush &&
+                abilities.CurrentRockyState != RockyRhodesStates.EnhancedRopeRush)
+            {
+                return;
+            }
             manager.rb.linearVelocity = Vector3.zero;
             collided = true;
             gameObject.tag = "Stunned Rocky";
+            hitBox.SetActive(false);
             if (manager.arena3 && manager.numberOfEnhancedRopeRusheCharges > 0)
             {
                 gameObject.tag = "Rocky Rhodes";
@@ -241,13 +304,16 @@ public class RockyRhodesAttacks : MonoBehaviour
         {
             canChooseRandom = true;
             manager.agent.enabled = true;
-            if (manager.canPerformAction)
+            if (manager.canPerformAction && !manager.grabbed)
             {
                 manager.canPerformAction = false;
                 Shockwave();
                 manager.rb.linearVelocity = Vector3.zero;
                 gameObject.tag = "Stunned Rocky";
-                StartCoroutine(RepeatCannonball(manager.jumpDelay));
+                if (manager.arena2 || manager.arena1)
+                {
+                    StartCoroutine(RepeatCannonball(manager.jumpDelay));
+                }
             }
         }
     }
