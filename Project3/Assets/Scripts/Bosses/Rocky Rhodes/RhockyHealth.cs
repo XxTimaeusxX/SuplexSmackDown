@@ -78,6 +78,8 @@ public class RhockyHealth : MonoBehaviour
         // 2. Phase 3: Health hits 1 -> Trigger Flurry mode!
         else if (_lastHealthValue == 1f && _currentPhase == 3 && !_healthhasDecreased)
         {
+            AudioManager.PlayAnnouncerBossHalf();
+
             _healthhasDecreased = true; // Lock so we only trigger this flurry setup once
 
             Debug.Log("Health is 1 in Phase 3! Initiating Unstoppable Flurry!");
@@ -92,6 +94,7 @@ public class RhockyHealth : MonoBehaviour
         // 3. Phase 3: Health hits 0 -> Boss Dies
         else if (_lastHealthValue <= 0f && _currentPhase >= 3)
         {
+            AudioManager.PlayAnnouncerBossDefeated();  
             _rockyRhodes.Dead();
         }
     }

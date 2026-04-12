@@ -128,6 +128,11 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Dancer SFX")]
     public AudioClip DancerAttack;
 
+    [Header("    --------------------------- LEVEL 3 -----------------------------     ")]
+    public AudioClip AnnouncerTransferToStage2;
+    public AudioClip AnnouncerTransferToStage3;
+    public AudioClip AnnouncerBossHalf;
+    public AudioClip AnnouncerBossDefeated;
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -374,4 +379,8 @@ public sealed class AudioManager : MonoBehaviour
 
     //-------------------------------------------- LEVEL 3------------------------------------------//
     public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);
+    public static void PlayAnnouncerTransferToStage2() => PlayNarration(Instance?.AnnouncerTransferToStage2, 1f);
+    public static void PlayAnnouncerTransferToStage3() => PlayNarration(Instance?.AnnouncerTransferToStage3, 1f);
+    public static void PlayAnnouncerBossHalf() => PlayNarration(Instance?.AnnouncerBossHalf, 1f);
+    public static void PlayAnnouncerBossDefeated() => PlayNarration(Instance?.AnnouncerBossDefeated, 1f);
 }
