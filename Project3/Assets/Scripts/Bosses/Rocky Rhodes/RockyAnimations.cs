@@ -62,6 +62,12 @@ public class RockyAnimations : MonoBehaviour
                 ChangeAnimation("RockyPunchChargeUp_demo"); // Or whichever animation name is the actual active punch
                 return;
             }*/
+        if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Exhausted)
+        {
+         //   Debug.Log("Changing to Exhausted animation");
+            ChangeAnimation("Exhausted_demo");
+            return;
+        }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Idle)
         {
             ChangeAnimation("Rocky_idle");

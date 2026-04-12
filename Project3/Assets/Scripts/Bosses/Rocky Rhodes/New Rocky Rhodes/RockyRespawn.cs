@@ -52,7 +52,8 @@ public class RockyRespawn : MonoBehaviour
         }
         else
         {
-            transform.position = arena1Spawn.position;
+         //   transform.position = arena1Spawn.position;
+            manager.agent.Warp(arena1Spawn.position);
         }
     }
 
