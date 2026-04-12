@@ -44,6 +44,7 @@ public class RhockyAbilities : MonoBehaviour
         RockyRhodesStates.RopeRush,
         RockyRhodesStates.HeelTaunt,
         RockyRhodesStates.EnhancedRopeRush,
+
     };
    [SerializeField] private QteCollideSensor qteCollideSensorScript;
     private void Awake()
@@ -157,7 +158,7 @@ public class RhockyAbilities : MonoBehaviour
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("Regular State Active");
-        yield return new WaitForSeconds(AbilityCooldown);
+        yield return new WaitForSeconds(1f);
 
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         int randomIndex = Random.Range(0, _randomSelection.Count);
@@ -489,7 +490,7 @@ public class RhockyAbilities : MonoBehaviour
                 yield return StartCoroutine(ChestBump());
 
             // Allow a short buffer to allow physics/animation transitions smoothly
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.6f);
         }
 
         // Flurry has ended, completely shut off rage and aura
@@ -501,16 +502,19 @@ public class RhockyAbilities : MonoBehaviour
         
         // ---- EXHAUSTED STATE ----
         Debug.Log("Flurry finished! Rocky is EXHAUSTED and vulnerable to grabs for 4 seconds!");
+        _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.gameObject.tag = "Enemy"; // Enable grabbable tag
         
         // Stop any leftover momentum so he stands still while exhausted
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
 
         // If you have a tired animation, you can trigger it here!
-         _rockyAnimations.ChangeAnimation("Exhausted_demo");
+        CurrentRockyState = RockyRhodesStates.Exhausted;
+        _rockyAnimations.ChangeAnimation("Exhausted_demo");
 
         yield return new WaitForSeconds(6f);
 
+        _rockyRhodes.ToggleBehaviors(true);
         // If he wasn't grabbed during the Exhausted phase, reset and loop
         _rockyRhodes.gameObject.tag = "Untagged"; 
         IsPerformingAbility = false;

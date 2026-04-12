@@ -28,8 +28,10 @@ public enum RockyRhodesStates
     EnhancedRopeRush,
     Deadlift,
     DesperationFlurry,
+    // -- universal states --//
     QTEMode,
     Dead,
+    Exhausted,
 }
 
 [DisallowMultipleComponent]
