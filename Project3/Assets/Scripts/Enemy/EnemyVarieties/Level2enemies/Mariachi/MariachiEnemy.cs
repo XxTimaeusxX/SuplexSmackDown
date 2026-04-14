@@ -52,6 +52,13 @@ public class MariachiEnemy : EnemyBase
         base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Shockwave"))
         {
+           /* int randomHurtSounds = Random.Range(1, 4);
+            switch(randomHurtSounds)
+            {
+                case 1: AudioManager.PlayMariachiHurt1(); break;
+                case 2: AudioManager.PlayMariachiHurt2(); break;
+                case 3: AudioManager.PlayMariachiHurt3(); break; 
+            }*/
             AudioManager.PlayMariachiHurt();
         }
     }
