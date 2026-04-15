@@ -88,8 +88,8 @@ public class RockyRhodes : EnemyBase
         base.SetGrabbed(grabbed);
         
         RockyRhodesManager manager = GetComponent<RockyRhodesManager>();
-
-        if(grabbed)
+        manager.grabbed = grabbed; // sync the manager's grabbed state as well
+        if (grabbed)
         {
             ToggleBehaviors(false);
             _abilities.InterruptAbility(true);
@@ -139,7 +139,7 @@ public class RockyRhodes : EnemyBase
     }
     public void ToggleBehaviors( bool IsEnabled) // disabling rocky States switch
     {
-        Debug.Log("Toggling Rocky's behaviors: " + (IsEnabled ? "ENABLED" : "DISABLED"));
+      //  Debug.Log("Toggling Rocky's behaviors: " + (IsEnabled ? "ENABLED" : "DISABLED"));
         // Disable AI behaviors
         canAttack = IsEnabled;
         canChase = IsEnabled;

@@ -149,7 +149,7 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = false;
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true); // Ensure his AI is turned back on if it was off
-        Debug.Log("QTE ended, resuming normal AI.");
+       // Debug.Log("QTE ended, resuming normal AI.");
        
         CheckState(RockyRhodesStates.Idle);
     }
@@ -157,6 +157,7 @@ public class RhockyAbilities : MonoBehaviour
     public IEnumerator AbilityChoose()
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
+        if (manager.arena2) { Debug.Log("Arena 2 Active - Skipping regular random abilities."); yield break; }
         Debug.Log("Regular State Active");
         yield return new WaitForSeconds(1f);
 
