@@ -23,7 +23,7 @@ public sealed class AudioManager : MonoBehaviour
     private float currentSfxMultiplier = 1f; // Track current SFX volume multiplier
     private float targetMusicVolume;
     private float targetSfxVolume;
-
+   
     [Header("BGM Clips")]
     public AudioClip mainMenuBGM;
     public AudioClip TutorialBGM;
@@ -51,13 +51,35 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip defaultHealthPackClip;
     public AudioClip drinkHealthPackClip;
 
+    [Header("    --------------------------- LEVEL 1 -----------------------------     ")]
     [Header("Enemy SFX")]
     public AudioClip enemySlapClip;
     public AudioClip enemyDieclip;
-    public AudioClip shoalPhraseClip;
-    public AudioClip AngryShoalClip;
 
+    [Header("Office Enemy SFX")]
+    //tristan's shoal
+    [Header("Tristan's Shoal")]
+    public AudioClip shoalDetectionClipTristan;
+    public AudioClip shoalDetectionClipTristan2;
+    public AudioClip shoalHurtClipTristan;
+    public AudioClip shoalHurtClipTristan2;
+    public AudioClip shoalHurtClipTristan3;
     [Header("Shoal Enemy SFX")]
+    //nico's shoal
+    [Header("Nico's Shoal")]
+    public AudioClip shoalDetectionClipNico;
+    public AudioClip shoalDetectionClipNico2;
+    public AudioClip shoalHurtClipNico;
+    public AudioClip shoalHurtClipNico2;
+    public AudioClip shoalHurtClipNico3;
+    //enzo's shoal
+    [Header("Enzo's Shoal")]
+    public AudioClip shoalDetectionClipEnzo;
+    public AudioClip shoalDetectionClipEnzo2;
+    public AudioClip shoalHurtClipEnzo;
+    public AudioClip shoalHurtClipEnzo2;
+    public AudioClip shoalHurtClipEnzo3;
+
     public AudioClip shoalFallingClip;
     public AudioClip shoalIdleclip;
     public AudioClip shoalDamageHitClip;
@@ -110,7 +132,12 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Mariachi Sfx")]
     public AudioClip GuitarNoteClip;
     public AudioClip MariachiDetection;
+    public AudioClip MariachiDetection2;
+    public AudioClip MariachiDetection3;
     public AudioClip MariachiHurt;
+    public AudioClip MariachiHurt2;
+    public AudioClip MariachiHurt3;
+    public AudioClip MariachiHurt4;
 
     [Header("Ghost Boss")]
     public AudioClip wrestle1;
@@ -127,6 +154,7 @@ public sealed class AudioManager : MonoBehaviour
 
     [Header("Dancer SFX")]
     public AudioClip DancerAttack;
+    public AudioClip DancerAttack2;
 
     [Header("    --------------------------- LEVEL 3 -----------------------------     ")]
     public AudioClip AnnouncerTransferToStage2;
@@ -331,6 +359,29 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayShoalIdle() => PlaySFX(Instance?.shoalIdleclip, 1f);
     public static void PlayShoalDamageHit() => PlaySFX(Instance?.shoalDamageHitClip, 1f);
     public static void PlayShoalPhrase1() => PlayNarration(Instance?.ShoalPhrase1Clip, 1f); // Uses narration system
+
+    //Tristan's Shoal office enemy sfx
+    public static void PlayTristanDetection() => PlaySFX(Instance?.shoalDetectionClipTristan, 1f);
+    public static void PlayTristanDetection2() => PlaySFX(Instance?.shoalDetectionClipTristan2, 1f);
+    public static void PlayTristanHurt() => PlaySFX(Instance?.shoalHurtClipTristan, 1f);
+    public static void PlayTristanHurt2() => PlaySFX(Instance?.shoalHurtClipTristan2, 1f);
+    public static void PlayTristanHurt3() => PlaySFX(Instance?.shoalHurtClipTristan3, 1f);
+
+    //Nico's Shoal office enemy sfx
+    public static void PlayNicoDetection() => PlaySFX(Instance?.shoalDetectionClipNico, 1f);
+    public static void PlayNicoDetection2() => PlaySFX(Instance?.shoalDetectionClipNico2, 1f);
+    public static void PlayNicoHurt() => PlaySFX(Instance?.shoalHurtClipNico, 1f);
+    public static void PlayNicoHurt2() => PlaySFX(Instance?.shoalHurtClipNico2, 1f);
+    public static void PlayNicoHurt3() => PlaySFX(Instance?.shoalHurtClipNico3, 1f);
+
+    //Enzo's Shoal office enemy sfx
+    public static void PlayEnzoDetection() => PlaySFX(Instance?.shoalDetectionClipEnzo, 1f);
+    public static void PlayEnzoDetection2() => PlaySFX(Instance?.shoalDetectionClipEnzo2, 1f);
+    public static void PlayEnzoHurt() => PlaySFX(Instance?.shoalHurtClipEnzo, 1f);
+    public static void PlayEnzoHurt2() => PlaySFX(Instance?.shoalHurtClipEnzo2, 1f);
+    public static void PlayEnzoHurt3() => PlaySFX(Instance?.shoalHurtClipEnzo3, 1f);
+
+
     // ----Construction Enemy SFX----
     public static void PlayConstructionIdle() => PlaySFX(Instance?.ConstructionIdleClip, 1f);
     public static void PlayConstructionSeenOne() => PlaySFX(Instance?.ConstructionSeenOneClip, 1f);
@@ -370,12 +421,19 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayIntercom4Trash() => PlayNarration(Instance?.Intercom4, 1f);
 
     //-------------------------------------------- LEVEL 2------------------------------------------//
-
-    public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
     public static void PlayFestivalBGM() => PlayMusic(Instance?.FestivalBGM);
+    // Mariachi SFX
+    public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
     public static void PlayMariachiDetection() => PlaySFX(Instance?.MariachiDetection, 1f);
+    public static void PlayMariachiDetection2() => PlaySFX(Instance?.MariachiDetection2, 1f);
+    public static void PlayMariachiDetection3() => PlaySFX(Instance?.MariachiDetection3, 1f);
     public static void PlayMariachiHurt() => PlaySFX(Instance?.MariachiHurt, 1f);
+    public static void PlayMariachiHurt2() => PlaySFX(Instance?.MariachiHurt2, 1f);
+    public static void PlayMariachiHurt3() => PlaySFX(Instance?.MariachiHurt3, 1f);
+    public static void PlayMariachiHurt4() => PlaySFX(Instance?.MariachiHurt4, 1f);
+    // GhostDancer SFX
     public static void PlayDancerAttack() => PlaySFX(Instance?.DancerAttack, 1f);
+    public static void PlayDancerAttack2() => PlaySFX(Instance?.DancerAttack2, 1f);
 
     //-------------------------------------------- LEVEL 3------------------------------------------//
     public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);

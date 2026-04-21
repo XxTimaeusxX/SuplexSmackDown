@@ -52,14 +52,14 @@ public class MariachiEnemy : EnemyBase
         base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-           /* int randomHurtSounds = Random.Range(1, 4);
+            int randomHurtSounds = Random.Range(1, 4);
             switch(randomHurtSounds)
             {
-                case 1: AudioManager.PlayMariachiHurt1(); break;
+                case 1: AudioManager.PlayMariachiHurt(); break;
                 case 2: AudioManager.PlayMariachiHurt2(); break;
                 case 3: AudioManager.PlayMariachiHurt3(); break; 
-            }*/
-            AudioManager.PlayMariachiHurt();
+                case 4: AudioManager.PlayMariachiHurt4(); break;
+            }
         }
     }
     private void DetectPlayer()
@@ -69,7 +69,13 @@ public class MariachiEnemy : EnemyBase
             if (!playerDetected)
             {
                 playerDetected = true;
-                AudioManager.PlayMariachiDetection();
+                int randomDetectionSounds = Random.Range(1, 4);
+                switch(randomDetectionSounds)
+                {
+                    case 1: AudioManager.PlayMariachiDetection(); break;
+                    case 2: AudioManager.PlayMariachiDetection2(); break;
+                    case 3: AudioManager.PlayMariachiDetection3(); break;
+                }
             }
         }
         else
