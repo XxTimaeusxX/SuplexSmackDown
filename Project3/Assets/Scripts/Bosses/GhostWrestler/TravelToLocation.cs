@@ -22,6 +22,7 @@ public class TravelToLocation : MonoBehaviour
     public Rigidbody rb;
     public AudioManager audioManager;
     AudioSource audioSource;
+    NewEnemyRespawn respawn;
 
     [Header("Movement Locations")]
     public List<Transform> waypoints;
@@ -33,6 +34,7 @@ public class TravelToLocation : MonoBehaviour
     {
         audioManager = FindAnyObjectByType<AudioManager>();
         audioSource = GetComponent<AudioSource>();
+        respawn = GetComponent<NewEnemyRespawn>();
     }
 
     void Start()
@@ -79,6 +81,7 @@ public class TravelToLocation : MonoBehaviour
         }
         audioSource.PlayOneShot(audioManager.moveArena);
         transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, step);
+        respawn.respawnPoint = waypoints[currentWaypointIndex].position;
         if (flowers != null)
         {
             flowers[currentFlowerIndex].SetActive(true);

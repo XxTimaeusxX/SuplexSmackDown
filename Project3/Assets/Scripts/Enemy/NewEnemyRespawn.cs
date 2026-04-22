@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class NewEnemyRespawn : MonoBehaviour
 {
-    private Vector3 respawnPoint;
+    [HideInInspector] public Vector3 respawnPoint;
     public GameObject[] objectThatActivatesRespawn;
 
     private void Start()
