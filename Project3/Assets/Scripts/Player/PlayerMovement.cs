@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
 
     PlayerSuplex playerSuplex;
     PlayerDash playerDash;
+    [SerializeField] PlayerVoiceManager voiceManager;
     [Header("Player health")]
     private PlayerHealth _playerhealth;
     private int lastHealth = int.MinValue;
@@ -71,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
     public float freefallVelocityThreshold = -0.5f;
 
     private bool isPlayingHurt = false;
+    private bool HasPlayedfallPhrases;
     private static readonly int HurtHash = Animator.StringToHash("HURT");
 
     private void Start()
@@ -83,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
         isMoving = false;
         playerSuplex = GetComponent<PlayerSuplex>();
         playerDash = GetComponent<PlayerDash>();
+        voiceManager = GetComponent<PlayerVoiceManager>();
         moveSpeed = startingMoveSpeed;
         ChangeAnimtion("IDLE");
     }
@@ -307,14 +310,28 @@ public class PlayerMovement : MonoBehaviour
         //----- jump / freefall / walk / idle settiings -----//
         if (!isGrounded)// Jumping takes priority if not grounded
         {
-            if(velocity.y > 0.01f) SetState(PlayerState.Jump, "JUMP");
+            if(velocity.y > 0.01f)
+            {
+                SetState(PlayerState.Jump, "JUMP");
+                HasPlayedfallPhrases = false;
+            }
             else
             {
                 // only switch to FREEFALL after the configured delay AND a sufficient downward velocity
                 if (airTime >= freefallDelay && velocity.y <= freefallVelocityThreshold)
+                {
                     SetState(PlayerState.Freefall, "FREEFALL");
+                    if(!HasPlayedfallPhrases)
+                    {
+                        voiceManager.PlayerFallPhrase();
+                        HasPlayedfallPhrases=true;
+                    }
+                }      
                 else
+                {
                     SetState(PlayerState.Jump, "JUMP");
+                    HasPlayedfallPhrases = false;
+                }
             }
             return;
         }
@@ -329,7 +346,7 @@ public class PlayerMovement : MonoBehaviour
         } 
         else SetState(PlayerState.Idle, "IDLE");
 
-
+        HasPlayedfallPhrases = false;
 
     }
     private void OnTriggerEnter(Collider other)

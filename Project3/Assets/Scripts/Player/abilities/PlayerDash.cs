@@ -12,6 +12,7 @@ public class PlayerDash : MonoBehaviour
     public PlayerInput PlayerInput;        // Reference to the player's input system
     public GameObject suplexhitbox;        // Hitbox used during dash (for attacks/collisions)
     private PlayerMovement _playerMovement;     // Reference to the player's movement script (for checking grounded state, etc.)
+    [SerializeField] PlayerVoiceManager voiceManager; // Reference to the player's voice manager (for playing voice lines on dash)
 
     [Header("Dash Settings")]
     public float dashSpeed = 5f;           // How fast the player dashes
@@ -43,6 +44,7 @@ public class PlayerDash : MonoBehaviour
         dashAction = PlayerInput.actions.FindAction("Dash");
         // Make sure the hitbox is off at the start
         suplexhitbox.SetActive(false);
+        if(voiceManager == null) voiceManager = GetComponent<PlayerVoiceManager>();
     }
 
     /// <summary>
@@ -82,6 +84,7 @@ public class PlayerDash : MonoBehaviour
             dashTime = dashDuration;
             if (suplexhitbox != null)
                 suplexhitbox.SetActive(true);    // Enable hitbox for the dash
+            voiceManager.PlayerDashPhrase();
             StartCoroutine(PlayDashAnimation()); // Play dash animation
             // Debug.Log("Dash initiated!");
         }

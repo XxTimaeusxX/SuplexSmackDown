@@ -52,7 +52,7 @@ public class PlayerSuplex : MonoBehaviour
     public SuplexTrajectoryVisualizer trajectoryVisualizer;
     public EnemyGrabHandler grabHandler;
     public HomingAttack homingAttack;
-    
+    [SerializeField] PlayerVoiceManager voiceManager;
     [Header("Suplex Configurations")]
     public List<SuplexConfig> suplexConfigs;
     public AnimationCurve GravityControl;
@@ -87,13 +87,11 @@ public class PlayerSuplex : MonoBehaviour
         powerGauge = GetComponentInParent<PowerGauge>();
         
         // Auto-find components if not assigned
-        if (trajectoryVisualizer == null)
-            trajectoryVisualizer = GetComponent<SuplexTrajectoryVisualizer>();
-        if (grabHandler == null)
-            grabHandler = GetComponent<EnemyGrabHandler>();
-        if (homingAttack == null)
-            homingAttack = GetComponent<HomingAttack>();
-       
+        if (trajectoryVisualizer == null)trajectoryVisualizer = GetComponent<SuplexTrajectoryVisualizer>();
+        if (grabHandler == null) grabHandler = GetComponent<EnemyGrabHandler>();
+        if (homingAttack == null)homingAttack = GetComponent<HomingAttack>();
+        if(voiceManager == null)voiceManager = GetComponentInParent<PlayerVoiceManager>();
+            
         // Get input actions
         jumpAction = playerInput.actions.FindAction("Jump");
         SuperSuplexAction = playerInput.actions.FindAction("SuperSuplex");
@@ -258,7 +256,8 @@ public class PlayerSuplex : MonoBehaviour
 
             if (type == SuplexAbilities.Super && powerGauge != null)
                 powerGauge.SpendMeter();
-            AudioManager.PlaySuplexStart();
+           // AudioManager.PlaySuplexStart();
+            if (voiceManager != null) voiceManager.PlaySuplexVoicePhrase(type);
             StartCoroutine(SuplexRoutine(config));
         }
         else

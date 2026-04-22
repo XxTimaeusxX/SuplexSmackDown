@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
+	[SerializeField] PlayerVoiceManager voiceManager;
 	public int maxHealth;
 	public int currentHealth;
 	public Texture2D[] healthSprites;
@@ -22,6 +23,8 @@ public class PlayerHealth : MonoBehaviour
 		iFrames = false;
 		iFrameCooldown = 2f;
        // UpdateHealth(maxHealth);
+	   if(voiceManager == null) voiceManager = GetComponent<PlayerVoiceManager>();
+
     }
 
     private void Awake()
@@ -49,6 +52,7 @@ public class PlayerHealth : MonoBehaviour
 			{
                 UpdateHealth(--currentHealth);
                 iFrames = true;
+				voiceManager.PlayDamageVoiceLine();
             }
 		}
     }
@@ -69,14 +73,14 @@ public class PlayerHealth : MonoBehaviour
             isFirstHealthUpdate = false;
             return;
         }
-        switch (newHP)
+     /*   switch (newHP)
 		{
 			case 3: AudioManager.PlayHealth3(); break;
 			case 2: AudioManager.PlayHealth2(); break;
 			case 1: AudioManager.PlayHealth1(); break;
 			//case 0: GameOver(); AudioManager.PlayGameOver(); break;
         }
-			Debug.Log("Current Health: " + currentHealth);
+			Debug.Log("Current Health: " + currentHealth);*/
 	}
 	
 	public void GameOver()

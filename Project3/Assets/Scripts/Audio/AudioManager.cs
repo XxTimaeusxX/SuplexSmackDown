@@ -41,11 +41,33 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip health1Clip;
     public AudioClip GameOverClip;
     public AudioClip GrabClip;
+    public AudioClip Grab2Clip;
     public AudioClip CohettePhraseOneclip;
+    public AudioClip CohetteHurtClip;
+    public AudioClip CohetteHurtClip2;
+    public AudioClip CohetteHurtClip3;
+    public AudioClip CohetteHurtClip4;
+    [Header("Player Dash SFX")]
+    public AudioClip DashClip;
+    public AudioClip Dash2Clip;
+    public AudioClip Dash3Clip;
+    [Header("Player Fall SFX")]
+    public AudioClip FallClip;
+    public AudioClip FallClip2;
+    public AudioClip FallClip3;
+
     [Header("Suplex SFX")]
     public AudioClip LaunchSoundClip;
     public AudioClip suplexSlamClip;
     public AudioClip SuperSuplexSlam;
+
+    public AudioClip CohetteRainbowSuplex;
+    public AudioClip CohetteRainbowSuplex2;
+    public AudioClip CohetteLongSuplex;
+    public AudioClip CohetteLongSuplex2;
+    public AudioClip CohetteLongSuplex3;
+    public AudioClip CohetteSuperSuplex;
+    public AudioClip CohetteSuperSuplex2;
 
     [Header("Health Packs SFX")]
     public AudioClip defaultHealthPackClip;
