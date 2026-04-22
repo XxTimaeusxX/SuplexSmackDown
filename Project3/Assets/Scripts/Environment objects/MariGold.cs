@@ -130,6 +130,7 @@ public class MariGold : MonoBehaviour
             {
                 playerMovement.velocity = transform.up * jumpforce;
                 StartCoroutine(SpinandHighlight());
+                AudioManager.PlaySFX(AudioManager.Instance.MariGoldBounceClip, 1f);
                 //  Debug.Log("Player hit MariGold, applying jump force.");
             }
         }

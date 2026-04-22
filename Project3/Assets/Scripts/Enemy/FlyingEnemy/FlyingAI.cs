@@ -191,6 +191,7 @@ public class FlyingAI : MonoBehaviour
             {
                 rageBar.value += 0.01f;
             }
+            AudioManager.PlaySFX(AudioManager.Instance.DroneDieClip, 1f);
             Destroy(gameObject);
         }
     }

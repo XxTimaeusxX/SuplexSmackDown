@@ -177,6 +177,10 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Dancer SFX")]
     public AudioClip DancerAttack;
     public AudioClip DancerAttack2;
+    public AudioClip DancerHurt;
+
+    [Header("MariGold SFX")]
+    public AudioClip MariGoldBounceClip;
 
     [Header("    --------------------------- LEVEL 3 -----------------------------     ")]
     public AudioClip AnnouncerTransferToStage2;
