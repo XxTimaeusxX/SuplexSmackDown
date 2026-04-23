@@ -26,7 +26,7 @@ public class MacroBoss : EnemyBase
     [SerializeField] private float returnDelay = 6f;
     public Collider damageHitbox;
     public Collider MacrosCollider;
-    public bool wasThrown = false;
+    private bool wasGrabbed;
     public bool IsReturningToMicro = false;
     [Header("Throw Launch Settings")]
     [SerializeField] private float throwMinFlightTime = 0.6f;
@@ -68,7 +68,11 @@ public class MacroBoss : EnemyBase
    public override void Update()
     {
        base.Update();
-           if(IsThrownByMicro && !isGrabbed && IsEnemyGrounded())
+        if(isGrabbed && !wasGrabbed && !IsGrabbedByMicro)
+        {
+            AudioManager.PlaySFX(AudioManager.Instance.MacroGrabbedClip, 1f);
+        }    
+            if (IsThrownByMicro && !isGrabbed && IsEnemyGrounded())
         {
            IsThrownByMicro = false;
          
@@ -77,7 +81,7 @@ public class MacroBoss : EnemyBase
             {
                 this.gameObject.tag = "Macro";
             }
-            return; 
+          
         }
         
         if (returnDelay >0)
@@ -86,11 +90,10 @@ public class MacroBoss : EnemyBase
             if (isPushed || isGrabbed)
             {
                 CheckAnimation();
-                return;
-      
             }
-            if (!isGrabbed && !isPushed)
+            if (!isGrabbed && !isPushed && !wasGrabbed)
             {
+               
                 returnDelay -= Time.deltaTime;
                 if (returnDelay < 0)
                 {
@@ -101,6 +104,7 @@ public class MacroBoss : EnemyBase
             
         }
         CheckAnimation();
+        wasGrabbed = isGrabbed;
     }
 
     public void ResumeSequence()

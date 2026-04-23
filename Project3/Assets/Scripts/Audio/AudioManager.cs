@@ -127,10 +127,13 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip MacroRetreatTwoClip;
     public AudioClip MacroDamageHitOneClip;
     public AudioClip MacroDamageHitTwoClip;
+    public AudioClip MacroGrabbedClip;
 
     [Header("Micro Enemy SFX")]
     public AudioClip MicroChaseOneClip; // chase state sounds when micro is chasing player 
     public AudioClip MicroPrepareAttackClip; // tells macro hes ready to throw him
+    public AudioClip MicroPrepareAttackClip2;
+    public AudioClip MicroPrepareAttackClip3;
     public AudioClip MicroAttackClip; // attack sound when micro is thrown at player
     public AudioClip MicroDamageHitOneClip; 
     public AudioClip MicroDamageHitTwoClip; 

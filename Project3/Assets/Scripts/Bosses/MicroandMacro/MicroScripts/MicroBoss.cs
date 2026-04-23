@@ -153,7 +153,7 @@ public class MicroBoss : EnemyBase
         _MacroEnemy.IsGrabbedByMicro = true;
         // Store original mesh rotation to restore later
         Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
-        AudioManager.PlayMicroPrepareAttack();
+        ThrowAttackPhrases();
         // ----- Position macro prefab at throw origin ----- //
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
         MacroPrefab.transform.position = origin.position;
@@ -222,7 +222,16 @@ public class MicroBoss : EnemyBase
         yield return new WaitForSeconds(2f); // wait for hurt animation to play
         CheckAnimation();
     }
-
+    public void ThrowAttackPhrases()
+    {
+        int randomValue = Random.Range(1, 4); // Assuming you have 3 variations for each attack type
+        switch (randomValue)
+        {
+            case 1:AudioManager.PlaySFX(AudioManager.Instance.MicroPrepareAttackClip, 1f); break;
+            case 2: AudioManager.PlaySFX(AudioManager.Instance.MicroPrepareAttackClip2, 1f); break;   
+            case 3:AudioManager.PlaySFX(AudioManager.Instance.MicroPrepareAttackClip3, 1f); break;        
+        }
+    }
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {
