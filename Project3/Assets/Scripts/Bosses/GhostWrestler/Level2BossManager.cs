@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class Level2BossManager : MonoBehaviour
@@ -66,6 +67,7 @@ public class Level2BossManager : MonoBehaviour
     public InGameMenuManager menuManager;
     public Cinema_final cinemaFinalScript;
     public AudioManager audioManager;
+    Animator animator;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -91,6 +93,7 @@ public class Level2BossManager : MonoBehaviour
     private void Awake()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -555,5 +558,25 @@ public class Level2BossManager : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    public void PlayTargetActionAnimation(string targetAnimation)
+    {
+        animator.CrossFade(targetAnimation, 0.2f);
+    }
+
+    public void PlayStruggleAnimation()
+    {
+        PlayTargetActionAnimation("STRUGGLE");
+    }
+
+    public void PlayWalkAnimation()
+    {
+        PlayTargetActionAnimation("WALK");
+    }
+
+    public void PlayRopeReboundAnimation()
+    {
+        PlayTargetActionAnimation("ROPE_REBOUND");
     }
 }
