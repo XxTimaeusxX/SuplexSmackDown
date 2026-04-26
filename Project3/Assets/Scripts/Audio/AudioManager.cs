@@ -463,6 +463,18 @@ public sealed class AudioManager : MonoBehaviour
     // GhostDancer SFX
     public static void PlayDancerAttack() => PlaySFX(Instance?.DancerAttack, 1f);
     public static void PlayDancerAttack2() => PlaySFX(Instance?.DancerAttack2, 1f);
+    //Ghost Boss
+    public static void PlayWrestle1() => PlaySFX(Instance?.wrestle1, 1f);
+    public static void PlayWrestle2() => PlaySFX(Instance?.wrestle2, 1f);
+    public static void PlayWrestle3() => PlaySFX(Instance?.wrestle3, 1f);
+    public static void PlayFrozen() => PlaySFX(Instance?.frozen, 1f);
+    public static void PlaySlam() => PlaySFX(Instance?.slam, 1f);
+    public static void PlayHurt1() => PlaySFX(Instance?.hurt1, 1f);
+    public static void PlayHurt2() => PlaySFX(Instance?.hurt2, 1f);
+    public static void PlayHurt3() => PlaySFX(Instance?.hurt3, 1f);
+    public static void PlayMoveArena() => PlaySFX(Instance?.moveArena, 1f);
+    public static void PlayPhase() => PlaySFX(Instance?.phase, 1f);
+    public static void PlayWeakSignal() => PlaySFX(Instance?.weakSignal, 1f);
 
     //-------------------------------------------- LEVEL 3------------------------------------------//
     public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);
