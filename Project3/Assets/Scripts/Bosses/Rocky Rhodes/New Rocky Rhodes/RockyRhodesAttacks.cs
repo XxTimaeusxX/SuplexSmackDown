@@ -13,7 +13,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     public GameObject hitBox;
 
     public bool canChooseRandom;
-
+    public bool IsropeRushActive;
     public float heightOffset;
 
     private void Awake()
@@ -25,6 +25,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     #region Rope Rush
     public void StartRopeRush()
     {
+     //   if(IsropeRushActive) return;
         if (manager.grabbed) return;
         if (manager.ropeRush && manager.canPerformAction)
         {
@@ -36,7 +37,7 @@ public class RockyRhodesAttacks : MonoBehaviour
         }
     }
 
-    private IEnumerator RestRopeRush(float delay)
+    public IEnumerator RestRopeRush(float delay)
     {
         float timer = 0;
         while (timer < delay)
@@ -47,14 +48,16 @@ public class RockyRhodesAttacks : MonoBehaviour
             }
             yield return null;
         }
+        IsropeRushActive = false;
         gameObject.tag = "Rocky Rhodes";
         manager.canPerformAction = true;
         manager.numberOfRopeRusheCharges = 3;
-        abilities.CheckState(RockyRhodesStates.Idle);
+        Debug.Log($" number of rope charges {manager.numberOfRopeRusheCharges}!");
     }
 
     private void ReadyRopeRush()
     {
+        IsropeRushActive = true;
         manager.canPerformAction = false;
         ChooseRandomRopeRushPoint();
         Vector3 direction = (chosenPoint.position - transform.position).normalized;
@@ -95,12 +98,14 @@ public class RockyRhodesAttacks : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target, manager.ropeRushForce * Time.deltaTime);
             yield return null;
         }
-    }
+        hitBox.SetActive(false);
+        IsropeRushActive = false; 
+}
 
     private void ChooseRandomRopeRushPoint()
     {
-        manager.ropeRush = false;
-        if (manager.ropeRushStartPoints == null)
+     //   manager.ropeRush = false;
+        if (manager.ropeRushStartPoints == null )
         {
             return;
         }
@@ -294,11 +299,13 @@ public class RockyRhodesAttacks : MonoBehaviour
             }
             if (manager.arena1 && manager.numberOfRopeRusheCharges > 0)
             {
-                gameObject.tag = "Rocky Rhodes";
-                manager.numberOfRopeRusheCharges -= 1;
                 manager.canPerformAction = true;
-                manager.ropeRush = true;
+                gameObject.tag = "Rocky Rhodes";
+                // logic transfered in RopeRush couroutine in rockyabilities.cs
+                //   manager.numberOfRopeRusheCharges -= 1;
+                //   manager.ropeRush = true;
             }
+
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Arena2"))

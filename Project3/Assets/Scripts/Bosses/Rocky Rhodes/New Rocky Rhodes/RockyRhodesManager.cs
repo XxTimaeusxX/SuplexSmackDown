@@ -83,9 +83,10 @@ public class RockyRhodesManager : MonoBehaviour
         {
             moveSpeed = arena3MoveSpeed;
         }
-        attacks.StartRopeRush();
+       
+       // attacks.StartRopeRush();
         attacks.StartCannonball();
-        attacks.StartEnhancedRopeRush();
+       // attacks.StartEnhancedRopeRush();
         OpenArenas();
     }
 
