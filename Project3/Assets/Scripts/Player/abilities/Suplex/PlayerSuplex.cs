@@ -326,10 +326,13 @@ public class PlayerSuplex : MonoBehaviour
 
             if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0)
             {
-                playerMovement.velocity.x = 0f;
-                playerMovement.velocity.z = 0f;
-                playerMovement.velocity.y = -1f;
-                break;
+                if (!IsGrabbedEnemyAbovePlayer())
+                {
+                    playerMovement.velocity.x = 0f;
+                    playerMovement.velocity.z = 0f;
+                    playerMovement.velocity.y = -1f;
+                    break;
+                }
             }
             if (playerMovement.velocity.y > 0f)// when player launches up, rotate player mesh based on suplex type
             {
@@ -464,7 +467,18 @@ public class PlayerSuplex : MonoBehaviour
     {
         return controller != null && controller.isGrounded;
     }
+    private bool IsGrabbedEnemyAbovePlayer()
+    {
+        if (grabHandler == null || grabHandler.GrabbedEnemy == null || controller == null)
+            return false;
 
+        // Get the bounds of the player and the grabbed enemy
+        var playerTop = controller.bounds.center.y + controller.bounds.extents.y;
+        var enemyBottom = grabHandler.GrabbedEnemy.position.y;
+
+        // If the enemy's bottom is above the player's top, it's above
+        return enemyBottom > playerTop - 0.05f; // small tolerance
+    }
     private bool CanPerformSuperSuplex()
     {
         return powerGauge != null && powerGauge.powerSlider.value >= 1;
