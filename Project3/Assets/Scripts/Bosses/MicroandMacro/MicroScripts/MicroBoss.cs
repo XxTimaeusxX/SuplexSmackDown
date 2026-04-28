@@ -11,6 +11,7 @@ public class MicroBoss : EnemyBase
 {
     [Header("-------------------------Micro Settings ------------------------------")]
     public Boss1Arena bossArena;
+    CapsuleCollider capsuleCollider;
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
     [SerializeField] private GameObject macroPrefab;   // prefab For MicroBoss
@@ -52,7 +53,9 @@ public class MicroBoss : EnemyBase
          _MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
          _MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
         _MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
-       
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
+
         if (_powerGauge == null)
             _powerGauge = GetComponent<PowerGauge>();
 
@@ -110,6 +113,15 @@ public class MicroBoss : EnemyBase
             canChase = false;
             canPatrol = false;
             agent.enabled = false;
+            if (gameObject.transform.IsChildOf(Target.transform))
+            {
+                rb.isKinematic = true;
+            }
+            else
+            {
+                rb.isKinematic = false;
+            }
+            ChangeColliderOrientation();
             _glowMesh.SetGlowColor(); // trigger glow effect on death
             lowerRoom.EnableArrows();// enable arrows to show path to next area
             this.gameObject.tag ="Micro";
@@ -274,5 +286,11 @@ public class MicroBoss : EnemyBase
         ChangeAnimation("MicroIdle");
 
 
+    }
+
+    private void ChangeColliderOrientation()
+    {
+        capsuleCollider.direction = 2;
+        capsuleCollider.center = new Vector3(-0.18f, 0, -0.16f);
     }
 }
