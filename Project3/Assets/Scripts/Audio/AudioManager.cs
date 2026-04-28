@@ -72,6 +72,11 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Health Packs SFX")]
     public AudioClip defaultHealthPackClip;
     public AudioClip drinkHealthPackClip;
+	
+    [Header("Menu SFX")]
+    public AudioClip menuNavigateClip;
+    public AudioClip menuNavigateBackClip;
+    public AudioClip menuNavigateSelectionClip;
 
     [Header("    --------------------------- LEVEL 1 -----------------------------     ")]
     [Header("Enemy SFX")]
@@ -357,6 +362,11 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayHealthPack() =>PlayNarration(Instance?.defaultHealthPackClip, 1f); // Uses narration system for important pickup lines
     public static void PlayDrinkHealthPack() => PlayNarration(Instance?.drinkHealthPackClip, 1f); // Uses narration system for important pickup lines
 
+	// menu SFX
+    public static void PlayMenuNavigate() => PlaySFX(Instance?.menuNavigateClip, 1f);
+    public static void PlayMenuNavigateBack() => PlaySFX(Instance?.menuNavigateBackClip, 1f);
+    public static void PlayMenuNavigateSelect() => PlaySFX(Instance?.menuNavigateSelectionClip, 1f);
+	
     // player SFX
     public static void PlayFootstep() => PlaySFX(Instance?.footstepClip, 1f);
     public static void PlayJumping() => PlaySFX(Instance?.jumpingClip, 1f);
