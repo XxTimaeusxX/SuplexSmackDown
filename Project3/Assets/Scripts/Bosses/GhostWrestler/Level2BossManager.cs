@@ -179,6 +179,7 @@ public class Level2BossManager : MonoBehaviour
                 agent.SetDestination(walkPoint);
             }
             Vector3 distanceToWalkPoint = transform.position - walkPoint;
+            PlayWalkAnimation();
             if (distanceToWalkPoint.magnitude < 1f)
             {
                 walkPointSet = false;
@@ -269,6 +270,7 @@ public class Level2BossManager : MonoBehaviour
             while (Time.time < startTime + dashDuration)
             {
                 transform.position = Vector3.MoveTowards(transform.position, target, dashSpeed * Time.deltaTime);
+                PlayRopeReboundAnimation();
                 yield return null;
             }
             rb.constraints = ~RigidbodyConstraints.FreezePosition;
@@ -296,6 +298,7 @@ public class Level2BossManager : MonoBehaviour
     {
         if (stunned)
         {
+            PlayStruggleAnimation();
             AudioManager.PlayFrozen();
             agent.enabled = false;
             stunnedTimer -= Time.deltaTime;
