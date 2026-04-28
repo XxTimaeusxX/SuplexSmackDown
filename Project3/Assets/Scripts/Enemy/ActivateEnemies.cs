@@ -7,7 +7,6 @@ public class ActivateEnemies : MonoBehaviour
     public GameObject enemyHealth;
     public GameObject targetGameObject;
     public GameObject window;
-    public GameObject areaOneEnemies;
     public GameObject wave1;
     public GameObject wave2;
     public GameObject wave3;
@@ -48,7 +47,6 @@ public class ActivateEnemies : MonoBehaviour
                 start = true;
                 enemyHealth.SetActive(true);
                 window.SetActive(true);
-                areaOneEnemies.SetActive(false);
                 AudioManager.PlayShoalPhrase1();
                 Destroy(targetGameObject);
             }
