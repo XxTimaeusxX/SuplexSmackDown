@@ -69,6 +69,7 @@ public class RockyRhodesManager : MonoBehaviour
         maxRopeRushCharges = numberOfRopeRusheCharges;
         maxEnhancedRopeRushCharges = numberOfEnhancedRopeRusheCharges;
         agent.speed = moveSpeed;
+        rb.constraints |= RigidbodyConstraints.FreezePositionY;
     }
 
     private void Update()
@@ -122,6 +123,7 @@ public class RockyRhodesManager : MonoBehaviour
         arena2 = true;
         cannonball = true;
         agent.enabled = true;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
     }
 
     private IEnumerator ChangeArena2(float delay)
@@ -134,6 +136,7 @@ public class RockyRhodesManager : MonoBehaviour
         transform.position = newPos;
         rocky.enabled = true;
         abilities.enabled = true;
+        rb.constraints |= RigidbodyConstraints.FreezePositionY;
     }
 
     private IEnumerator UnGrab(float delay)

@@ -14,6 +14,7 @@ public class RhockyHealth : MonoBehaviour
     public Slider HealthSlider;
 
     private RockyRhodes _rockyRhodes;
+    [SerializeField] AnnouncerPhrases _announcerPhrases; // Added reference to AnnouncerPhrases
     private QTESystem _qteSystem;
     private RhockyAbilities _rhockyAbilities; // Added reference
     private float _lastHealthValue;
@@ -33,6 +34,7 @@ public class RhockyHealth : MonoBehaviour
         _rockyRhodes = GetComponent<RockyRhodes>();
         _rhockyAbilities = GetComponent<RhockyAbilities>();
         _qteSystem = _rockyRhodes.QTESystemScript;
+        if (_announcerPhrases == null) _announcerPhrases = GetComponent<AnnouncerPhrases>();    
     }
 
     private void Start()
@@ -67,6 +69,7 @@ public class RhockyHealth : MonoBehaviour
     }
     public void CheckHealthState()
     {
+        if (_announcerPhrases != null)_announcerPhrases.HealthConditionsPhrases();
         // 1. Phases 1 & 2: Health hits 0 -> Heal and Jump to the next phase
         if (_lastHealthValue <= 0f && _currentPhase < 3 && !_healthhasDecreased)
         {
@@ -78,23 +81,17 @@ public class RhockyHealth : MonoBehaviour
         // 2. Phase 3: Health hits 1 -> Trigger Flurry mode!
         else if (_lastHealthValue == 1f && _currentPhase == 3 && !_healthhasDecreased)
         {
-            AudioManager.PlayAnnouncerBossHalf();
-
             _healthhasDecreased = true; // Lock so we only trigger this flurry setup once
-
             Debug.Log("Health is 1 in Phase 3! Initiating Unstoppable Flurry!");
-
             // Lock him into ONLY doing the flurry until he dies
             _rhockyAbilities._randomSelection.Clear();
             _rhockyAbilities._randomSelection.Add(RockyRhodesStates.DesperationFlurry);
-
             // Start the first one immediately
             _rhockyAbilities.CheckState(RockyRhodesStates.DesperationFlurry);
         }
         // 3. Phase 3: Health hits 0 -> Boss Dies
         else if (_lastHealthValue <= 0f && _currentPhase >= 3)
         {
-            AudioManager.PlayAnnouncerBossDefeated();  
             _rockyRhodes.Dead();
         }
     }
