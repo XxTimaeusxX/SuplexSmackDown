@@ -375,6 +375,20 @@ public class InGameMenuManager : MonoBehaviour
 			
     }
 	
+	//play menu sounds, called in On Click () and Event Trigger (Select) in the inspector
+	public void PlaySelectSound(){
+		AudioManager.PlayMenuNavigateSelect();
+	}
+	
+	public void PlayBackSound(){
+		AudioManager.PlayMenuNavigateBack();
+	}
+	
+	public void PlayNavigateSound(){
+		AudioManager.PlayMenuNavigate();
+	}
+	
+	//gamma updates
 	void ColorInit(){
 		menuImg = GetComponentsInChildren<Image>(true);
 		menuText = GetComponentsInChildren<Text>(true);

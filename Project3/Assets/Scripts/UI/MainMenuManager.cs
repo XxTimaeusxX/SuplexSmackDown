@@ -98,6 +98,20 @@ public class MainMenuManager : MonoBehaviour
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
 	}
 	
+	//play menu sounds, called in On Click () and Event Trigger (Select) in the inspector
+	public void PlaySelectSound(){
+		AudioManager.PlayMenuNavigateSelect();
+	}
+	
+	public void PlayBackSound(){
+		AudioManager.PlayMenuNavigateBack();
+	}
+	
+	public void PlayNavigateSound(){
+		AudioManager.PlayMenuNavigate();
+	}
+	
+	//gamma updates
 	void ColorInit(){
 		if(_MainMenuCanvas){
 			menuImg = _MainMenuCanvas.GetComponentsInChildren<Image>(true);
