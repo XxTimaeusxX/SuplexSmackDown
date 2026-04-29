@@ -175,6 +175,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private IEnumerator RepeatCannonball(float delay)
     {
+        abilities.CurrentRockyState = RockyRhodesStates.Exhausted;
         float timer = 0;
         while (timer < delay)
         {
@@ -185,6 +186,7 @@ public class RockyRhodesAttacks : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(delay);
+        abilities.CurrentRockyState = RockyRhodesStates.Idle;
         manager.cannonball = true;
         manager.canPerformAction = true;
     }

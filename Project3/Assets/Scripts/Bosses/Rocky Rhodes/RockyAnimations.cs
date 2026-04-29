@@ -40,8 +40,8 @@ public class RockyAnimations : MonoBehaviour
       
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.BullRush)
         {
-        //    Debug.Log("Changing to Bullrush animation");
-          //  ChangeAnimation("BullRush_demo");
+            //    Debug.Log("Changing to Bullrush animation");
+            ChangeAnimation("BullRushCharge");
             return;
         }
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.CannonBall)
@@ -61,16 +61,16 @@ public class RockyAnimations : MonoBehaviour
             ChangeAnimation("HeelTaunt");
             return;
         }
-        /*    if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Haymaker)
+            if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Haymaker)
             {
-                Debug.Log("Changing to Haymaker animation");
-                ChangeAnimation("RockyPunchChargeUp_demo"); // Or whichever animation name is the actual active punch
+               // Debug.Log("Changing to Haymaker animation");
+                ChangeAnimation("HayMakerCharge"); // Or whichever animation name is the actual active punch
                 return;
-            }*/
+            }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Exhausted)
         {
          //   Debug.Log("Changing to Exhausted animation");
-          //  ChangeAnimation("Exhausted_demo");
+            ChangeAnimation("Dizzy");
             return;
         }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Idle)

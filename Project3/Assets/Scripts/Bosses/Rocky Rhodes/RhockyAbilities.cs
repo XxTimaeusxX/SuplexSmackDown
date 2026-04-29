@@ -178,7 +178,6 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-        _rockyAnimations.ChangeAnimation("BullRushCharge");
         // Skip all QTE logic if part of an un-interruptible flurry
         if (!isFlurryActive)
         {
