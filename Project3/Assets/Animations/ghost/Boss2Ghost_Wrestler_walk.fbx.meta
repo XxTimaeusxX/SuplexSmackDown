@@ -27,14 +27,43 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Ghost_Wrestler_walk
+      takeName: Ghost_Wrestler_walk
+      internalID: 2954870911621095241
+      firstFrame: 0
+      lastFrame: 48
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -88,7 +117,922 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Boss2Ghost_Wrestler_walk(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Skin
+      parentName: Boss2Ghost_Wrestler_walk(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Body
+      parentName: ghost_wrestler_rig__1_:Skin
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Face
+      parentName: ghost_wrestler_rig__1_:Skin
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Breastplate
+      parentName: ghost_wrestler_rig__1_:Skin
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Helmet
+      parentName: ghost_wrestler_rig__1_:Skin
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Skirt
+      parentName: ghost_wrestler_rig__1_:Skin
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Shoes
+      parentName: ghost_wrestler_rig__1_:Skin
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:COG_OFF
+      parentName: Boss2Ghost_Wrestler_walk(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:COG_CTRL
+      parentName: ghost_wrestler_rig__1_:COG_OFF
+      position: {x: -0, y: 0, z: -0.014247611}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Hips_OFF
+      parentName: ghost_wrestler_rig__1_:COG_CTRL
+      position: {x: 0.0009835226, y: 0, z: 0.30067238}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Hips_CTRL
+      parentName: ghost_wrestler_rig__1_:Hips_OFF
+      position: {x: 1.2490008e-18, y: -5.2041703e-20, z: 0}
+      rotation: {x: 0, y: 0, z: 0.03951737, w: 0.9992189}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Waist_OFF
+      parentName: ghost_wrestler_rig__1_:Hips_CTRL
+      position: {x: -0.00048768698, y: 0, z: 0.04956495}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Waist_CTRL
+      parentName: ghost_wrestler_rig__1_:Waist_OFF
+      position: {x: -6.9388935e-19, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0.04277379, w: 0.9990848}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Chest_OFF
+      parentName: ghost_wrestler_rig__1_:Waist_CTRL
+      position: {x: 0.0005939402, y: 0, z: 0.09621833}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Chest_CTRL
+      parentName: ghost_wrestler_rig__1_:Chest_OFF
+      position: {x: -2.7755575e-19, y: 3.469447e-20, z: 0}
+      rotation: {x: 0, y: 0, z: 0.03439908, w: 0.9994082}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Clav_OFF
+      parentName: ghost_wrestler_rig__1_:Chest_CTRL
+      position: {x: -0.032770142, y: -0.07491322, z: 0.014722366}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Clav_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Clav_OFF
+      position: {x: -0, y: 0.07491322, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Shldr_OFF
+      parentName: ghost_wrestler_rig__1_:L_Clav_CTRL
+      position: {x: -0.042745702, y: 0, z: 0.058036003}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Shldr_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Shldr_OFF
+      position: {x: 0.01044752, y: -5.1514347e-16, z: -0.043317832}
+      rotation: {x: -0.053069275, y: -0.47441843, z: 0.18392168, w: 0.8592344}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Elbow_OFF
+      parentName: ghost_wrestler_rig__1_:L_Shldr_CTRL
+      position: {x: -0.12183367, y: 0, z: -0.008585586}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Elbow_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Elbow_OFF
+      position: {x: 3.1974422e-16, y: -8.881784e-18, z: -2.0605739e-15}
+      rotation: {x: -0.00032682196, y: -0.071382135, z: 0.0045667575, w: 0.99743855}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Wrist_OFF
+      parentName: ghost_wrestler_rig__1_:L_Elbow_CTRL
+      position: {x: -0.099765584, y: 1.2325951e-34, z: -0.006843033}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Wrist_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Wrist_OFF
+      position: {x: -7.105427e-17, y: -1.2325951e-34, z: 1.4210854e-16}
+      rotation: {x: 0, y: -0.047198832, z: -0, w: 0.9988855}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Hand_OFF
+      parentName: ghost_wrestler_rig__1_:L_Wrist_CTRL
+      position: {x: -0.02129818, y: 0, z: 0.018773194}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Hand_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Hand_OFF
+      position: {x: 3.5527136e-17, y: 0, z: -0.019418605}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Pinky_OFF_1
+      parentName: ghost_wrestler_rig__1_:L_Hand_CTRL
+      position: {x: -0.016603965, y: 0.015504571, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Pinky_CTRL_1
+      parentName: ghost_wrestler_rig__1_:L_Pinky_OFF_1
+      position: {x: -0, y: -1.9984014e-17, z: -0.0071497275}
+      rotation: {x: -0.16462354, y: -0.53349906, z: -0.07513095, w: 0.82621616}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Pinky_OFF_2
+      parentName: ghost_wrestler_rig__1_:L_Pinky_CTRL_1
+      position: {x: -0.009549942, y: 0.0018448794, z: 0.006064526}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Pinky_CTRL_2
+      parentName: ghost_wrestler_rig__1_:L_Pinky_OFF_2
+      position: {x: -0, y: 8.881784e-18, z: -0.006064526}
+      rotation: {x: 0, y: -0.60181504, z: -0, w: 0.7986355}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Pinky_OFF_3
+      parentName: ghost_wrestler_rig__1_:L_Pinky_CTRL_2
+      position: {x: -0.009658508, y: 0.0015193128, z: 0.006064526}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Pinky_CTRL_3
+      parentName: ghost_wrestler_rig__1_:L_Pinky_OFF_3
+      position: {x: -0, y: 0, z: -0.006064526}
+      rotation: {x: 0, y: -0.6293204, z: -0, w: 0.777146}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Ring_OFF_1
+      parentName: ghost_wrestler_rig__1_:L_Hand_CTRL
+      position: {x: -0.020207366, y: 0.005012263, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Ring_CTRL_1
+      parentName: ghost_wrestler_rig__1_:L_Ring_OFF_1
+      position: {x: -0, y: 2.220446e-18, z: -0.0071497275}
+      rotation: {x: 0, y: -0.6755902, z: -0, w: 0.7372773}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Ring_OFF_2
+      parentName: ghost_wrestler_rig__1_:L_Ring_CTRL_1
+      position: {x: -0.012914161, y: 0, z: 0.006064526}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Ring_CTRL_2
+      parentName: ghost_wrestler_rig__1_:L_Ring_OFF_2
+      position: {x: -0, y: 2.220446e-18, z: -0.006064526}
+      rotation: {x: 0, y: -0.54463905, z: -0, w: 0.83867055}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Ring_OFF_3
+      parentName: ghost_wrestler_rig__1_:L_Ring_CTRL_2
+      position: {x: -0.009984055, y: -1.110223e-18, z: 0.0062629883}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Ring_CTRL_3
+      parentName: ghost_wrestler_rig__1_:L_Ring_OFF_3
+      position: {x: -7.105427e-17, y: 0, z: -0.0062629883}
+      rotation: {x: 0, y: -0.54463905, z: -0, w: 0.83867055}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Mid_OFF_1
+      parentName: ghost_wrestler_rig__1_:L_Hand_CTRL
+      position: {x: -0.015906218, y: -0.0038846375, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Mid_CTRL_1
+      parentName: ghost_wrestler_rig__1_:L_Mid_OFF_1
+      position: {x: -0, y: 0, z: -0.009688866}
+      rotation: {x: 0.23381038, y: -0.59988564, z: 0.0925591, w: 0.7595412}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Mid_OFF_2
+      parentName: ghost_wrestler_rig__1_:L_Mid_CTRL_1
+      position: {x: -0.012670783, y: -0.0021015469, z: 0.008603664}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Mid_CTRL_2
+      parentName: ghost_wrestler_rig__1_:L_Mid_OFF_2
+      position: {x: -7.105427e-17, y: -1.6653344e-17, z: -0.009220997}
+      rotation: {x: -0.101736575, y: -0.6527211, z: 0.113908514, w: 0.74204427}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Mid_OFF_3
+      parentName: ghost_wrestler_rig__1_:L_Mid_CTRL_2
+      position: {x: -0.012486, y: -0.002019127, z: 0.009220997}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Mid_CTRL_3
+      parentName: ghost_wrestler_rig__1_:L_Mid_OFF_3
+      position: {x: -0.00020851135, y: 0.000013669729, z: -0.009304119}
+      rotation: {x: 0.062481042, y: -0.5483891, z: 0.09439856, w: 0.8285255}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Index_OFF_1
+      parentName: ghost_wrestler_rig__1_:L_Hand_CTRL
+      position: {x: -0.009602299, y: -0.012716578, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Index_CTRL_1
+      parentName: ghost_wrestler_rig__1_:L_Index_OFF_1
+      position: {x: 3.5527136e-17, y: 1.9984014e-17, z: -0.009296411}
+      rotation: {x: 0.29973415, y: -0.642981, z: -0.00018670672, w: 0.70479417}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Index_OFF_2
+      parentName: ghost_wrestler_rig__1_:L_Index_CTRL_1
+      position: {x: -0.0150818825, y: -0.0068960083, z: 0.0082112085}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Index_CTRL_2
+      parentName: ghost_wrestler_rig__1_:L_Index_OFF_2
+      position: {x: -0, y: -1.9984014e-17, z: -0.008879086}
+      rotation: {x: 0.1894952, y: -0.70248866, z: -0.044740163, w: 0.6845434}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Index_OFF_3
+      parentName: ghost_wrestler_rig__1_:L_Index_CTRL_2
+      position: {x: -0.010331154, y: -0.0037209701, z: 0.008879086}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Index_CTRL_3
+      parentName: ghost_wrestler_rig__1_:L_Index_OFF_3
+      position: {x: 7.105427e-17, y: 1.3322676e-17, z: -0.009246861}
+      rotation: {x: 0.20371728, y: -0.33795425, z: 0.07517951, w: 0.91576976}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thumb_OFF_1
+      parentName: ghost_wrestler_rig__1_:L_Hand_CTRL
+      position: {x: 0.0065189367, y: -0.018316925, z: 0.010807711}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thumb_CTRL_1
+      parentName: ghost_wrestler_rig__1_:L_Thumb_OFF_1
+      position: {x: 0.0009285922, y: -0.00042013737, z: -0.012512957}
+      rotation: {x: 0.51035595, y: -0.28502244, z: -0.18331744, w: 0.7903757}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thumb_OFF_2
+      parentName: ghost_wrestler_rig__1_:L_Thumb_CTRL_1
+      position: {x: -0.003331871, y: -0.0128841065, z: 0.011620114}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thumb_CTRL_2
+      parentName: ghost_wrestler_rig__1_:L_Thumb_OFF_2
+      position: {x: -0.00017023087, y: 0.00010147333, z: -0.011881688}
+      rotation: {x: 0, y: -0, z: -0.31631142, w: 0.9486554}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thumb_OFF_3
+      parentName: ghost_wrestler_rig__1_:L_Thumb_CTRL_2
+      position: {x: -0.00954319, y: -0.012388647, z: 0.008031345}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thumb_CTRL_3
+      parentName: ghost_wrestler_rig__1_:L_Thumb_OFF_3
+      position: {x: -0, y: -1.7763568e-17, z: -0.008254734}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Clav_OFF
+      parentName: ghost_wrestler_rig__1_:Chest_CTRL
+      position: {x: 0.03059059, y: -0.07491322, z: 0.014722366}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Clav_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Clav_OFF
+      position: {x: 0.002179532, y: 0.07491322, z: -0.000000038146972}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Shldr_OFF
+      parentName: ghost_wrestler_rig__1_:R_Clav_CTRL
+      position: {x: 0.042745702, y: 0, z: 0.058036003}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Shldr_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Shldr_OFF
+      position: {x: -0.01044752, y: 7.105427e-17, z: -0.043317832}
+      rotation: {x: 0.058881897, y: 0.43783036, z: 0.17554688, w: 0.8797845}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Elbow_OFF
+      parentName: ghost_wrestler_rig__1_:R_Shldr_CTRL
+      position: {x: 0.12183367, y: 0, z: -0.008585586}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Elbow_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Elbow_OFF
+      position: {x: -1.065814e-15, y: 2.664535e-16, z: -9.947598e-16}
+      rotation: {x: 0.010089527, y: 0.122811034, z: 0.010475888, w: 0.9923235}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Wrist_OFF
+      parentName: ghost_wrestler_rig__1_:R_Elbow_CTRL
+      position: {x: 0.099765584, y: 1.2325951e-34, z: -0.006843033}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Wrist_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Wrist_OFF
+      position: {x: -1.1013412e-15, y: 8.171241e-16, z: -4.5474734e-15}
+      rotation: {x: 0.31262422, y: 0.25055382, z: 0.07419233, w: 0.91322744}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Hand_OFF
+      parentName: ghost_wrestler_rig__1_:R_Wrist_CTRL
+      position: {x: 0.02129818, y: 0, z: 0.018773194}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Hand_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Hand_OFF
+      position: {x: -3.5527136e-17, y: 0, z: -0.019418605}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Pinky_OFF_1
+      parentName: ghost_wrestler_rig__1_:R_Hand_CTRL
+      position: {x: 0.016603965, y: 0.015504571, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Pinky_CTRL_1
+      parentName: ghost_wrestler_rig__1_:R_Pinky_OFF_1
+      position: {x: -0, y: -1.9984014e-17, z: -0.0071497275}
+      rotation: {x: -0.098572046, y: 0.5158323, z: 0.09281028, w: 0.84592366}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Pinky_OFF_2
+      parentName: ghost_wrestler_rig__1_:R_Pinky_CTRL_1
+      position: {x: 0.009549942, y: 0.0018448794, z: 0.006064526}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Pinky_CTRL_2
+      parentName: ghost_wrestler_rig__1_:R_Pinky_OFF_2
+      position: {x: -1.6342482e-15, y: 8.881784e-18, z: -0.006064526}
+      rotation: {x: 0, y: 0.5948228, z: -0, w: 0.8038569}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Pinky_OFF_3
+      parentName: ghost_wrestler_rig__1_:R_Pinky_CTRL_2
+      position: {x: 0.009658508, y: 0.0015193128, z: 0.006064526}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Pinky_CTRL_3
+      parentName: ghost_wrestler_rig__1_:R_Pinky_OFF_3
+      position: {x: -3.5527135e-16, y: 0, z: -0.006064526}
+      rotation: {x: 0, y: 0.3665012, z: -0, w: 0.9304176}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Ring_OFF_1
+      parentName: ghost_wrestler_rig__1_:R_Hand_CTRL
+      position: {x: 0.020207366, y: 0.005012263, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Ring_CTRL_1
+      parentName: ghost_wrestler_rig__1_:R_Ring_OFF_1
+      position: {x: -7.81597e-16, y: 1.976197e-16, z: -0.0071497275}
+      rotation: {x: -0.027977265, y: 0.71332896, z: 0.06522199, w: 0.69722676}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Ring_OFF_2
+      parentName: ghost_wrestler_rig__1_:R_Ring_CTRL_1
+      position: {x: 0.012914161, y: 0, z: 0.006064526}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Ring_CTRL_2
+      parentName: ghost_wrestler_rig__1_:R_Ring_OFF_2
+      position: {x: -9.947598e-16, y: 2.220446e-18, z: -0.006064526}
+      rotation: {x: 0, y: 0.41469324, z: -0, w: 0.9099613}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Ring_OFF_3
+      parentName: ghost_wrestler_rig__1_:R_Ring_CTRL_2
+      position: {x: 0.009984055, y: -1.110223e-18, z: 0.0062629883}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Ring_CTRL_3
+      parentName: ghost_wrestler_rig__1_:R_Ring_OFF_3
+      position: {x: -0, y: 0, z: -0.0062629883}
+      rotation: {x: 0, y: 0.40673664, z: -0, w: 0.9135454}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Mid_OFF_1
+      parentName: ghost_wrestler_rig__1_:R_Hand_CTRL
+      position: {x: 0.015906218, y: -0.0038846375, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Mid_CTRL_1
+      parentName: ghost_wrestler_rig__1_:R_Mid_OFF_1
+      position: {x: -1.6342482e-15, y: -7.105427e-17, z: -0.009688866}
+      rotation: {x: 0.14926119, y: 0.72344816, z: -0.16205013, w: 0.654281}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Mid_OFF_2
+      parentName: ghost_wrestler_rig__1_:R_Mid_CTRL_1
+      position: {x: 0.012670783, y: -0.0021015469, z: 0.008603664}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Mid_CTRL_2
+      parentName: ghost_wrestler_rig__1_:R_Mid_OFF_2
+      position: {x: -4.8316907e-15, y: 9.781064e-16, z: -0.009220997}
+      rotation: {x: 0, y: 0.49242356, z: -0, w: 0.8703557}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Mid_OFF_3
+      parentName: ghost_wrestler_rig__1_:R_Mid_CTRL_2
+      position: {x: 0.012486, y: -0.002019127, z: 0.009220997}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Mid_CTRL_3
+      parentName: ghost_wrestler_rig__1_:R_Mid_OFF_3
+      position: {x: 0.00020851135, y: 0.000013669729, z: -0.009304119}
+      rotation: {x: 0, y: 0.52249855, z: -0, w: 0.85264015}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Index_OFF_1
+      parentName: ghost_wrestler_rig__1_:R_Hand_CTRL
+      position: {x: 0.009602299, y: -0.012716578, z: 0.0071497275}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Index_CTRL_1
+      parentName: ghost_wrestler_rig__1_:R_Index_OFF_1
+      position: {x: 6.0396133e-16, y: 1.0147438e-15, z: -0.009296411}
+      rotation: {x: 0.25036836, y: 0.66669965, z: -0.14607105, w: 0.6866517}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Index_OFF_2
+      parentName: ghost_wrestler_rig__1_:R_Index_CTRL_1
+      position: {x: 0.0150818825, y: -0.0068960083, z: 0.0082112085}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Index_CTRL_2
+      parentName: ghost_wrestler_rig__1_:R_Index_OFF_2
+      position: {x: -3.410605e-15, y: 6.905587e-16, z: -0.008879086}
+      rotation: {x: 0.25448862, y: 0.5321949, z: -0.17165473, w: 0.78901136}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Index_OFF_3
+      parentName: ghost_wrestler_rig__1_:R_Index_CTRL_2
+      position: {x: 0.010331154, y: -0.0037209701, z: 0.008879086}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Index_CTRL_3
+      parentName: ghost_wrestler_rig__1_:R_Index_OFF_3
+      position: {x: -1.2789769e-15, y: 1.3322676e-17, z: -0.009246861}
+      rotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Thumb_OFF_1
+      parentName: ghost_wrestler_rig__1_:R_Hand_CTRL
+      position: {x: -0.0065189367, y: -0.018316925, z: 0.010807711}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Thumb_CTRL_1
+      parentName: ghost_wrestler_rig__1_:R_Thumb_OFF_1
+      position: {x: -0.0009285922, y: -0.00042013737, z: -0.012512957}
+      rotation: {x: 0.050250743, y: 0.12168848, z: 0.2520342, w: 0.9587208}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Thumb_OFF_2
+      parentName: ghost_wrestler_rig__1_:R_Thumb_CTRL_1
+      position: {x: 0.003331871, y: -0.0128841065, z: 0.011620114}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Thumb_CTRL_2
+      parentName: ghost_wrestler_rig__1_:R_Thumb_OFF_2
+      position: {x: 0.00017023087, y: 0.00010147333, z: -0.011881688}
+      rotation: {x: 0.030608887, y: 0.13849427, z: 0.3110994, w: 0.9397338}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Thumb_OFF_3
+      parentName: ghost_wrestler_rig__1_:R_Thumb_CTRL_2
+      position: {x: 0.00954319, y: -0.012388647, z: 0.008031345}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Thumb_CTRL_3
+      parentName: ghost_wrestler_rig__1_:R_Thumb_OFF_3
+      position: {x: -0, y: -1.7763568e-17, z: -0.008254734}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Neck_OFF
+      parentName: ghost_wrestler_rig__1_:Chest_CTRL
+      position: {x: -0.0005928066, y: 0, z: 0.06138996}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Neck_CTRL
+      parentName: ghost_wrestler_rig__1_:Neck_OFF
+      position: {x: -2.7755575e-19, y: -2.6020852e-20, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Head_OFF
+      parentName: ghost_wrestler_rig__1_:Neck_CTRL
+      position: {x: -0.00049696554, y: -0.000016569204, z: 0.043654975}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Head_CTRL
+      parentName: ghost_wrestler_rig__1_:Head_OFF
+      position: {x: 0.00051428494, y: 0.000016569204, z: -0.00012729644}
+      rotation: {x: 0, y: 0, z: 0.09131367, w: 0.9958222}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Leg_OFF
+      parentName: ghost_wrestler_rig__1_:Hips_CTRL
+      position: {x: -0.04516866, y: 0, z: -0.0014019012}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Leg_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Leg_OFF
+      position: {x: 5.906386e-15, y: -1.7763567e-16, z: 1.0018652e-14}
+      rotation: {x: 0.25863165, y: -0.00023058224, z: -0.000041188607, w: 0.965976}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Knee_OFF
+      parentName: ghost_wrestler_rig__1_:L_Leg_CTRL
+      position: {x: -0.022160139, y: -0.0010549761, z: -0.14835033}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Knee_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Knee_OFF
+      position: {x: 6.1550763e-15, y: -1.5101809e-15, z: -5.4889425e-15}
+      rotation: {x: 0.08683358, y: 0.008774724, z: -0.00841828, w: 0.99614865}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Ankle_OFF
+      parentName: ghost_wrestler_rig__1_:L_Knee_CTRL
+      position: {x: -0.011057162, y: 0.000006404966, z: -0.11597408}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Ankle_CTRL
+      parentName: ghost_wrestler_rig__1_:Ankle_OFF
+      position: {x: -8.6153304e-16, y: 1.1268764e-16, z: 2.6201262e-16}
+      rotation: {x: -0.16229661, y: 0.010252896, z: -0.053380806, w: 0.98524374}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Foot_OFF
+      parentName: ghost_wrestler_rig__1_:Ankle_CTRL
+      position: {x: 0.0004620075, y: 0.00064245984, z: -0.034670282}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Foot_CTRL
+      parentName: ghost_wrestler_rig__1_:L_Foot_OFF
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Leg_OFF
+      parentName: ghost_wrestler_rig__1_:Hips_CTRL
+      position: {x: 0.045168675, y: 0, z: -0.0014023972}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Leg_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Leg_OFF
+      position: {x: -4.4408918e-17, y: -3.2862602e-16, z: -1.2789769e-15}
+      rotation: {x: -0.20203768, y: 0, z: -0, w: 0.97937775}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Knee_OFF
+      parentName: ghost_wrestler_rig__1_:R_Leg_CTRL
+      position: {x: 0.022160139, y: -0.0010549761, z: -0.14835033}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Knee_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Knee_OFF
+      position: {x: 2.1316282e-16, y: -5.331846e-16, z: -1.5276668e-15}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Ankle_OFF
+      parentName: ghost_wrestler_rig__1_:R_Knee_CTRL
+      position: {x: 0.011057162, y: 0.000006404966, z: -0.11597408}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:Ankle_CTRL
+      parentName: ghost_wrestler_rig__1_:Ankle_OFF
+      position: {x: -0, y: 2.2204459e-17, z: -9.325873e-17}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Foot_OFF
+      parentName: ghost_wrestler_rig__1_:Ankle_CTRL
+      position: {x: -0.0004620075, y: 0.00064245984, z: -0.034670282}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Foot_CTRL
+      parentName: ghost_wrestler_rig__1_:R_Foot_OFF
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ghost_wrestler_rig__1_:COG_jnt
+      parentName: Boss2Ghost_Wrestler_walk(Clone)
+      position: {x: 0, y: 0.008525869, z: 0}
+      rotation: {x: 0.4991816, y: -0.5008171, z: 0.5008171, w: -0.49918154}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000006}
+    - name: ghost_wrestler_rig__1_:Hips_jnt
+      parentName: ghost_wrestler_rig__1_:COG_jnt
+      position: {x: -0.300674, y: 0, z: 2.0677904e-17}
+      rotation: {x: -0, y: 0.006554961, z: 0.000000059604645, w: -0.9999786}
+      scale: {x: 1.0000005, y: 1.0000008, z: 1.0000008}
+    - name: ghost_wrestler_rig__1_:Chest_Int
+      parentName: ghost_wrestler_rig__1_:Hips_jnt
+      position: {x: -0.049567375, y: 0, z: -1.5876189e-16}
+      rotation: {x: 8.64766e-11, y: -0.00800576, z: -0.000000059604577, w: -0.99996793}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000005}
+    - name: ghost_wrestler_rig__1_:Breast_Int
+      parentName: ghost_wrestler_rig__1_:Chest_Int
+      position: {x: -0.09622015, y: 0, z: -3.802514e-17}
+      rotation: {x: -0.000000029867152, y: 0.007914329, z: 0.000000044660204, w: -0.99996877}
+      scale: {x: 1.000001, y: 1.0000014, z: 1.0000011}
+    - name: ghost_wrestler_rig__1_:Neck_Int
+      parentName: ghost_wrestler_rig__1_:Breast_Int
+      position: {x: -0.061392818, y: 0, z: -3.8635761e-16}
+      rotation: {x: 0.000000014837227, y: -0.005026961, z: -0.00000004464994, w: -0.9999874}
+      scale: {x: 1.0000008, y: 1.0000005, z: 1.0000015}
+    - name: ghost_wrestler_rig__1_:Head_Int
+      parentName: ghost_wrestler_rig__1_:Neck_Int
+      position: {x: -0.043527704, y: 0, z: 5.156986e-16}
+      rotation: {x: -0.000000014858549, y: 0.0041051377, z: 0.000000029762525, w: -0.99999166}
+      scale: {x: 1.0000002, y: 1.0000006, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:Helmet_Int
+      parentName: ghost_wrestler_rig__1_:Head_Int
+      position: {x: -0.07996729, y: 0, z: -1.0447198e-15}
+      rotation: {x: -0, y: -0, z: -1.4571673e-16, w: 1}
+      scale: {x: 0.99999994, y: 0.9999997, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:L_Shoulder
+      parentName: ghost_wrestler_rig__1_:Breast_Int
+      position: {x: -0.015038131, y: 0, z: -0.032626458}
+      rotation: {x: 0.00000003156306, y: -0.57824075, z: 0.00000003487525, w: 0.8158662}
+      scale: {x: 1.0000006, y: 1.0000004, z: 1.000001}
+    - name: ghost_wrestler_rig__1_:L_Bicep
+      parentName: ghost_wrestler_rig__1_:L_Shoulder
+      position: {x: -0.03549362, y: 0, z: 2.842171e-16}
+      rotation: {x: -0.00000011684811, y: -0.20198289, z: -0.000000016903524, w: 0.97938913}
+      scale: {x: 0.999999, y: 1.0000001, z: 1.0000011}
+    - name: ghost_wrestler_rig__1_:L_Forearm
+      parentName: ghost_wrestler_rig__1_:L_Bicep
+      position: {x: -0.122135796, y: 0, z: -1.4210854e-16}
+      rotation: {x: 0.00000006204273, y: 0.0009346603, z: 0.000000057734923, w: 0.9999996}
+      scale: {x: 1.0000004, y: 1.0000008, z: 1.0000006}
+    - name: ghost_wrestler_rig__1_:L_Wrist
+      parentName: ghost_wrestler_rig__1_:L_Forearm
+      position: {x: -0.099999994, y: 0, z: 0}
+      rotation: {x: -0.000000017298763, y: 0.01909384, z: -0.000000016270032, w: 0.99981767}
+      scale: {x: 1.0000007, y: 1.0000006, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Palm
+      parentName: ghost_wrestler_rig__1_:L_Wrist
+      position: {x: -0.021307966, y: 0, z: 4.2632563e-16}
+      rotation: {x: 0.64700276, y: -0.26371455, z: 0.2552992, w: -0.66832954}
+      scale: {x: 1, y: 1.0000004, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Pinkie1
+      parentName: ghost_wrestler_rig__1_:L_Palm
+      position: {x: -0.022717452, y: 4.973799e-16, z: 0}
+      rotation: {x: -0.015109446, y: -0.34398568, z: -0.012250938, w: 0.93877345}
+      scale: {x: 0.99999994, y: 1.0000002, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:L_Pinkie2
+      parentName: ghost_wrestler_rig__1_:L_Pinkie1
+      position: {x: -0.009726534, y: -2.1316282e-16, z: -6.217249e-17}
+      rotation: {x: -0.9998486, y: -0.00000013224778, z: -0.017402152, w: 0.000000040745352}
+      scale: {x: 1.0000005, y: 0.9999998, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:L_Pinkie3
+      parentName: ghost_wrestler_rig__1_:L_Pinkie2
+      position: {x: -0.009777256, y: 1.4210854e-16, z: 3.9968027e-17}
+      rotation: {x: 0.9999882, y: 0.00000015237175, z: -0.004854711, w: 0.00000014464318}
+      scale: {x: 0.9999997, y: 1.0000004, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Pinkie4
+      parentName: ghost_wrestler_rig__1_:L_Pinkie3
+      position: {x: -0.010420972, y: 7.105427e-17, z: 1.7763568e-17}
+      rotation: {x: -0, y: -0, z: -0, w: 1}
+      scale: {x: 1.0000002, y: 1.0000002, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Ring1
+      parentName: ghost_wrestler_rig__1_:L_Palm
+      position: {x: -0.018190196, y: -0.00044924518, z: -0.010118065}
+      rotation: {x: -0.020637242, y: -0.36672765, z: 0.008137503, w: 0.93006384}
+      scale: {x: 0.99999994, y: 1.0000004, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:L_Ring2
+      parentName: ghost_wrestler_rig__1_:L_Ring1
+      position: {x: -0.01291416, y: -4.973799e-16, z: -1.4099832e-16}
+      rotation: {x: -0.70710677, y: -0.00000004470348, z: -0.000000039581206, w: -0.7071069}
+      scale: {x: 1.0000005, y: 1.0000001, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:L_Ring3
+      parentName: ghost_wrestler_rig__1_:L_Ring2
+      position: {x: -0.009984056, y: -9.325873e-17, z: 0}
+      rotation: {x: 0.707089, y: 0.0050144983, z: 0.005014519, w: 0.707089}
+      scale: {x: 1, y: 1.0000002, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Ring4
+      parentName: ghost_wrestler_rig__1_:L_Ring3
+      position: {x: -0.015303192, y: 7.105427e-17, z: -3.330669e-18}
+      rotation: {x: -0, y: 2.3283059e-10, z: 2.3283059e-10, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Middle1
+      parentName: ghost_wrestler_rig__1_:L_Palm
+      position: {x: -0.008974435, y: 0.001929166, z: -0.013794318}
+      rotation: {x: 0.40545374, y: -0.39774078, z: 0.19357163, w: 0.7999623}
+      scale: {x: 0.99999994, y: 1, z: 1.0000004}
+    - name: ghost_wrestler_rig__1_:L_Middle2
+      parentName: ghost_wrestler_rig__1_:L_Middle1
+      position: {x: -0.0128586935, y: -1.0658141e-16, z: 1.4210854e-16}
+      rotation: {x: -0.21286781, y: -0.020643527, z: -0.004498466, w: -0.97685254}
+      scale: {x: 1.0000006, y: 1.0000005, z: 1.0000005}
+    - name: ghost_wrestler_rig__1_:L_Middle3
+      parentName: ghost_wrestler_rig__1_:L_Middle2
+      position: {x: -0.012852236, y: -1.1990408e-16, z: -2.1316282e-16}
+      rotation: {x: 0.47738135, y: -0.036044303, z: -0.019603992, w: 0.8777378}
+      scale: {x: 0.9999997, y: 0.9999996, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:L_Middle4
+      parentName: ghost_wrestler_rig__1_:L_Middle3
+      position: {x: -0.019543387, y: 0, z: 1.4210854e-16}
+      rotation: {x: 0.000000029802312, y: -0, z: -0.0000000055879337, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000002}
+    - name: ghost_wrestler_rig__1_:L_Index1
+      parentName: ghost_wrestler_rig__1_:L_Palm
+      position: {x: 0.0016608083, y: 0.0014416048, z: -0.015927551}
+      rotation: {x: 0.08979727, y: -0.48419204, z: 0.034747813, w: 0.86964774}
+      scale: {x: 0.99999994, y: 1.0000006, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:L_Index2
+      parentName: ghost_wrestler_rig__1_:L_Index1
+      position: {x: -0.016597103, y: -5.684342e-16, z: -3.5527136e-17}
+      rotation: {x: -0.062950194, y: 0.041590292, z: -0.0026256621, w: 0.99714625}
+      scale: {x: 1.0000005, y: 0.99999994, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Index3
+      parentName: ghost_wrestler_rig__1_:L_Index2
+      position: {x: -0.010986989, y: -7.105427e-17, z: 1.7763568e-17}
+      rotation: {x: -0.9230715, y: -0.009642759, z: -0.023191415, w: -0.38380745}
+      scale: {x: 0.99999994, y: 1.0000005, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Index4
+      parentName: ghost_wrestler_rig__1_:L_Index3
+      position: {x: -0.011803418, y: -2.1316282e-16, z: -1.7763567e-16}
+      rotation: {x: -0, y: -0, z: 0.0000000018626449, w: 1}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Thumb1
+      parentName: ghost_wrestler_rig__1_:L_Palm
+      position: {x: 0.018231291, y: 0.0013215784, z: -0.008678973}
+      rotation: {x: 0.041450962, y: -0.78018594, z: 0.051315647, w: 0.6220598}
+      scale: {x: 0.99999946, y: 1.0000002, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thumb2
+      parentName: ghost_wrestler_rig__1_:L_Thumb1
+      position: {x: -0.013256271, y: -2.842171e-16, z: 0}
+      rotation: {x: -0.051616985, y: 0.03374444, z: -0.0017450257, w: 0.99809515}
+      scale: {x: 1.0000005, y: 1.0000006, z: 1.0000002}
+    - name: ghost_wrestler_rig__1_:L_Thumb3
+      parentName: ghost_wrestler_rig__1_:L_Thumb2
+      position: {x: -0.015639728, y: 0, z: 1.7763567e-16}
+      rotation: {x: 0.014415224, y: 0.03582854, z: 0.0005166591, w: 0.99925387}
+      scale: {x: 1.0000007, y: 0.9999998, z: 1.0000001}
+    - name: ghost_wrestler_rig__1_:L_Thumb4
+      parentName: ghost_wrestler_rig__1_:L_Thumb3
+      position: {x: -0.013843231, y: -1.4210854e-16, z: -3.5527136e-17}
+      rotation: {x: -0, y: -0, z: -2.3283062e-10, w: 1}
+      scale: {x: 1, y: 0.9999998, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Shoulder
+      parentName: ghost_wrestler_rig__1_:Breast_Int
+      position: {x: -0.014405206, y: 0, z: 0.032910753}
+      rotation: {x: 0.5860899, y: 0.000000050008502, z: 0.81024605, w: -0.00000005260591}
+      scale: {x: 1.0000011, y: 1.000001, z: 1.0000012}
+    - name: ghost_wrestler_rig__1_:R_Bicep
+      parentName: ghost_wrestler_rig__1_:R_Shoulder
+      position: {x: 0.035493568, y: 1.7641579e-18, z: 0.00000015204589}
+      rotation: {x: -0.00000007535161, y: -0.20198818, z: -0.00000004263306, w: 0.979388}
+      scale: {x: 0.999999, y: 0.99999946, z: 1.0000015}
+    - name: ghost_wrestler_rig__1_:R_Forearm
+      parentName: ghost_wrestler_rig__1_:R_Bicep
+      position: {x: 0.12213599, y: -1.1953805e-18, z: -0.00000060889266}
+      rotation: {x: -0.000000028442862, y: 0.0009347347, z: 0.000000055043916, w: 0.9999996}
+      scale: {x: 0.9999998, y: 1.0000006, z: 1.0000004}
+    - name: ghost_wrestler_rig__1_:R_Wrist
+      parentName: ghost_wrestler_rig__1_:R_Forearm
+      position: {x: 0.099999405, y: -9.559602e-19, z: -0.0000000038985757}
+      rotation: {x: 0.00000007992896, y: 0.019094033, z: -0.00000008812294, w: 0.9998177}
+      scale: {x: 1.0000001, y: 0.9999998, z: 0.9999996}
+    - name: ghost_wrestler_rig__1_:R_Palm
+      parentName: ghost_wrestler_rig__1_:R_Wrist
+      position: {x: 0.021308793, y: -1.0429486e-19, z: 0.0000005754934}
+      rotation: {x: -0.6470027, y: 0.26371437, z: -0.25529912, w: 0.66832966}
+      scale: {x: 1.0000001, y: 1, z: 1.0000002}
+    - name: ghost_wrestler_rig__1_:R_Pinkie1
+      parentName: ghost_wrestler_rig__1_:R_Palm
+      position: {x: 0.022716781, y: -0.000000029523866, z: -0.00000066494744}
+      rotation: {x: -0.015109438, y: -0.34398624, z: -0.012252181, w: 0.9387732}
+      scale: {x: 1.0000004, y: 0.99999994, z: 0.99999946}
+    - name: ghost_wrestler_rig__1_:R_Pinkie2
+      parentName: ghost_wrestler_rig__1_:R_Pinkie1
+      position: {x: 0.009726569, y: 7.105427e-17, z: -0.000000013388822}
+      rotation: {x: 0.99984866, y: -0.00000013504174, z: 0.017402144, w: 0.00000012968664}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:R_Pinkie3
+      parentName: ghost_wrestler_rig__1_:R_Pinkie2
+      position: {x: 0.009777758, y: 1.3500312e-15, z: -0.000000092125596}
+      rotation: {x: -0.99998826, y: 0.000000129131, z: 0.004854693, w: 0.00000006367963}
+      scale: {x: 1.0000002, y: 0.9999997, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:R_Pinkie4
+      parentName: ghost_wrestler_rig__1_:R_Pinkie3
+      position: {x: 0.010421341, y: -1.5105428e-12, z: 0.000000067689975}
+      rotation: {x: -0.0000000060010996, y: -0.000000029802312, z: -0.000000018497474, w: 1}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Ring1
+      parentName: ghost_wrestler_rig__1_:R_Palm
+      position: {x: 0.018189928, y: 0.00044923436, z: 0.010117821}
+      rotation: {x: -0.020637268, y: -0.36672753, z: 0.008137452, w: 0.9300639}
+      scale: {x: 1.0000005, y: 0.99999994, z: 0.9999996}
+    - name: ghost_wrestler_rig__1_:R_Ring2
+      parentName: ghost_wrestler_rig__1_:R_Ring1
+      position: {x: 0.012913999, y: 1.4210854e-16, z: 1.5876189e-16}
+      rotation: {x: 0.70710665, y: 0.000000029802315, z: -0.000000052154054, w: 0.7071069}
+      scale: {x: 1.0000002, y: 1.0000004, z: 1.0000004}
+    - name: ghost_wrestler_rig__1_:R_Ring3
+      parentName: ghost_wrestler_rig__1_:R_Ring2
+      position: {x: 0.009984, y: 1.2656542e-16, z: 0}
+      rotation: {x: 0.707089, y: 0.0050146664, z: 0.0050146356, w: 0.707089}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000007}
+    - name: ghost_wrestler_rig__1_:R_Ring4
+      parentName: ghost_wrestler_rig__1_:R_Ring3
+      position: {x: 0.015303539, y: 0, z: 0.0000000096444195}
+      rotation: {x: -0, y: -0.000000060768784, z: 0.000000033294775, w: 1}
+      scale: {x: 1.0000004, y: 1, z: 1.0000004}
+    - name: ghost_wrestler_rig__1_:R_Middle1
+      parentName: ghost_wrestler_rig__1_:R_Palm
+      position: {x: 0.008974275, y: -0.0019290362, z: 0.013794165}
+      rotation: {x: 0.40545374, y: -0.39774066, z: 0.19357134, w: 0.7999624}
+      scale: {x: 1.0000007, y: 0.9999997, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:R_Middle2
+      parentName: ghost_wrestler_rig__1_:R_Middle1
+      position: {x: 0.012858903, y: 0.00000015122954, z: -0.00000029214107}
+      rotation: {x: 0.2128682, y: 0.020643527, z: 0.0044985404, w: 0.9768525}
+      scale: {x: 1.0000001, y: 1.0000004, z: 1.0000006}
+    - name: ghost_wrestler_rig__1_:R_Middle3
+      parentName: ghost_wrestler_rig__1_:R_Middle2
+      position: {x: 0.012851708, y: 0.00000011078471, z: -0.00000012932406}
+      rotation: {x: 0.4773814, y: -0.036033407, z: -0.019599427, w: 0.8777383}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1.0000006}
+    - name: ghost_wrestler_rig__1_:R_Middle4
+      parentName: ghost_wrestler_rig__1_:R_Middle3
+      position: {x: 0.019543936, y: 0.0000000385675, z: 0.00000009070517}
+      rotation: {x: 0.0000002384185, y: -0.00000009685751, z: 0.000000033527602, w: 1}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1.0000005}
+    - name: ghost_wrestler_rig__1_:R_Index1
+      parentName: ghost_wrestler_rig__1_:R_Palm
+      position: {x: -0.0016610293, y: -0.0014409353, z: 0.015927345}
+      rotation: {x: 0.089797296, y: -0.48419365, z: 0.03474955, w: 0.8696468}
+      scale: {x: 1, y: 0.9999997, z: 0.9999996}
+    - name: ghost_wrestler_rig__1_:R_Index2
+      parentName: ghost_wrestler_rig__1_:R_Index1
+      position: {x: 0.016597223, y: -0.00000012759453, z: -0.00000003489854}
+      rotation: {x: -0.06295015, y: 0.041590232, z: -0.002625692, w: 0.99714625}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000002}
+    - name: ghost_wrestler_rig__1_:R_Index3
+      parentName: ghost_wrestler_rig__1_:R_Index2
+      position: {x: 0.010986848, y: -0.00000020232453, z: 0.00000010079232}
+      rotation: {x: 0.9230715, y: 0.009642703, z: 0.02319127, w: 0.3838074}
+      scale: {x: 1.0000005, y: 1.0000005, z: 1.0000011}
+    - name: ghost_wrestler_rig__1_:R_Index4
+      parentName: ghost_wrestler_rig__1_:R_Index3
+      position: {x: 0.011803352, y: 0.00000026325824, z: 0.00000031704184}
+      rotation: {x: -0, y: -2.3283062e-10, z: -9.3132246e-10, w: 1}
+      scale: {x: 1.0000002, y: 1.0000001, z: 1.0000004}
+    - name: ghost_wrestler_rig__1_:R_Thumb1
+      parentName: ghost_wrestler_rig__1_:R_Palm
+      position: {x: -0.018231658, y: -0.0013213442, z: 0.008678668}
+      rotation: {x: 0.04144777, y: -0.78018355, z: 0.05132209, w: 0.6220625}
+      scale: {x: 0.99999934, y: 1, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:R_Thumb2
+      parentName: ghost_wrestler_rig__1_:R_Thumb1
+      position: {x: 0.013256226, y: -0.00000040397723, z: 0.00000012596998}
+      rotation: {x: -0.05161758, y: 0.033735707, z: -0.0017682902, w: 0.9980954}
+      scale: {x: 1.0000001, y: 1.0000001, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:R_Thumb3
+      parentName: ghost_wrestler_rig__1_:R_Thumb2
+      position: {x: 0.015639564, y: 0.00000037547838, z: 0.00000012177324}
+      rotation: {x: 0.014419322, y: 0.035822805, z: 0.00051256083, w: 0.999254}
+      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+    - name: ghost_wrestler_rig__1_:R_Thumb4
+      parentName: ghost_wrestler_rig__1_:R_Thumb3
+      position: {x: 0.013843397, y: 0.0000004783699, z: -0.00000014338177}
+      rotation: {x: 0.00000005494801, y: -0, z: -0.000000023283055, w: 1}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: ghost_wrestler_rig__1_:L_Thigh
+      parentName: ghost_wrestler_rig__1_:Hips_jnt
+      position: {x: 0.00095742784, y: 0, z: -0.04518027}
+      rotation: {x: -0.0035559605, y: -0.9968703, z: -0.0003576867, w: 0.0789748}
+      scale: {x: 1.000001, y: 1.0000004, z: 1.000001}
+    - name: ghost_wrestler_rig__1_:L_Shin
+      parentName: ghost_wrestler_rig__1_:L_Thigh
+      position: {x: -0.14999999, y: -1.8401946e-16, z: -2.1316282e-16}
+      rotation: {x: 0.7068408, y: 0.016286006, z: 0.02134025, w: -0.7068631}
+      scale: {x: 1.0000007, y: 1.0000004, z: 1.0000011}
+    - name: ghost_wrestler_rig__1_:L_Achilles
+      parentName: ghost_wrestler_rig__1_:L_Shin
+      position: {x: -0.11649999, y: 7.4606985e-16, z: -1.4432899e-17}
+      rotation: {x: -0.0005060731, y: 0.009334269, z: -0.054141592, w: 0.9984895}
+      scale: {x: 1.0000004, y: 0.99999994, z: 1.0000005}
+    - name: ghost_wrestler_rig__1_:L_Sole
+      parentName: ghost_wrestler_rig__1_:L_Achilles
+      position: {x: -0.034679312, y: 1.5987211e-16, z: 1.5688838e-16}
+      rotation: {x: 0.6998797, y: 0.0000000593136, z: 0.7142609, w: 0.00000003832974}
+      scale: {x: 0.9999992, y: 0.99999946, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:L_Toes
+      parentName: ghost_wrestler_rig__1_:L_Sole
+      position: {x: -0.09248187, y: 0, z: 3.1641356e-17}
+      rotation: {x: 3.5527124e-15, y: -0, z: -3.5527124e-15, w: 1}
+      scale: {x: 1.0000001, y: 0.9999998, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:R_Thigh
+      parentName: ghost_wrestler_rig__1_:Hips_jnt
+      position: {x: 0.0018467341, y: 0, z: 0.04515269}
+      rotation: {x: 0.99759895, y: -0.0035521444, z: 0.06916297, w: 0.0003926137}
+      scale: {x: 1.0000004, y: 1.0000001, z: 1.0000006}
+    - name: ghost_wrestler_rig__1_:R_Shin
+      parentName: ghost_wrestler_rig__1_:R_Thigh
+      position: {x: 0.14999968, y: 0.0000000060663075, z: 0}
+      rotation: {x: -0.70684075, y: -0.01628606, z: -0.021340165, w: 0.7068632}
+      scale: {x: 1.0000007, y: 1, z: 0.99999994}
+    - name: ghost_wrestler_rig__1_:R_Achilles
+      parentName: ghost_wrestler_rig__1_:R_Shin
+      position: {x: 0.11649981, y: 0.000000055197333, z: 0}
+      rotation: {x: -0.00050619233, y: 0.009334198, z: -0.05414168, w: 0.9984895}
+      scale: {x: 1.0000002, y: 1.0000005, z: 0.9999998}
+    - name: ghost_wrestler_rig__1_:R_Sole
+      parentName: ghost_wrestler_rig__1_:R_Achilles
+      position: {x: 0.034679323, y: 0.0000000068363657, z: 0.0000000010507293}
+      rotation: {x: 0.6998797, y: 0.00000009627546, z: 0.71426076, w: -0.00000017453566}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: ghost_wrestler_rig__1_:R_Toes
+      parentName: ghost_wrestler_rig__1_:R_Sole
+      position: {x: 0.09248188, y: 0.000000018265382, z: 6.185278e-10}
+      rotation: {x: -0, y: -0, z: -7.1054265e-15, w: 1}
+      scale: {x: 1.0000004, y: 1.0000007, z: 1.0000006}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -99,13 +1043,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
