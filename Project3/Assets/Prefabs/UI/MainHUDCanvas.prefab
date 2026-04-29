@@ -661,6 +661,7 @@ GameObject:
   - component: {fileID: 8794194007937065432}
   - component: {fileID: 3175567735082858662}
   - component: {fileID: 1397358056899210102}
+  - component: {fileID: 1471534228330880266}
   m_Layer: 5
   m_Name: MainHUDCanvas
   m_TagString: Untagged
@@ -821,6 +822,22 @@ MonoBehaviour:
   _LoadingScreenContainer: {fileID: 3221962237340599148}
   _LoadingBar: {fileID: 2809738573347616875}
   _inGameMenuManager: {fileID: 3175567735082858662}
+--- !u!114 &1471534228330880266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2363168311468643827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 455aa8098eaab0a4c9e0b4fe35af7f22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipPlayerManager
+  isPlaying: 0
+  tooltipVideoPlayer: {fileID: 1501427178852436335}
+  tooltipPanel: {fileID: 5277962749510133137}
+  tooltipText: {fileID: 433701601503083520}
 --- !u!1 &2446833740438422618
 GameObject:
   m_ObjectHideFlags: 0

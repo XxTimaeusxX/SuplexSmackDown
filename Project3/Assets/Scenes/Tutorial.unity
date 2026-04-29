@@ -6453,6 +6453,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5018433338472157327, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6494104471031518904, guid: d34b5c029d2bff5418b09cab81b9647e, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -25816,6 +25820,10 @@ PrefabInstance:
       propertyPath: tooltipVideoPlayer
       value: 
       objectReference: {fileID: 373850588}
+    - target: {fileID: 4348300199299242351, guid: 50a26bfd9faf6e642ba28ceb493a5115, type: 3}
+      propertyPath: tooltipPlayerManager
+      value: 
+      objectReference: {fileID: 1433429528}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35418,6 +35426,10 @@ PrefabInstance:
       propertyPath: tooltipVideoPlayer
       value: 
       objectReference: {fileID: 373850588}
+    - target: {fileID: 4348300199299242351, guid: 50a26bfd9faf6e642ba28ceb493a5115, type: 3}
+      propertyPath: tooltipPlayerManager
+      value: 
+      objectReference: {fileID: 1433429528}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36695,6 +36707,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c07074c1c363334ebc4af44efe5fd6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InGameMenuManager
+--- !u!114 &1433429528 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1471534228330880266, guid: 15bfeada4b66f354697da198f3ceef43, type: 3}
+  m_PrefabInstance: {fileID: 373850587}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 455aa8098eaab0a4c9e0b4fe35af7f22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TooltipPlayerManager
 --- !u!1001 &1434175317
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43831,6 +43854,10 @@ PrefabInstance:
       propertyPath: tooltipVideoPlayer
       value: 
       objectReference: {fileID: 373850588}
+    - target: {fileID: 4348300199299242351, guid: 50a26bfd9faf6e642ba28ceb493a5115, type: 3}
+      propertyPath: tooltipPlayerManager
+      value: 
+      objectReference: {fileID: 1433429528}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
