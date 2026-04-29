@@ -370,7 +370,7 @@ public class RhockyAbilities : MonoBehaviour
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HEEL TAUNT State Active - Charging Rage...");
-        _rockyAnimations.ChangeAnimation("HeelTaunt");
+     //  _rockyAnimations.ChangeAnimation("HeelTaunt");
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
