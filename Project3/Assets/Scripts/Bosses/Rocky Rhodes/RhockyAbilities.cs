@@ -178,7 +178,7 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-        
+        _rockyAnimations.ChangeAnimation("BullRushCharge");
         // Skip all QTE logic if part of an un-interruptible flurry
         if (!isFlurryActive)
         {
@@ -225,7 +225,7 @@ public class RhockyAbilities : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-
+        _rockyAnimations.ChangeAnimation("RockyRun");
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
         
         // ONLY consume the rage buff if we are NOT in the endless flurry!
@@ -247,7 +247,7 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator Haymaker()
     {
-        _rockyAnimations.ChangeAnimation("RockyPunchChargeUp_demo");
+     //   _rockyAnimations.ChangeAnimation("RockyPunchChargeUp_demo");
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HAYMAKER State Active");
         
@@ -370,7 +370,7 @@ public class RhockyAbilities : MonoBehaviour
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HEEL TAUNT State Active - Charging Rage...");
-
+        _rockyAnimations.ChangeAnimation("HeelTaunt");
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
