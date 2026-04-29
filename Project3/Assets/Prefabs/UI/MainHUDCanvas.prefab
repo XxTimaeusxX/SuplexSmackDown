@@ -682,6 +682,7 @@ RectTransform:
   m_Children:
   - {fileID: 1790221267082865632}
   - {fileID: 6488853804312028564}
+  - {fileID: 7394855099531457420}
   - {fileID: 6875273033808946374}
   - {fileID: 174694044030998692}
   - {fileID: 704608638847405990}
@@ -788,6 +789,7 @@ MonoBehaviour:
   _WinMenuContainer: {fileID: 7715200445471664910}
   _GameOverMenuContainer: {fileID: 6797969450474589284}
   _CheatsMenu: {fileID: 3514009320693727440}
+  _CutscenePanel: {fileID: 3937564686683963768}
   _PauseButtonContainer: {fileID: 2001055966637294659}
   _DefaultPauseButton: {fileID: 3287345754740326370}
   _DefaultHowToPlayButton: {fileID: 5424453482119522981}
@@ -795,6 +797,7 @@ MonoBehaviour:
   _DefaultWinButton: {fileID: 259116187070133012}
   _DefaultGameOverButton: {fileID: 392918544635764176}
   _DefaultCheatsButton: {fileID: 1304329817845810226}
+  _DefaultCutsceneButton: {fileID: 8750035744609022973}
   _HealthUI: {fileID: 1571871321709041239}
   star1: {fileID: 7893789051564091637}
   star2: {fileID: 2549506633292747590}
@@ -1975,7 +1978,7 @@ PrefabInstance:
       objectReference: {fileID: 3175567735082858662}
     - target: {fileID: 3439318590627346865, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Stage3ButtonClicked
+      value: StartCutscene
       objectReference: {fileID: 0}
     - target: {fileID: 3439318590627346865, guid: 1211559df0294b042b4dc75ea6485471, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2389,6 +2392,90 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!1001 &1796062666480202321
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 3771150842428723647}
+    m_Modifications:
+    - target: {fileID: 304338075369786288, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Delegates.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 304338075369786288, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 304338075369786288, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3175567735082858662}
+    - target: {fileID: 304338075369786288, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3175567735082858662}
+    - target: {fileID: 304338075369786288, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InGameMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 304338075369786288, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InGameMenuManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 304338075369786288, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 8750035744609022973}
+    - target: {fileID: 3335460069013664553, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_Name
+      value: CutscenePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3335460069013664553, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111671491500065245, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111671491500065245, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111671491500065245, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111671491500065245, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9111671491500065245, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+--- !u!1 &3937564686683963768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3335460069013664553, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+  m_PrefabInstance: {fileID: 1796062666480202321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &7394855099531457420 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 9111671491500065245, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+  m_PrefabInstance: {fileID: 1796062666480202321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8750035744609022973 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7026383276247908780, guid: c7c21a81e3c1f1c45b5ef930a7f810bc, type: 3}
+  m_PrefabInstance: {fileID: 1796062666480202321}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2909715248347847897
 PrefabInstance:
   m_ObjectHideFlags: 0
