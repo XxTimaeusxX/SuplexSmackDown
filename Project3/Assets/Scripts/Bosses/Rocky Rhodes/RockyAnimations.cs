@@ -47,7 +47,7 @@ public class RockyAnimations : MonoBehaviour
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.CannonBall)
         {
         //    Debug.Log("Changing to Cannonball animation");
-            ChangeAnimation("CannonBallLaunch");
+         //   ChangeAnimation("CannonBallLaunch");
             return;
         }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Chestbump)

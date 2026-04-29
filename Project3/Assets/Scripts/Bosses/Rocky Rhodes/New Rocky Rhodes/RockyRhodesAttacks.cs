@@ -6,6 +6,7 @@ using UnityEngine;
 public class RockyRhodesAttacks : MonoBehaviour
 {
     RockyRhodesManager manager;
+    [SerializeField] RockyAnimations _rockyAnimations;
     public Transform chosenPoint;
     public bool collided;
     RhockyAbilities abilities;
@@ -20,6 +21,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         manager = GetComponent<RockyRhodesManager>();
         abilities = GetComponent<RhockyAbilities>();
+        if(_rockyAnimations == null) _rockyAnimations = GetComponent<RockyAnimations>();
     }
 
     #region Rope Rush
@@ -120,6 +122,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         if (manager.cannonball && manager.canPerformAction && !manager.grabbed)
         {
+            
             gameObject.tag = "Rocky Rhodes";
             Jump();
             if (canChooseRandom)
@@ -131,6 +134,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void Jump()
     {
+        _rockyAnimations.ChangeAnimation("CannonBallLaunch");
         manager.agent.enabled = false;
         manager.rb.linearVelocity = new Vector2(manager.rb.linearVelocity.x, manager.jumpForce);
         StartCoroutine(JumpTime(manager.jumpTime));

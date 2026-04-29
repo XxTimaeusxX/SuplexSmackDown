@@ -274,7 +274,7 @@ public class RhockyAbilities : MonoBehaviour
             // Ignore grab/push statuses if flurry is active
             if (isFlurryActive || (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed))
             {
-                _rockyAnimations.ChangeAnimation("HayMaker_demo");
+                _rockyAnimations.ChangeAnimation("RockyPunch");
                 _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
                 _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
