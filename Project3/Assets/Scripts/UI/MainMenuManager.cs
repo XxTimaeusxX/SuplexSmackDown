@@ -22,6 +22,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject _CreditsBackButton;
     [SerializeField] GameObject _TutorialPanel;
     [SerializeField] GameObject _TutorialYesButton;
+    [SerializeField] GameObject _CutscenePanel;
+    [SerializeField] GameObject _CutsceneContinueButton;
     [SerializeField] LoadingScreenManager _loadingScreenManager;
     [SerializeField] Volume SkyVolume;
 	
@@ -63,12 +65,19 @@ public class MainMenuManager : MonoBehaviour
         _loadingScreenManager.StartLoadingScene(_TutorialSceneInt);
 	}
 	
-	public void StartGameNoTutorial(){
+	public void StartGameNoTutorial(){        
+		//hide tutorial panel and main menu panel and show cutscene menu panel
+		if(_CutscenePanel) _CutscenePanel.SetActive(true);
+		if(_MainMenuButtonContainer) _MainMenuButtonContainer.SetActive(false);
+		EventSystem.current.SetSelectedGameObject(_CutsceneContinueButton);
+	}
+	
+	public void CutsceneContinueButtonClicked(){
 		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 	//	AudioManager.PlayConstructionBGM();// Play construction music (clip assigned on AudioManager)
 		StarTracker.ResetStars();
-        _loadingScreenManager.StartLoadingScene(_Level1SceneInt);
+		_loadingScreenManager.StartLoadingScene(_Level1SceneInt);
 	}
 	
 	public void HowToPlayButtonClicked(){
@@ -98,6 +107,20 @@ public class MainMenuManager : MonoBehaviour
 		EventSystem.current.SetSelectedGameObject(_DefaultPlayButton);
 	}
 	
+	//play menu sounds, called in On Click () and Event Trigger (Select) in the inspector
+	public void PlaySelectSound(){
+		AudioManager.PlayMenuNavigateSelect();
+	}
+	
+	public void PlayBackSound(){
+		AudioManager.PlayMenuNavigateBack();
+	}
+	
+	public void PlayNavigateSound(){
+		AudioManager.PlayMenuNavigate();
+	}
+	
+	//gamma updates
 	void ColorInit(){
 		if(_MainMenuCanvas){
 			menuImg = _MainMenuCanvas.GetComponentsInChildren<Image>(true);

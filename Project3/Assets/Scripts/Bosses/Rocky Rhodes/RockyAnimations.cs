@@ -41,19 +41,19 @@ public class RockyAnimations : MonoBehaviour
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.BullRush)
         {
         //    Debug.Log("Changing to Bullrush animation");
-            ChangeAnimation("BullRush_demo");
+          //  ChangeAnimation("BullRush_demo");
             return;
         }
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.CannonBall)
         {
         //    Debug.Log("Changing to Cannonball animation");
-            ChangeAnimation("Cannonball_demo");
+            ChangeAnimation("CannonBallLaunch");
             return;
         }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Chestbump)
         {
          //   Debug.Log("Changing to Chestbump animation");
-            ChangeAnimation("Chestbump_demo");
+        //    ChangeAnimation("Chestbump_demo");
             return;
         }
         /*    if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Haymaker)
@@ -65,12 +65,12 @@ public class RockyAnimations : MonoBehaviour
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Exhausted)
         {
          //   Debug.Log("Changing to Exhausted animation");
-            ChangeAnimation("Exhausted_demo");
+          //  ChangeAnimation("Exhausted_demo");
             return;
         }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Idle)
         {
-            ChangeAnimation("Rocky_idle");
+            ChangeAnimation("RockyIdle");
             return;
         }
     }

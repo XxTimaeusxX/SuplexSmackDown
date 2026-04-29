@@ -119,6 +119,7 @@ public class RhockyAbilities : MonoBehaviour
                 break;
             case RockyRhodesStates.RopeRush:
                 manager.ropeRush = true;
+                _currentStateCoroutine = StartCoroutine(RopeRush());
                 break;
             case RockyRhodesStates.EnhancedRopeRush:
                 manager.enhancedRopeRush = true;
@@ -156,11 +157,12 @@ public class RhockyAbilities : MonoBehaviour
     // --------------------------------------- Main  abilities ------------------------------------//
     public IEnumerator AbilityChoose()
     {
+        if(IsPerformingAbility) yield break;
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         if (manager.arena2) { Debug.Log("Arena 2 Active - Skipping regular random abilities."); yield break; }
         Debug.Log("Regular State Active");
         yield return new WaitForSeconds(1f);
-
+        if(IsPerformingAbility) yield break;
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         int randomIndex = Random.Range(0, _randomSelection.Count);
         //   CurrentRockyState = _randomSelection[randomIndex];
@@ -176,7 +178,7 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-        
+        _rockyAnimations.ChangeAnimation("BullRushCharge");
         // Skip all QTE logic if part of an un-interruptible flurry
         if (!isFlurryActive)
         {
@@ -223,7 +225,7 @@ public class RhockyAbilities : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-
+        _rockyAnimations.ChangeAnimation("RockyRun");
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
         
         // ONLY consume the rage buff if we are NOT in the endless flurry!
@@ -245,7 +247,7 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator Haymaker()
     {
-        _rockyAnimations.ChangeAnimation("RockyPunchChargeUp_demo");
+     //   _rockyAnimations.ChangeAnimation("RockyPunchChargeUp_demo");
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HAYMAKER State Active");
         
@@ -368,7 +370,7 @@ public class RhockyAbilities : MonoBehaviour
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HEEL TAUNT State Active - Charging Rage...");
-
+        _rockyAnimations.ChangeAnimation("HeelTaunt");
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
@@ -389,7 +391,25 @@ public class RhockyAbilities : MonoBehaviour
     // --------------------------------------- Arena 1 abilities ------------------------------------//
     public IEnumerator RopeRush()
     {
-        yield return new WaitForSeconds(AbilityCooldown);
+        if(IsPerformingAbility) yield break;
+        Debug.Log("ROPERUSH State Active");
+        IsPerformingAbility = true;
+        _rockyRhodes.ToggleBehaviors(false);
+        while (manager.numberOfRopeRusheCharges > 0)
+        {
+            attacks.StartRopeRush();
+            yield return new WaitUntil(() => attacks.IsropeRushActive);
+            yield return new WaitUntil(() => !attacks.IsropeRushActive);
+            manager.numberOfRopeRusheCharges--;
+            yield return new WaitForSeconds(0.5f);
+        }
+        if (manager.numberOfRopeRusheCharges <= 0) attacks.StartCoroutine(attacks.RestRopeRush(4f));
+        IsPerformingAbility = false;
+        manager.ropeRush = false;
+        _rockyRhodes.ToggleBehaviors(true);
+        
+        yield return new WaitForSeconds(1f);
+        CheckState(RockyRhodesStates.Idle);
     }
     // --------------------------------------- Arena 2 abilities ------------------------------------//
   /*  public IEnumerator CannonBall()

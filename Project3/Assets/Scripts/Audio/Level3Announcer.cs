@@ -2,23 +2,33 @@ using UnityEngine;
 
 public class Level3Announcer : MonoBehaviour
 {
-    public GameObject Trigger1;
-    public GameObject Trigger2;
-
-    private bool hasPlayedIntercom1 = false;
-    private bool hasPlayedIntercom2 = false;
-
-    void OnCollisionEnter(Collision collision)
+    public enum AnnouncerType
     {
-        if (collision.gameObject == Trigger1 && !hasPlayedIntercom1)
+        Stage2,
+        Stage3
+      
+    }
+
+    public AnnouncerType announcerType;
+    private bool hasPlayed = false;
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (hasPlayed)
+            return;
+
+        if (other.CompareTag("Player"))
         {
-            AudioManager.PlayAnnouncerTransferToStage2();
-            hasPlayedIntercom1 = true;
-        }
-        if (collision.gameObject == Trigger2 && !hasPlayedIntercom2)
-        {
-            AudioManager.PlayAnnouncerTransferToStage3();
-            hasPlayedIntercom2 = true;
+            switch (announcerType)
+            {
+                case AnnouncerType.Stage2:
+                    AudioManager.PlayAnnouncerTransferToStage2();
+                    break;
+                case AnnouncerType.Stage3:
+                    AudioManager.PlayAnnouncerTransferToStage3();
+                    break;
+            }
+            hasPlayed = true;
         }
     }
 }

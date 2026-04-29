@@ -72,6 +72,11 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Health Packs SFX")]
     public AudioClip defaultHealthPackClip;
     public AudioClip drinkHealthPackClip;
+	
+    [Header("Menu SFX")]
+    public AudioClip menuNavigateClip;
+    public AudioClip menuNavigateBackClip;
+    public AudioClip menuNavigateSelectionClip;
 
     [Header("    --------------------------- LEVEL 1 -----------------------------     ")]
     [Header("Enemy SFX")]
@@ -186,10 +191,35 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip MariGoldBounceClip;
 
     [Header("    --------------------------- LEVEL 3 -----------------------------     ")]
+
+    [Header("Announcer SFX")]
+    public AudioClip AnnouncerScene1Phrase1;
+    public AudioClip AnnouncerScene1Phrase2;
+    public AudioClip AnnouncerScene2Phrase1;
+    public AudioClip AnnouncerScene2Phrase2;
+    public AudioClip AnnouncerScene3Phrase1;
+    public AudioClip AnnouncerScene3Phrase2;
     public AudioClip AnnouncerTransferToStage2;
     public AudioClip AnnouncerTransferToStage3;
     public AudioClip AnnouncerBossHalf;
     public AudioClip AnnouncerBossDefeated;
+    [Header("RockyRhodes SFX")]
+    public AudioClip RockyRhodesHurt;
+    public AudioClip RockyRhodesDie;
+    public AudioClip BullrushPhrase1;
+    public AudioClip BullrushPhrase2;
+    public AudioClip HaymakerPhrase;
+    public AudioClip ChestBumpPhrase1;
+    public AudioClip ChestBumpPhrase2;
+    public AudioClip HeelTauntPhrase1;
+    //-- arena 2 sfx --
+    public AudioClip CannonballPhrase1;
+    public AudioClip CannonballPhrase2;
+    // -- arena 3 sfx --
+    public AudioClip DesperationFlurryPhrase1;
+    public AudioClip DesperationFlurryPhrase2;
+    public AudioClip DesperationFlurryPhrase3;
+    public AudioClip DesperationFlurryPhrase4;
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -357,6 +387,11 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayHealthPack() =>PlayNarration(Instance?.defaultHealthPackClip, 1f); // Uses narration system for important pickup lines
     public static void PlayDrinkHealthPack() => PlayNarration(Instance?.drinkHealthPackClip, 1f); // Uses narration system for important pickup lines
 
+	// menu SFX
+    public static void PlayMenuNavigate() => PlaySFX(Instance?.menuNavigateClip, 1f);
+    public static void PlayMenuNavigateBack() => PlaySFX(Instance?.menuNavigateBackClip, 1f);
+    public static void PlayMenuNavigateSelect() => PlaySFX(Instance?.menuNavigateSelectionClip, 1f);
+	
     // player SFX
     public static void PlayFootstep() => PlaySFX(Instance?.footstepClip, 1f);
     public static void PlayJumping() => PlaySFX(Instance?.jumpingClip, 1f);
@@ -463,6 +498,18 @@ public sealed class AudioManager : MonoBehaviour
     // GhostDancer SFX
     public static void PlayDancerAttack() => PlaySFX(Instance?.DancerAttack, 1f);
     public static void PlayDancerAttack2() => PlaySFX(Instance?.DancerAttack2, 1f);
+    //Ghost Boss
+    public static void PlayWrestle1() => PlaySFX(Instance?.wrestle1, 1f);
+    public static void PlayWrestle2() => PlaySFX(Instance?.wrestle2, 1f);
+    public static void PlayWrestle3() => PlaySFX(Instance?.wrestle3, 1f);
+    public static void PlayFrozen() => PlaySFX(Instance?.frozen, 1f);
+    public static void PlaySlam() => PlaySFX(Instance?.slam, 1f);
+    public static void PlayHurt1() => PlaySFX(Instance?.hurt1, 1f);
+    public static void PlayHurt2() => PlaySFX(Instance?.hurt2, 1f);
+    public static void PlayHurt3() => PlaySFX(Instance?.hurt3, 1f);
+    public static void PlayMoveArena() => PlaySFX(Instance?.moveArena, 1f);
+    public static void PlayPhase() => PlaySFX(Instance?.phase, 1f);
+    public static void PlayWeakSignal() => PlaySFX(Instance?.weakSignal, 1f);
 
     //-------------------------------------------- LEVEL 3------------------------------------------//
     public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);

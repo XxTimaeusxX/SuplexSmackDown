@@ -45,6 +45,7 @@ public class RockyRhodes : EnemyBase
     [SerializeField] private InGameMenuManager inGameMenuManager;
     [SerializeField] RhockyHealth rhockyHealth;
     public bool abilitiesEnabled = false; // when true the state machine runs
+    public override bool AutoKinematic => false;
     private RhockyAbilities _abilities;
 
     [Header("Visual References")]
@@ -147,7 +148,7 @@ public class RockyRhodes : EnemyBase
 
         // Disable NavMesh
         agent.enabled = IsEnabled;
-        rb.isKinematic = IsEnabled;
+       // rb.isKinematic = IsEnabled;
      //   rb.useGravity = IsEnabled;
     }
 

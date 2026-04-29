@@ -21,7 +21,6 @@ public class TravelToLocation : MonoBehaviour
     public Level2BossManager boss;
     public Rigidbody rb;
     public AudioManager audioManager;
-    AudioSource audioSource;
     NewEnemyRespawn respawn;
 
     [Header("Movement Locations")]
@@ -33,7 +32,6 @@ public class TravelToLocation : MonoBehaviour
     private void Awake()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
-        audioSource = GetComponent<AudioSource>();
         respawn = GetComponent<NewEnemyRespawn>();
     }
 
@@ -73,13 +71,13 @@ public class TravelToLocation : MonoBehaviour
         float step = travelSpeed * Time.deltaTime;
         if (currentFlowerIndex == 0)
         {
-            audioSource.PlayOneShot(audioManager.hurt1);
+            AudioManager.PlayHurt1();
         }
         if (currentFlowerIndex == 1)
         {
-            audioSource.PlayOneShot(audioManager.hurt2);
+            AudioManager.PlayHurt2();
         }
-        audioSource.PlayOneShot(audioManager.moveArena);
+        AudioManager.PlayMoveArena();
         transform.position = Vector3.MoveTowards(transform.position, waypoints[currentWaypointIndex].position, step);
         respawn.respawnPoint = waypoints[currentWaypointIndex].position;
         if (flowers != null)

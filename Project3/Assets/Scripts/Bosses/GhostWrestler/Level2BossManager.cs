@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 
 public class Level2BossManager : MonoBehaviour
@@ -66,7 +67,7 @@ public class Level2BossManager : MonoBehaviour
     public InGameMenuManager menuManager;
     public Cinema_final cinemaFinalScript;
     public AudioManager audioManager;
-    AudioSource audioSource;
+    Animator animator;
 
     [Header("Bools")]
     private bool alreadyAttacked;
@@ -88,11 +89,14 @@ public class Level2BossManager : MonoBehaviour
     public bool grabBoxGrab;
     private bool suplex;
     private bool attacking;
+    public bool stunnedAudio;
+
+    private string currentAnimation = "";
 
     private void Awake()
     {
         audioManager = FindAnyObjectByType<AudioManager>();
-        audioSource = GetComponent<AudioSource>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -146,6 +150,42 @@ public class Level2BossManager : MonoBehaviour
         {
             aura.SetActive(false);
         }
+        CheckAnimation();
+    }
+
+    private void CheckAnimation()
+    {
+        if (isDashing)
+        {
+            ChangeAnimation("Ghost_Wrestler_Shortgrab");
+            return;
+        }
+        if (!stunned && !jump && !isDashing)
+        {
+            ChangeAnimation("Ghost_Wrestler_walk");
+            return;
+        }
+        if (jump)
+        {
+            ChangeAnimation("Ghost_Wrestler_grandslam");
+            return;
+        }
+        if (stunned)
+        {
+            ChangeAnimation("Ghost_Wrestler_Struggle");
+            return;
+        }
+        ChangeAnimation("IDLE");
+    }
+
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (currentAnimation != animation)
+        {
+            currentAnimation = animation;
+            animator.CrossFade(animation, crossfade);
+
+        }
     }
 
     public void AttackBreak()
@@ -173,7 +213,7 @@ public class Level2BossManager : MonoBehaviour
             {
                 SearchWalkPoint();
             }
-            if (walkPointSet)
+            if (walkPointSet && isGrounded)
             {
                 agent.SetDestination(walkPoint);
             }
@@ -239,7 +279,7 @@ public class Level2BossManager : MonoBehaviour
     {
         if (finalArea && slow && !grabBoxGrab)
         {
-            audioSource.PlayOneShot(audioManager.phase);
+            AudioManager.PlayPhase();
             Debug.Log("Activate");
             grabBox.SetActive(true);
             agent.SetDestination(transform.position);
@@ -295,13 +335,11 @@ public class Level2BossManager : MonoBehaviour
     {
         if (stunned)
         {
-            audioSource.PlayOneShot(audioManager.frozen);
             agent.enabled = false;
-            stunnedTimer -= Time.deltaTime;
             body.tag = "Solid";
+            stunnedTimer -= Time.deltaTime;
             aura.SetActive(true);
-            TurnSolid();
-        }  
+        }
         if (!grabbed && !grabbedCooldown)
         {
             if (stunnedTimer <= 0)
@@ -311,8 +349,12 @@ public class Level2BossManager : MonoBehaviour
                 body.tag = "Boss";
                 stunnedTimer = maxStunnedTimer;
                 aura.SetActive(false);
-                TurnTransparent();
             }
+        }
+        if (stunnedAudio)
+        {
+            AudioManager.PlayFrozen();
+            stunnedAudio = false;
         }
     }
 
@@ -445,16 +487,6 @@ public class Level2BossManager : MonoBehaviour
         }
     }
 
-    public void TurnSolid()
-    {
-        objectRenderer.material = solidMaterial;
-    }
-
-    public void TurnTransparent()
-    {
-        objectRenderer.material = transparentMaterial;
-    }
-
     public void SuplexPlayer()
     {
         if (grabBoxGrab)
@@ -484,7 +516,7 @@ public class Level2BossManager : MonoBehaviour
                 grabBoxGrab = false;
                 suplexTimer = maxSuplexTimer;
                 Instantiate(shockwave, boss.position, boss.rotation, boss);
-                audioSource.PlayOneShot(audioManager.slam);
+                AudioManager.PlaySlam();
             }
         }
     }
@@ -495,13 +527,13 @@ public class Level2BossManager : MonoBehaviour
         switch (randomAudio)
         {
             case 0:
-                audioSource.PlayOneShot(audioManager.wrestle1);
+                AudioManager.PlayWrestle1();
                 break;
             case 1:
-                audioSource.PlayOneShot(audioManager.wrestle2);
+                AudioManager.PlayWrestle2();
                 break;
             case 2:
-                audioSource.PlayOneShot(audioManager.wrestle3);
+                AudioManager.PlayWrestle3();
                 break;
         }
         chargeAura.SetActive(true);
@@ -517,11 +549,11 @@ public class Level2BossManager : MonoBehaviour
             {
                 travel.moveToLocation = true;
                 bossHealthSlider.value -= 1;
-                if(bossHealthSlider.value == 2)
+                if (bossHealthSlider.value == 2)
                 {
                     cinemaFinalScript.triggerDefeatCam1 = true;
                 }
-                if(bossHealthSlider.value == 1)
+                if (bossHealthSlider.value == 1)
                 {
                     cinemaFinalScript.triggerDefeatCam2 = true;
                 }
@@ -535,9 +567,10 @@ public class Level2BossManager : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Flower"))
         {
-            if(isDashing)
+            if (isDashing)
             {
                 stunned = true;
+                stunnedAudio = true;
                 Debug.Log("Stunned");
             }
         }
