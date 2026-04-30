@@ -56,14 +56,6 @@ public class TravelToLocation : MonoBehaviour
         {
             Restart();
         }
-        if (transform.position.y < groundLevel)
-        {
-            moveToLocation = true;
-        }
-        if (groundTimer <= 0)
-        {
-            transform.position = waypoints[currentWaypointIndex].position;
-        }
     }
 
     private void MoveLocation()
