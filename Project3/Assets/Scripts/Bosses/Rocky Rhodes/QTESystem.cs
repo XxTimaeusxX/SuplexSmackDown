@@ -47,6 +47,7 @@ public class QTESystem : MonoBehaviour
     [SerializeField] RhockyAbilities RockyRhodesAbilities;
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private RockyAnimations rockyAnimations;
+    [SerializeField] private RockyVoiceManager RockyVoice;
 
     [Header("Player Ability References")]
     [SerializeField] PlayerSuplex playerSuplex;
@@ -75,6 +76,8 @@ public class QTESystem : MonoBehaviour
         if(PlayerHealth == null) PlayerHealth = GetComponent<PlayerHealth>();
      
         if (RhockyHealth== null) RhockyHealth = GetComponent<RhockyHealth>();
+        if(RockyRhodesScript == null) RockyRhodesScript = GetComponent<RockyRhodes>();
+        if(RockyVoice == null) RockyVoice = GetComponent<RockyVoiceManager>();
         _initialCountDownTimer = CountDownTimer; // Store the initial timer value
         foreach(string actionName in qteInputActions)
         {
@@ -262,6 +265,7 @@ public class QTESystem : MonoBehaviour
     private IEnumerator FailQTEAnimation()
     {
         RockyRhodesAbilities.CurrentRockyState = RockyRhodesStates.QTEFail;
+        RockyVoice.PlayQTEFail();
         Vector3 KnockBackDir = (playerMovement.transform.position - RockyRhodesScript.transform.position).normalized;
         KnockBackDir.y = 0f;
         float knockBackForce = 15f;

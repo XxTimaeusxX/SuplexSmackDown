@@ -32,7 +32,7 @@ public class RhockyAbilities : MonoBehaviour
     private RockyRhodes _rockyRhodes;
     private RockyAnimations _rockyAnimations;
     private Coroutine _currentStateCoroutine;
-
+    [SerializeField] private RockyVoiceManager RockyVoice;
     public RockyRhodesStates CurrentRockyState;
 
     public List<RockyRhodesStates> _randomSelection = new List<RockyRhodesStates>
@@ -52,6 +52,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes = GetComponent<RockyRhodes>();
         _rockyAnimations = GetComponent<RockyAnimations>();
         if (qteCollideSensorScript ==null) qteCollideSensorScript = GetComponent<QteCollideSensor>();
+        if (RockyVoice != null) RockyVoice = GetComponent<RockyVoiceManager>();
         //  CurrentRockyState = RockyRhodesStates.Regular;
         manager = GetComponent<RockyRhodesManager>();
         attacks = GetComponent<RockyRhodesAttacks>();
@@ -185,6 +186,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
         _rockyAnimations.ChangeAnimation("BullRushCharge");
+        RockyVoice.PlayBullrushCharge();
         // Skip all QTE logic if part of an un-interruptible flurry
         if (!isFlurryActive)
         {
@@ -208,6 +210,7 @@ public class RhockyAbilities : MonoBehaviour
         // Skip or reduce charge-up delay if this attack is part of the Desperation Flurry
         yield return new WaitForSeconds(isFlurryActive ? 2f : 5f);
         _rockyAnimations.ChangeAnimation("RockyPunch");
+        RockyVoice.PlayBullrushGo();
         qteCollideSensorScript.QTETriggerCollider.enabled = false; 
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
@@ -263,9 +266,11 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
         _rockyAnimations.ChangeAnimation("HayMakerCharge");
+        RockyVoice.PlayHaymaker();
         // Skip or reduce charge-up delay
         yield return new WaitForSeconds(isFlurryActive ? 1f : 3f);
         _rockyAnimations.ChangeAnimation("HayMakerPunch");
+        RockyVoice.PlayHaymakerGo();
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
@@ -318,7 +323,7 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-
+        RockyVoice.PlayChestBump();
         // Skip or reduce charge-up delay
         yield return new WaitForSeconds(isFlurryActive ? 0.5f : 1f);
         _rockyAnimations.ChangeAnimation("ChestBumpPunch");
@@ -376,7 +381,8 @@ public class RhockyAbilities : MonoBehaviour
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HEEL TAUNT State Active - Charging Rage...");
-     //  _rockyAnimations.ChangeAnimation("HeelTaunt");
+        //  _rockyAnimations.ChangeAnimation("HeelTaunt");
+        RockyVoice.PlayHeelTaunt();
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;

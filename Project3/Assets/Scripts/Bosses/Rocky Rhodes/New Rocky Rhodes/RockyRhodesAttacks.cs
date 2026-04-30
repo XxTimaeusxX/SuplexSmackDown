@@ -17,11 +17,13 @@ public class RockyRhodesAttacks : MonoBehaviour
     public bool IsropeRushActive;
     public float heightOffset;
 
+    [SerializeField] private RockyVoiceManager RockyVoice;
     private void Awake()
     {
         manager = GetComponent<RockyRhodesManager>();
         abilities = GetComponent<RhockyAbilities>();
         if(_rockyAnimations == null) _rockyAnimations = GetComponent<RockyAnimations>();
+        if (RockyVoice == null) RockyVoice = GetComponent<RockyVoiceManager>();
     }
 
     #region Rope Rush
@@ -135,6 +137,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     private void Jump()
     {
         _rockyAnimations.ChangeAnimation("CannonBallLaunch");
+        RockyVoice.PlayCannonball();
         manager.agent.enabled = false;
         manager.rb.linearVelocity = new Vector2(manager.rb.linearVelocity.x, manager.jumpForce);
         StartCoroutine(JumpTime(manager.jumpTime));

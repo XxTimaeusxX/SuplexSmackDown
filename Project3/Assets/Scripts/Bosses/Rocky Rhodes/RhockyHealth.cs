@@ -15,6 +15,7 @@ public class RhockyHealth : MonoBehaviour
 
     private RockyRhodes _rockyRhodes;
     [SerializeField] AnnouncerPhrases _announcerPhrases; // Added reference to AnnouncerPhrases
+    [SerializeField] private RockyVoiceManager RockyVoice; // Added reference to RockyVoiceManager
     private QTESystem _qteSystem;
     private RhockyAbilities _rhockyAbilities; // Added reference
     private float _lastHealthValue;
@@ -35,6 +36,7 @@ public class RhockyHealth : MonoBehaviour
         _rhockyAbilities = GetComponent<RhockyAbilities>();
         _qteSystem = _rockyRhodes.QTESystemScript;
         if (_announcerPhrases == null) _announcerPhrases = GetComponent<AnnouncerPhrases>();    
+        if (RockyVoice == null) RockyVoice = GetComponent<RockyVoiceManager>();
     }
 
     private void Start()
@@ -66,6 +68,7 @@ public class RhockyHealth : MonoBehaviour
     {
         if (HealthSlider == null) return;
         HealthSlider.value = Mathf.Max(HealthSlider.value - 1f, 0f);
+        RockyVoice.PlayHurt();
     }
     public void CheckHealthState()
     {

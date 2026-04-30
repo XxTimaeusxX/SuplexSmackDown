@@ -794,6 +794,7 @@ GameObject:
   - component: {fileID: 8892009715232258913}
   - component: {fileID: 3627625471788267496}
   - component: {fileID: 5021327053945539390}
+  - component: {fileID: 3219133537526765497}
   m_Layer: 8
   m_Name: RockyRhodes
   m_TagString: Untagged
@@ -1044,7 +1045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RhockyAbilities
   AbilityCooldown: 5
   jumpForce: 15
-  bullRushSpeed: 40
+  bullRushSpeed: 30
   bullRushDuration: 0.6
   tauntChargeDuration: 2
   speedMultiplierLevel: 5
@@ -1054,7 +1055,7 @@ MonoBehaviour:
   isFlurryActive: 0
   PlayerTarget: {fileID: 0}
   CurrentRockyState: 0
-  _randomSelection: 030000000100000002000000
+  _randomSelection: 01000000020000000300000004000000
   qteCollideSensorScript: {fileID: 640130169416037343}
 --- !u!114 &3141999450582759031
 MonoBehaviour:
@@ -1093,6 +1094,7 @@ MonoBehaviour:
   Rhodes: {fileID: 3059697783926044758}
   RockyRhodesStates: {fileID: 3416912547262001768}
   RockyAnimator: {fileID: 5021327053945539390}
+  runVelocityThreshold: 0.1
 --- !u!114 &8892009715232258913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1221,6 +1223,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3219133537526765497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5427314504484792256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 970d08e6f7ad8034089a52a13fbc841f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockyVoiceManager
 --- !u!1 &5776384186978451103
 GameObject:
   m_ObjectHideFlags: 0
@@ -1779,6 +1793,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e5b2b22f87d59034b822500f25f8bf35, type: 3}
       propertyPath: m_Name
       value: Rocky_Rhodes_Idle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: e5b2b22f87d59034b822500f25f8bf35, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: e5b2b22f87d59034b822500f25f8bf35, type: 3}
       propertyPath: m_Controller
