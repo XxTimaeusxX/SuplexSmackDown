@@ -206,12 +206,25 @@ public sealed class AudioManager : MonoBehaviour
     [Header("RockyRhodes SFX")]
     public AudioClip RockyRhodesHurt;
     public AudioClip RockyRhodesDie;
-    public AudioClip BullrushPhrase1;
-    public AudioClip BullrushPhrase2;
+    public AudioClip BullrushChargePhrase1;
+    public AudioClip BullrushChargePhrase2;
+    public AudioClip BullrushGoPhrase;
+    public AudioClip BullrushGoPhrase2;
     public AudioClip HaymakerPhrase;
+    public AudioClip HaymakerPhrase2;
+    public AudioClip HaymakerPhrase3;
+    public AudioClip HaymakerPhraseGo1;
+    public AudioClip HaymakerPhraseGo2;
+    public AudioClip HaymakerPhraseGo3;
     public AudioClip ChestBumpPhrase1;
     public AudioClip ChestBumpPhrase2;
     public AudioClip HeelTauntPhrase1;
+    public AudioClip HeelTauntPhrase2;
+    public AudioClip HeelTauntPhrase3;
+    public AudioClip QTEfailPhrase1;
+    public AudioClip QTEfailPhrase2;
+    public AudioClip QTEfailPhrase3;
+    public AudioClip QTEfailPhrase4;
     //-- arena 2 sfx --
     public AudioClip CannonballPhrase1;
     public AudioClip CannonballPhrase2;
