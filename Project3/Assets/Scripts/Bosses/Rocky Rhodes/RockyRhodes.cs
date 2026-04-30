@@ -30,6 +30,7 @@ public enum RockyRhodesStates
     DesperationFlurry,
     // -- universal states --//
     QTEMode,
+    QTEFail,
     Dead,
     Exhausted,
 }

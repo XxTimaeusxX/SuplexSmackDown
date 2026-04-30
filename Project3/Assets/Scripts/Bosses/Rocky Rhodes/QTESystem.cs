@@ -28,7 +28,7 @@ public class QTESystem : MonoBehaviour
     private float direction = 1f; // 1 for moving towards B, -1 for moving towards A
     public RectTransform pointerTransform;
     private Vector3 targetPosition;
-
+    [SerializeField]private Transform clashPoint;
 
 
     [Header("UI references")]
@@ -44,7 +44,9 @@ public class QTESystem : MonoBehaviour
    [SerializeField] PlayerHealth PlayerHealth;
     [SerializeField] RhockyHealth RhockyHealth;
     [SerializeField] RockyRhodes RockyRhodesScript;
-
+    [SerializeField] RhockyAbilities RockyRhodesAbilities;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private RockyAnimations rockyAnimations;
 
     [Header("Player Ability References")]
     [SerializeField] PlayerSuplex playerSuplex;
@@ -62,7 +64,10 @@ public class QTESystem : MonoBehaviour
     private InputAction _currentQTEAction;
     void Awake()
     {
-       if(pointerTransform == null) pointerTransform = GetComponent<RectTransform>();
+        if(playerMovement == null) playerMovement = GetComponent<PlayerMovement>();
+         if(rockyAnimations == null) rockyAnimations = GetComponent<RockyAnimations>();
+         if(RockyRhodesAbilities == null) RockyRhodesAbilities = GetComponent<RhockyAbilities>();
+        if (pointerTransform == null) pointerTransform = GetComponent<RectTransform>();
         targetPosition = pointB.position;
         if (playerInput == null) playerInput = GetComponent<PlayerInput>();
         if (playerInput != null) buttonMashAction = playerInput.actions.FindAction("Jump");
@@ -123,8 +128,16 @@ public class QTESystem : MonoBehaviour
         yield return new WaitForSeconds(delay);
         if (playerSuplex != null)
         {
-            var RockyCollider = RockyRhodesScript.GetComponent<Collider>();
-            playerSuplex.StartSuplex(RockyCollider);
+            // Find and re-enable the suplex hitbox GameObject
+        /*    var hitboxCaller = playerSuplex.GetComponentInChildren<SuplexHitboxCaller>(true);
+            if (hitboxCaller != null)
+                hitboxCaller.gameObject.SetActive(true);*/
+
+            // Optionally, you can also ensure Rocky's collider is enabled here if needed:
+            var rockyCollider = RockyRhodesScript.GetComponent<Collider>();
+            if (rockyCollider != null)
+                rockyCollider.enabled = true;
+            playerSuplex.StartSuplex(rockyCollider);
         }
     }
     public void SetDifficulty(int buttonClicks, float timer, float sliderMovSpeed)
@@ -147,10 +160,54 @@ public class QTESystem : MonoBehaviour
         // stop rhocky rhode jumping  and transition camera pan in shot
         StartCoroutine(CinemaComponent.StartBoss3PanIn());
 
-        _currentQTECoroutine = StartCoroutine(QTERandomizer());
+        _currentQTECoroutine = StartCoroutine(QTEClashSequence());
         EnableQuickTimeEvent = true; // Prevent multiple triggers
     }
+    private  IEnumerator QTEClashSequence()
+    {
+        yield return StartCoroutine(MoveToClashPoints(playerMovement.transform, RockyRhodesScript.transform, .2f));
+        StartClashAnimations();
+        yield return new WaitForSeconds(.2f);
+        yield return StartCoroutine(QTERandomizer());
+    }
+    private IEnumerator MoveToClashPoints(Transform playerTransform, Transform rockyTransform, float duration, float offset = 2f)
+    {
+        Vector3 playerStart = playerTransform.position;
+        Vector3 rockyStart = rockyTransform.position;
 
+        // Calculate the direction from player to Rocky
+        Vector3 direction = (rockyStart - playerStart).normalized;
+
+        // Find the midpoint
+        Vector3 midpoint = (playerStart + rockyStart) / 2f;
+
+        // Offset each character from the midpoint along the direction vector
+        Vector3 playerTarget = midpoint - direction * offset;
+        Vector3 rockyTarget = midpoint + direction * offset;
+
+        playerTarget.y += 1f;// Keep original Y position
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            playerTransform.position = Vector3.Lerp(playerStart, playerTarget, t);
+            rockyTransform.position = Vector3.Lerp(rockyStart, rockyTarget, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        playerTransform.position = playerTarget;
+        rockyTransform.position = rockyTarget;
+    }
+    private void StartClashAnimations()
+    {
+        playerMovement.ChangeAnimtion("CoheteClash");
+        rockyAnimations.ChangeAnimation("RockyClash");
+    }
+    private void EndClash()
+    {
+        playerMovement.ChangeAnimtion("IDLE");
+        rockyAnimations.ChangeAnimation("RockyIdle");
+    }
     public void StopQTE()
     {
         StopAllCoroutines();
@@ -179,6 +236,7 @@ public class QTESystem : MonoBehaviour
                 break;
         }
     }
+
     private void EnableButtonMashUI()
     {
         timerText.gameObject.SetActive(true);
@@ -200,6 +258,18 @@ public class QTESystem : MonoBehaviour
         pointerTransform.gameObject.SetActive(false);
 
     }
+
+    private IEnumerator FailQTEAnimation()
+    {
+        RockyRhodesAbilities.CurrentRockyState = RockyRhodesStates.QTEFail;
+        Vector3 KnockBackDir = (playerMovement.transform.position - RockyRhodesScript.transform.position).normalized;
+        KnockBackDir.y = 0f;
+        float knockBackForce = 15f;
+        float knockUpForce = 15f;
+        playerMovement.velocity= (KnockBackDir * knockBackForce) + (Vector3.up * knockUpForce);
+        yield return new WaitForSeconds(1f);
+        RockyRhodesAbilities.CurrentRockyState = RockyRhodesStates.Idle;
+    }
     private IEnumerator ButtonMashQTE()
     {
         EnableButtonMashUI();
@@ -220,9 +290,10 @@ public class QTESystem : MonoBehaviour
                     CinemaComponent.EndRockyPanIn();
                     RockyRhodesScript.gameObject.tag = "Enemy";
                     // --- Grab logic integration ---
-                   
+                    EndClash();
+                    RockyRhodesAbilities.StartCoroutine(RockyRhodesAbilities.DizzyForSeconds(4f));
                     StopQTE(); // Clean up UI and re-enable abilities
-                    StartCoroutine(ResumeSuplexAfterDelay(0.5f)); // Resume suplex after a short delay to allow for any success animations
+                    StartCoroutine(ResumeSuplexAfterDelay(1f)); // Resume suplex after a short delay to allow for any success animations
                     yield break; // Exit the coroutine
                 }
             }
@@ -236,6 +307,8 @@ public class QTESystem : MonoBehaviour
         timerText.text = "failed";
         PlayerHealth.TakeDamage();
         CinemaComponent.EndRockyPanIn();
+        yield return StartCoroutine(FailQTEAnimation());
+        EndClash();
         StopQTE(); // Clean up UI and re-enable abilities
     }
 
@@ -274,9 +347,10 @@ public class QTESystem : MonoBehaviour
                     timerText.text = "success";
                     RockyRhodesScript.gameObject.tag = "Enemy";
                     // --- Grab logic integration ---
-                 
+                    EndClash();
+                    RockyRhodesAbilities.StartCoroutine(RockyRhodesAbilities.DizzyForSeconds(4f));
                     StopQTE();
-                  StartCoroutine(ResumeSuplexAfterDelay(0.5f)); // Resume suplex after a short delay to allow for any success animations    
+                  StartCoroutine(ResumeSuplexAfterDelay(1f)); // Resume suplex after a short delay to allow for any success animations    
                     yield break;
                 }
                 else
@@ -284,6 +358,8 @@ public class QTESystem : MonoBehaviour
                 //    Debug.Log("Failed!");
                     timerText.text = "failed";
                     PlayerHealth.TakeDamage();
+                yield return StartCoroutine(FailQTEAnimation());
+                    EndClash();
                     StopQTE();
                     yield break;
                 }
@@ -298,6 +374,8 @@ public class QTESystem : MonoBehaviour
       //  Debug.Log("Timing Slider QTE Failed! Time ran out.");
         timerText.text = "failed";
         PlayerHealth.TakeDamage();
+        yield return StartCoroutine(FailQTEAnimation());
+        EndClash();
         StopQTE();
     }
 

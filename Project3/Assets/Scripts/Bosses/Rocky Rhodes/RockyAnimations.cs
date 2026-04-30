@@ -35,7 +35,7 @@ public class RockyAnimations : MonoBehaviour
         if (Rhodes.isGrabbed)
         {
         //    Debug.Log("ROCKY IS CURRENTLY GRABBED");
-            ChangeAnimation("RockyGrabbed_demo");
+        //    ChangeAnimation("RockyGrabbed_demo");
             return;
         }
       
@@ -68,6 +68,11 @@ public class RockyAnimations : MonoBehaviour
              //   ChangeAnimation("HayMakerCharge"); // Or whichever animation name is the actual active punch
                 return;
             }
+        if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.QTEFail)
+        {
+            ChangeAnimation("ChestBumpPunch"); // or your punch animation
+            return;
+        }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Exhausted)
         {
          //   Debug.Log("Changing to Exhausted animation");

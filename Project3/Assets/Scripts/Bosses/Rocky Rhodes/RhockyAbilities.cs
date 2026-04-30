@@ -81,7 +81,7 @@ public class RhockyAbilities : MonoBehaviour
 
     public void CheckState(RockyRhodesStates states)
     {
-        if(_rockyRhodes.gameObject.tag!= "Enemy")// Only reset tag if it's not set to "Enemy" to avoid unnecessary changes
+        if(_rockyRhodes.gameObject.tag!= "Stunned Rocky")// Only reset tag if it's not set to "Enemy" to avoid unnecessary changes
         {
             _rockyRhodes.gameObject.tag = "Untagged"; // Reset tag to default at the start of any state change
         }
@@ -134,6 +134,12 @@ public class RhockyAbilities : MonoBehaviour
    
         }
     }
+    public IEnumerator DizzyForSeconds(float seconds)
+    {
+        CurrentRockyState = RockyRhodesStates.Exhausted;
+        yield return new WaitForSeconds(seconds);
+        CurrentRockyState = RockyRhodesStates.Idle;
+    }
     public IEnumerator QTE()
     {
       //  InterruptAbility(true); // Interrupt any ongoing ability when entering QTE mode
@@ -142,7 +148,7 @@ public class RhockyAbilities : MonoBehaviour
         while (_rockyRhodes.QTESystemScript != null &&
                _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
         {
-            Debug.Log("QTE State Active");
+          //  Debug.Log("QTE State Active");
             yield return null;
         }
 
@@ -184,7 +190,7 @@ public class RhockyAbilities : MonoBehaviour
         {
             qteCollideSensorScript.ResetOverlap();
             qteCollideSensorScript.QTETriggerCollider.enabled = true; 
-            if(qteCollideSensorScript.QTETriggerCollider == true) Debug.Log("QTE Trigger Collider enabled for Bull Rush.");
+          //  if(qteCollideSensorScript.QTETriggerCollider == true) Debug.Log("QTE Trigger Collider enabled for Bull Rush.");
             if ( _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
             {
                 Debug.Log("Player successfully triggered QTE during Bull Rush! Transitioning to QTE mode.");

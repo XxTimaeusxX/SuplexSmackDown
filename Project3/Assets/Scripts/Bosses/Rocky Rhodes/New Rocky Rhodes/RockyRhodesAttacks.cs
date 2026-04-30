@@ -175,7 +175,7 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private IEnumerator RepeatCannonball(float delay)
     {
-        abilities.CurrentRockyState = RockyRhodesStates.Exhausted;
+        _rockyAnimations.ChangeAnimation("BullRushCharge");
         float timer = 0;
         while (timer < delay)
         {
