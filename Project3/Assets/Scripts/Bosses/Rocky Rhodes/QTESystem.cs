@@ -118,7 +118,15 @@ public class QTESystem : MonoBehaviour
         if (playerSuplex != null) playerSuplex.enabled = true;
         if (playerDash != null) playerDash.enabled = true;
     }
-
+    private IEnumerator ResumeSuplexAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (playerSuplex != null)
+        {
+            var RockyCollider = RockyRhodesScript.GetComponent<Collider>();
+            playerSuplex.StartSuplex(RockyCollider);
+        }
+    }
     public void SetDifficulty(int buttonClicks, float timer, float sliderMovSpeed)
     {
         NumberOfButtonClicksRequired = buttonClicks;
@@ -211,7 +219,10 @@ public class QTESystem : MonoBehaviour
                    
                     CinemaComponent.EndRockyPanIn();
                     RockyRhodesScript.gameObject.tag = "Enemy";
+                    // --- Grab logic integration ---
+                   
                     StopQTE(); // Clean up UI and re-enable abilities
+                    StartCoroutine(ResumeSuplexAfterDelay(0.5f)); // Resume suplex after a short delay to allow for any success animations
                     yield break; // Exit the coroutine
                 }
             }
@@ -262,7 +273,10 @@ public class QTESystem : MonoBehaviour
                   //  Debug.Log("Success!");
                     timerText.text = "success";
                     RockyRhodesScript.gameObject.tag = "Enemy";
+                    // --- Grab logic integration ---
+                 
                     StopQTE();
+                  StartCoroutine(ResumeSuplexAfterDelay(0.5f)); // Resume suplex after a short delay to allow for any success animations    
                     yield break;
                 }
                 else

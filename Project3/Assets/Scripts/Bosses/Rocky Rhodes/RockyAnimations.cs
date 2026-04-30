@@ -7,6 +7,7 @@ public class RockyAnimations : MonoBehaviour
     [Header("RockyAnimations")]
     public Animator RockyAnimator;
     private string CurrentMicroAnimation = "";
+    [SerializeField] private float runVelocityThreshold = 0.1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,7 +42,7 @@ public class RockyAnimations : MonoBehaviour
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.BullRush)
         {
             //    Debug.Log("Changing to Bullrush animation");
-            ChangeAnimation("BullRushCharge");
+         //   ChangeAnimation("BullRushCharge");
             return;
         }
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.CannonBall)
@@ -64,7 +65,7 @@ public class RockyAnimations : MonoBehaviour
             if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Haymaker)
             {
                // Debug.Log("Changing to Haymaker animation");
-                ChangeAnimation("HayMakerCharge"); // Or whichever animation name is the actual active punch
+             //   ChangeAnimation("HayMakerCharge"); // Or whichever animation name is the actual active punch
                 return;
             }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Exhausted)
@@ -73,6 +74,12 @@ public class RockyAnimations : MonoBehaviour
             ChangeAnimation("Dizzy");
             return;
         }
+     /*   if (Rhodes.rb != null && Rhodes.rb.linearVelocity.magnitude > runVelocityThreshold)
+        {
+            ChangeAnimation("RockyRun");
+            return;
+        }*/
+
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Idle)
         {
             ChangeAnimation("RockyIdle");

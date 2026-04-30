@@ -178,6 +178,7 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
+        _rockyAnimations.ChangeAnimation("BullRushCharge");
         // Skip all QTE logic if part of an un-interruptible flurry
         if (!isFlurryActive)
         {
@@ -200,7 +201,7 @@ public class RhockyAbilities : MonoBehaviour
 
         // Skip or reduce charge-up delay if this attack is part of the Desperation Flurry
         yield return new WaitForSeconds(isFlurryActive ? 2f : 5f);
-
+        _rockyAnimations.ChangeAnimation("RockyPunch");
         qteCollideSensorScript.QTETriggerCollider.enabled = false; 
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
@@ -224,7 +225,7 @@ public class RhockyAbilities : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-        _rockyAnimations.ChangeAnimation("RockyRun");
+       
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
         
         // ONLY consume the rage buff if we are NOT in the endless flurry!
@@ -255,10 +256,10 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-
+        _rockyAnimations.ChangeAnimation("HayMakerCharge");
         // Skip or reduce charge-up delay
         yield return new WaitForSeconds(isFlurryActive ? 1f : 3f);
-
+        _rockyAnimations.ChangeAnimation("HayMakerPunch");
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
@@ -273,7 +274,7 @@ public class RhockyAbilities : MonoBehaviour
             // Ignore grab/push statuses if flurry is active
             if (isFlurryActive || (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed))
             {
-                _rockyAnimations.ChangeAnimation("RockyPunch");
+               
                 _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
                 _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
@@ -314,7 +315,7 @@ public class RhockyAbilities : MonoBehaviour
 
         // Skip or reduce charge-up delay
         yield return new WaitForSeconds(isFlurryActive ? 0.5f : 1f);
-
+        _rockyAnimations.ChangeAnimation("ChestBumpPunch");
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
@@ -326,8 +327,8 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         // Use custom shorter duration/speed for the mini dash
-        float chestBumpDuration = 0.3f; // Shorter than BullRush
-        float chestBumpSpeed = 40f;     // Slightly slower/punchier
+        float chestBumpDuration = 0.5f; // Shorter than BullRush
+        float chestBumpSpeed = 30f;     // Slightly slower/punchier
         float timer = 0f;
 
         float currentSpeed = isEnraged ? (chestBumpSpeed * speedMultiplierLevel) : chestBumpSpeed;
@@ -347,7 +348,7 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
-        
+        yield return new WaitForSeconds(1f); 
         // ONLY consume the rage buff if we are NOT in the endless flurry!
         if (isEnraged && !isFlurryActive)
         {

@@ -83,6 +83,7 @@ public class RockyRhodes : EnemyBase
     public override void Update()
     {
         base.Update();
+        FacePlayer();
     }
     public override void SetGrabbed(bool grabbed) // custom grab condition for Rhocky :enemybase
     {
@@ -106,6 +107,18 @@ public class RockyRhodes : EnemyBase
             {
                 _abilities.CheckState(RockyRhodesStates.Idle);
             }
+        }
+    }
+    public void FacePlayer()
+    {
+        if (Target == null || RockyRhodesMesh == null)
+            return;
+
+        Vector3 direction = Target.transform.position - RockyRhodesMesh.position;
+        direction.y = 0f; // Keep only horizontal rotation
+        if (direction.sqrMagnitude > 0.01f)
+        {
+            RockyRhodesMesh.rotation = Quaternion.LookRotation(direction);
         }
     }
     protected override void CustomAttack() // Rhocky's custom attack behavior :enemybase

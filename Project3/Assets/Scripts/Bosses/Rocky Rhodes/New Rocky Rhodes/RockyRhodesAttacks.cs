@@ -292,6 +292,7 @@ public class RockyRhodesAttacks : MonoBehaviour
             {
                 return;
             }
+            _rockyAnimations.ChangeAnimation("RockyRun");
             manager.rb.linearVelocity = Vector3.zero;
             collided = true;
             gameObject.tag = "Stunned Rocky";
