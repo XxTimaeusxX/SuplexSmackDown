@@ -13,6 +13,7 @@ public class RockyRhodesManager : MonoBehaviour
     public Slider healthSlider;
     RhockyHealth health;
     RhockyAbilities abilities;
+    public GameObject arena3Teleport;
 
     [HideInInspector] public float moveSpeed;
     public float arena1MoveSpeed;
@@ -37,7 +38,6 @@ public class RockyRhodesManager : MonoBehaviour
     public float enhancedRopeRushForce;
     public Transform[] enhancedRopeRushStartPoints;
     public int numberOfEnhancedRopeRusheCharges;
-    private int maxEnhancedRopeRushCharges;
 
     [Header("Arenas")]
     public bool arena1;
@@ -67,7 +67,6 @@ public class RockyRhodesManager : MonoBehaviour
     {
         moveSpeed = arena1MoveSpeed;
         maxRopeRushCharges = numberOfRopeRusheCharges;
-        maxEnhancedRopeRushCharges = numberOfEnhancedRopeRusheCharges;
         agent.speed = moveSpeed;
         rb.constraints |= RigidbodyConstraints.FreezePositionY;
     }
@@ -131,10 +130,9 @@ public class RockyRhodesManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         arena2 = false;
         arena3 = true;
-        Vector3 newPos = transform.position;
-        newPos.y = 7.1f;
-        transform.position = newPos;
         rocky.enabled = true;
+        agent.enabled = true;
+        agent.Warp(arena3Teleport.transform.position);
         abilities.enabled = true;
         rb.constraints |= RigidbodyConstraints.FreezePositionY;
     }
