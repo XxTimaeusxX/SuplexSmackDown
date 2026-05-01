@@ -29,6 +29,7 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _WinMenuContainer;
 	[SerializeField] GameObject _GameOverMenuContainer;
 	[SerializeField] GameObject _CheatsMenu;
+	[SerializeField] GameObject _CutscenePanel;
 	
 	[SerializeField] GameObject _PauseButtonContainer;
 	[SerializeField] GameObject _DefaultPauseButton;
@@ -37,6 +38,7 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] GameObject _DefaultWinButton;
 	[SerializeField] GameObject _DefaultGameOverButton;
 	[SerializeField] GameObject _DefaultCheatsButton;
+	[SerializeField] GameObject _DefaultCutsceneButton;
 	
 	[SerializeField] GameObject _HealthUI;
 
@@ -95,6 +97,13 @@ public class InGameMenuManager : MonoBehaviour
 		}
 		
 		ColorInit();
+		//TEST();	//DEBUG ONLY
+	}
+	
+	public void TEST(){
+		isPaused = true;
+		Time.timeScale = 0.0f;
+		Cursor.lockState = CursorLockMode.Confined;
 	}
 	
 	//listen for cheat code
@@ -238,9 +247,17 @@ public class InGameMenuManager : MonoBehaviour
 		SceneManager.LoadScene(_MainMenuSceneInt);
 	}
 
+	//switch to cutscene button
+	public void StartCutscene(){
+		_WinMenuContainer.SetActive(false);
+		_CutscenePanel.SetActive(true);
+		EventSystem.current.SetSelectedGameObject(_DefaultCutsceneButton);
+	}
+	
     //unpause and go to stage 1
 	public void Stage1ButtonClicked()
 	{
+		_CutscenePanel.SetActive(false);
 		isPaused = false;
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene(_Stage1SceneInt);
@@ -249,15 +266,16 @@ public class InGameMenuManager : MonoBehaviour
     //unpause and go to stage 2
     public void Stage2ButtonClicked()
 	{
+		_CutscenePanel.SetActive(false);
 		isPaused = false;
 		Time.timeScale = 1.0f;
-        SceneManager.LoadScene(_Stage2SceneInt);
-     //   PlaySceneMusic();
+		SceneManager.LoadScene(_Stage2SceneInt);
     }
 	
 	//unpause and go to stage 3
 	public void Stage3ButtonClicked()
 	{
+		_CutscenePanel.SetActive(false);
 		isPaused = false;
 		Time.timeScale = 1.0f;
         SceneManager.LoadScene(_Stage3SceneInt);
@@ -375,6 +393,20 @@ public class InGameMenuManager : MonoBehaviour
 			
     }
 	
+	//play menu sounds, called in On Click () and Event Trigger (Select) in the inspector
+	public void PlaySelectSound(){
+		AudioManager.PlayMenuNavigateSelect();
+	}
+	
+	public void PlayBackSound(){
+		AudioManager.PlayMenuNavigateBack();
+	}
+	
+	public void PlayNavigateSound(){
+		AudioManager.PlayMenuNavigate();
+	}
+	
+	//gamma updates
 	void ColorInit(){
 		menuImg = GetComponentsInChildren<Image>(true);
 		menuText = GetComponentsInChildren<Text>(true);

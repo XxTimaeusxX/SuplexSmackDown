@@ -31,7 +31,6 @@ public class ActivateMicro_Macro : MonoBehaviour
     {
         if (other.CompareTag("BossTrigger"))
         {
-            respawn.fallTime = 10f;
             if (BossColliderTrigger != null)
             {
                 enemySpawn = true;
@@ -45,7 +44,6 @@ public class ActivateMicro_Macro : MonoBehaviour
         }
         if (other.CompareTag("BossTrigger"))
         {
-            respawn.fallTime = 10f;
             if (BossColliderTrigger2 != null)
             {
                 cinema.introPlayed = true;

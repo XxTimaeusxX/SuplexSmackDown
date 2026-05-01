@@ -22,7 +22,9 @@ public class MariachiEnemy : EnemyBase
     public float DefaultAttackCooldown;
     private bool playerDetected = false;
 
-
+    [Header("Animation")]
+    public Animator MariachiAnimator;
+    private string CurrentMariachiAnimation = "";
     // Update is called once per frame
     public void Start()
     {
@@ -34,6 +36,7 @@ public class MariachiEnemy : EnemyBase
     public override void Update()
       {
           base.Update();
+        CheckAnimation();
         if (leader != null && agent.enabled && agent.isOnNavMesh)
         {
             agent.destination = leader.transform.position;
@@ -52,7 +55,14 @@ public class MariachiEnemy : EnemyBase
         base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Shockwave"))
         {
-            AudioManager.PlayMariachiHurt();
+            int randomHurtSounds = Random.Range(1, 4);
+            switch(randomHurtSounds)
+            {
+                case 1: AudioManager.PlayMariachiHurt(); break;
+                case 2: AudioManager.PlayMariachiHurt2(); break;
+                case 3: AudioManager.PlayMariachiHurt3(); break; 
+                case 4: AudioManager.PlayMariachiHurt4(); break;
+            }
         }
     }
     private void DetectPlayer()
@@ -62,7 +72,13 @@ public class MariachiEnemy : EnemyBase
             if (!playerDetected)
             {
                 playerDetected = true;
-                AudioManager.PlayMariachiDetection();
+                int randomDetectionSounds = Random.Range(1, 4);
+                switch(randomDetectionSounds)
+                {
+                    case 1: AudioManager.PlayMariachiDetection(); break;
+                    case 2: AudioManager.PlayMariachiDetection2(); break;
+                    case 3: AudioManager.PlayMariachiDetection3(); break;
+                }
             }
         }
         else
@@ -91,6 +107,29 @@ public class MariachiEnemy : EnemyBase
        projectile.transform.localScale = Vector3.one * Projectilesize;
 
     }
-   
+
+    // --- animation ---
+    public void ChangeAnimation(string animation, float crossfade = 0.2f)
+    {
+        if (CurrentMariachiAnimation != animation)
+        {
+            CurrentMariachiAnimation = animation;
+            MariachiAnimator.CrossFade(animation, crossfade);
+
+        }
+    }
+    private void CheckAnimation()
+    {
+        if(isGrabbed)
+        {
+            Debug.Log("Mariachi is grabbed, changing animation to grab");
+            ChangeAnimation("Marachi_GRABBED_anim");
+            return;
+        }
+        // Default to idle
+        ChangeAnimation("Marachi_Guitar_ATTACK_anim");
+    }
 }
+
+
 

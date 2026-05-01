@@ -20,7 +20,7 @@ public class EnemyBase : MonoBehaviour
     public bool canPatrol = true;
     public bool canChase = true;
     public bool canAttack = true;
-
+    public virtual bool AutoKinematic => true; 
     [Header("Ground Settings")]
     public float m_Distance;
     public bool wasGrounded = false;
@@ -95,7 +95,7 @@ public class EnemyBase : MonoBehaviour
         {
             ResetSlapState();
         }
-        if (grounded && wasGrounded && !isGrabbed && !isPushed)
+        if (grounded && wasGrounded && !isGrabbed && !isPushed && AutoKinematic)
         {
             rb.isKinematic = true;
             agent.enabled = true;

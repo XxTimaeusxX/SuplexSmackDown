@@ -27,7 +27,7 @@ public class ShoalEnemy : EnemyBase
             isPushed = false;
             gameObject.SetActive(false);
             enemyHealth.value -= 1;
-            AudioManager.PlayShoalDamageHit();
+         //   AudioManager.PlayShoalDamageHit();
             
             if (enemyHealth.value <= 0)
             {
@@ -56,27 +56,46 @@ public class ShoalEnemy : EnemyBase
         // ONLY Shoal-specific: Animations
         CheckAnimation();
     }
-  /*  public override void ChasePlayer()
+    /*  public override void ChasePlayer()
+      {
+          // Call base implementation (handles all pathfinding)
+          base.ChasePlayer();
+
+          // ONLY Shoal-specific: Audio edge trigger
+          if (Target != null)
+          {
+
+              if (m_Distance <= chaseRange && !_shoalWasInChaseRange)
+              {
+                  AudioManager.PlayShoalIdle();
+              }
+
+              _shoalWasInChaseRange = true;
+          }
+          else
+          {
+              _shoalWasInChaseRange = false;
+          }
+      }*/
+    private void OnCollisionEnter(Collision collision)
     {
-        // Call base implementation (handles all pathfinding)
-        base.ChasePlayer();
-
-        // ONLY Shoal-specific: Audio edge trigger
-        if (Target != null)
+        base.OnCollisionEnter(collision);
+        if (collision.gameObject.CompareTag("Shockwave"))
         {
-   
-            if (m_Distance <= chaseRange && !_shoalWasInChaseRange)
+            int randomHurtSounds = Random.Range(1, 7);
+            // EnemyBase sets isPushed=true here; play immediately
+            switch (randomHurtSounds)
             {
-                AudioManager.PlayShoalIdle();
-            }
+                case 1: AudioManager.PlayNicoHurt(); break;
+                case 2: AudioManager.PlayEnzoHurt(); break;
+                case 3: AudioManager.PlayNicoHurt2(); break;
+                case 4: AudioManager.PlayEnzoHurt2(); break;
+                case 5: AudioManager.PlayNicoHurt3(); break;
+                case 6: AudioManager.PlayEnzoHurt3(); break;
 
-            _shoalWasInChaseRange = true;
+            }
         }
-        else
-        {
-            _shoalWasInChaseRange = false;
-        }
-    }*/
+    }
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {

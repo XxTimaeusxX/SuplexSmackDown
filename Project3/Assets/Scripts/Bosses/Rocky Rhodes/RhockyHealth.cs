@@ -14,6 +14,8 @@ public class RhockyHealth : MonoBehaviour
     public Slider HealthSlider;
 
     private RockyRhodes _rockyRhodes;
+    [SerializeField] AnnouncerPhrases _announcerPhrases; // Added reference to AnnouncerPhrases
+    [SerializeField] private RockyVoiceManager RockyVoice; // Added reference to RockyVoiceManager
     private QTESystem _qteSystem;
     private RhockyAbilities _rhockyAbilities; // Added reference
     private float _lastHealthValue;
@@ -33,6 +35,8 @@ public class RhockyHealth : MonoBehaviour
         _rockyRhodes = GetComponent<RockyRhodes>();
         _rhockyAbilities = GetComponent<RhockyAbilities>();
         _qteSystem = _rockyRhodes.QTESystemScript;
+        if (_announcerPhrases == null) _announcerPhrases = GetComponent<AnnouncerPhrases>();    
+        if (RockyVoice == null) RockyVoice = GetComponent<RockyVoiceManager>();
     }
 
     private void Start()
@@ -64,9 +68,11 @@ public class RhockyHealth : MonoBehaviour
     {
         if (HealthSlider == null) return;
         HealthSlider.value = Mathf.Max(HealthSlider.value - 1f, 0f);
+        RockyVoice.PlayHurt();
     }
     public void CheckHealthState()
     {
+        if (_announcerPhrases != null)_announcerPhrases.HealthConditionsPhrases();
         // 1. Phases 1 & 2: Health hits 0 -> Heal and Jump to the next phase
         if (_lastHealthValue <= 0f && _currentPhase < 3 && !_healthhasDecreased)
         {
@@ -79,13 +85,10 @@ public class RhockyHealth : MonoBehaviour
         else if (_lastHealthValue == 1f && _currentPhase == 3 && !_healthhasDecreased)
         {
             _healthhasDecreased = true; // Lock so we only trigger this flurry setup once
-
             Debug.Log("Health is 1 in Phase 3! Initiating Unstoppable Flurry!");
-
             // Lock him into ONLY doing the flurry until he dies
             _rhockyAbilities._randomSelection.Clear();
             _rhockyAbilities._randomSelection.Add(RockyRhodesStates.DesperationFlurry);
-
             // Start the first one immediately
             _rhockyAbilities.CheckState(RockyRhodesStates.DesperationFlurry);
         }

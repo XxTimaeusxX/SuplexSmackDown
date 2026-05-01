@@ -93,4 +93,12 @@ public class GhostDancer : EnemyBase
          patrolRunSpeed = DefaultRunMoveSpeed;
         attackCooldown = DefaultAttackCooldown;
     }
+    public void OnCollisionEnter(Collision collision)
+    {
+        base.OnCollisionEnter(collision);
+        if (collision.gameObject.CompareTag("Shockwave"))
+        {
+            AudioManager.PlaySFX(AudioManager.Instance.DancerHurt, 1f);
+        }
+    }
 }

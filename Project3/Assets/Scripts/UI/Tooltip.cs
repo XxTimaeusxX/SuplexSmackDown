@@ -12,28 +12,17 @@ public class Tooltip : MonoBehaviour
 	bool isPlaying = false;
 
 	[Header("From Main HUD")]
-	[SerializeField] GameObject tooltipPanel;
-	[SerializeField] GameObject tooltipText;
-	[SerializeField] VideoPlayer tooltipVideoPlayer;
+	[SerializeField] TooltipPlayerManager tooltipPlayerManager;
 	BoxCollider col;
 	
-	void Start()
-	{
-		objText = tooltipText.GetComponent<Text>();
-	}
 	
     private void OnTriggerEnter(Collider other)
     {
-		
 		//if the player enters and it's not already active, start the coroutine to eventually disable it
 		if (other.CompareTag("Player"))
         {
-			if(!isPlaying){
-				isPlaying = true;
-				tooltipVideoPlayer.clip = videoClip;
-				objText.text = newText;
-				tooltipPanel.SetActive(true);
-				tooltipVideoPlayer.Play();
+			if(!tooltipPlayerManager.isPlaying){
+				tooltipPlayerManager.PlayTutorial(videoClip, newText);
 				StartCoroutine("TimedDestroy");
 			}
 		}
@@ -41,10 +30,7 @@ public class Tooltip : MonoBehaviour
 	
 	IEnumerator TimedDestroy(){
 		yield return new WaitForSeconds(destroyTime);
-		tooltipPanel.SetActive(false);
-		tooltipVideoPlayer.Stop();
-		isPlaying = false;
+		tooltipPlayerManager.StopTutorial();
 		yield break; //break out of the coroutine
-		//Destroy(this.gameObject);
 	}
 }

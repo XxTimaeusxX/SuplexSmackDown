@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -71,6 +69,7 @@ public class RockyRhodesManager : MonoBehaviour
         maxRopeRushCharges = numberOfRopeRusheCharges;
         maxEnhancedRopeRushCharges = numberOfEnhancedRopeRusheCharges;
         agent.speed = moveSpeed;
+        rb.constraints |= RigidbodyConstraints.FreezePositionY;
     }
 
     private void Update()
@@ -85,9 +84,10 @@ public class RockyRhodesManager : MonoBehaviour
         {
             moveSpeed = arena3MoveSpeed;
         }
-        attacks.StartRopeRush();
+       
+       // attacks.StartRopeRush();
         attacks.StartCannonball();
-        attacks.StartEnhancedRopeRush();
+       // attacks.StartEnhancedRopeRush();
         OpenArenas();
     }
 
@@ -99,6 +99,7 @@ public class RockyRhodesManager : MonoBehaviour
             {
                 agent.enabled = false;
                 rocky.enabled = false;
+                abilities.InterruptAbility(true);
                 abilities.enabled = false;
                 rb.isKinematic = false;
                 arena1Floor.SetActive(false);
@@ -108,6 +109,8 @@ public class RockyRhodesManager : MonoBehaviour
             {
                 open = true;
                 agent.enabled = false;
+
+                abilities.InterruptAbility(true);
                 StartCoroutine(ChangeArena2(3f));
             }
         }
@@ -120,6 +123,7 @@ public class RockyRhodesManager : MonoBehaviour
         arena2 = true;
         cannonball = true;
         agent.enabled = true;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
     }
 
     private IEnumerator ChangeArena2(float delay)
@@ -132,6 +136,7 @@ public class RockyRhodesManager : MonoBehaviour
         transform.position = newPos;
         rocky.enabled = true;
         abilities.enabled = true;
+        rb.constraints |= RigidbodyConstraints.FreezePositionY;
     }
 
     private IEnumerator UnGrab(float delay)
@@ -139,6 +144,8 @@ public class RockyRhodesManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         canPerformAction = true;
         grabbed = false;
+      //  if (arena2) { cannonball = true; }
+        Debug.Log("UnGrabbed! Can perform action again!");
     }
 
     private void OnCollisionEnter(Collision collision)

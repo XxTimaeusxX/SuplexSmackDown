@@ -6,6 +6,7 @@ using UnityEngine;
 public class RockyRhodesAttacks : MonoBehaviour
 {
     RockyRhodesManager manager;
+    [SerializeField] RockyAnimations _rockyAnimations;
     public Transform chosenPoint;
     public bool collided;
     RhockyAbilities abilities;
@@ -13,18 +14,22 @@ public class RockyRhodesAttacks : MonoBehaviour
     public GameObject hitBox;
 
     public bool canChooseRandom;
-
+    public bool IsropeRushActive;
     public float heightOffset;
 
+    [SerializeField] private RockyVoiceManager RockyVoice;
     private void Awake()
     {
         manager = GetComponent<RockyRhodesManager>();
         abilities = GetComponent<RhockyAbilities>();
+        if(_rockyAnimations == null) _rockyAnimations = GetComponent<RockyAnimations>();
+        if (RockyVoice == null) RockyVoice = GetComponent<RockyVoiceManager>();
     }
 
     #region Rope Rush
     public void StartRopeRush()
     {
+     //   if(IsropeRushActive) return;
         if (manager.grabbed) return;
         if (manager.ropeRush && manager.canPerformAction)
         {
@@ -36,7 +41,7 @@ public class RockyRhodesAttacks : MonoBehaviour
         }
     }
 
-    private IEnumerator RestRopeRush(float delay)
+    public IEnumerator RestRopeRush(float delay)
     {
         float timer = 0;
         while (timer < delay)
@@ -47,14 +52,16 @@ public class RockyRhodesAttacks : MonoBehaviour
             }
             yield return null;
         }
+        IsropeRushActive = false;
         gameObject.tag = "Rocky Rhodes";
         manager.canPerformAction = true;
         manager.numberOfRopeRusheCharges = 3;
-        abilities.CheckState(RockyRhodesStates.Idle);
+        Debug.Log($" number of rope charges {manager.numberOfRopeRusheCharges}!");
     }
 
     private void ReadyRopeRush()
     {
+        IsropeRushActive = true;
         manager.canPerformAction = false;
         ChooseRandomRopeRushPoint();
         Vector3 direction = (chosenPoint.position - transform.position).normalized;
@@ -95,12 +102,14 @@ public class RockyRhodesAttacks : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, target, manager.ropeRushForce * Time.deltaTime);
             yield return null;
         }
-    }
+        hitBox.SetActive(false);
+        IsropeRushActive = false; 
+}
 
     private void ChooseRandomRopeRushPoint()
     {
-        manager.ropeRush = false;
-        if (manager.ropeRushStartPoints == null)
+     //   manager.ropeRush = false;
+        if (manager.ropeRushStartPoints == null )
         {
             return;
         }
@@ -115,6 +124,7 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         if (manager.cannonball && manager.canPerformAction && !manager.grabbed)
         {
+            
             gameObject.tag = "Rocky Rhodes";
             Jump();
             if (canChooseRandom)
@@ -126,6 +136,8 @@ public class RockyRhodesAttacks : MonoBehaviour
 
     private void Jump()
     {
+        _rockyAnimations.ChangeAnimation("CannonBallLaunch");
+        RockyVoice.PlayCannonball();
         manager.agent.enabled = false;
         manager.rb.linearVelocity = new Vector2(manager.rb.linearVelocity.x, manager.jumpForce);
         StartCoroutine(JumpTime(manager.jumpTime));
@@ -161,10 +173,12 @@ public class RockyRhodesAttacks : MonoBehaviour
     {
         gameObject.tag = "Stunned Rocky";
         Instantiate(manager.shockwave, manager.gameObject.transform.position, manager.gameObject.transform.rotation, manager.gameObject.transform);
+       // StartCoroutine(RepeatCannonball(4f));
     }
 
     private IEnumerator RepeatCannonball(float delay)
     {
+        _rockyAnimations.ChangeAnimation("BullRushCharge");
         float timer = 0;
         while (timer < delay)
         {
@@ -175,6 +189,7 @@ public class RockyRhodesAttacks : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(delay);
+        abilities.CurrentRockyState = RockyRhodesStates.Idle;
         manager.cannonball = true;
         manager.canPerformAction = true;
     }
@@ -280,6 +295,7 @@ public class RockyRhodesAttacks : MonoBehaviour
             {
                 return;
             }
+            _rockyAnimations.ChangeAnimation("RockyRun");
             manager.rb.linearVelocity = Vector3.zero;
             collided = true;
             gameObject.tag = "Stunned Rocky";
@@ -293,11 +309,13 @@ public class RockyRhodesAttacks : MonoBehaviour
             }
             if (manager.arena1 && manager.numberOfRopeRusheCharges > 0)
             {
-                gameObject.tag = "Rocky Rhodes";
-                manager.numberOfRopeRusheCharges -= 1;
                 manager.canPerformAction = true;
-                manager.ropeRush = true;
+                gameObject.tag = "Rocky Rhodes";
+                // logic transfered in RopeRush couroutine in rockyabilities.cs
+                //   manager.numberOfRopeRusheCharges -= 1;
+                //   manager.ropeRush = true;
             }
+
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Arena2"))

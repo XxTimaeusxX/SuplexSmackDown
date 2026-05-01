@@ -7,6 +7,7 @@ public class RockyAnimations : MonoBehaviour
     [Header("RockyAnimations")]
     public Animator RockyAnimator;
     private string CurrentMicroAnimation = "";
+    [SerializeField] private float runVelocityThreshold = 0.1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,37 +35,59 @@ public class RockyAnimations : MonoBehaviour
         if (Rhodes.isGrabbed)
         {
         //    Debug.Log("ROCKY IS CURRENTLY GRABBED");
-            ChangeAnimation("RockyGrabbed_demo");
+        //    ChangeAnimation("RockyGrabbed_demo");
             return;
         }
       
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.BullRush)
         {
-        //    Debug.Log("Changing to Bullrush animation");
-            ChangeAnimation("BullRush_demo");
+            //    Debug.Log("Changing to Bullrush animation");
+         //   ChangeAnimation("BullRushCharge");
             return;
         }
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.CannonBall)
         {
         //    Debug.Log("Changing to Cannonball animation");
-            ChangeAnimation("Cannonball_demo");
+         //   ChangeAnimation("CannonBallLaunch");
             return;
         }
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Chestbump)
         {
          //   Debug.Log("Changing to Chestbump animation");
-            ChangeAnimation("Chestbump_demo");
+        //    ChangeAnimation("Chestbump_demo");
             return;
         }
-        /*    if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Haymaker)
+        if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.HeelTaunt)
+        {
+            ChangeAnimation("HeelTaunt");
+            return;
+        }
+            if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Haymaker)
             {
-                Debug.Log("Changing to Haymaker animation");
-                ChangeAnimation("RockyPunchChargeUp_demo"); // Or whichever animation name is the actual active punch
+               // Debug.Log("Changing to Haymaker animation");
+             //   ChangeAnimation("HayMakerCharge"); // Or whichever animation name is the actual active punch
                 return;
-            }*/
+            }
+        if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.QTEFail)
+        {
+            ChangeAnimation("ChestBumpPunch"); // or your punch animation
+            return;
+        }
+        if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Exhausted)
+        {
+         //   Debug.Log("Changing to Exhausted animation");
+            ChangeAnimation("Dizzy");
+            return;
+        }
+     /*   if (Rhodes.rb != null && Rhodes.rb.linearVelocity.magnitude > runVelocityThreshold)
+        {
+            ChangeAnimation("RockyRun");
+            return;
+        }*/
+
         if (RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.Idle)
         {
-            ChangeAnimation("Rocky_idle");
+            ChangeAnimation("RockyIdle");
             return;
         }
     }

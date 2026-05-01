@@ -90,38 +90,50 @@ public class OfficeEnemy : EnemyBase
         CheckAnimation();
     }
     
- /*   public override void ChasePlayer()
+    public override void ChasePlayer()
     {
         // Call base implementation (handles all pathfinding)
         base.ChasePlayer();
         
         // ONLY Office-specific: Audio edge trigger
-      /*  if (Target != null)
+        if (Target != null)
         {
-            bool inChaseRange = m_Distance <= chaseRange;
             
-            if (inChaseRange && !_OfficeShoalWasInChaseRange)
+            if (m_Distance <= chaseRange && !_OfficeShoalWasInChaseRange)
             {
-                AudioManager.PlayShoalIdle();
+                int randomDetectSounds = Random.Range(1, 3);
+                switch(randomDetectSounds)
+                {
+                    case 1: AudioManager.PlayTristanDetection(); break;
+                    case 2: AudioManager.PlayTristanDetection2(); break;
+
+                } 
+                _OfficeShoalWasInChaseRange = true;
             }
-            
-            _OfficeShoalWasInChaseRange = inChaseRange;
+            else if (m_Distance > chaseRange)
+            {
+                _OfficeShoalWasInChaseRange = false;
+            }
         }
-        else
-        {
-            _OfficeShoalWasInChaseRange = false;
-        }
-    } */
+        
+    } 
 
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
         if (collision.gameObject.CompareTag("Shockwave"))
         {
+            int randomHurtSounds = Random.Range(1, 4);
             // EnemyBase sets isPushed=true here; play immediately
-           
-            AudioManager.PlayShoalFalling();
-         //   Debug.Log("construction");
+            switch(randomHurtSounds)
+            {
+                case 1: AudioManager.PlayTristanHurt(); break;
+                case 2: AudioManager.PlayTristanHurt2(); break;
+                case 3: AudioManager.PlayTristanHurt3(); break;
+
+            }
+           // AudioManager.PlayTristanHurt2();
+            //   Debug.Log("construction");
         }
     }
 

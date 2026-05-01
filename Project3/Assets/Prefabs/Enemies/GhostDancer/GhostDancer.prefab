@@ -400,6 +400,8 @@ GameObject:
   - component: {fileID: 8054929354583555624}
   - component: {fileID: 1495627596220015993}
   - component: {fileID: 5605405104675070289}
+  - component: {fileID: 3363948081148107925}
+  - component: {fileID: 1685885460553398323}
   m_Layer: 8
   m_Name: GhostDancer
   m_TagString: gg
@@ -551,6 +553,44 @@ MonoBehaviour:
   DefaultWalkSpeed: 0
   DefaultRunMoveSpeed: 0
   DefaultAttackCooldown: 0
+--- !u!111 &3363948081148107925
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598891505152411757}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
+--- !u!95 &1685885460553398323
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3598891505152411757}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 76802759d87143c4185bcccb9dd626d4, type: 3}
+  m_Controller: {fileID: 9100000, guid: f465bd0929ba9d64ea2a0057095af6d0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3835245104890305191
 GameObject:
   m_ObjectHideFlags: 0

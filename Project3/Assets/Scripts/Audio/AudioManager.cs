@@ -23,7 +23,7 @@ public sealed class AudioManager : MonoBehaviour
     private float currentSfxMultiplier = 1f; // Track current SFX volume multiplier
     private float targetMusicVolume;
     private float targetSfxVolume;
-
+   
     [Header("BGM Clips")]
     public AudioClip mainMenuBGM;
     public AudioClip TutorialBGM;
@@ -41,23 +41,72 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip health1Clip;
     public AudioClip GameOverClip;
     public AudioClip GrabClip;
+    public AudioClip Grab2Clip;
     public AudioClip CohettePhraseOneclip;
+    public AudioClip CohetteHurtClip;
+    public AudioClip CohetteHurtClip2;
+    public AudioClip CohetteHurtClip3;
+    public AudioClip CohetteHurtClip4;
+    [Header("Player Dash SFX")]
+    public AudioClip DashClip;
+    public AudioClip Dash2Clip;
+    public AudioClip Dash3Clip;
+    [Header("Player Fall SFX")]
+    public AudioClip FallClip;
+    public AudioClip FallClip2;
+    public AudioClip FallClip3;
+
     [Header("Suplex SFX")]
     public AudioClip LaunchSoundClip;
     public AudioClip suplexSlamClip;
     public AudioClip SuperSuplexSlam;
 
+    public AudioClip CohetteRainbowSuplex;
+    public AudioClip CohetteRainbowSuplex2;
+    public AudioClip CohetteLongSuplex;
+    public AudioClip CohetteLongSuplex2;
+    public AudioClip CohetteLongSuplex3;
+    public AudioClip CohetteSuperSuplex;
+    public AudioClip CohetteSuperSuplex2;
+
     [Header("Health Packs SFX")]
     public AudioClip defaultHealthPackClip;
     public AudioClip drinkHealthPackClip;
+	
+    [Header("Menu SFX")]
+    public AudioClip menuNavigateClip;
+    public AudioClip menuNavigateBackClip;
+    public AudioClip menuNavigateSelectionClip;
 
+    [Header("    --------------------------- LEVEL 1 -----------------------------     ")]
     [Header("Enemy SFX")]
     public AudioClip enemySlapClip;
     public AudioClip enemyDieclip;
-    public AudioClip shoalPhraseClip;
-    public AudioClip AngryShoalClip;
 
+    [Header("Office Enemy SFX")]
+    //tristan's shoal
+    [Header("Tristan's Shoal")]
+    public AudioClip shoalDetectionClipTristan;
+    public AudioClip shoalDetectionClipTristan2;
+    public AudioClip shoalHurtClipTristan;
+    public AudioClip shoalHurtClipTristan2;
+    public AudioClip shoalHurtClipTristan3;
     [Header("Shoal Enemy SFX")]
+    //nico's shoal
+    [Header("Nico's Shoal")]
+    public AudioClip shoalDetectionClipNico;
+    public AudioClip shoalDetectionClipNico2;
+    public AudioClip shoalHurtClipNico;
+    public AudioClip shoalHurtClipNico2;
+    public AudioClip shoalHurtClipNico3;
+    //enzo's shoal
+    [Header("Enzo's Shoal")]
+    public AudioClip shoalDetectionClipEnzo;
+    public AudioClip shoalDetectionClipEnzo2;
+    public AudioClip shoalHurtClipEnzo;
+    public AudioClip shoalHurtClipEnzo2;
+    public AudioClip shoalHurtClipEnzo3;
+
     public AudioClip shoalFallingClip;
     public AudioClip shoalIdleclip;
     public AudioClip shoalDamageHitClip;
@@ -83,10 +132,13 @@ public sealed class AudioManager : MonoBehaviour
     public AudioClip MacroRetreatTwoClip;
     public AudioClip MacroDamageHitOneClip;
     public AudioClip MacroDamageHitTwoClip;
+    public AudioClip MacroGrabbedClip;
 
     [Header("Micro Enemy SFX")]
     public AudioClip MicroChaseOneClip; // chase state sounds when micro is chasing player 
     public AudioClip MicroPrepareAttackClip; // tells macro hes ready to throw him
+    public AudioClip MicroPrepareAttackClip2;
+    public AudioClip MicroPrepareAttackClip3;
     public AudioClip MicroAttackClip; // attack sound when micro is thrown at player
     public AudioClip MicroDamageHitOneClip; 
     public AudioClip MicroDamageHitTwoClip; 
@@ -110,7 +162,12 @@ public sealed class AudioManager : MonoBehaviour
     [Header("Mariachi Sfx")]
     public AudioClip GuitarNoteClip;
     public AudioClip MariachiDetection;
+    public AudioClip MariachiDetection2;
+    public AudioClip MariachiDetection3;
     public AudioClip MariachiHurt;
+    public AudioClip MariachiHurt2;
+    public AudioClip MariachiHurt3;
+    public AudioClip MariachiHurt4;
 
     [Header("Ghost Boss")]
     public AudioClip wrestle1;
@@ -127,7 +184,55 @@ public sealed class AudioManager : MonoBehaviour
 
     [Header("Dancer SFX")]
     public AudioClip DancerAttack;
+    public AudioClip DancerAttack2;
+    public AudioClip DancerHurt;
 
+    [Header("MariGold SFX")]
+    public AudioClip MariGoldBounceClip;
+
+    [Header("    --------------------------- LEVEL 3 -----------------------------     ")]
+
+    [Header("Announcer SFX")]
+    public AudioClip AnnouncerScene1Phrase1;
+    public AudioClip AnnouncerScene1Phrase2;
+    public AudioClip AnnouncerScene2Phrase1;
+    public AudioClip AnnouncerScene2Phrase2;
+    public AudioClip AnnouncerScene3Phrase1;
+    public AudioClip AnnouncerScene3Phrase2;
+    public AudioClip AnnouncerTransferToStage2;
+    public AudioClip AnnouncerTransferToStage3;
+    public AudioClip AnnouncerBossHalf;
+    public AudioClip AnnouncerBossDefeated;
+    [Header("RockyRhodes SFX")]
+    public AudioClip RockyRhodesHurt;
+    public AudioClip RockyRhodesDie;
+    public AudioClip BullrushChargePhrase1;
+    public AudioClip BullrushChargePhrase2;
+    public AudioClip BullrushGoPhrase;
+    public AudioClip BullrushGoPhrase2;
+    public AudioClip HaymakerPhrase;
+    public AudioClip HaymakerPhrase2;
+    public AudioClip HaymakerPhrase3;
+    public AudioClip HaymakerPhraseGo1;
+    public AudioClip HaymakerPhraseGo2;
+    public AudioClip HaymakerPhraseGo3;
+    public AudioClip ChestBumpPhrase1;
+    public AudioClip ChestBumpPhrase2;
+    public AudioClip HeelTauntPhrase1;
+    public AudioClip HeelTauntPhrase2;
+    public AudioClip HeelTauntPhrase3;
+    public AudioClip QTEfailPhrase1;
+    public AudioClip QTEfailPhrase2;
+    public AudioClip QTEfailPhrase3;
+    public AudioClip QTEfailPhrase4;
+    //-- arena 2 sfx --
+    public AudioClip CannonballPhrase1;
+    public AudioClip CannonballPhrase2;
+    // -- arena 3 sfx --
+    public AudioClip DesperationFlurryPhrase1;
+    public AudioClip DesperationFlurryPhrase2;
+    public AudioClip DesperationFlurryPhrase3;
+    public AudioClip DesperationFlurryPhrase4;
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -295,6 +400,11 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayHealthPack() =>PlayNarration(Instance?.defaultHealthPackClip, 1f); // Uses narration system for important pickup lines
     public static void PlayDrinkHealthPack() => PlayNarration(Instance?.drinkHealthPackClip, 1f); // Uses narration system for important pickup lines
 
+	// menu SFX
+    public static void PlayMenuNavigate() => PlaySFX(Instance?.menuNavigateClip, 1f);
+    public static void PlayMenuNavigateBack() => PlaySFX(Instance?.menuNavigateBackClip, 1f);
+    public static void PlayMenuNavigateSelect() => PlaySFX(Instance?.menuNavigateSelectionClip, 1f);
+	
     // player SFX
     public static void PlayFootstep() => PlaySFX(Instance?.footstepClip, 1f);
     public static void PlayJumping() => PlaySFX(Instance?.jumpingClip, 1f);
@@ -326,6 +436,29 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayShoalIdle() => PlaySFX(Instance?.shoalIdleclip, 1f);
     public static void PlayShoalDamageHit() => PlaySFX(Instance?.shoalDamageHitClip, 1f);
     public static void PlayShoalPhrase1() => PlayNarration(Instance?.ShoalPhrase1Clip, 1f); // Uses narration system
+
+    //Tristan's Shoal office enemy sfx
+    public static void PlayTristanDetection() => PlaySFX(Instance?.shoalDetectionClipTristan, 1f);
+    public static void PlayTristanDetection2() => PlaySFX(Instance?.shoalDetectionClipTristan2, 1f);
+    public static void PlayTristanHurt() => PlaySFX(Instance?.shoalHurtClipTristan, 1f);
+    public static void PlayTristanHurt2() => PlaySFX(Instance?.shoalHurtClipTristan2, 1f);
+    public static void PlayTristanHurt3() => PlaySFX(Instance?.shoalHurtClipTristan3, 1f);
+
+    //Nico's Shoal office enemy sfx
+    public static void PlayNicoDetection() => PlaySFX(Instance?.shoalDetectionClipNico, 1f);
+    public static void PlayNicoDetection2() => PlaySFX(Instance?.shoalDetectionClipNico2, 1f);
+    public static void PlayNicoHurt() => PlaySFX(Instance?.shoalHurtClipNico, 1f);
+    public static void PlayNicoHurt2() => PlaySFX(Instance?.shoalHurtClipNico2, 1f);
+    public static void PlayNicoHurt3() => PlaySFX(Instance?.shoalHurtClipNico3, 1f);
+
+    //Enzo's Shoal office enemy sfx
+    public static void PlayEnzoDetection() => PlaySFX(Instance?.shoalDetectionClipEnzo, 1f);
+    public static void PlayEnzoDetection2() => PlaySFX(Instance?.shoalDetectionClipEnzo2, 1f);
+    public static void PlayEnzoHurt() => PlaySFX(Instance?.shoalHurtClipEnzo, 1f);
+    public static void PlayEnzoHurt2() => PlaySFX(Instance?.shoalHurtClipEnzo2, 1f);
+    public static void PlayEnzoHurt3() => PlaySFX(Instance?.shoalHurtClipEnzo3, 1f);
+
+
     // ----Construction Enemy SFX----
     public static void PlayConstructionIdle() => PlaySFX(Instance?.ConstructionIdleClip, 1f);
     public static void PlayConstructionSeenOne() => PlaySFX(Instance?.ConstructionSeenOneClip, 1f);
@@ -365,13 +498,36 @@ public sealed class AudioManager : MonoBehaviour
     public static void PlayIntercom4Trash() => PlayNarration(Instance?.Intercom4, 1f);
 
     //-------------------------------------------- LEVEL 2------------------------------------------//
-
-    public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
     public static void PlayFestivalBGM() => PlayMusic(Instance?.FestivalBGM);
+    // Mariachi SFX
+    public static void PlayGuitarNote() => PlaySFX(Instance?.GuitarNoteClip, 1f);
     public static void PlayMariachiDetection() => PlaySFX(Instance?.MariachiDetection, 1f);
+    public static void PlayMariachiDetection2() => PlaySFX(Instance?.MariachiDetection2, 1f);
+    public static void PlayMariachiDetection3() => PlaySFX(Instance?.MariachiDetection3, 1f);
     public static void PlayMariachiHurt() => PlaySFX(Instance?.MariachiHurt, 1f);
+    public static void PlayMariachiHurt2() => PlaySFX(Instance?.MariachiHurt2, 1f);
+    public static void PlayMariachiHurt3() => PlaySFX(Instance?.MariachiHurt3, 1f);
+    public static void PlayMariachiHurt4() => PlaySFX(Instance?.MariachiHurt4, 1f);
+    // GhostDancer SFX
     public static void PlayDancerAttack() => PlaySFX(Instance?.DancerAttack, 1f);
+    public static void PlayDancerAttack2() => PlaySFX(Instance?.DancerAttack2, 1f);
+    //Ghost Boss
+    public static void PlayWrestle1() => PlaySFX(Instance?.wrestle1, 1f);
+    public static void PlayWrestle2() => PlaySFX(Instance?.wrestle2, 1f);
+    public static void PlayWrestle3() => PlaySFX(Instance?.wrestle3, 1f);
+    public static void PlayFrozen() => PlaySFX(Instance?.frozen, 1f);
+    public static void PlaySlam() => PlaySFX(Instance?.slam, 1f);
+    public static void PlayHurt1() => PlaySFX(Instance?.hurt1, 1f);
+    public static void PlayHurt2() => PlaySFX(Instance?.hurt2, 1f);
+    public static void PlayHurt3() => PlaySFX(Instance?.hurt3, 1f);
+    public static void PlayMoveArena() => PlaySFX(Instance?.moveArena, 1f);
+    public static void PlayPhase() => PlaySFX(Instance?.phase, 1f);
+    public static void PlayWeakSignal() => PlaySFX(Instance?.weakSignal, 1f);
 
     //-------------------------------------------- LEVEL 3------------------------------------------//
     public static void PlayArenaBossBGM() => PlayMusic(Instance?.ArenaBossBGM);
+    public static void PlayAnnouncerTransferToStage2() => PlayNarration(Instance?.AnnouncerTransferToStage2, 1f);
+    public static void PlayAnnouncerTransferToStage3() => PlayNarration(Instance?.AnnouncerTransferToStage3, 1f);
+    public static void PlayAnnouncerBossHalf() => PlayNarration(Instance?.AnnouncerBossHalf, 1f);
+    public static void PlayAnnouncerBossDefeated() => PlayNarration(Instance?.AnnouncerBossDefeated, 1f);
 }

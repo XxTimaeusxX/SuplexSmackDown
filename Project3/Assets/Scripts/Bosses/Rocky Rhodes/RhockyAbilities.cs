@@ -32,7 +32,7 @@ public class RhockyAbilities : MonoBehaviour
     private RockyRhodes _rockyRhodes;
     private RockyAnimations _rockyAnimations;
     private Coroutine _currentStateCoroutine;
-
+    [SerializeField] private RockyVoiceManager RockyVoice;
     public RockyRhodesStates CurrentRockyState;
 
     public List<RockyRhodesStates> _randomSelection = new List<RockyRhodesStates>
@@ -44,6 +44,7 @@ public class RhockyAbilities : MonoBehaviour
         RockyRhodesStates.RopeRush,
         RockyRhodesStates.HeelTaunt,
         RockyRhodesStates.EnhancedRopeRush,
+
     };
    [SerializeField] private QteCollideSensor qteCollideSensorScript;
     private void Awake()
@@ -51,6 +52,7 @@ public class RhockyAbilities : MonoBehaviour
         _rockyRhodes = GetComponent<RockyRhodes>();
         _rockyAnimations = GetComponent<RockyAnimations>();
         if (qteCollideSensorScript ==null) qteCollideSensorScript = GetComponent<QteCollideSensor>();
+        if (RockyVoice != null) RockyVoice = GetComponent<RockyVoiceManager>();
         //  CurrentRockyState = RockyRhodesStates.Regular;
         manager = GetComponent<RockyRhodesManager>();
         attacks = GetComponent<RockyRhodesAttacks>();
@@ -80,7 +82,7 @@ public class RhockyAbilities : MonoBehaviour
 
     public void CheckState(RockyRhodesStates states)
     {
-        if(_rockyRhodes.gameObject.tag!= "Enemy")// Only reset tag if it's not set to "Enemy" to avoid unnecessary changes
+        if(_rockyRhodes.gameObject.tag!= "Stunned Rocky")// Only reset tag if it's not set to "Enemy" to avoid unnecessary changes
         {
             _rockyRhodes.gameObject.tag = "Untagged"; // Reset tag to default at the start of any state change
         }
@@ -118,6 +120,7 @@ public class RhockyAbilities : MonoBehaviour
                 break;
             case RockyRhodesStates.RopeRush:
                 manager.ropeRush = true;
+                _currentStateCoroutine = StartCoroutine(RopeRush());
                 break;
             case RockyRhodesStates.EnhancedRopeRush:
                 manager.enhancedRopeRush = true;
@@ -132,6 +135,12 @@ public class RhockyAbilities : MonoBehaviour
    
         }
     }
+    public IEnumerator DizzyForSeconds(float seconds)
+    {
+        CurrentRockyState = RockyRhodesStates.Exhausted;
+        yield return new WaitForSeconds(seconds);
+        CurrentRockyState = RockyRhodesStates.Idle;
+    }
     public IEnumerator QTE()
     {
       //  InterruptAbility(true); // Interrupt any ongoing ability when entering QTE mode
@@ -140,7 +149,7 @@ public class RhockyAbilities : MonoBehaviour
         while (_rockyRhodes.QTESystemScript != null &&
                _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
         {
-            Debug.Log("QTE State Active");
+          //  Debug.Log("QTE State Active");
             yield return null;
         }
 
@@ -148,17 +157,19 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = false;
         _rockyRhodes.IgnoreGroundCheck = false;
         _rockyRhodes.ToggleBehaviors(true); // Ensure his AI is turned back on if it was off
-        Debug.Log("QTE ended, resuming normal AI.");
+       // Debug.Log("QTE ended, resuming normal AI.");
        
         CheckState(RockyRhodesStates.Idle);
     }
     // --------------------------------------- Main  abilities ------------------------------------//
     public IEnumerator AbilityChoose()
     {
+        if(IsPerformingAbility) yield break;
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
+        if (manager.arena2) { Debug.Log("Arena 2 Active - Skipping regular random abilities."); yield break; }
         Debug.Log("Regular State Active");
-        yield return new WaitForSeconds(AbilityCooldown);
-
+        yield return new WaitForSeconds(1f);
+        if(IsPerformingAbility) yield break;
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         int randomIndex = Random.Range(0, _randomSelection.Count);
         //   CurrentRockyState = _randomSelection[randomIndex];
@@ -174,13 +185,14 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-        
+        _rockyAnimations.ChangeAnimation("BullRushCharge");
+        RockyVoice.PlayBullrushCharge();
         // Skip all QTE logic if part of an un-interruptible flurry
         if (!isFlurryActive)
         {
             qteCollideSensorScript.ResetOverlap();
             qteCollideSensorScript.QTETriggerCollider.enabled = true; 
-            if(qteCollideSensorScript.QTETriggerCollider == true) Debug.Log("QTE Trigger Collider enabled for Bull Rush.");
+          //  if(qteCollideSensorScript.QTETriggerCollider == true) Debug.Log("QTE Trigger Collider enabled for Bull Rush.");
             if ( _rockyRhodes.QTESystemScript.EnableQuickTimeEvent)
             {
                 Debug.Log("Player successfully triggered QTE during Bull Rush! Transitioning to QTE mode.");
@@ -197,7 +209,8 @@ public class RhockyAbilities : MonoBehaviour
 
         // Skip or reduce charge-up delay if this attack is part of the Desperation Flurry
         yield return new WaitForSeconds(isFlurryActive ? 2f : 5f);
-
+        _rockyAnimations.ChangeAnimation("RockyPunch");
+        RockyVoice.PlayBullrushGo();
         qteCollideSensorScript.QTETriggerCollider.enabled = false; 
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
@@ -221,7 +234,7 @@ public class RhockyAbilities : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-
+       
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
         
         // ONLY consume the rage buff if we are NOT in the endless flurry!
@@ -243,7 +256,7 @@ public class RhockyAbilities : MonoBehaviour
     }
     public IEnumerator Haymaker()
     {
-        _rockyAnimations.ChangeAnimation("RockyPunchChargeUp_demo");
+     //   _rockyAnimations.ChangeAnimation("RockyPunchChargeUp_demo");
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HAYMAKER State Active");
         
@@ -252,10 +265,12 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-
+        _rockyAnimations.ChangeAnimation("HayMakerCharge");
+        RockyVoice.PlayHaymaker();
         // Skip or reduce charge-up delay
         yield return new WaitForSeconds(isFlurryActive ? 1f : 3f);
-
+        _rockyAnimations.ChangeAnimation("HayMakerPunch");
+        RockyVoice.PlayHaymakerGo();
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
@@ -270,7 +285,7 @@ public class RhockyAbilities : MonoBehaviour
             // Ignore grab/push statuses if flurry is active
             if (isFlurryActive || (!_rockyRhodes.isGrabbed && !_rockyRhodes.isPushed))
             {
-                _rockyAnimations.ChangeAnimation("HayMaker_demo");
+               
                 _rockyRhodes.rb.linearVelocity = toTarget * currentSpeed;
                 _rockyRhodes.gameObject.tag = "DamagePlayer";
             }
@@ -308,10 +323,10 @@ public class RhockyAbilities : MonoBehaviour
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
-
+        RockyVoice.PlayChestBump();
         // Skip or reduce charge-up delay
         yield return new WaitForSeconds(isFlurryActive ? 0.5f : 1f);
-
+        _rockyAnimations.ChangeAnimation("ChestBumpPunch");
         Vector3 toTarget = PlayerTarget.position - transform.position;
         toTarget.y = 0f;
         toTarget.Normalize();
@@ -323,8 +338,8 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         // Use custom shorter duration/speed for the mini dash
-        float chestBumpDuration = 0.3f; // Shorter than BullRush
-        float chestBumpSpeed = 40f;     // Slightly slower/punchier
+        float chestBumpDuration = 0.5f; // Shorter than BullRush
+        float chestBumpSpeed = 30f;     // Slightly slower/punchier
         float timer = 0f;
 
         float currentSpeed = isEnraged ? (chestBumpSpeed * speedMultiplierLevel) : chestBumpSpeed;
@@ -344,7 +359,7 @@ public class RhockyAbilities : MonoBehaviour
         }
 
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
-        
+        yield return new WaitForSeconds(1f); 
         // ONLY consume the rage buff if we are NOT in the endless flurry!
         if (isEnraged && !isFlurryActive)
         {
@@ -366,7 +381,8 @@ public class RhockyAbilities : MonoBehaviour
     {
         if (CurrentRockyState == RockyRhodesStates.QTEMode) yield break;
         Debug.Log("HEEL TAUNT State Active - Charging Rage...");
-
+        //  _rockyAnimations.ChangeAnimation("HeelTaunt");
+        RockyVoice.PlayHeelTaunt();
         IsPerformingAbility = true;
         _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.IgnoreGroundCheck = true;
@@ -387,7 +403,25 @@ public class RhockyAbilities : MonoBehaviour
     // --------------------------------------- Arena 1 abilities ------------------------------------//
     public IEnumerator RopeRush()
     {
-        yield return new WaitForSeconds(AbilityCooldown);
+        if(IsPerformingAbility) yield break;
+        Debug.Log("ROPERUSH State Active");
+        IsPerformingAbility = true;
+        _rockyRhodes.ToggleBehaviors(false);
+        while (manager.numberOfRopeRusheCharges > 0)
+        {
+            attacks.StartRopeRush();
+            yield return new WaitUntil(() => attacks.IsropeRushActive);
+            yield return new WaitUntil(() => !attacks.IsropeRushActive);
+            manager.numberOfRopeRusheCharges--;
+            yield return new WaitForSeconds(0.5f);
+        }
+        if (manager.numberOfRopeRusheCharges <= 0) attacks.StartCoroutine(attacks.RestRopeRush(4f));
+        IsPerformingAbility = false;
+        manager.ropeRush = false;
+        _rockyRhodes.ToggleBehaviors(true);
+        
+        yield return new WaitForSeconds(1f);
+        CheckState(RockyRhodesStates.Idle);
     }
     // --------------------------------------- Arena 2 abilities ------------------------------------//
   /*  public IEnumerator CannonBall()
@@ -489,7 +523,7 @@ public class RhockyAbilities : MonoBehaviour
                 yield return StartCoroutine(ChestBump());
 
             // Allow a short buffer to allow physics/animation transitions smoothly
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.6f);
         }
 
         // Flurry has ended, completely shut off rage and aura
@@ -501,16 +535,19 @@ public class RhockyAbilities : MonoBehaviour
         
         // ---- EXHAUSTED STATE ----
         Debug.Log("Flurry finished! Rocky is EXHAUSTED and vulnerable to grabs for 4 seconds!");
+        _rockyRhodes.ToggleBehaviors(false);
         _rockyRhodes.gameObject.tag = "Enemy"; // Enable grabbable tag
         
         // Stop any leftover momentum so he stands still while exhausted
         _rockyRhodes.rb.linearVelocity = Vector3.zero;
 
         // If you have a tired animation, you can trigger it here!
-         _rockyAnimations.ChangeAnimation("Exhausted_demo");
+        CurrentRockyState = RockyRhodesStates.Exhausted;
+        _rockyAnimations.ChangeAnimation("Exhausted_demo");
 
         yield return new WaitForSeconds(6f);
 
+        _rockyRhodes.ToggleBehaviors(true);
         // If he wasn't grabbed during the Exhausted phase, reset and loop
         _rockyRhodes.gameObject.tag = "Untagged"; 
         IsPerformingAbility = false;

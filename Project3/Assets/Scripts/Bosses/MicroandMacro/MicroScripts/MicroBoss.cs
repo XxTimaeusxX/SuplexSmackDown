@@ -11,6 +11,7 @@ public class MicroBoss : EnemyBase
 {
     [Header("-------------------------Micro Settings ------------------------------")]
     public Boss1Arena bossArena;
+    CapsuleCollider capsuleCollider;
     [Header("Boss Throw")]
     //[SerializeField] private BoxCollider throwHitBox; // hitbox to detect when to throw Macro
     [SerializeField] private GameObject macroPrefab;   // prefab For MicroBoss
@@ -52,7 +53,9 @@ public class MicroBoss : EnemyBase
          _MacroAgent = MacroPrefab.GetComponent<NavMeshAgent>();
          _MacrosRb = MacroPrefab.GetComponent<Rigidbody>();
         _MacroEnemy = MacroPrefab.GetComponent<MacroBoss>();
-       
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
+
         if (_powerGauge == null)
             _powerGauge = GetComponent<PowerGauge>();
 
@@ -110,6 +113,15 @@ public class MicroBoss : EnemyBase
             canChase = false;
             canPatrol = false;
             agent.enabled = false;
+            if (gameObject.transform.IsChildOf(Target.transform))
+            {
+                rb.isKinematic = true;
+            }
+            else
+            {
+                rb.isKinematic = false;
+            }
+            ChangeColliderOrientation();
             _glowMesh.SetGlowColor(); // trigger glow effect on death
             lowerRoom.EnableArrows();// enable arrows to show path to next area
             this.gameObject.tag ="Micro";
@@ -153,7 +165,7 @@ public class MicroBoss : EnemyBase
         _MacroEnemy.IsGrabbedByMicro = true;
         // Store original mesh rotation to restore later
         Quaternion originalMeshRotation = macrosmesh != null ? macrosmesh.localRotation : Quaternion.identity;
-        AudioManager.PlayMicroPrepareAttack();
+        ThrowAttackPhrases();
         // ----- Position macro prefab at throw origin ----- //
         var origin = (throwOrigin != null) ? throwOrigin : this.transform;
         MacroPrefab.transform.position = origin.position;
@@ -222,7 +234,16 @@ public class MicroBoss : EnemyBase
         yield return new WaitForSeconds(2f); // wait for hurt animation to play
         CheckAnimation();
     }
-
+    public void ThrowAttackPhrases()
+    {
+        int randomValue = Random.Range(1, 4); // Assuming you have 3 variations for each attack type
+        switch (randomValue)
+        {
+            case 1:AudioManager.PlaySFX(AudioManager.Instance.MicroPrepareAttackClip, 1f); break;
+            case 2: AudioManager.PlaySFX(AudioManager.Instance.MicroPrepareAttackClip2, 1f); break;   
+            case 3:AudioManager.PlaySFX(AudioManager.Instance.MicroPrepareAttackClip3, 1f); break;        
+        }
+    }
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {
@@ -265,5 +286,11 @@ public class MicroBoss : EnemyBase
         ChangeAnimation("MicroIdle");
 
 
+    }
+
+    private void ChangeColliderOrientation()
+    {
+        capsuleCollider.direction = 2;
+        capsuleCollider.center = new Vector3(-0.18f, 0, -0.16f);
     }
 }

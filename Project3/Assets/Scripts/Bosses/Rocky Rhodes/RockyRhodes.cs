@@ -28,8 +28,11 @@ public enum RockyRhodesStates
     EnhancedRopeRush,
     Deadlift,
     DesperationFlurry,
+    // -- universal states --//
     QTEMode,
+    QTEFail,
     Dead,
+    Exhausted,
 }
 
 [DisallowMultipleComponent]
@@ -43,6 +46,7 @@ public class RockyRhodes : EnemyBase
     [SerializeField] private InGameMenuManager inGameMenuManager;
     [SerializeField] RhockyHealth rhockyHealth;
     public bool abilitiesEnabled = false; // when true the state machine runs
+    public override bool AutoKinematic => false;
     private RhockyAbilities _abilities;
 
     [Header("Visual References")]
@@ -80,14 +84,15 @@ public class RockyRhodes : EnemyBase
     public override void Update()
     {
         base.Update();
+        FacePlayer();
     }
     public override void SetGrabbed(bool grabbed) // custom grab condition for Rhocky :enemybase
     {
         base.SetGrabbed(grabbed);
         
         RockyRhodesManager manager = GetComponent<RockyRhodesManager>();
-
-        if(grabbed)
+        manager.grabbed = grabbed; // sync the manager's grabbed state as well
+        if (grabbed)
         {
             ToggleBehaviors(false);
             _abilities.InterruptAbility(true);
@@ -103,6 +108,18 @@ public class RockyRhodes : EnemyBase
             {
                 _abilities.CheckState(RockyRhodesStates.Idle);
             }
+        }
+    }
+    public void FacePlayer()
+    {
+        if (Target == null || RockyRhodesMesh == null)
+            return;
+
+        Vector3 direction = Target.transform.position - RockyRhodesMesh.position;
+        direction.y = 0f; // Keep only horizontal rotation
+        if (direction.sqrMagnitude > 0.01f)
+        {
+            RockyRhodesMesh.rotation = Quaternion.LookRotation(direction);
         }
     }
     protected override void CustomAttack() // Rhocky's custom attack behavior :enemybase
@@ -137,7 +154,7 @@ public class RockyRhodes : EnemyBase
     }
     public void ToggleBehaviors( bool IsEnabled) // disabling rocky States switch
     {
-        Debug.Log("Toggling Rocky's behaviors: " + (IsEnabled ? "ENABLED" : "DISABLED"));
+      //  Debug.Log("Toggling Rocky's behaviors: " + (IsEnabled ? "ENABLED" : "DISABLED"));
         // Disable AI behaviors
         canAttack = IsEnabled;
         canChase = IsEnabled;
@@ -145,7 +162,7 @@ public class RockyRhodes : EnemyBase
 
         // Disable NavMesh
         agent.enabled = IsEnabled;
-        rb.isKinematic = IsEnabled;
+       // rb.isKinematic = IsEnabled;
      //   rb.useGravity = IsEnabled;
     }
 
