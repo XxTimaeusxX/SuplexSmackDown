@@ -137,7 +137,6 @@ public class RockyRhodesAttacks : MonoBehaviour
     private void Jump()
     {
         _rockyAnimations.ChangeAnimation("CannonBallLaunch");
-        RockyVoice.PlayCannonball();
         manager.agent.enabled = false;
         manager.rb.linearVelocity = new Vector2(manager.rb.linearVelocity.x, manager.jumpForce);
         StartCoroutine(JumpTime(manager.jumpTime));

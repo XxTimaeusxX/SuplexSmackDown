@@ -47,6 +47,7 @@ public class RockyAnimations : MonoBehaviour
         }
         if(RockyRhodesStates.CurrentRockyState == global::RockyRhodesStates.CannonBall)
         {
+            AudioManager.PlaySFX(AudioManager.Instance.CannonballPhrase1, 1f);
         //    Debug.Log("Changing to Cannonball animation");
          //   ChangeAnimation("CannonBallLaunch");
             return;
