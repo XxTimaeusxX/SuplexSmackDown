@@ -133,7 +133,7 @@ public class ConstructionEnemy : EnemyBase
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
-        if (collision.gameObject.CompareTag("Shockwave"))
+        if (collision.gameObject.tag == "Shockwave")
         {
             AudioManager.PlayConstructionFalling();
         }

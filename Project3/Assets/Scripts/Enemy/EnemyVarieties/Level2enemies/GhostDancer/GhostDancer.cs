@@ -96,7 +96,7 @@ public class GhostDancer : EnemyBase
     public void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
-        if (collision.gameObject.CompareTag("Shockwave"))
+        if (collision.gameObject.tag == "Shockwave")
         {
             AudioManager.PlaySFX(AudioManager.Instance.DancerHurt, 1f);
         }

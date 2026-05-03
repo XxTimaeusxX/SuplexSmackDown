@@ -74,7 +74,7 @@ public class Boss2Interaction : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(boss))
+        if (other.gameObject.tag == boss)
         {
             slow = true;
         }
@@ -84,7 +84,7 @@ public class Boss2Interaction : MonoBehaviour
     {
         if (!collided)
         {
-            if (other.CompareTag("BossShockwave"))
+            if (other.gameObject.tag == "BossShockwave")
             {
                 collided = true;
                 health.TakeDamage();

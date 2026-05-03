@@ -33,7 +33,7 @@ public class Level3Respawn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Collider"))
+        if (other.gameObject.tag == "Collider")
         {
             respawnTriggers[currentTriggerIndex].SetActive(false);
             currentTriggerIndex++;

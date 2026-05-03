@@ -90,12 +90,12 @@ public class PlayerHealth : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("DamagePlayer") && iFrames == false)
+        if (collision.gameObject.tag == "DamagePlayer" && iFrames == false)
 		{
 			TakeDamage();
 			collision.gameObject.tag = "Macro";
 		}
-		if (collision.gameObject.CompareTag("Projectile") && iFrames == false)
+		if (collision.gameObject.tag == "Projectile" && iFrames == false)
 		{
             TakeDamage();
         }
@@ -114,7 +114,7 @@ public class PlayerHealth : MonoBehaviour
     {
 		if (boss == null)
 		{
-            if (other.CompareTag("BossShockwave"))
+            if (other.gameObject.tag == "BossShockwave")
             {
                 TakeDamage();
             }

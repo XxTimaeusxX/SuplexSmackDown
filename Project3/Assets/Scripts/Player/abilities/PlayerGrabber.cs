@@ -77,7 +77,7 @@ public class PlayerGrabber : MonoBehaviour
             // Debug.Log("Raycast hit: " + hit.collider.name);
 
             // Only grab if tagged correctly
-            if (hit.collider.CompareTag("canGrab"))
+            if (hit.collider.gameObject.tag == "canGrab")
             {
                 // Debug.Log("Hit object has 'canGrab' tag.");
 

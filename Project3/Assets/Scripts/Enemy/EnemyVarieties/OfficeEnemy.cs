@@ -121,7 +121,7 @@ public class OfficeEnemy : EnemyBase
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
-        if (collision.gameObject.CompareTag("Shockwave"))
+        if (collision.gameObject.tag == "Shockwave")
         {
             int randomHurtSounds = Random.Range(1, 4);
             // EnemyBase sets isPushed=true here; play immediately

@@ -26,7 +26,7 @@ public class PlayerCheckpoint : MonoBehaviour
 	private void OnTriggerEnter(Collider other)
     {
 		//upon entering, set this checkpoint to currentCheckpoint
-		if (other.CompareTag("Respawn"))
+		if (other.gameObject.tag == "Respawn")
         {
 			currentCheckpoint = other.transform;
         }

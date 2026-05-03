@@ -351,17 +351,17 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Intercom"))
+        if (other.gameObject.tag == "Intercom")
         {
            AudioManager.PlayIntercom1HrDepartment();
             other.gameObject.SetActive(false); // Deactivate the intercom object after triggering the audio
         }
-        if(other.CompareTag("Intercom2Trash"))
+        if(other.gameObject.tag == "Intercom2Trash")
         {
             AudioManager.PlayIntercom4Trash();
             Destroy(other.gameObject); // Destroy the intercom object after triggering the audio
         }
-        if (other.CompareTag("Intercom3Loadingbay"))
+        if (other.gameObject.tag == "Intercom3Loadingbay")
         {
             AudioManager.PlayIntercom2LoadingBay();
             Destroy(other.gameObject); // Destroy the intercom object after triggering the audio

@@ -37,7 +37,7 @@ public class Shockwave : MonoBehaviour
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
-        if (hit.gameObject.CompareTag("Enemy")|| hit.gameObject.CompareTag("GhostDancer") || hit.gameObject.CompareTag("Stunned Rocky"))
+        if (hit.gameObject.gameObject.tag == "Enemy"|| hit.gameObject.gameObject.tag == "GhostDancer" || hit.gameObject.gameObject.tag == "Stunned Rocky")
         {
             Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
             body.AddForce(pushDir * pushForce, ForceMode.Impulse);

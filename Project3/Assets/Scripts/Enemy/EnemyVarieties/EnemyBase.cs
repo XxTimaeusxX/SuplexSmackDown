@@ -346,7 +346,7 @@ public IEnumerator SlapattackDuration()
     }*/
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Shockwave"))
+        if (collision.gameObject.tag == "Shockwave")
         {
             pushCooldown = 3;
             isPushed = true;

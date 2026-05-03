@@ -35,25 +35,25 @@ public class SuplexHitboxCaller : MonoBehaviour
             return;
         }*/
         // Only react if the collider is tagged as "Enemy" and we have a PlayerSuplex reference
-        if (other.CompareTag("Enemy") || other.CompareTag("DontRespawn")
-            || other.CompareTag("Macro") || other.CompareTag("Micro") || other.CompareTag("Drone") || 
-            other.CompareTag("Solid") || other.CompareTag("GhostDancer") || other.CompareTag("Stunned Rocky")
+        if (other.gameObject.tag == "Enemy" || other.gameObject.tag == "DontRespawn"
+            || other.gameObject.tag == "Macro" || other.gameObject.tag == "Micro" || other.gameObject.tag == "Drone" || 
+            other.gameObject.tag == "Solid" || other.gameObject.tag == "GhostDancer" || other.gameObject.tag == "Stunned Rocky"
             && playerSuplex != null)
         {
            //  Debug.Log("hitboxcollider called");
-            if (other.CompareTag("Drone"))
+            if (other.gameObject.tag == "Drone")
             {
                 other.gameObject.GetComponent<FlyingAI>().grabbed = true;
             }
-            if (other.CompareTag("Solid"))
+            if (other.gameObject.tag == "Solid")
             {
                 other.gameObject.GetComponent<Level2BossManager>().grabbed = true;
             }
-            if (other.CompareTag("Stunned Rocky"))
+            if (other.gameObject.tag == "Stunned Rocky")
             {
                 other.gameObject.GetComponent<RockyRhodesManager>().grabbed = true;
             }
-            if (other.CompareTag("Micro"))
+            if (other.gameObject.tag == "Micro")
             {
                 AudioManager.PlayMicroGrabbed();
             }

@@ -80,7 +80,7 @@ public class ShoalEnemy : EnemyBase
     private void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
-        if (collision.gameObject.CompareTag("Shockwave"))
+        if (collision.gameObject.tag == "Shockwave")
         {
             int randomHurtSounds = Random.Range(1, 7);
             // EnemyBase sets isPushed=true here; play immediately
