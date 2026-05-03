@@ -51,10 +51,24 @@ public class EnemyBase : MonoBehaviour
     [Header("Hitbox")]
     public GameObject slapbox;          // child trigger collider with AttackHitBox
     [SerializeField] private float slapActiveTime = 0.1f;
-
+    private bool grounded;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     GameManager gameManager;
+
+    [Header("Ground Check Optimizations")]
+    private float groundCheckInterval = 3f; // Check every 3 seconds
+    private float groundCheckTimer;
+    private Coroutine activeGroundCheck;
+    private static readonly WaitForSeconds SlapWait = new WaitForSeconds(0.5f); //caching to reduce GC
+    private static readonly WaitForSeconds SlapActiveWait = new WaitForSeconds(0.09f);
+
+    [Header("Chase Optimizations")]
+    private Vector3 _LastTargetPosition;
+    private float _nextPathUpdateTime;
+    private float pathUpdateInterval = 2f; // Update path every 0.5 seconds
+    private float TargetMoveThreshold = 2f; // Only update if target moved more than this distance
+
     public void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -76,7 +90,19 @@ public class EnemyBase : MonoBehaviour
     // Update is called once per frame
     public virtual void Update()
     {
-        bool grounded = IsEnemyGrounded();
+        // Throttle ground check: only check every groundCheckInterval, and only if not grabbed/pushed/agent enabled
+        groundCheckTimer -= Time.deltaTime;
+        if (groundCheckTimer <= 0f && !isGrabbed && !isPushed && !agent.enabled)
+        {
+            grounded = IsEnemyGrounded();
+            groundCheckTimer = groundCheckInterval;
+        }
+        // If agent is enabled, assume grounded (optional: set grounded = true)
+        if (agent.enabled)
+        {
+            grounded = true;
+        }
+
         if (isPushed)
         {
             pushCooldown -= Time.deltaTime;
@@ -175,25 +201,20 @@ public class EnemyBase : MonoBehaviour
             RandomPatrolDestination();
             return;
         }
-
-     /*   if (CompareTag("Grabbed"))
-        {
-            this.gameObject.tag = "Macro";
-        }*/
-
-        m_Distance = Vector3.Distance(Target.transform.position, transform.position);
+        //  m_Distance = Vector3.Distance(Target.transform.position, transform.position);
+        float SqrChaseRange = chaseRange * chaseRange;
+        float SqrMeleeRange = meleeRange * meleeRange;
+        m_Distance = (Target.transform.position - transform.position).sqrMagnitude;
         float arrivalThreshold = Mathf.Max(0.5f, agent.stoppingDistance);
 
         if (agent.isOnNavMesh)
         {
-          //  bool inChaseRange = m_Distance <= chaseRange;
-
-            if (m_Distance <= chaseRange)
+            if (m_Distance <= SqrChaseRange)
             {
                 patrolWaitDefault = 0f;
                 agent.speed = patrolRunSpeed;
                 FaceTarget();
-                if (m_Distance < meleeRange)
+                if (m_Distance < SqrMeleeRange)
                 {
                     agent.isStopped = true;
                     BaseAttack();
@@ -201,7 +222,13 @@ public class EnemyBase : MonoBehaviour
                 else
                 {
                     if (agent.isStopped) agent.isStopped = false;
-                    agent.destination = Target.transform.position;
+                    if(Time.time >= _nextPathUpdateTime || Vector3.SqrMagnitude(Target.transform.position - _LastTargetPosition) > TargetMoveThreshold * TargetMoveThreshold)
+                    {
+                        agent.destination = Target.transform.position;
+                        _LastTargetPosition = Target.transform.position;
+                        _nextPathUpdateTime = Time.time + pathUpdateInterval;
+                    }
+
                     _nextAttackTime = 0f;
                     ResetChargeUI();
                 }
@@ -249,14 +276,16 @@ public class EnemyBase : MonoBehaviour
         AudioManager.PlayEnemySlap();
         StartCoroutine(SlapattackDuration());
     }    
-    public IEnumerator SlapattackDuration()
-    {
-        if (slapbox == null) yield break;
-        yield return new WaitForSeconds(.5f); // wait a frame to sync with animation
-        slapbox.SetActive(true);
-        yield return new WaitForSeconds(.09f);
-        slapbox.SetActive(false);
-    }
+
+
+public IEnumerator SlapattackDuration()
+{
+    if (slapbox == null) yield break;
+    yield return SlapWait;
+    slapbox.SetActive(true);
+    yield return SlapActiveWait;
+    slapbox.SetActive(false);
+}
     // Add these helpers inside Enemy class
     public void UpdateChargeUI(float current, float max, bool show)
     {
@@ -293,14 +322,14 @@ public class EnemyBase : MonoBehaviour
     {
         if (IgnoreGroundCheck) return false;
         // Use a raycast or other method to check if the enemy is on the ground
-     //    Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
-        return Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+      //    Debug.DrawRay(transform.position, Vector3.down * 4.0f, Color.red, 0.1f);
+       return Physics.Raycast(transform.position, Vector3.down, groundDistance, groundMask);
 
     }
     /// <summary>
     /// Gizmo to visualize the ground check sphere in the editor
     /// </summary>
-    public void OnDrawGizmosSelected()
+  /*  public void OnDrawGizmosSelected()
     {
         Vector3 center = groundCheck != null ? groundCheck.position : transform.position;
         float radius = Mathf.Max(groundDistance, 0f);
@@ -314,7 +343,7 @@ public class EnemyBase : MonoBehaviour
         // Melee range sphere (red/orange)
         Gizmos.color = new Color(1f, 0.5f, 0f); // orange
         Gizmos.DrawWireSphere(transform.position, meleeRange);
-    }
+    }*/
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Shockwave"))

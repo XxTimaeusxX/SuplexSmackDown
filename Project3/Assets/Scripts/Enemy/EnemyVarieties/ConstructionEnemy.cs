@@ -3,9 +3,9 @@ using UnityEngine.AI;
 
 public class ConstructionEnemy : EnemyBase
 {
-    private bool _WorkerInChaseRange = false;
+ //   private bool _WorkerInChaseRange = false;
     // Edge trigger to play damage sound once when push starts
-    private bool _wasPushed = false;
+  //  private bool _wasPushed = false;
     [Header("Animation")]
     public Animator WorkerAnimator;
     private string CurrentWorkerAnimation = "";
@@ -91,6 +91,7 @@ public class ConstructionEnemy : EnemyBase
                _WorkerInChaseRange = false;
            }
        }*/
+ 
     //---------------- Animation ---------------------------//
     public void ChangeAnimation(string animation, float crossfade = 0.2f)
     {
