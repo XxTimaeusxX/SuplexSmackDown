@@ -414,16 +414,19 @@ MonoBehaviour:
   agent: {fileID: 8401383411265271415}
   rb: {fileID: 7369460993904846586}
   menuManager: {fileID: 0}
+  powerGuage: {fileID: 0}
   groundCheck: {fileID: 2584237026947508171}
   groundMask:
     serializedVersion: 2
     m_Bits: 64
   groundDistance: 0.63
+  rageBar: {fileID: 0}
   canPatrol: 1
   canChase: 0
   canAttack: 0
   m_Distance: 0
   wasGrounded: 0
+  IgnoreGroundCheck: 0
   isGrabbed: 0
   isPushed: 0
   pushCooldown: 0
@@ -439,8 +442,6 @@ MonoBehaviour:
   attackCooldown: 1.5
   _nextAttackTime: 0
   slapbox: {fileID: 4731836071867586215}
-  slapActiveTime: 0.1
-  animator: {fileID: 0}
 --- !u!95 &3214506947748913554
 Animator:
   serializedVersion: 7
@@ -673,8 +674,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6836854122133567634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.411, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -9.5}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -734,7 +735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4586062351320114964
 RectTransform:
   m_ObjectHideFlags: 0

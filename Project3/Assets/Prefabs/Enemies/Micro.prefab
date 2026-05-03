@@ -169,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8688815964074762816
 RectTransform:
   m_ObjectHideFlags: 0
@@ -567,16 +567,16 @@ MonoBehaviour:
   attackCooldown: 2
   _nextAttackTime: 0
   slapbox: {fileID: 0}
-  slapActiveTime: 0.1
   bossArena: {fileID: 0}
   macroPrefab: {fileID: 0}
   macrosmesh: {fileID: 0}
   throwOrigin: {fileID: 6831403585358062624}
   throwInterval: 3
-  throwForce: 15
   _powerGauge: {fileID: 0}
+  GrabCollider: {fileID: 0}
   lowerRoom: {fileID: 0}
-  WorkerAnimator: {fileID: 476013331475240838}
+  MicroAnimator: {fileID: 0}
+  IsPequenoAndGrande: 1
 --- !u!114 &433028177578996390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,8 +639,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5967408036733655745}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.411, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -9.5}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

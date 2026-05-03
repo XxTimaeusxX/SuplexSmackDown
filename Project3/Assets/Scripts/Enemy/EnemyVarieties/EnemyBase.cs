@@ -50,7 +50,6 @@ public class EnemyBase : MonoBehaviour
 
     [Header("Hitbox")]
     public GameObject slapbox;          // child trigger collider with AttackHitBox
-    [SerializeField] private float slapActiveTime = 0.1f;
     private bool grounded;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -272,7 +271,6 @@ public class EnemyBase : MonoBehaviour
     }
     protected virtual void CustomAttack()
     {
-        Debug.Log($"[{name}] Melee attack!");
         AudioManager.PlayEnemySlap();
         StartCoroutine(SlapattackDuration());
     }    

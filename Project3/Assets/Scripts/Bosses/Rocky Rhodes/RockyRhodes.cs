@@ -61,7 +61,6 @@ public class RockyRhodes : EnemyBase
     public float jumpPatrolForce = 40f;
     public float jumpPatrolHorizontalForce = 15f;
     public float jumpPatrolCooldown = 3f;
-    private int _currentJumpIndex = 0;
     public bool isJumping = false;
     public List<Transform> JumpPoints = new List<Transform>();
     public Transform Recoverypoint;

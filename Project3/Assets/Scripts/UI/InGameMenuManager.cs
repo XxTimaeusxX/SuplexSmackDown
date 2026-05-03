@@ -61,10 +61,6 @@ public class InGameMenuManager : MonoBehaviour
 	[SerializeField] Text timerText;
 	[SerializeField] Text winLevelTime;
 
-	//[SerializeField] GameObject _PausePoster;
-	Vector3 pauseMaxScale = new Vector3(1.5f, 1.5f, 1f);
-	float pause_t = 0;
-
     bool isPaused = false;
 	public bool canPause = true;
 	
@@ -369,7 +365,6 @@ public class InGameMenuManager : MonoBehaviour
     void PlaySceneMusic()
     {
         int currentSceneInt = SceneManager.GetActiveScene().buildIndex;
-        Debug.Log("Current Scene: " + currentSceneInt); // Add this line
         if (currentSceneInt == _MainMenuSceneInt)
         {
             AudioManager.PlayMainMenuBGM();
@@ -428,13 +423,7 @@ public class InGameMenuManager : MonoBehaviour
 		rawImg[0] = temp1[0];
 		rawImg[1] = temp1[1];
 		rawImg[2] = temp1[2];
-		
-		print("StatusCanvas: ");
-		foreach (TextMeshProUGUI newText in statusText2)
-			print(newText.name);
-		
 		//loop through and initialize/sets colors, resetting index each time
-		float newV;
 		int index = 0;
 		foreach (Image img in menuImg){
 			menuImgColor[index] = img.color;
@@ -493,7 +482,6 @@ public class InGameMenuManager : MonoBehaviour
 	//as ColorInit, but doesn't initialize anything
 	public void GammaUIUpdate(float newGamma){
 		int index = 0;
-		float newV;
 		foreach (Image img in menuImg){
 			img.color = GammaArrayUpdate(menuImgColor, img.color, index);
 			index++;

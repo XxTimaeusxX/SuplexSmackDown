@@ -33,7 +33,6 @@ public class MicroBoss : EnemyBase
     private bool hasPlayed2HealthLine = false;
     private bool hasPlayed1HealthLine = false;
     private bool isPlayingVoiceLine = false;
-    private bool wasInChaseRange = false;
 
     [Header("Animation")]
     public Animator MicroAnimator;

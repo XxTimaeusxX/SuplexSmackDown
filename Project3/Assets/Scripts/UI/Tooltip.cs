@@ -9,7 +9,6 @@ public class Tooltip : MonoBehaviour
 	[SerializeField] string newText;
 	[SerializeField] float destroyTime = 10.0f;
 	[SerializeField] VideoClip videoClip;
-	bool isPlaying = false;
 
 	[Header("From Main HUD")]
 	[SerializeField] TooltipPlayerManager tooltipPlayerManager;

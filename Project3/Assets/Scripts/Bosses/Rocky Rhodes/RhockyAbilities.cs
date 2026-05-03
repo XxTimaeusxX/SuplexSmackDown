@@ -10,7 +10,6 @@ public class RhockyAbilities : MonoBehaviour
 
     [Header("Launch Settings")]
     public float jumpForce = 55f;
-    private Vector3 dashForce;
     [Header("Bull Rush Settings")]
     [SerializeField] private float bullRushSpeed = 20f;
     [SerializeField] private float bullRushDuration = 0.6f;
@@ -23,7 +22,6 @@ public class RhockyAbilities : MonoBehaviour
 
     public bool IsPerformingAbility = false;
     public bool isFlurryActive = false;
-    private float _abilityTimer = 0f;
     public Transform PlayerTarget;
     RockyRhodesManager manager;
     RockyRhodesAttacks attacks;

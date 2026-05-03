@@ -237,15 +237,20 @@ MonoBehaviour:
   attackCooldown: 0.7
   _nextAttackTime: 0
   slapbox: {fileID: 6012653439748319867}
-  slapActiveTime: 0.1
+  MicroBossScript: {fileID: 0}
   MicroPosition: {fileID: 0}
   returnDelay: 6
   damageHitbox: {fileID: 8486778903386653615}
   MacrosCollider: {fileID: 6194857328625989249}
-  wasThrown: 0
-  WorkerAnimator: {fileID: 7682660358684015366}
+  IsReturningToMicro: 0
+  throwMinFlightTime: 0.6
+  throwMaxFlightTime: 2
+  throwTimeDistanceDivisor: 10
+  diveDownMultiplier: 1.5
+  MacroAnimator: {fileID: 0}
   IsGrabbedByMicro: 0
   IsThrownByMicro: 0
+  CurrentMacroState: 0
 --- !u!114 &5949455922660498766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +322,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6690661781698898800
 RectTransform:
   m_ObjectHideFlags: 0
@@ -666,8 +671,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 4694010831073307490}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.411, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -9.5}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

@@ -222,7 +222,6 @@ public class PlayerMovement : MonoBehaviour
         if (controller != null && (controller.collisionFlags & CollisionFlags.Above) != 0 && velocity.y > 0f)
         {
             velocity.y = -2f; // cancel upward momentum if we hit ceiling
-            Debug.Log("Hit ceiling while jumping off enemy, cancelling upward momentum.");
           
         }
     }
