@@ -15,5 +15,6 @@ public class ResetActionFlag : StateMachineBehaviour
         player.canRotate = true;
         player.canMove = true;
         player.applyRootMotion = false;
+        player.isJumping = false;
     }
 }

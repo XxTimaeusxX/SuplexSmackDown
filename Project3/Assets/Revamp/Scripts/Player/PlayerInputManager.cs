@@ -22,6 +22,7 @@ public class PlayerInputManager : MonoBehaviour
 
     [Header("Player Action Input")]
     [SerializeField] bool dashInput = false;
+    [SerializeField] bool jumpInput = false;
 
     private void Awake()
     {
@@ -65,6 +66,7 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
             playerControls.PlayerActions.Dash.performed += i => dashInput = true;
+            playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
         }
 
         playerControls.Enable();
@@ -85,6 +87,7 @@ public class PlayerInputManager : MonoBehaviour
         HandlePlayerMovementInput();
         HandleCameraMovementInput();
         HandleDashInput();
+        HandleJumpInput();
     }
 
     private void HandlePlayerMovementInput()
@@ -124,6 +127,16 @@ public class PlayerInputManager : MonoBehaviour
             dashInput = false;
 
             player.playerMovementManager.AttemptToPerformDash();
+        }
+    }
+
+    private void HandleJumpInput()
+    {
+        if (jumpInput)
+        {
+            jumpInput = false;
+
+            player.playerMovementManager.AttemptToPerformJump();
         }
     }
 }

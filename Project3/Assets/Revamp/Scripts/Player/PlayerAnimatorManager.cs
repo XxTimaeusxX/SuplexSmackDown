@@ -32,7 +32,7 @@ public class PlayerAnimatorManager : MonoBehaviour
         if (player.applyRootMotion)
         {
             Vector3 velocity = player.animator.deltaPosition;
-            player.characterController.Move(playerMovementManager.moveDirection * playerMovementManager.dashSpeed * Time.deltaTime);
+            player.characterController.Move(playerMovementManager.dashDirection * playerMovementManager.dashSpeed * Time.deltaTime);
             player.transform.rotation *= player.animator.deltaRotation;
         }
     }
