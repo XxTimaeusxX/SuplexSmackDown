@@ -17,4 +17,9 @@ public class PlayerManager : MonoBehaviour
     {
         playerMovementManager.HandleAllMovement();
     }
+
+    private void LateUpdate()
+    {
+        PlayerCamera.instance.HandleAllCameraActions();
+    }
 }
