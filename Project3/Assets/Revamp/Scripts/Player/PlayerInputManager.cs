@@ -20,6 +20,9 @@ public class PlayerInputManager : MonoBehaviour
     public float cameraVerticalInput;
     public float cameraHorizontalInput;
 
+    [Header("Player Action Input")]
+    [SerializeField] bool dashInput = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -61,6 +64,7 @@ public class PlayerInputManager : MonoBehaviour
 
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
+            playerControls.PlayerActions.Dash.performed += i => dashInput = true;
         }
 
         playerControls.Enable();
@@ -73,8 +77,14 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
+        HandleAllInputs();
+    }
+
+    private void HandleAllInputs()
+    {
         HandlePlayerMovementInput();
         HandleCameraMovementInput();
+        HandleDashInput();
     }
 
     private void HandlePlayerMovementInput()
@@ -105,5 +115,15 @@ public class PlayerInputManager : MonoBehaviour
     {
         cameraVerticalInput = cameraInput.y;
         cameraHorizontalInput = cameraInput.x;
+    }
+
+    private void HandleDashInput()
+    {
+        if (dashInput)
+        {
+            dashInput = false;
+
+            player.playerMovementManager.AttemptToPerformDash();
+        }
     }
 }

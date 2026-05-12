@@ -4,15 +4,20 @@ public class PlayerMovementManager : MonoBehaviour
 {
     PlayerManager player;
 
-    public float verticalMovement;
-    public float horizontalMovement;
-    public float moveAmount;
+    [HideInInspector] public float verticalMovement;
+    [HideInInspector] public float horizontalMovement;
+    [HideInInspector] public float moveAmount;
 
-    private Vector3 moveDirection;
+    [Header("Movement Settings")]
+    [HideInInspector] public Vector3 moveDirection;
     private Vector3 targetRotationDirection;
     [SerializeField] float walkingSpeed;
     [SerializeField] float runningSpeed;
     [SerializeField] float rotationSpeed;
+
+    [Header("Dash")]
+    private Vector3 dashDirection;
+    public float dashSpeed;
 
     private void Awake()
     {
@@ -34,6 +39,11 @@ public class PlayerMovementManager : MonoBehaviour
 
     private void HandleGroundedMovement()
     {
+        if (!player.canMove)
+        {
+            return;
+        }
+
         GetVerticalAndHorizontalInputs();
 
         moveDirection = PlayerCamera.instance.transform.forward * verticalMovement;
@@ -55,6 +65,11 @@ public class PlayerMovementManager : MonoBehaviour
 
     private void HandleRotation()
     {
+        if (!player.canRotate)
+        {
+            return;
+        }
+
         targetRotationDirection = Vector3.zero;
         targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
         targetRotationDirection = targetRotationDirection + PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
@@ -69,5 +84,23 @@ public class PlayerMovementManager : MonoBehaviour
         Quaternion newRotation = Quaternion.LookRotation(targetRotationDirection);
         Quaternion targetRotation = Quaternion.Slerp(transform.rotation, newRotation, rotationSpeed * Time.deltaTime);
         transform.rotation = targetRotation;
+    }
+
+    public void AttemptToPerformDash()
+    {
+        if (player.isPerformingAction)
+        {
+            return;
+        }
+
+        dashDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
+        dashDirection += PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
+        dashDirection.y = 0;
+        dashDirection.Normalize();
+
+        Quaternion playerRotation = Quaternion.LookRotation(dashDirection);
+        player.transform.rotation = playerRotation;
+
+        player.playerAnimatorManager.PlayTargetActionAniamtion("Dash", true);
     }
 }

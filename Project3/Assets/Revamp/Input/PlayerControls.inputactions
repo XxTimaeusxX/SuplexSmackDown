@@ -255,6 +255,45 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "PlayerActions",
+            "id": "37345354-b4c2-4aaf-87c9-b63f23137e7d",
+            "actions": [
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "25d6f7bc-d50d-4b5d-b406-2633f695e2d6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2eeb9ab6-852d-41b2-a8a0-463aab229e1c",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0b1d660-da1e-42f2-96fe-f8b9065a57bf",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

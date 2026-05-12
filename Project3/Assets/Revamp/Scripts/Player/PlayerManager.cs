@@ -7,6 +7,12 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
     [HideInInspector] public PlayerMovementManager playerMovementManager;
 
+    [Header("Flags")]
+    public bool isPerformingAction = false;
+    public bool applyRootMotion = false;
+    public bool canRotate = true;
+    public bool canMove = true;
+
     private void Awake()
     {
         DontDestroyOnLoad(this);
