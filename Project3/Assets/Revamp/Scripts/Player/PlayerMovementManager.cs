@@ -29,6 +29,7 @@ public class PlayerMovementManager : MonoBehaviour
     {
         verticalMovement = PlayerInputManager.instance.verticalInput;
         horizontalMovement = PlayerInputManager.instance.horizontalInput;
+        moveAmount = PlayerInputManager.instance.moveAmount;
     }
 
     private void HandleGroundedMovement()
